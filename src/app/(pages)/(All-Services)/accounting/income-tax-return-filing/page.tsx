@@ -865,10 +865,10 @@ const page = () => {
   };
   //make a changes for navigation  
 
-  const plansRef = useRef<HTMLElement | null>(null);; // Reference for PlansSection
+  const PlansRef = useRef<HTMLElement | null>(null);; // Reference for PlansSection
 
   const scrollToPlans = () => {
-    plansRef.current?.scrollIntoView({ behavior: "smooth" });
+    PlansRef.current?.scrollIntoView({ behavior: "smooth" });
   // if (plansRef.current) {
   //   // plansRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   // }
@@ -884,7 +884,7 @@ const page = () => {
 
       {/* Other Sections */}
       
-      <div ref={plansRef}>
+      <div ref={PlansRef}>
         <PlansSection planData={planData} />
       </div>
 
