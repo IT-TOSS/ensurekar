@@ -1,0 +1,324 @@
+{
+    "title": "Our Services at a Glance",
+    "sub_title": "Complete the entire process and chat with us from your dashboard!",
+    "Service_options": [
+        {
+            "name_of_service": "Register Your Business",
+            "subServices": [
+                {
+                    "title": "Digital Signature Certificate",
+                    "price": "999",
+                    "heading":"Digital Signature Certificate Registration",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "GST and Govt. fees extra.",
+                    "key":"digital-signature",
+                    "description": [
+                        "DIN and DSC for two Directors",
+                        "Name Approval Certificate",
+                        "Drafting of MoA & AoA",
+                        "Registration fees and stamp duty",
+                        "Company Incorporation Certificate",
+                        "Company PAN and TAN",
+                        "Zero Balance Current Account",
+                        "&more"
+                    ],
+                    "plan_type": "month",
+                    "know_more": "/",
+                     "BreadcrumbSectionInfo":{
+                        "heading":"Digital Signature Certificate",
+                        "title":"Digital Signature",
+                        "description":"Digital Signature Certificate (DSC) is a secure digital key that certifies the identity of the holder, issued by a Certifying Authority (CA). It typically contains your identity (name, email, country, APNIC account name and your public key). Digital Signatures are used in India for online transactions such as Income Tax E-Filing, Company or LLP Incorporation, Filing Annual Return, E-Tenders, etc., to prove the identity of the sender. ",
+                        "breadcrumb":[
+                            {
+                                "title":"Home",
+                                "url":"/"
+                            },
+                            {
+                                "title":"Services",
+                                "url":"/services"
+                            },
+                            {
+                                "title":"Digital Signature Certificate",
+                                "url":"/digital-signature"
+                            }
+                        ]
+                    }
+                   
+                },
+                {
+                    "title": "Private Limited Company Registration",
+                    "price": "999",
+                    "heading":"Private Limited Company Registration",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "GST and Govt. fees extra.",
+                    "description": [
+                        "DIN and DSC for two Directors",
+                        "Name Approval Certificate",
+                        "Drafting of MoA & AoA",
+                        "Registration fees and stamp duty",
+                        "Company Incorporation Certificate",
+                        "Company PAN and TAN",
+                        "Zero Balance Current Account",
+                        "&more"
+                    ],
+                    "plan_type": "month",
+                    "know_more": "/pvt-ltd-incorporation",
+                    "key":null
+                   
+                },  
+                {
+                    "title": "Limited Liability Partnership",
+                    "price": "1999",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "GST and Govt. fees extra.",
+                    "description": [
+                        "DIN and DSC for two Directors",
+                        "Name Approval Certificate",
+                        "Drafting of MoA & AoA",
+                        "Registration fees and stamp duty",
+                        "Company Incorporation Certificate",
+                        "Company PAN and TAN",
+                        "Zero Balance Current Account",
+                        "&more"
+                    ],
+                    "plan_type": "month",
+                    "know_more": "/limited-liability-partnership"
+                },
+                {
+                    "title": "One Person Company",
+                    "price": "999",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "GST and Govt. fees extra.",
+                    "description": [
+                        "DIN and DSC for the Director",
+                        "Guidance for choosing the company name",
+                        "Name Approval Certificate",
+                        "Company PAN and TAN",
+                        "Drafting of MoA & AoA",
+                        "Registration fees and stamp duty",
+                        "Company Incorporation Certificate",
+                        "&more"
+                    ],
+                    "plan_type": "month",
+                    "know_more": "/one-persone-company"
+                },
+                {
+                    "title": "Partnership Firm",
+                    "price": "2499",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "GST and Govt. fees extra.",
+                    "description": [
+                        "Guidance on setting up a partnership firm",
+                        "Drafting Partnership Deed",
+                        "Two rounds of iterations",
+                        "&more"
+                    ],
+                    "plan_type": "month",
+                    "know_more": "/partnership-firm"
+                }
+            ]
+          
+        },
+        {
+            "name_of_service": "Get Licenses and Registrations",
+            "subServices": [
+                {
+                    "title": "Shops & Establishments License",
+                    "price": "1999",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "Government fees + applicable taxes and charges extra",
+                    "description": [
+                        " Opening a commercial establishment? It is mandatory to get a Shops & Establishments License. Experts will handle the entire process for you and get you your license at the earliest."
+                    ],
+                    "plan_type": null,
+                    "know_more": "/gumasta"
+                },
+                {
+                    "title": "FSSAI Registration",
+                    "price": "799",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "Government fees + applicable taxes and charges extra",
+                    "plan_type": null,
+                    "know_more": "/fssai-food-license",
+                    "description": [
+                        "Every business operating in the food industry must register under FSSAI. You get guidance in choosing the right type of license for your business. Our experts will take care of the filing process and explain how to run your business as per the FSSAI rules to avoid being penalised."
+                    ]
+                },
+                {
+                    "title": "ISO Certification",
+                    "price": "1499",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "Government fees + applicable taxes and charges extra",
+                    "plan_type": null,
+                    "know_more": "/iso-certification",
+                    "description": [
+                        "ISO certification assists every business with a mark of quality and high standards. With us, you get assistance with picking the right type of ISO certification for your business and we work with you on connecting with a trustworthy vendor and walking you through the entire process."
+                    ],
+                    "key":"iso-certification"
+                },
+                {
+                    "title": "Import and Export Code",
+                    "price": "1499",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "Government fees + applicable taxes and charges extra",
+                    "plan_type": null,
+                    "know_more": "/import-export-code",
+                    "description": [
+                        "Want to be involved in an import/export business? You need an Import and Export Code for it. Get your IEC at the earliest with Vakilsearch. Our support team will guide you through the process and hand you your IEC on a silver platter"
+                    ]
+                }
+            ]
+        },
+        {
+            "name_of_service": "Protect Your Intellectual Property",
+            "subServices": [
+                {
+                    "title": "Trademark Registration",
+                    "price": "1499",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "Government fees + applicable taxes and charges extra",
+                    "plan_type": null,
+                    "know_more": "/trademark-registrations",
+                    "description": [
+                        "Your brand name is how your customers identify you. So protect it by registering a trademark with Vakilsearch. Our experts help you pick the right trademark classes and register your trademark for you. You can start using the symbol in 24 hours!"
+                    ]
+                },
+                {
+                    "title": "Trademark Watch",
+                    "price": "499",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "Government fees + applicable taxes and charges extra",
+                    "plan_type": null,
+                    "know_more": "/trade-mark-name-search",
+                    "description": [
+                        "Trademark Watch ensures that no one tries to register a mark similar to your registered trademark. With our team of experts and sophisticated tools, we will watch out for businesses trying to register a mark similar to yours and send you timely reports on the same"
+                    ]
+                },
+                {
+                    "title": "Copyright Registration",
+                    "price": "499",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "Government fees + applicable taxes and charges extra",
+                    "plan_type": null,
+                    "know_more": "",
+                    "description": [
+                        "Your work is your pride, but today it is easier than ever for people to steal your work and use it without your permission. Many creators don't copyright their work because of the hassle. With Vakilsearch you get the protection without the hassle as we take care of the entire process for you."
+                    ]
+                },
+                {
+                    "title": "Patent Registration",
+                    "price": null,
+                    "priceNote": "please enquire for pricing",
+                    "tax": "*Price depends on the scope of work",
+                    "plan_type": null,
+                    "know_more": "/trade-mark-ip/copyright-registration",
+                    "description": [
+                        "Inventing something is hard, but protecting your invention can be harder! Registering and getting a patent is difficult, but not with Vakilsearch. From patent search and listing the different uses of your invention to filing for patent protection, our experts take care of the complicated processes so that you get the due credit for your invention."
+                    ]
+                }
+            ]
+        },
+        {
+            "name_of_service": "Easy Tax Registration and Filing",
+            "subServices": [
+                {
+                    "title": "GST Registration",
+                    "price": "399",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "Applicable taxes and charges extra",
+                    "plan_type": null,
+                    "know_more": "/gst-and-other-indirect-tax/gst-registration",
+                    "description": [
+                        "Get GST registration done for your business easily through Vakilsearch. Our experts will walk you through the entire process and file for you. We ensure you get your GSTIN at the earliest."
+                    ]
+                },
+                {
+                    "title": "Professional Tax Registration",
+                    "price": "5999",
+                    "priceNote": "please enquire for pricing",
+                    "tax": "Government fees + applicable taxes and charges extra",
+                    "offer": "3 interest free payments powered by",
+                    "paymentIcon": "",
+                    "plan_type": null,
+                    "know_more": "/labour-compliance/professional-tax-registration",
+                    "description": [
+                        "Professional life is hard enough, so why bother about the complicated process of professional tax registration when you can get the experts at Vakilsearch to do it for you?"
+                    ]
+                },
+                {
+                    "title": "Income Tax Returns",
+                    "price": null,
+                    "priceNote": "please enquire for pricing",
+                    "tax": "*Price depends on the scope of work",
+                    "plan_type": null,
+                    "know_more": "/income-tax-fillings",
+                    "description": [
+                        "Understanding the latest rules and available exemptions every year to file your tax returns can be nerve- wracking. Or you can get it done effortlessly through Vakilsearch!"
+                    ]
+                },
+                {
+                    "title": "TDS Return",
+                    "price": null,
+                    "priceNote": "please enquire for pricing",
+                    "tax": "*Price depend's on the scope of work",
+                    "plan_type": null,
+                    "know_more": "/tcs-e-filing",
+                    "description": [
+                        "An employer or company that has valid TAN - Tax Collection and Deduction Account Number can file for TDS return. Any individual or business who makes a particular payment which is stated under the I-T Act needs to deduct tax at source."
+                    ]
+                }
+            ]
+        },
+        {
+            "name_of_service": "Mandatory Compliances",
+            "subServices": [
+                {
+                    "title": "Maintain Your Account",
+                    "price": null,
+                    "priceNote": "please enquire for pricing",
+                    "tax": "*Price depends on the scope of work",
+                    "plan_type": null,
+                    "know_more": "",
+                    "description": [
+                        "The book-keeping and accounting service includes basic financial consultation, bookkeeping, preparation of accurate annual financial statements and monthly reports, assistance in designing invoices, and taxation advice by financial experts. A steal-deal for the price we offer!"
+                    ]
+                },
+                {
+                    "title": "Annual Compliance Package for Pvt. Ltd. company",
+                    "price": null,
+                    "priceNote": "please enquire for pricing",
+                    "tax": "*Price depends on the scope of work",
+                    "plan_type": null,
+                    "know_more": "",
+                    "description": [
+                        "The annual compliance tasks call for 9 different (and tedious) tasks which you would require different professionals to handle. We have consolidated the professionals so you can get it all done at a nominal price through a single package with Vakilsearch!"
+                    ]
+                },
+                {
+                    "title": "Due Diligence",
+                    "price": null,
+                    "priceNote": "please enquire for pricing",
+                    "tax": "*Price depends on the scope of work",
+                    "plan_type": null,
+                    "know_more": "",
+                    "description": [
+                        "Due diligence involves assessing major aspects like business, legal, or/and financial aspects of a company. You can get it done easily using Vakilsearch's due diligence package instead of going through the hassle of engaging multiple professionals."
+                    ]
+                },
+                {
+                    "title": "Secretarial Audit Package for Companies",
+                    "price": null,
+                    "priceNote": "please enquire for pricing",
+                    "tax": "*Price depends on the scope of work",
+                    "plan_type": null,
+                    "know_more": "",
+                    "description": [
+                        "A secretarial audit is conducted to check if the company is compliant with all the relevant Acts including the Companies Act, 2013. This is mandatory for certain companies and can be a hectic task. Let our experts take up the audit for you!"
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+
