@@ -9,10 +9,10 @@ const ACCESS_CODE = 'AVTB18KB63AS79BTSA';
 const WORKING_KEY = '6BD6040DF585C3B1E524422B603652E8';
 
 // URLs for redirect after payment completion
-const REDIRECT_URL =  '' ;//process.env.NODE_ENV === 'production' 
+const REDIRECT_URL =  '' //process.env.NODE_ENV === 'production' 
   ? 'https://ensurekar.com/payment/success' 
   : 'http://localhost:3000/payment/success';
-const CANCEL_URL =  '';//process.env.NODE_ENV === 'production'
+const CANCEL_URL =  '' //process.env.NODE_ENV === 'production'
   ? 'https://ensurekar.com/payment/cancel'
   : 'http://localhost:3000/payment/cancel';
 
