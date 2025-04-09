@@ -655,7 +655,7 @@ const TrademarkSearch = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}}/>
       <BrandnameSearch />
       <PlansSection planData={planData} />
       <HelpSection HelpSectionData={HelpSectionData} />

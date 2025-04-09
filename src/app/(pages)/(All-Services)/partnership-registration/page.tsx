@@ -1422,7 +1422,7 @@ const PartnershipRegistration = () => {
 
   return (
     <div>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       <PlansSection planData={planData} />
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />

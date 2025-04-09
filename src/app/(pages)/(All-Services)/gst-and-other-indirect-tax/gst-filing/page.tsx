@@ -603,7 +603,7 @@ const GSTFiling = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData}   scrollToPlans={() => {}} />
       <WhoConsidered WhoConsideredData={WhoConsideredData} />
       <BenefitSection BenefitData={BenefitData} />
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />

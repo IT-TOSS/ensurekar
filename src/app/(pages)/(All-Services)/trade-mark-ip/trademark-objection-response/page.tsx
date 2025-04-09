@@ -328,7 +328,7 @@ const TrademarkObjectionResponse = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}}/>
       <HelpSection HelpSectionData={HelpSectionData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
       <ServiceOverview OverviewData={OverviewData} />

@@ -866,6 +866,7 @@ const page = () => {
   //make a changes for navigation  
 
   const PlansRef = useRef<HTMLElement | null>(null);; // Reference for PlansSection
+  const myRef = useRef<HTMLElement | null>(null);
 
   const scrollToPlans = () => {
     PlansRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -884,7 +885,7 @@ const page = () => {
 
       {/* Other Sections */}
       
-      <div ref={PlansRef}>
+      <div ref={PlansRef as any}>
         <PlansSection planData={planData} />
       </div>
 

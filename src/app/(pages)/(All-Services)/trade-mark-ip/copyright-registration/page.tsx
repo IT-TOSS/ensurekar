@@ -247,7 +247,7 @@ const FAQsData = {
 };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}} />
       <CopyrightEducation CopyrightEducationData={CopyrightEducationData} />
 
       <ServiceCovered ServiceCoveredData={ServiceCoveredData} />

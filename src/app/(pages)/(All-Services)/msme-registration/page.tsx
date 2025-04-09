@@ -471,7 +471,7 @@ const MSMERegistration = () => {
 
   return (
     <div>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  scrollToPlans={() => {}}/>
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />

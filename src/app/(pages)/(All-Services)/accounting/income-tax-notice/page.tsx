@@ -209,7 +209,7 @@ const page = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  scrollToPlans={() => {}}  />
       <ServiceCovered ServiceCoveredData={ServiceCoveredData} />
 
       <DocumentsRequired DocumentsRequiredData={DocumentsRequiredData} />

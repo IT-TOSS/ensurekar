@@ -75,111 +75,111 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
-    try {
-      setLoading(true);
-      setError("");
+    // try {
+    //   setLoading(true);
+    //   setError("");
 
 
-      const outh = await loginWithEmailAndPassword(input.email, input.password);
+    //   const outh = await loginWithEmailAndPassword(input.email, input.password);
 
-      let Authe = false;
-      if (outh) {  
-        Authe = true;
-      }
-      // console.log(outh, "user Created by Krishna coming fron backend");
-
-
-
-
-      // console.log(`outh`, outh, "outh Created by Krishna coming fron backend");
-      const payload = {
-        email: input.email,
-        password: input.password,
-      };
-
-      const response = await fetch('/api/Login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const user = await response.json();
-      // console.log(user, "user Created by Krishna coming fron backend");
-
-      // console.log(user.user, "user Created bt Krishna")
+    //   let Authe = false;
+    //   if (outh) {  
+    //     Authe = true;
+    //   }
+    //   // console.log(outh, "user Created by Krishna coming fron backend");
 
 
 
-      /**
-       * 
-       *createdAt: "2025-04-07T06:20:11.000Z"
-        email:"krishna.vish9329@gmail.com"
-        firstName: "Krishna"
-        id  :1
-        lastName:"Vishwakarma"
-        phoneNumber:null
-        photoURL:null
-        userId:"uAyN6EdmLUgersTuGp5aWQI3NSs1"
-        whatsappNumber:"1"
-       */
 
-      if (user.user.email && user.user.userId) {
-        // Safely access user properties with optional chaining
-        const displayName = (user.user.firstName + user.user.lastName) || '';
-        const email = user.user.email || '';
-        const phoneNumber = user.user.whatsappNumber || '';
+    //   // console.log(`outh`, outh, "outh Created by Krishna coming fron backend");
+    //   const payload = {
+    //     email: input.email,
+    //     password: input.password,
+    //   };
 
-        // console.log(await user.getIdToken(), "created by Krishna") // kk
-        // Store authentication info in Redux
-        dispatch(
-          setAuth({
-            isAuthenticated: true,
-            userInfo: {
-              username: displayName || email.split('@')[0],
-              email: email,
-              Fname: displayName ? displayName.split(' ')[0] : '',
-              Lname: displayName ? displayName.split(' ').slice(1).join(' ') : '',
-              contact: phoneNumber || "N/A",
-              role: "user", // Default role
-              picture: user.photoURL || "N/A",
-            },
-            // Token: await user.getIdToken(),  //Authe
-            Token: Authe,
-          })
-        );
+    //   const response = await fetch('/api/Login', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(payload),
+    //   });
 
-        // Store authentication in localStorage if remember is checked
-        if (input.remember) {
-          // localStorage.setItem('authToken', await user.getIdToken());
-          localStorage.setItem('authToken',Authe);
-        }
+    //   const user = await response.json();
+    //   // console.log(user, "user Created by Krishna coming fron backend");
 
-        // Redirect to dashboard
-        router.push("/dashboard");
-      } else {
-        setError("Login failed. Please check your credentials.");
-      }
-    } catch (err) {
-      console.error("Login error:", err);
-      // Firebase error messages - handle them safely
-      let errorMessage = "An error occurred during login. Please try again.";
+    //   // console.log(user.user, "user Created bt Krishna")
 
-      // Type guard to check if err has a code property
-      if (err && typeof err === 'object' && 'code' in err) {
-        const errorCode = err.code;
-        if (errorCode === 'auth/invalid-email') errorMessage = "Invalid email address format.";
-        if (errorCode === 'auth/user-disabled') errorMessage = "This account has been disabled.";
-        if (errorCode === 'auth/user-not-found') errorMessage = "Email not found. Please check your email or register.";
-        if (errorCode === 'auth/wrong-password') errorMessage = "Incorrect password. Please try again.";
-        if (errorCode === 'auth/too-many-requests') errorMessage = "Too many unsuccessful login attempts. Please try again later.";
-      }
 
-      setError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
+
+    //   /**
+    //    * 
+    //    *createdAt: "2025-04-07T06:20:11.000Z"
+    //     email:"krishna.vish9329@gmail.com"
+    //     firstName: "Krishna"
+    //     id  :1
+    //     lastName:"Vishwakarma"
+    //     phoneNumber:null
+    //     photoURL:null
+    //     userId:"uAyN6EdmLUgersTuGp5aWQI3NSs1"
+    //     whatsappNumber:"1"
+    //    */
+
+    //   if (user.user.email && user.user.userId) {
+    //     // Safely access user properties with optional chaining
+    //     const displayName = (user.user.firstName + user.user.lastName) || '';
+    //     const email = user.user.email || '';
+    //     const phoneNumber = user.user.whatsappNumber || '';
+
+    //     // console.log(await user.getIdToken(), "created by Krishna") // kk
+    //     // Store authentication info in Redux
+    //     dispatch(
+    //       setAuth({
+    //         isAuthenticated: true,
+    //         userInfo: {
+    //           username: displayName || email.split('@')[0],
+    //           email: email,
+    //           Fname: displayName ? displayName.split(' ')[0] : '',
+    //           Lname: displayName ? displayName.split(' ').slice(1).join(' ') : '',
+    //           contact: phoneNumber || "N/A",
+    //           role: "user", // Default role
+    //           picture: user.photoURL || "N/A",
+    //         },
+    //         // Token: await user.getIdToken(),  //Authe
+    //         Token: Authe,
+    //       })
+    //     );
+
+    //     // Store authentication in localStorage if remember is checked
+    //     if (input.remember) {
+    //       // localStorage.setItem('authToken', await user.getIdToken());
+    //       localStorage.setItem('authToken',Authe);
+    //     }
+
+    //     // Redirect to dashboard
+    //     router.push("/dashboard");
+    //   } else {
+    //     setError("Login failed. Please check your credentials.");
+    //   }
+    // } catch (err) {
+    //   console.error("Login error:", err);
+    //   // Firebase error messages - handle them safely
+    //   let errorMessage = "An error occurred during login. Please try again.";
+
+    //   // Type guard to check if err has a code property
+    //   if (err && typeof err === 'object' && 'code' in err) {
+    //     const errorCode = err.code;
+    //     if (errorCode === 'auth/invalid-email') errorMessage = "Invalid email address format.";
+    //     if (errorCode === 'auth/user-disabled') errorMessage = "This account has been disabled.";
+    //     if (errorCode === 'auth/user-not-found') errorMessage = "Email not found. Please check your email or register.";
+    //     if (errorCode === 'auth/wrong-password') errorMessage = "Incorrect password. Please try again.";
+    //     if (errorCode === 'auth/too-many-requests') errorMessage = "Too many unsuccessful login attempts. Please try again later.";
+    //   }
+
+    //   setError(errorMessage);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
 

@@ -305,7 +305,7 @@ const Patentregistration = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}} />
       <ExpertiseFlow ExpertiseFlowData={ExpertiseFlowData} />
       <CopyrightEducation CopyrightEducationData={CopyrightEducationData} />
       <HelpSection HelpSectionData={HelpSectionData} />

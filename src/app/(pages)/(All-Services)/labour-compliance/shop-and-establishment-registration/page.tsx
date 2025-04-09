@@ -418,7 +418,7 @@ const ShopandEstablishmentRegistration = () => {
 
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData}    scrollToPlans={() => {}} />
       <WhoConsidered WhoConsideredData={WhoConsideredData} />
       {/* <ServiceOverview OverviewData={OverviewData} /> */}
  

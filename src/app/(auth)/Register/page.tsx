@@ -12,6 +12,7 @@ import { createUserWithEmailAndPassword, signInWithPopup, updateProfile, GoogleA
 import { doc, setDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { setAuth } from "@/store/themeConfigSlice";
+import { UserCredential } from 'firebase/auth';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,9 @@ const Register = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
-  const [userCredential, setUserCredential] = useState(null);
+
+const [userCredential, setUserCredential] = useState<UserCredential | null>(null); // ✅
+
   const [otp, setOtp] = useState("");
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [generatedOtp, setGeneratedOtp] = useState("");
@@ -69,7 +72,7 @@ const Register = () => {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1));
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
@@ -96,7 +99,7 @@ const Register = () => {
     }
   };
 
-  const sendOtpEmail = async (email, otp) => {
+  const sendOtpEmail = async (email: any, otp :any) => {
     try {
       console.log(" i am in sendOtpEmail ");
       const response = await fetch("/api/OTP", {
@@ -256,7 +259,9 @@ const Register = () => {
         });
       } else if (userCredential) {
         const user = userCredential.user;
-        const isNewUser = userCredential.additionalUserInfo?.isNewUser;
+        // const isNewUser = userCredential.additionalUserInfo?.isNewUser;
+        // const isNewUser = userCredential.additionalUserInfo?.isNewUser ?? false;
+        const isNewUser = (userCredential as any).additionalUserInfo?.isNewUser ?? false;
 
         console.log(user, " I am User by Google Sign In by Krishna");
 
@@ -305,7 +310,7 @@ const Register = () => {
         confirmPassword: "",
         acceptTerms: false,
       });
-    } catch (error) {
+    } catch (error : any) {
       console.error("Registration Error:", error.code, error.message);
       let errorMessage = "User Registration Failed";
       switch (error.code) {
@@ -335,7 +340,7 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e : any) => {
     e.preventDefault();
     setLoading(true);
 
@@ -356,7 +361,7 @@ const Register = () => {
       setUserCredential(null);
       setShowOtpModal(true);
       await sendOtpEmail(formData.email, newOtp);
-    } catch (error) {
+    } catch (error : any) {
       console.error("Validation Error:", error.message);
       setMessage({
         message: error.message || "Validation Failed",
@@ -404,7 +409,7 @@ const Register = () => {
       // const resultData = await response.json();
 
 
-      setUserCredential(result);
+      setUserCredential(result as any);
       console.log("Google authentication successful");
       navigate.push("/dashboard");
 
@@ -424,7 +429,7 @@ const Register = () => {
       // console.log("Google authentication successful");
       // navigate.push("/dashboard");
 
-    } catch (error) {
+    } catch (error : any) {
       // console.error("Google Sign-In Error:", error.code, error.message);
       let errorMessage = "Google Sign-In Failed";
       if (error.code === "auth/operation-not-allowed") {

@@ -192,48 +192,48 @@ export default function Profile({
   }
 
   // Function to process Firebase data and update profileData
-  const processFirebaseData = (data: any) => {
-    setProfileData((prevData) => {
-      if (!prevData) return null;
+  // const processFirebaseData = (data: any) => {
+  //   setProfileData((prevData) => {
+  //     if (!prevData) return null;
 
-      const newData = { ...prevData };
+  //     const newData = { ...prevData };
 
-      // Process flat structure data (with dot notation)
-      Object.keys(data).forEach((key) => {
-        if (key.includes(".")) {
-          const [section, field] = key.split(".");
-          if (!newData[section]) newData[section] = {};
-          newData[section][field] = data[key];
-        } else if (key !== "email") { // Skip the root level email as we handle it separately
-          // Try to map simple fields to our structure based on field names
-          if (key === "firstName" || key === "lastName" || key === "fatherName" || key === "DOB" || 
-              key === "sex" || key === "maritalStatus") {
-            if (!newData.personal) newData.personal = {};
-            newData.personal[key] = data[key];
-          } else if (key === "company" || key === "organisationType") {
-            if (!newData.company) newData.company = {};
-            newData.company[key] = data[key];
-          } else if (key === "role") {
-            newData.orgType = data[key]; // Map role to orgType
-          }
-        }
-      });
+  //     // Process flat structure data (with dot notation)
+  //     Object.keys(data).forEach((key) => {
+  //       if (key.includes(".")) {
+  //         const [section, field] = key.split(".");
+  //         if (!newData[section]) newData[section] = {};
+  //         newData[section][field] = data[key];
+  //       } else if (key !== "email") { // Skip the root level email as we handle it separately
+  //         // Try to map simple fields to our structure based on field names
+  //         if (key === "firstName" || key === "lastName" || key === "fatherName" || key === "DOB" || 
+  //             key === "sex" || key === "maritalStatus") {
+  //           if (!newData.personal) newData.personal = {};
+  //           newData.personal[key] = data[key];
+  //         } else if (key === "company" || key === "organisationType") {
+  //           if (!newData.company) newData.company = {};
+  //           newData.company[key] = data[key];
+  //         } else if (key === "role") {
+  //           newData.orgType = data[key]; // Map role to orgType
+  //         }
+  //       }
+  //     });
 
-      // Ensure email is in contact section
-      if (data.email && (!newData.contact || !newData.contact.email)) {
-        if (!newData.contact) newData.contact = {};
-        newData.contact.email = data.email;
-      }
+  //     // Ensure email is in contact section
+  //     if (data.email && (!newData.contact || !newData.contact.email)) {
+  //       if (!newData.contact) newData.contact = {};
+  //       newData.contact.email = data.email;
+  //     }
 
-      // Look for address fields in the address section
-      if (data["address.address"]) {
-        if (!newData.contact) newData.contact = {};
-        newData.contact.address = data["address.address"];
-      }
+  //     // Look for address fields in the address section
+  //     if (data["address.address"]) {
+  //       if (!newData.contact) newData.contact = {};
+  //       newData.contact.address = data["address.address"];
+  //     }
 
-      return newData;
-    });
-  }
+  //     return newData;
+  //   });
+  // }
 
   // Set up a real-time listener for Firebase updates
   useEffect(() => {
@@ -245,7 +245,7 @@ export default function Profile({
           const data = docSnapshot.data();
           console.log("Real-time Firebase update:", data);
           setFirebaseData(data);
-          processFirebaseData(data);
+          // processFirebaseData(data);
         }
       }, (error) => {
         console.error("Error in Firebase listener:", error);
@@ -296,19 +296,19 @@ export default function Profile({
       setLoading(true)
 
       // Initialize an empty profile data structure
-      let newProfileData: ProfileData = {
-        personal: {},
-        company: {},
-        identity: {},
-        bank: {},
-        contact: {},
-      }
+      // let newProfileData: ProfileData = {
+      //   personal: {},
+      //   company: {},
+      //   identity: {},
+      //   bank: {},
+      //   contact: {},
+      // }
 
       // First try to get data from API
       try {
         const apiProfileData = await GetUserProfile("GET")
         if (apiProfileData) {
-          newProfileData = { ...newProfileData, ...apiProfileData }
+          // sProfileData = { ...newProfileData, ...apiProfileData }
           console.log("Profile data loaded from API")
         }
       } catch (apiError) {
@@ -328,20 +328,20 @@ export default function Profile({
       }
 
       // Set basic user info from Redux state if not already set
-      if (userInfo) {
-        if (!newProfileData.personal) newProfileData.personal = {}
+      // if (userInfo) {
+      //   if (!newProfileData.personal) newProfileData.personal = {}
 
-        newProfileData.personal.firstName = newProfileData.personal.firstName || userInfo.Fname || ""
-        newProfileData.personal.lastName = newProfileData.personal.lastName || userInfo.Lname || ""
-        newProfileData.personal.userName = newProfileData.personal.userName || userInfo.username || ""
+      //   newProfileData.personal.firstName = newProfileData.personal.firstName || userInfo.Fname || ""
+      //   newProfileData.personal.lastName = newProfileData.personal.lastName || userInfo.Lname || ""
+      //   newProfileData.personal.userName = newProfileData.personal.userName || userInfo.username || ""
 
-        if (!newProfileData.contact) newProfileData.contact = {}
-        newProfileData.contact.email = newProfileData.contact.email || userInfo.email || ""
-        newProfileData.contact.contactNo = newProfileData.contact.contactNo || userInfo.contact || ""
-      }
+      //   if (!newProfileData.contact) newProfileData.contact = {}
+      //   newProfileData.contact.email = newProfileData.contact.email || userInfo.email || ""
+      //   newProfileData.contact.contactNo = newProfileData.contact.contactNo || userInfo.contact || ""
+      // }
 
       // Update the profile data state
-      setProfileData(newProfileData)
+      // setProfileData(newProfileData)
     } catch (error) {
       console.error("Error in loadAllProfileData:", error)
     } finally {
@@ -359,7 +359,7 @@ export default function Profile({
   // Process Firebase data when it becomes available
   useEffect(() => {
     if (firebaseData) {
-      processFirebaseData(firebaseData);
+      // processFirebaseData(firebaseData);
       
       // Update the form data for AccountSettings component
       const newFormData = { ...inputFormData };
@@ -410,7 +410,7 @@ export default function Profile({
                 />
                 <div>
                   <h2 className="text-lg md:text-xl font-semibold">
-                    {profileData?.personal?.firstName || userInfo.Fname || ""} {profileData?.personal?.lastName || userInfo.Lname || ""}
+                    {/* {profileData?.personal?.firstName || userInfo.Fname || ""} {profileData?.personal?.lastName || userInfo.Lname || ""} */}
                   </h2>
                   <p className="text-sm md:text-base text-gray-600">
                     User Id: {displayUserId}{userInfo.email ? ` (${userInfo.email})` : ""}
@@ -419,7 +419,7 @@ export default function Profile({
               </div>
               <ProfileItem
                 label="Father Name"
-                value={profileData?.personal?.fatherName || firebaseData?.["personal.fatherName"] || "N/A"}
+                // valuesofileData?.personal?.fatherName || firebaseData?.["personal.fatherName"] || "N/A"}
               />
               <ProfileItem 
                 label="Date of Birth" 
@@ -435,13 +435,13 @@ export default function Profile({
               />
               <ProfileItem
                 label="Company"
-                value={profileData?.personal?.company || profileData?.company?.company || 
-                       firebaseData?.["company.company"] || "N/A"}
+                // value={profileData?.personal?.company || profileData?.company?.company || 
+                      //  firebaseData?.["company.company"] || "N/A"}
               />
               <ProfileItem
                 label="Organisation Type"
-                value={profileData?.company?.organisationType || profileData?.orgType ||
-                       firebaseData?.["company.organisationType"] || "N/A"}
+                // value={profileData?.company?.organisationType || profileData?.orgType ||
+                //        firebaseData?.["company.organisationType"] || "N/A"}
               />
             </div>
           </div>
@@ -470,52 +470,47 @@ export default function Profile({
               {selectedTab === "Company" && (
                 <motion.div {...tabMotionAttributes} className="space-y-4">
                   <div className="text-center font-bold text-xl border-b-2 tracking-wide mb-5 pb-2">
-                    Company: {profileData?.personal?.company || profileData?.company?.company || 
-                             firebaseData?.["company.company"] || "N/A"}
+                    Company: {"N/A"}
                   </div>
                   <ProfileItem
                     label="About"
-                    value={profileData?.company?.about || firebaseData?.["company.about"] || "N/A"}
+                    value={ "N/A"}
                   />
                   <ProfileItem 
                     label="CIN Number" 
-                    value={profileData?.company?.cin || firebaseData?.["company.cin"] || "N/A"} 
+                    value={ "N/A"} 
                   />
                   <ProfileItem
                     label="Pan"
-                    value={profileData?.company?.pan || profileData?.identity?.pan || 
-                           firebaseData?.["identity.pan"] || "N/A"}
+                    value={"N/A"}
                   />
                   <ProfileItem
                     label="Aadhaar"
-                    value={profileData?.company?.aadhar || profileData?.identity?.aadhar || 
-                           firebaseData?.["identity.aadhar"] || "N/A"}
+                    value={ "N/A"}
                   />
                   <ProfileItem
                     label="Date of Incorporation"
-                    value={profileData?.company?.incorporationDate || 
-                           firebaseData?.["company.incorporationDate"] || "N/A"}
+                    value={ "N/A"}
                   />
                   <ProfileItem 
                     label="MOA" 
-                    value={profileData?.company?.moa || firebaseData?.["company.moa"] || "N/A"} 
+                    value={ "N/A"} 
                   />
                   <ProfileItem 
                     label="AOA" 
-                    value={profileData?.company?.aoa || firebaseData?.["company.aoa"] || "N/A"} 
+                    value={ "N/A"} 
                   />
                   <ProfileItem 
                     label="GST" 
-                    value={profileData?.company?.gst || firebaseData?.["company.gst"] || "N/A"} 
+                    value={ "N/A"} 
                   />
                   <ProfileItem 
                     label="Udyam Number" 
-                    value={profileData?.company?.udyamNumber || 
-                           firebaseData?.["company.udyamNumber"] || "N/A"} 
+                    value={"N/A"} 
                   />
                   <ProfileItem 
                     label="DPIT" 
-                    value={profileData?.company?.dpit || firebaseData?.["company.dpit"] || "N/A"} 
+                    value={ "N/A"} 
                   />
                 </motion.div>
               )}
@@ -528,8 +523,7 @@ export default function Profile({
                           {profileData?.bank?.bank || firebaseData?.["bank.bank"] || "N/A"}
                         </h3>
                         <p className="text-sm">
-                          {profileData?.bank?.accountHolderName || profileData?.name || 
-                           firebaseData?.["bank.accountHolderName"] || "N/A"}
+                          {"N/A"}
                         </p>
                       </div>
                       <Image
@@ -543,8 +537,7 @@ export default function Profile({
                     <div className="space-y-4">
                       <ProfileItem
                         label="Account Number"
-                        value={profileData?.bank?.accountNumber || profileData?.bank?.account || 
-                               firebaseData?.["bank.accountNumber"] || "N/A"}
+                        value={ "N/A"}
                       />
                       <ProfileItem 
                         label="IFSC Code" 
@@ -567,7 +560,7 @@ export default function Profile({
                   <ProfileItem
                     label="Phone"
                     value={
-                      profileData?.contact?.contactNo ||
+                      
                       profileData?.contact?.secondaryContact ||
                       userInfo?.contact || 
                       firebaseData?.["address.contactNo"] || "N/A"
@@ -583,12 +576,12 @@ export default function Profile({
                   />
                   <ProfileItem
                     label="Address"
-                    value={profileData?.contact?.address || profileData?.address?.address || 
+                    value={profileData?.contact?.address  || 
                            firebaseData?.["address.address"] || "N/A"}
                   />
                   <ProfileItem 
                     label="Pin" 
-                    value={profileData?.contact?.pin || profileData?.address?.pin || 
+                    value={profileData?.contact?.pin  || 
                            firebaseData?.["address.pin"] || "N/A"} 
                   />
                 </motion.div>
@@ -627,7 +620,7 @@ export default function Profile({
               {selectedTab === "Settings" && (
                 <motion.div {...tabMotionAttributes}>
                   <AccoutSettings 
-                    profileData={profileData} 
+                    // profileData={profileData} 
                     firebaseUserId={firebaseUid || userId}
                     existingFirebaseData={firebaseData} 
                   />

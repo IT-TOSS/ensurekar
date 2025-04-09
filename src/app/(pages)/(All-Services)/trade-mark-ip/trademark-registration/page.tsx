@@ -902,7 +902,7 @@ const TrademarkRegistration = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}}/>
       <WhoShouldBuy WhoShouldBuyData={WhoShouldBuyData} />
       <PlansSection planData={planData} />
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />

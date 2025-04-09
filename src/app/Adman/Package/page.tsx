@@ -81,7 +81,7 @@ const Page = () => {
     fetchPlans();
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e : any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -149,7 +149,7 @@ const Page = () => {
     });
   };
 
-  const handleViewPlan = (plan) => {
+  const handleViewPlan = (plan:any) => {
     setSelectedPlan(plan);
     setShowUserDetailsModal(true);
   };
@@ -168,7 +168,7 @@ const Page = () => {
     }
   };
 
-  const handleDeletePlan = async (id) => {
+  const handleDeletePlan = async (id :any) => {
     try {
       // Delete from Firebase
       await deleteDoc(doc(db, "plans", id));

@@ -179,12 +179,12 @@ const AccountSettings = ({
             
             // Map API data to our form structure
             for (const section in response) {
-              if (section in newData && typeof response[section] === 'object') {
-                newData[section] = {
-                  ...newData[section],
-                  ...response[section]
-                }
-              }
+              // if (section in newData && typeof response[section] === 'object') {
+              //   newData[section] = {
+              //     ...newData[section],
+              //     ...response[section]
+              //   }
+              // }
             }
             console.log("i am new data---"); 
             console.log(inputFormData);
@@ -307,9 +307,9 @@ const AccountSettings = ({
     Object.keys(data).forEach((key) => {
       if (key.includes(".")) {
         const [section, field] = key.split(".")
-        if (newFormData[section] && field in newFormData[section]) {
-          newFormData[section][field] = data[key]
-        }
+        // if (newFormData[section] && field in newFormData[section]) {
+        //   newFormData[section][field] = data[key]
+        // }
       } else if (key === "email") {
         // Handle email specially if it's at the root level
         newFormData.address.email = data.email
@@ -317,15 +317,16 @@ const AccountSettings = ({
     })
 
     // Also look for nested objects
-    for (const section in newFormData) {
-      if (data[section]) {
-        for (const field in newFormData[section]) {
-          if (data[section][field] !== undefined) {
-            newFormData[section][field] = data[section][field]
-          }
-        }
-      }
-    }
+    // commended for hosting
+    // for (const section in newFormData) {
+    //   if (data[section]) {
+    //     for (const field in newFormData[section]) {
+    //       if (data[section][field] !== undefined) {
+    //         newFormData[section][field] = data[section][field]
+    //       }
+    //     }
+    //   }
+    // }
 
     // Set basic user info from Redux if not already set
     if (userInfo) {
@@ -373,13 +374,13 @@ const AccountSettings = ({
     if (name.includes(".")) {
       const [sectionName, fieldName] = name.split(".")
       
-      setInputFormData(prevData => ({
-        ...prevData,
-        [sectionName]: {
-          ...prevData[sectionName],
-          [fieldName]: value
-        }
-      }))
+      // setInputFormData(prevData => ({
+      //   ...prevData,
+      //   [sectionName]: {
+      //     ...prevData[sectionName],
+      //     [fieldName]: value
+      //   }
+      // }))
     } else {
       // For inputs without section prefix, we need to determine which section it belongs to
       let sectionName = ""
@@ -398,13 +399,13 @@ const AccountSettings = ({
       }
       
       if (sectionName) {
-        setInputFormData(prevData => ({
-          ...prevData,
-          [sectionName]: {
-            ...prevData[sectionName],
-            [name]: value
-          }
-        }))
+        // setInputFormData(prevData => ({
+        //   ...prevData,
+        //   [sectionName]: {
+        //     ...prevData[sectionName],
+        //     [name]: value
+        //   }
+        // }))
       }
     }
   }

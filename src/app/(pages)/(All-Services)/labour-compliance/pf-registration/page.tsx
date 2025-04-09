@@ -416,7 +416,7 @@ const pfRegistration = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData}   scrollToPlans={() => {}} />
       <WhoConsidered WhoConsideredData={WhoConsideredData} />
       <BenefitSection BenefitData={BenefitData} />
       <DocumentsRequired DocumentsRequiredData={DocumentsRequiredData} />

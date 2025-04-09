@@ -356,7 +356,7 @@ const NonDisclosureAgreement = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}} />
       <HelpSection HelpSectionData={HelpSectionData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
       <ServiceCovered ServiceCoveredData={ServiceCoveredData} />

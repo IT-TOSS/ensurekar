@@ -47,15 +47,20 @@ const Page: React.FC = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedUser, setEditedUser] = useState(user);
 
-    const handleInputChange = (section, field, value) => {
-        setEditedUser({
-            ...editedUser,
-            [section]: {
-                ...editedUser[section],
-                [field]: value
-            }
-        });
-    };
+    
+    const handleInputChange = (
+        section: string,
+        field: string,
+        value: string | number | boolean
+      ) => {
+        // setEditedUser((prev) => ({
+        //   ...prev,
+        //   [section]: {
+        //     ...prev[section],
+        //     [field]: value,
+        //   },
+        // }));
+      };
 
     const saveChanges = () => {
         setUser(editedUser);
@@ -67,13 +72,13 @@ const Page: React.FC = () => {
         setIsEditing(false);
     };
 
-    const renderEditableTable = (section, data) => {
+    const renderEditableTable = (section:any, data:any) => {
         return (
             <div className="mb-6 w-full">
                 <table className="w-full border-collapse border border-gray-300 rounded-lg">
                     <thead>
                         <tr className="bg-gray-100">
-                            <th className="border border-gray-300 px-4 py-2 text-left" colSpan="2">
+                            <th className="border border-gray-300 px-4 py-2 text-left" colSpan={2}>
                                 {section.charAt(0).toUpperCase() + section.slice(1)} Details
                             </th>
                         </tr>
@@ -87,13 +92,13 @@ const Page: React.FC = () => {
                                 <td className="px-4 py-2 w-3/4">
                                     {isEditing ? (
                                         <input
-                                            type={key === 'DOB' ? 'date' : 'text'}
-                                            value={editedUser[section][key]}
-                                            onChange={(e) => handleInputChange(section, key, e.target.value)}
-                                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        />
+                                        type={key === 'DOB' ? 'date' : 'text'}
+                                        // value={editedUser[section][key]}
+                                        onChange={(e) => handleInputChange(section, key, e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                      />
                                     ) : (
-                                        value
+                                        String(value)
                                     )}
                                 </td>
                             </tr>
