@@ -488,7 +488,7 @@ const TDSReturnFilings = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData}   scrollToPlans={() => {}} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
 
       <WhoConsidered WhoConsideredData={WhoConsideredData} />

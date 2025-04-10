@@ -1206,7 +1206,7 @@ const LimitedLiabilityPartnershipRegistration = () => {
   };
   return (
     <div>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}}/>
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
       <PlansSection planData={planData} />
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />

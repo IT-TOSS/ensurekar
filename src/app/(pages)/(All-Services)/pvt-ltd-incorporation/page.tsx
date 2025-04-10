@@ -1060,7 +1060,7 @@ const Pvt_Ltd_Incorporation_Registration = () => {
   };
   return (
     <div>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}}/>
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       <PlansSection planData={planData} />
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />

@@ -16,7 +16,7 @@ import { ContactUs } from "@/api/SEOSetup/contact";
 import { motion } from "framer-motion";
 
 const BreadcrumbSection = ({
-  BreadcrumbData, scrollToPlans 
+  BreadcrumbData //, scrollToPlans 
 }: {
   BreadcrumbData: {
     title: string;
@@ -36,7 +36,7 @@ const BreadcrumbSection = ({
       image: string | StaticImageData;
     };
   };
-  scrollToPlans: any
+  //scrollToPlans: any
 }) => {
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
@@ -165,7 +165,7 @@ const BreadcrumbSection = ({
                 <button
                   className="py-2.5 min-w-[150px] bg-yellow-400 border rounded  block text-center   hover:border-mainTextColor font-bold duration-500 text-slate-800"
                   // onClick={handleBuy}
-                  onClick={scrollToPlans}
+                  // onClick={scrollToPlans} // chnage by Hosting
                 >
                   Start Now
                 </button>

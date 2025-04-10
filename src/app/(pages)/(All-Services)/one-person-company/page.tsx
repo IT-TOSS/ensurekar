@@ -1049,7 +1049,7 @@ const OnePersonCompany = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  />
       <PlansSection planData={planData} />
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />

@@ -1,5 +1,6 @@
 import { TableTypes } from "../../../../types/table-types";
 import TablesComponent from "@/app/components/User-Component/tables";
+export const dynamic = 'force-dynamic'; 
 
 import { seoData as getSeoData } from "@/api/SEOSetup/seoSetup";
 

@@ -237,7 +237,7 @@ const TrademarkRenewal = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  scrollToPlans={() => {}} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  />
       <ExpertiseFlow ExpertiseFlowData={ExpertiseFlowData} />
       <HelpSection HelpSectionData={HelpSectionData} />
       <CopyrightEducation CopyrightEducationData={CopyrightEducationData} />

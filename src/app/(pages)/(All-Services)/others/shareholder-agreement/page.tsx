@@ -273,7 +273,7 @@ const ShareholderAgreement = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}}/>
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
       <HelpSection HelpSectionData={HelpSectionData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
       <ServiceCovered ServiceCoveredData={ServiceCoveredData} />

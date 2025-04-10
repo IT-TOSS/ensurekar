@@ -582,7 +582,7 @@ const isoCertification = () => {
 
   return (
     <div>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData}   scrollToPlans={() => {}}  />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData}    />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />

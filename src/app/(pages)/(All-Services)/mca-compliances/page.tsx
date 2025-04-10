@@ -928,7 +928,7 @@ const MCA_Compliances = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={() => {}} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
       {/* <PlansSection planData={planData} /> */}
       <ServiceOverview OverviewData={OverviewData} />
       <WhyEnsurekarSection WhyEnsurekarData= {WhyEnsurekarData}  />

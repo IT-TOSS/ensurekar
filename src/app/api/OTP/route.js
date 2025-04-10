@@ -28,7 +28,7 @@ export async function POST(req) {
         }
 
         const mailOptions = {
-            from: "Krishna.vish9329@gmail.com",
+            from: "toss125training@gmail.com",
             to: email,
             subject: 'Your OTP Code',
             text: `Dear Candidate,

@@ -233,7 +233,7 @@ const accountingAndBookkeeping = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  scrollToPlans={() => {}}  />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  />
       <ServiceCovered ServiceCoveredData={ServiceCoveredData} />
       <WhoShouldBuy WhoShouldBuyData={WhoShouldBuyData} />
       <Timeline TimeLineData={TimeLineData} />
