@@ -1,7 +1,7 @@
 import { Item } from "../../../types/Items-Types";
 import { GetCookie } from "./CookiesSetup";
 
-const NEXT_PUBLIC_API_URL = '/';//process.env.NEXT_PUBLIC_API_URL;
+const NEXT_PUBLIC_API_URL = '/'; // process.env.NEXT_PUBLIC_API_URL;
 
 const AddToCartArray = async (cartItems: Item[]) => {
   const token = await GetCookie();

@@ -1,5 +1,5 @@
 import { GetCookie } from "./CookiesSetup";
-
+// export const dynamic = 'force-dynamic';
 
 const NEXT_PUBLIC_API_URL =  '' ; //process.env.NEXT_PUBLIC_API_URL;
 

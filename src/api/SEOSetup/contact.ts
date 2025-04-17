@@ -2,7 +2,7 @@ import { ContactForm } from "../../../types/ContactUs";
 import { Item } from "../../../types/Items-Types";
 import { GetCookie } from "./CookiesSetup";
 
-const NEXT_PUBLIC_API_URL = '' ;//process.env.NEXT_PUBLIC_API_URL;
+const NEXT_PUBLIC_API_URL = '' ;// process.env.NEXT_PUBLIC_API_URL;
 
 const ContactUs = async (data:ContactForm) => {
   const token = await GetCookie();

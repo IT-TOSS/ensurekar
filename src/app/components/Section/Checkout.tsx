@@ -85,7 +85,7 @@ const Checkout = () => {
       // Call your backend API to initialize CCAvenue payment
       const response = await axios.post(
         // 'http://localhost:4000/api/ccavenue/initiate-payment',
-        'http://localhost:3000/api/services/serviceRoute/ccavenue/initiate-payment',
+        'api/ccavenue/initiate-payment',
         paymentData
       );
       

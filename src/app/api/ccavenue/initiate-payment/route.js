@@ -3,6 +3,12 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 
+
+export async function GET(req, { params }) {
+  return Response.json({
+    message: `You hit initiate-payment for ${params.serviceRoute}`,
+  });
+}
 // CCAvenue credentials - store these in environment variables in production
 const MERCHANT_ID = '2064927'; 
 const ACCESS_CODE = 'AVTB18KB63AS79BTSA';
@@ -97,3 +103,5 @@ export async function POST(request) {
     }, { status: 500 });
   }
 }
+
+
