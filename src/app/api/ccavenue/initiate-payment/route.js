@@ -105,11 +105,6 @@ export async function POST(request) {
       ? 'https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction'
       : 'https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction';
 
-      
-
-    
-
-
       // const pay1 = {
 
       //   access_code : 'AVTB18KB63AS79BTSA', 
