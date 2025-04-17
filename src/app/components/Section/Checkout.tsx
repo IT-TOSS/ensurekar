@@ -461,7 +461,7 @@ const Checkout = () => {
   const cartItems = useSelector((state: IRootState) => state.themeConfig.cart) || [];
   const storedUserInfo = useSelector((state: IRootState) => state.themeConfig.userInfo) || {};
 
-  const [itemsData, setItemsData] = useState<Item[]>(cartItems);
+  const [itemsData, setItemsData] = useState<Item[]>(cartItems.map(item => ({ ...item, id: String(item.id) })));
 
   const total = itemsData.reduce((acc, item) => acc + item.subtotal, 0);
   const gst = 12;
@@ -548,7 +548,7 @@ const Checkout = () => {
         setTimeout(() => {
           console.log('Submitting CCAvenue form...');
           form.submit();
-        }, 100);
+        }, 150);
       } else {
         throw new Error(response.data.message || 'Failed to initialize payment gateway');
       }
