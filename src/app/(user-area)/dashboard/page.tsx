@@ -4,10 +4,10 @@ import { Metadata } from "next/types";
 import { seoData as getSeoData } from "@/api/SEOSetup/seoSetup";
 export const dynamic = 'force-dynamic';
 
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 // import { UserInfo } from "@/api/SEOSetup/fetchuser";
-import { GetUserProfile } from "@/api/SEOSetup/userProfile";
-import { ProfileData } from "../../../../types/Profile-Data";
+// import { GetUserProfile } from "@/api/SEOSetup/userProfile";
+// import { ProfileData } from "../../../../types/Profile-Data";
 
 
 export const metadata = async (): Promise<Metadata> => {

@@ -59,74 +59,151 @@ const Checkout = () => {
   const gstAmount = (total * gst) / 100;
   const grandTotal = total + gstAmount;
 
-  // Function to initiate CCAvenue payment
-  const initiateCCAvenuePay = async (orderId: string) => {
-    try {
-      setLoading(true);
-      console.log('Initiating payment for order:', orderId);
+  // // Function to initiate CCAvenue payment
+  // const initiateCCAvenuePay = async (orderId: string) => {
+  //   try {
+  //     setLoading(true);
+  //     console.log('Initiating payment for order:', orderId);
       
-      // Prepare payment data
-      const paymentData = {
-        amount: grandTotal,
-        orderId: orderId,
-        customerInfo: {
-          name: `${UserInfo.firstName} ${UserInfo.lastName}`,
-          email: UserInfo.email,
-          phone: UserInfo.contactNo,
-          address: UserInfo.address
-        },
-        products: itemsData.map(item => ({
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price
-        }))
-      };
-      
-      // Call your backend API to initialize CCAvenue payment
-      const response = await axios.post(
-        // 'http://localhost:4000/api/ccavenue/initiate-payment',
-        'api/ccavenue/initiate-payment',
-        paymentData
-      );
-      
-      const data = response.data;
+  //     // Prepare payment data
+  //     const paymentData = {
+  //       amount: grandTotal,
+  //       orderId: orderId,
+  //       customerInfo: {
+  //         name: `${UserInfo.firstName} ${UserInfo.lastName}`,
+  //         email: UserInfo.email,
+  //         phone: UserInfo.contactNo,
+  //         address: UserInfo.address
+  //       },
+  //       products: itemsData.map(item => ({
+  //         name: item.name,
+  //         quantity: item.quantity,
+  //         price: item.price
+  //       }))
+  //     };
+  //     console.log( paymentData , "paymentData")
+  //     // Call your backend API to initialize CCAvenue payment
+  //     const response = await axios.post(
+  //       // 'http://localhost:4000/api/ccavenue/initiate-payment',
+  //       'api/ccavenue/initiate-payment',
+  //       paymentData
+  //     );
 
-      console.log('CCAvenue payment response:', data);
+  //     console.log("CCAneue response", response)
       
-      if (data.success) {
-        console.log('Payment initiated successfully, redirecting to gateway...');
+  //     const data = response.data;
+
+  //     console.log('CCAvenue payment response:', data);
+      
+  //     if (data.success) {
+  //       console.log('Payment initiated successfully, redirecting to gateway...');
         
-        // Create and submit form to CCAvenue
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = data.formUrl;
+  //       // Create and submit form to CCAvenue
+  //       const form = document.createElement('form');
+  //       form.method = 'POST';
+  //       form.action = data.formUrl;
         
-        // Add CCAvenue required fields
-        const encryptedField = document.createElement('input');
-        encryptedField.type = 'hidden';
-        encryptedField.name = 'encRequest';
-        encryptedField.value = data.encryptedData;
-        form.appendChild(encryptedField);
+  //       // Add CCAvenue required fields
+  //       const encryptedField = document.createElement('input');
+  //       encryptedField.type = 'hidden';
+  //       encryptedField.name = 'encRequest';
+  //       encryptedField.value = data.encryptedData;  
+  //       form.appendChild(encryptedField);
         
-        const accessCodeField = document.createElement('input');
-        accessCodeField.type = 'hidden';
-        accessCodeField.name = 'access_code';
-        accessCodeField.value = data.accessCode;
-        form.appendChild(accessCodeField);
+  //       const accessCodeField = document.createElement('input');
+  //       accessCodeField.type = 'hidden';
+  //       accessCodeField.name = 'access_code'; 
+  //       accessCodeField.value = data.accessCode;  
+  //       form.appendChild(accessCodeField);
+  //       // console.log(form.outerHTML, "form")
         
-        // Submit form to redirect to CCAvenue
-        document.body.appendChild(form);
-        form.submit();
-      } else {
-        alert('Failed to initiate payment. Please try again.');
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error('Payment initiation error:', error);
-      alert('An error occurred while processing your payment. Please try again.');
+  //       // Submit form to redirect to CCAvenue
+  //       document.body.appendChild(form);
+  //       form.submit();
+  //     } else {
+  //       alert('Failed to initiate payment. Please try again.');
+  //       setLoading(false);
+  //     }
+  //   } catch (error) {
+  //     console.error('Payment initiation error:', error);
+  //     alert('An error occurred while processing your payment. Please try again.');
+  //     setLoading(false);
+  //   }
+  // };
+
+
+
+
+  // Modified part of your Checkout.jsx component
+
+// Function to initiate CCAvenue payment
+const initiateCCAvenuePay = async (orderId: string) => {
+  try {
+    setLoading(true);
+    console.log('Initiating payment for order:', orderId);
+    
+    // Prepare payment data
+    const paymentData = {
+      amount: grandTotal,
+      orderId: orderId,
+      customerInfo: {
+        name: `${UserInfo.firstName} ${UserInfo.lastName}`,
+        email: UserInfo.email || "",
+        phone: UserInfo.contactNo || "",
+        address: UserInfo.address || ""
+      },
+      products: itemsData.map(item => ({
+        name: item.name || "Product",
+        quantity: item.quantity || 1,
+        price: item.price || 0
+      }))
+    };
+    
+    console.log('Payment data:', paymentData);
+    
+    // Call your backend API to initialize CCAvenue payment
+    const response = await axios.post(
+      '/api/ccavenue/initiate-payment',
+      paymentData
+    );
+    
+    console.log("CCAvenue initiation response:", response.data);
+    
+    if (response.data.success) {
+      console.log('Payment initiated successfully, redirecting to gateway...');
+      
+      // Create and submit form to CCAvenue
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = response.data.formUrl;
+      form.style.display = 'none'; // Hide the form
+      
+      // Add CCAvenue required fields
+      const encryptedField = document.createElement('input');
+      encryptedField.type = 'hidden';
+      encryptedField.name = 'encRequest';
+      encryptedField.value = response.data.encryptedData;  
+      form.appendChild(encryptedField);
+      
+      const accessCodeField = document.createElement('input');
+      accessCodeField.type = 'hidden';
+      accessCodeField.name = 'access_code'; 
+      accessCodeField.value = response.data.accessCode;  
+      form.appendChild(accessCodeField);
+      
+      // Submit form to redirect to CCAvenue
+      document.body.appendChild(form);
+      form.submit();
+    } else {
+      alert('Failed to initiate payment: ' + (response.data.message || 'Unknown error'));
       setLoading(false);
     }
-  };
+  } catch (error : any) {
+    console.error('Payment initiation error:', error);
+    alert('An error occurred while processing your payment: ' + (error.message || 'Unknown error'));
+    setLoading(false);
+  }
+};
 
   const handlePlaceOrder = async () => {
     try {
@@ -161,6 +238,8 @@ const Checkout = () => {
       // Check if the response is successful
       console.log('Order response data:', response.data);
       console.log('Order response status:', response.status);
+      response.data.id = `ORD${response.data.id}${Date.now()}` ;
+      console.log('Order response response.data:', response.data);
       console.log('Order response response.data.id:', response.data.id);
       
       if (response.status === 200 && response.data && response.data.id) {

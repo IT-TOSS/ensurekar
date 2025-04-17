@@ -81,10 +81,10 @@
 //         const uid = user.uid;
 //         console.log("Firebase Auth UID:", uid);
 //         setFirebaseUid(uid);
-        
+
 //         // Save UID to localStorage for persistence
 //         localStorage.setItem('firebaseUid', uid);
-        
+
 //         // Also get user data from Firestore
 //         getUserByFirebaseUid(uid);
 //       } else {
@@ -98,7 +98,7 @@
 //         }
 //       }
 //     });
-    
+
 //     return () => unsubscribe(); // Clean up subscription
 //   }, []);
 
@@ -111,11 +111,11 @@
 //       }
 
 //       console.log(uid + "ha me data hu")
-      
+
 //       // Try to get user document by UID
 //       const docRef = doc(db, "users", uid);
 //       const docSnap = await getDoc(docRef);
-      
+
 //       if (docSnap.exists()) {
 //         const data = docSnap.data();
 //         console.log("User found by Firebase UID:", data);
@@ -123,12 +123,12 @@
 //         setUserId(uid); // Set userId to the Firebase UID
 //         return;
 //       }
-      
+
 //       // If direct access fails, try querying by UID field
 //       const usersRef = collection(db, "users");
 //       const q = query(usersRef, where("uid", "==", uid));
 //       const querySnapshot = await getDocs(q);
-      
+
 //       if (!querySnapshot.empty) {
 //         const doc = querySnapshot.docs[0];
 //         const data = doc.data();
@@ -137,14 +137,14 @@
 //         setFirebaseData(data);
 //         return;
 //       }
-      
+
 //       // If no user found, try by email as fallback
 //       if (userInfo?.email) {
 //         getUserByEmail(userInfo.email);
 //       }
 //     } catch (error) {
 //       console.log("Error in getUserByFirebaseUid:", error instanceof Error ? error.message : String(error));
-      
+
 //       // Fall back to email lookup if Firebase UID lookup fails
 //       if (userInfo?.email) {
 //         getUserByEmail(userInfo.email);
@@ -164,7 +164,7 @@
 //       try {
 //         const docRef = doc(db, "users", email);
 //         const docSnap = await getDoc(docRef);
-        
+
 //         if (docSnap.exists()) {
 //           const data = docSnap.data();
 //           console.log("User found by direct ID:", data);
@@ -176,13 +176,13 @@
 //         // Silently catch this error and try the query method
 //         console.log("Direct document access failed, trying query...");
 //       }
-      
+
 //       // If direct access fails, try querying by email field
 //       try {
 //         const usersRef = collection(db, "users");
 //         const q = query(usersRef, where("email", "==", email));
 //         const querySnapshot = await getDocs(q);
-        
+
 //         if (!querySnapshot.empty) {
 //           const doc = querySnapshot.docs[0];
 //           const data = doc.data();
@@ -191,7 +191,7 @@
 //           setFirebaseData(data);
 //           return;
 //         }
-        
+
 //         console.log("No user found with this email.");
 //       } catch (queryError) {
 //         console.log("Error querying by email:", queryError);
@@ -252,7 +252,7 @@
 //   useEffect(() => {
 //     if (userId) {
 //       const userDocRef = doc(db, "users", userId);
-      
+
 //       const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
 //         if (docSnapshot.exists()) {
 //           const data = docSnapshot.data();
@@ -263,7 +263,7 @@
 //       }, (error) => {
 //         console.error("Error in Firebase listener:", error);
 //       });
-      
+
 //       // Clean up the listener when component unmounts
 //       return () => unsubscribe();
 //     }
@@ -373,10 +373,10 @@
 //   useEffect(() => {
 //     if (firebaseData) {
 //       processFirebaseData(firebaseData);
-      
+
 //       // Update the form data for AccountSettings component
 //       const newFormData = { ...inputFormData };
-      
+
 //       // Process the flat structure with dot notation keys
 //       Object.keys(firebaseData).forEach((key) => {
 //         if (key.includes(".")) {
@@ -388,7 +388,7 @@
 //           newFormData.address.email = firebaseData.email;
 //         }
 //       });
-      
+
 //       setInputFormData(newFormData);
 //     }
 //   }, [firebaseData]);
@@ -459,7 +459,7 @@
 //             </div>
 //           </div>
 //         </div>
-        
+
 //         {/* Rest of the code remains the same */}
 //         <div className="bg-white shadow-xl relative">
 //           <div className="p-4">
@@ -653,7 +653,7 @@
 //               )}
 //             </motion.div>
 //           </div>
-          
+
 //           <div className="absolute bottom-4 right-4">
 //             <button 
 //               onClick={handleEditClick}
@@ -801,7 +801,7 @@
 //   const [firebaseData, setFirebaseData] = useState<FirebaseData | null>(null)
 //   const [userId, setUserId] = useState<string>("")
 //   const [firebaseUid, setFirebaseUid] = useState<string>("")
-  
+
 //   // Initialize input form data with proper typing
 //   const [inputFormData, setInputFormData] = useState<InputFormDataType>({
 //     personal: {
@@ -838,10 +838,10 @@
 //         const uid = user.uid;
 //         console.log("Firebase Auth UID:", uid);
 //         setFirebaseUid(uid);
-        
+
 //         // Save UID to localStorage for persistence
 //         localStorage.setItem('firebaseUid', uid);
-        
+
 //         // Also get user data from Firestore
 //         getUserByFirebaseUid(uid);
 //       } else {
@@ -855,7 +855,7 @@
 //         }
 //       }
 //     });
-    
+
 //     return () => unsubscribe(); // Clean up subscription
 //   }, []);
 
@@ -868,11 +868,11 @@
 //       }
 
 //       console.log(uid + "ha me data hu")
-      
+
 //       // Try to get user document by UID
 //       const docRef = doc(db, "users", uid);
 //       const docSnap = await getDoc(docRef);
-      
+
 //       if (docSnap.exists()) {
 //         const data = docSnap.data();
 //         console.log("User found by Firebase UID:", data);
@@ -880,12 +880,12 @@
 //         setUserId(uid); // Set userId to the Firebase UID
 //         return;
 //       }
-      
+
 //       // If direct access fails, try querying by UID field
 //       const usersRef = collection(db, "users");
 //       const q = query(usersRef, where("uid", "==", uid));
 //       const querySnapshot = await getDocs(q);
-      
+
 //       if (!querySnapshot.empty) {
 //         const doc = querySnapshot.docs[0];
 //         const data = doc.data();
@@ -894,14 +894,14 @@
 //         setFirebaseData(data);
 //         return;
 //       }
-      
+
 //       // If no user found, try by email as fallback
 //       if (userInfo?.email) {
 //         getUserByEmail(userInfo.email);
 //       }
 //     } catch (error) {
 //       console.log("Error in getUserByFirebaseUid:", error instanceof Error ? error.message : String(error));
-      
+
 //       // Fall back to email lookup if Firebase UID lookup fails
 //       if (userInfo?.email) {
 //         getUserByEmail(userInfo.email);
@@ -921,7 +921,7 @@
 //       try {
 //         const docRef = doc(db, "users", email);
 //         const docSnap = await getDoc(docRef);
-        
+
 //         if (docSnap.exists()) {
 //           const data = docSnap.data();
 //           console.log("User found by direct ID:", data);
@@ -933,13 +933,13 @@
 //         // Silently catch this error and try the query method
 //         console.log("Direct document access failed, trying query...");
 //       }
-      
+
 //       // If direct access fails, try querying by email field
 //       try {
 //         const usersRef = collection(db, "users");
 //         const q = query(usersRef, where("email", "==", email));
 //         const querySnapshot = await getDocs(q);
-        
+
 //         if (!querySnapshot.empty) {
 //           const doc = querySnapshot.docs[0];
 //           const data = doc.data();
@@ -948,7 +948,7 @@
 //           setFirebaseData(data);
 //           return;
 //         }
-        
+
 //         console.log("No user found with this email.");
 //       } catch (queryError) {
 //         console.log("Error querying by email:", queryError);
@@ -1022,7 +1022,7 @@
 //   useEffect(() => {
 //     if (userId) {
 //       const userDocRef = doc(db, "users", userId);
-      
+
 //       const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
 //         if (docSnapshot.exists()) {
 //           const data = docSnapshot.data();
@@ -1033,7 +1033,7 @@
 //       }, (error) => {
 //         console.error("Error in Firebase listener:", error);
 //       });
-      
+
 //       // Clean up the listener when component unmounts
 //       return () => unsubscribe();
 //     }
@@ -1143,7 +1143,7 @@
 //   useEffect(() => {
 //     if (firebaseData) {
 //       processFirebaseData(firebaseData);
-      
+
 //       // Update the form data for AccountSettings component
 //       const newFormData: InputFormDataType = { 
 //         personal: { ...inputFormData.personal },
@@ -1153,7 +1153,7 @@
 //         address: { ...inputFormData.address },
 //         document: { ...inputFormData.document }
 //       };
-      
+
 //       // Process the flat structure with dot notation keys
 //       Object.keys(firebaseData).forEach((key) => {
 //         if (key.includes(".")) {
@@ -1164,14 +1164,14 @@
 //         } else if (key === "email") {
 //           newFormData.address.email = firebaseData.email;
 //         }
-        
+
 //         // Map specific fields directly to the form data structure
 //         if (key === "firstName" || key === "lastName" || key === "fatherName" || 
 //             key === "DOB" || key === "sex" || key === "maritalStatus") {
 //           newFormData.personal[key as keyof PersonalFormData] = firebaseData[key];
 //         }
 //       });
-      
+
 //       setInputFormData(newFormData);
 //     }
 //   }, [firebaseData]);
@@ -1242,7 +1242,7 @@
 //             </div>
 //           </div>
 //         </div>
-        
+
 //         <div className="bg-white shadow-xl relative">
 //           <div className="p-4">
 //             <p className="text-xl md:text-2xl font-bold ">Other Information</p>
@@ -1435,7 +1435,7 @@
 //               )}
 //             </motion.div>
 //           </div>
-          
+
 //           <div className="absolute bottom-4 right-4">
 //             <button 
 //               onClick={handleEditClick}
@@ -1474,14 +1474,14 @@ import userImage from "../../images/team_image1.png";
 import { use, useEffect, useState } from "react";
 import Analytics from "./Analytics";
 import { MetricDataType } from "../../../../types/MetricDataType";
-import { UserInfo } from "@/api/SEOSetup/fetchuser";
+// import { UserInfo } from "@/api/SEOSetup/fetchuser";  // comment BY Krishna
 import { useSelector, useDispatch } from "react-redux";
 import { IRootState } from "@/store";
 import { User } from "../../../../types/User-Type";
 import { setAuth } from "@/store/themeConfigSlice";
 import { useRouter } from "next/navigation";
-import { GetUserProfile } from "@/api/SEOSetup/userProfile";
-import { ProfileData   } from "../../../../types/Profile-Data";
+// import { GetUserProfile } from "@/api/SEOSetup/userProfile";
+// import { ProfileData   } from "../../../../types/Profile-Data";  // comment BY Krishna
 // import AccoutSettings from "./AccoutSettings";
 
 const motionAttributes = {
@@ -1508,80 +1508,80 @@ export default function Profile({
   const userInfo = useSelector((state: IRootState) => state.themeConfig.userInfo);
   console.log(userInfo)
   const dispatch = useDispatch();
-  const [profileData, setProfileData] = useState<ProfileData | null>();
+  // const [profileData, setProfileData] = useState<ProfileData | null>();  // comment BY Krishna
   const [selectedTab, setSelectedTab] = useState("Identity");
   const navigate = useRouter();
   useEffect(() => {
-    const fetchData = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get("code");
-      if (code && code.trim() != "" && themeConfig.isAuthenticated === false) {
-        const data = await UserInfo(code);
-        const { Profile } = data;
-        console.log(Profile)
-        dispatch(
-          setAuth({
-            isAuthenticated: Profile.isAuthenticated,
-            userInfo: {
-              Fname: Profile.userInfo.Fname,
-              Lname: Profile.userInfo.Lname,
-              email: Profile.userInfo.email,
-              username: Profile.userInfo.username,
-              contact: Profile.userInfo.contact,
-              role: Profile.userInfo.role,
-              picture: Profile.userInfo.picture =='N/A' ? userImage : Profile.userInfo.picture,
-            },
-            Token: Profile.Token,
-          })
-        );
-      } else {
-        return undefined;
-      }
+    // const fetchData = async () => {
+    //   const urlParams = new URLSearchParams(window.location.search);
+    //   const code = urlParams.get("code");
+    //   if (code && code.trim() != "" && themeConfig.isAuthenticated === false) {
+    //     const data = await UserInfo(code);
+    //     const { Profile } = data;
+    //     console.log(Profile)
+    //     dispatch(
+    //       setAuth({
+    //         isAuthenticated: Profile.isAuthenticated,
+    //         userInfo: {
+    //           Fname: Profile.userInfo.Fname,
+    //           Lname: Profile.userInfo.Lname,
+    //           email: Profile.userInfo.email,
+    //           username: Profile.userInfo.username,
+    //           contact: Profile.userInfo.contact,
+    //           role: Profile.userInfo.role,
+    //           picture: Profile.userInfo.picture =='N/A' ? userImage : Profile.userInfo.picture,
+    //         },
+    //         Token: Profile.Token,
+    //       })
+    //     );
+    //   } else {
+    //     return undefined;
+    //   }
 
-      const newUrl = window.location.origin + window.location.pathname;
-      window.history.pushState({ path: newUrl }, "", newUrl);
-    };
-    
-    fetchData();
-  
+    //   const newUrl = window.location.origin + window.location.pathname;
+    //   window.history.pushState({ path: newUrl }, "", newUrl);
+    // };
+
+    // fetchData();   // comment BY Krishna
+
   }, []);
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      const data = await GetUserProfile();
-      setProfileData(data);
-    };
-    fetchUserProfile();
-  }, [themeConfig.authToken]);
+  // useEffect(() => {
+  //   const fetchUserProfile = async () => {
+  //     const data = await GetUserProfile();
+  //     setProfileData(data);
+  //   };
+  //   fetchUserProfile();
+  // }, [themeConfig.authToken]);  // comment BY Krishna
 
   useEffect(() => {
-  //   const user = {
-  //     ...themeConfig.userInfo,
-  //     given_name: themeConfig.userInfo.Fname,
-  //     family_name: themeConfig.userInfo.Lname,
-  //     verified_email: themeConfig.isAuthenticated,
-  //     username: themeConfig.userInfo.username,
-  //   };
-  
+    //   const user = {
+    //     ...themeConfig.userInfo,
+    //     given_name: themeConfig.userInfo.Fname,
+    //     family_name: themeConfig.userInfo.Lname,
+    //     verified_email: themeConfig.isAuthenticated,
+    //     username: themeConfig.userInfo.username,
+    //   };
+
     if (!themeConfig.userInfo) {
       // navigate.push("/Login");
     }
     // setUser(user);
   }, [userInfo]);
 
-// useEffect(() => {
-//   const fetchUserProfile = async () => {
- 
-//     console.log("this data from get profile",await GetUserProfile());
-//   };
-//   fetchUserProfile();
+  // useEffect(() => {
+  //   const fetchUserProfile = async () => {
+
+  //     console.log("this data from get profile",await GetUserProfile());
+  //   };
+  //   fetchUserProfile();
 
 
-// },[themeConfig.authToken])
- 
+  // },[themeConfig.authToken])
+
   if (!userInfo) return <div>Loading...</div>;
 
- 
+
 
   return (
     <motion.div {...motionAttributes}>
@@ -1596,7 +1596,7 @@ export default function Profile({
             <div className="space-y-5">
               <div className="flex flex-row items-center space-x-4">
                 <Image
-                  src={userInfo.picture =='N/A' ? userImage : userInfo.picture}
+                  src={userInfo.picture == 'N/A' ? userImage : userInfo.picture}
                   alt="Profile"
                   width={100}
                   height={100}
@@ -1608,15 +1608,15 @@ export default function Profile({
                     {/* {profileData?.name} */}
                   </h2>
                   <p className="text-sm md:text-base text-gray-600">
-                    User Id : {userInfo.username ||"N/A"}
+                    User Id : {userInfo.username || "N/A"}
                   </p>
                 </div>
               </div>
-              {/* <ProfileItem label="Email" value={user.email} /> */}
+              {/* <ProfileItem label="Email" value={user.email} /> *}
         
               <ProfileItem label="Father Name" value={profileData?.personal?.father} />
               {/* <ProfileItem label="Whatsapp No. " value={profileData.contact.secondaryContact} /> */}
-              {/* <ProfileItem label="Address" value={profileData.personal.} /> */}
+              {/* <ProfileItem label="Address" value={profileData.personal.} /> *}
               <ProfileItem label="Date of Birth" value={profileData?.personal?.DOB||"N/A"} />
               <ProfileItem label="Sex" value={profileData?.personal?.sex||"N/A"} />
               <ProfileItem label="Marital Status" value={profileData?.personal?.maritalStatusName} />
@@ -1625,6 +1625,18 @@ export default function Profile({
               {/* <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 duration-300">
                 Edit Profile
               </button> */}
+
+              {/* commented by Krishna*/}
+
+
+              <ProfileItem label="Father Name" value={""} />
+              {/* <ProfileItem label="Whatsapp No. " value={profileData.contact.secondaryContact} /> */}
+              {/* <ProfileItem label="Address" value={profileData.personal.} /> */}
+              <ProfileItem label="Date of Birth" value={"N/A"} />
+              <ProfileItem label="Sex" value={"N/A"} />
+              <ProfileItem label="Marital Status" value={""} />
+              <ProfileItem label="Company" value={"N/A"} />
+              <ProfileItem label="Organisation Type" value={"N/A"} />
             </div>
           </div>
         </div>
@@ -1636,11 +1648,10 @@ export default function Profile({
                 <button
                   key={index}
                   onClick={() => setSelectedTab(tab)}
-                  className={` px-3 py-2 min-w-[100px] hover:bg-s2 hover:text-black duration-300  font-bold rounded ${
-                    selectedTab === tab
-                      ? "bg-s2 text-black"
-                      : "bg-softBg1 text-bodyText"
-                  }`}
+                  className={` px-3 py-2 min-w-[100px] hover:bg-s2 hover:text-black duration-300  font-bold rounded ${selectedTab === tab
+                    ? "bg-s2 text-black"
+                    : "bg-softBg1 text-bodyText"
+                    }`}
                 >
                   {tab}
                 </button>
@@ -1680,8 +1691,13 @@ export default function Profile({
                   <div className="bg-softBg1 p-  rounded-lg shadow-lg p-5">
                     <div className="flex justify-between items-center mb-4">
                       <div>
-                        <h3 className="text-lg font-semibold">{profileData?.bank?.bank ||"N/A"}</h3>
-                        <p className="text-sm">{profileData?.name||"N/A"}</p>
+                        {/* <h3 className="text-lg font-semibold">{profileData?.bank?.bank ||"N/A"}</h3>
+                        <p className="text-sm">{profileData?.name||"N/A"}</p> 
+                         // commented by Krishna 
+                        */}
+
+                        <h3 className="text-lg font-semibold">{"N/A"}</h3>
+                        <p className="text-sm">{"N/A"}</p>
                       </div>
                       <Image
                         src={userImage}
@@ -1690,21 +1706,36 @@ export default function Profile({
                       />
                     </div>
                     <div className="space-y-4">
-                      <ProfileItem label="Account Number" value={profileData?.bank?.account||"N/A"} />
-                      <ProfileItem label="IFSC Code" value={profileData?.bank?.ifsc||"N/A"} />
+                      {/* <ProfileItem label="Account Number" value={profileData?.bank?.account || "N/A"} />
+                      <ProfileItem label="IFSC Code" value={profileData?.bank?.ifsc || "N/A"} /> 
+                      // commented by Krishna
+                      */}
                       {/* <ProfileItem label="Account Type" value="Checking" /> */}
+
+                      <ProfileItem label="Account Number" value={"N/A"} />
+                      <ProfileItem label="IFSC Code" value={"N/A"} />
                     </div>
                   </div>
                 </motion.div>
               )}
               {selectedTab === "Contact" && (
                 <motion.div {...tabMotionAttributes} className="space-y-4">
-                  <ProfileItem label="Email" value={profileData?.contact?.secondaryEmail || "N/A"} />
+                  {/* <ProfileItem label="Email" value={profileData?.contact?.secondaryEmail || "N/A"} />
                   <ProfileItem label="Phone" value={profileData?.contact?.secondaryContact || "N/A"} />
                   <ProfileItem label="State" value={profileData?.contact?.state || "N/A"} />
                   <ProfileItem label="City" value={profileData?.contact?.city || "N/A"} />
                   <ProfileItem label="Address" value={profileData?.contact?.address || "N/A"} />
                   <ProfileItem label="Pin" value={profileData?.contact?.pin || "N/A"} />
+                  //comment by Krishna
+                  */}
+
+
+                  <ProfileItem label="Email" value={ "N/A"} />
+                  <ProfileItem label="Phone" value={ "N/A"} />
+                  <ProfileItem label="State" value={ "N/A"} />
+                  <ProfileItem label="City" value={ "N/A"} />
+                  <ProfileItem label="Address" value={ "N/A"} />
+                  <ProfileItem label="Pin" value={ "N/A"} />
                   {/* <button className="bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                     Edit Contact Information
                   </button> */}
@@ -1712,11 +1743,18 @@ export default function Profile({
               )}
               {selectedTab === "Identity" && (
                 <motion.div {...tabMotionAttributes} className="space-y-4">
-                  <ProfileItem label="PAN" value={profileData?.identity?.pan} />
+                  {/* <ProfileItem label="PAN" value={profileData?.identity?.pan} />
                   <ProfileItem label="AADHAR" value={profileData?.identity?.aadhar} />
                   <ProfileItem label="DIN Number" value={profileData?.identity?.din} />
                   <ProfileItem label="Address Proof" value={profileData?.identity?.addressProofName} />
-                  <ProfileItem label="Nationality" value={profileData?.identity?.nationality ||"N/A"} />
+                  <ProfileItem label="Nationality" value={profileData?.identity?.nationality || "N/A"} /> 
+                  // commented by Krishna
+                  */}
+                  <ProfileItem label="PAN" value={"N/A"} />
+                  <ProfileItem label="AADHAR" value={"N/A"} />
+                  <ProfileItem label="DIN Number" value={"N/A"} />
+                  <ProfileItem label="Address Proof" value={"N/A"} />
+                  <ProfileItem label="Nationality" value={"N/A"} />
                   {/* <button className="bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                     Edit Business Information
                   </button> */}
@@ -1737,10 +1775,10 @@ export default function Profile({
                   <Analytics MetricData={MetricData} />
                 </motion.div>
               )}
-              {selectedTab === "Settings" &&(
-                 <motion.div {...tabMotionAttributes}>
-                {/* <AccoutSettings profileData={profileData}/> */}
-               </motion.div>
+              {selectedTab === "Settings" && (
+                <motion.div {...tabMotionAttributes}>
+                  {/* <AccoutSettings profileData={profileData}/> */}
+                </motion.div>
               )}
               {!Othertabs.includes(selectedTab) && (
                 <div>
@@ -1752,7 +1790,7 @@ export default function Profile({
         </div>
       </div>
     </motion.div>
-    
+
   );
 }
 
