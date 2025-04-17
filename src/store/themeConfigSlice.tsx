@@ -39,7 +39,7 @@ const defaultState = {
     typeof window !== "undefined" ? localStorage.getItem("Token") || "" : "",
   initialRoutes:
     typeof window !== "undefined" ? window.location.pathname || "" : "",
-  localUrl: '', // process.env.NEXT_LOCAL_API_URL || "",
+  localUrl: process.env.NEXT_LOCAL_API_URL || "",
   isAuthenticated: false,
   userInfo: {
     Fname: "",

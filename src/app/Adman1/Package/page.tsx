@@ -149,7 +149,7 @@ const Page = () => {
     });
   };
 
-  const handleViewPlan = (plan :any) => {
+  const handleViewPlan = (plan: PackageData) => {
     setSelectedPlan(plan);
     setShowUserDetailsModal(true);
   };

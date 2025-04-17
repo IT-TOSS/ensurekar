@@ -6,13 +6,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Using environment variables (recommended)
 const firebaseConfig = {
-  apiKey:"AIzaSyAV9jO-wD7XFdh82I3tvtIKqDoAD7d9PyU",
-  authDomain: "ensurekar-d48bd.firebaseapp.com",
-  projectId:"ensurekar-d48bd",
-  storageBucket: "ensurekar-d48bd.firebasestorage.app",
-  messagingSenderId:  "491265324820",
-  appId:  "1:491265324820:web:8c1fb8bfc0b89e13467401",
-  measurementId:  "G-5S2D92TP65"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyAV9jO-wD7XFdh82I3tvtIKqDoAD7d9PyU",
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "ensurekar-d48bd.firebaseapp.com",
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "ensurekar-d48bd",
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "ensurekar-d48bd.firebasestorage.app",
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "491265324820",
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:491265324820:web:8c1fb8bfc0b89e13467401",
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-5S2D92TP65"
 };
 
 // Initialize Firebase

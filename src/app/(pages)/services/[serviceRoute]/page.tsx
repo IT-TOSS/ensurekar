@@ -26,7 +26,7 @@ const ServicePage = async ({
 
   return (
     <div className="">
-      <BreadcrumbSection BreadcrumbData={data.BreadcrumbSectionInfo}  />
+      <BreadcrumbSection BreadcrumbData={data.BreadcrumbSectionInfo} />
         <section className="stp-30 sbp-30">
           <div className="container grid grid-cols-12 gap-6">
             <div className="col-span-12 lg:col-span-6 xxl:col-span-5 flex justify-start items-start flex-col">

@@ -1322,7 +1322,7 @@ const ProprietorshipRegistration = () => {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       <PlansSection planData={planData} />
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />

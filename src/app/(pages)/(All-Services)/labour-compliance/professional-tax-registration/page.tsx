@@ -386,7 +386,7 @@ const FAQsData = {
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData}   />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
       <WhoConsidered WhoConsideredData={WhoConsideredData} />
       <BenefitSection BenefitData={BenefitData} />
       <DocumentsRequired DocumentsRequiredData={DocumentsRequiredData} />

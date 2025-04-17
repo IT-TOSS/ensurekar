@@ -1,7 +1,7 @@
 import { GetCookie } from "./CookiesSetup";
 
 
-const NEXT_PUBLIC_API_URL = ''; // process.env.NEXT_PUBLIC_API_URL;
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const OrderHistoryAll = async () => {
 

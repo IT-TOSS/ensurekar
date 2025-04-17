@@ -567,6 +567,12 @@ const PlansSection = ({ planData }: { planData: planData }) => {
   const plans = plan?.plans.filter((plan) => plan.isActive);
   const handleBuy = (plan: any) => {
     console.log(plan);
+
+     if (plan.onSelect) {
+       plan.onSelect();
+      } else {
+          console.log(plan);
+      }
     
 
   };
@@ -870,3 +876,4 @@ const PlansSection = ({ planData }: { planData: planData }) => {
 };
 
 export default PlansSection;
+

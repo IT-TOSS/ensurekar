@@ -2,7 +2,6 @@
 import Profile from "@/app/components/User-Component/profile";
 import { Metadata } from "next/types";
 import { seoData as getSeoData } from "@/api/SEOSetup/seoSetup";
-export const dynamic = 'force-dynamic';
 
 import React, { useEffect, useState } from "react";
 // import { UserInfo } from "@/api/SEOSetup/fetchuser";

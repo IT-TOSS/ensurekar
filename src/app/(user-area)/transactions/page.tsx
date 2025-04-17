@@ -1,7 +1,6 @@
 
 import TablesComponent from "@/app/components/User-Component/tables";
 import { Metadata } from "next/types";
-export const dynamic = 'force-dynamic'; 
 import { seoData as getSeoData } from "@/api/SEOSetup/seoSetup";
 
 import { TransectionHistory } from "@/api/SEOSetup/transectionList";

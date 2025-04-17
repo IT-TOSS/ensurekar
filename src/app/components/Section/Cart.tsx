@@ -1,3 +1,4 @@
+//src/app/components/Section/Cart.tsx
 "use client";
 import React, { useEffect, useState } from "react";
 import product_cart_img from "../../images/product_cart_img.png";
@@ -28,111 +29,54 @@ import { AddToCartArray } from "@/api/SEOSetup/addToCart";
 import { Item } from "../../../../types/Items-Types";
 
 const Cart = () => {
-  const cartItems =
-    useSelector((state: IRootState) => state.themeConfig.cart) || [];
-  const WishItems =
-    useSelector((state: IRootState) => state.themeConfig.wishlist) || [];
+  // Force refresh cart items on component mount and when cart changes
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  
+  const cartItems = useSelector((state: IRootState) => state.themeConfig.cart) || [];
+  const WishItems = useSelector((state: IRootState) => state.themeConfig.wishlist) || [];
+  
   useEffect(() => {
+    // Refresh component when mounted to ensure latest cart state is displayed
+    setRefreshTrigger(prev => prev + 1);
     setTotalItemsInWishlist(WishItems.length);
-  }, [WishItems]);
+  }, [WishItems, cartItems]);
+
   const dispatch = useDispatch();
-  const route = useRouter();
+  const router = useRouter();
+  
   const Checkout = async () => {
+    // You can uncomment this when API integration is ready
     // const addCartResponce = await AddToCartArray(cartItems);
     // console.log(addCartResponce);
-    route.push("/checkout");
+    router.push("/checkout");
   };
-
-  const itemsData = [
-    {
-      id: "pvt-ltd-incorporation",
-      name: "Private Limited Incorporation Registration",
-      price: 1500,
-      quantity: 2,
-      subtotal: 3000,
-      image: product_cart_img,
-    },
-    {
-      id: "limited-liability-partnership-registration",
-      name: "Limited Liability Partnership (LLP) Registration",
-      price: 450,
-      quantity: 1,
-      subtotal: 450,
-      image: product_cart_img,
-    },
-    {
-      id: "one-person-company",
-      name: "One Person Company Registration (OPC)",
-      price: 500,
-      quantity: 2,
-      subtotal: 1000,
-      image: product_cart_img,
-    },
-    {
-      id: "nidhi-company-registration",
-      name: "Nidhi Company Registration",
-      price: 900,
-      quantity: 1,
-      subtotal: 900,
-
-      image: product_cart_img,
-    },
-    {
-      id: "sole-proprietorship-registration",
-      name: "Sole Proprietorship Registration",
-      price: 1000,
-      quantity: 1,
-      subtotal: 1000,
-      image: product_cart_img,
-    },
-    {
-      id: "partnership-registration",
-      name: "Partnership Registration",
+  const handleBuyNow = () => {
+    console.log("Buy Now clicked");
+    const defaultPlan = {
+      id: "income-tax-plan-default",
+      name: "Income Tax Return Filing - Normal",
       price: 999,
       quantity: 1,
       subtotal: 999,
       image: product_cart_img,
-    },
-    {
-      id: "digital-signature-certificate",
-      name: "Digital Signature Certificate (DSC)",
-      price: 890,
-      quantity: 2,
-      subtotal: 1780,
-      image: product_cart_img,
-    },
-    {
-      id: "gem-registration",
-      name: "Government E-Marketpalce (GEM) Registration",
-      price: 450,
-      quantity: 1,
-      subtotal: 450,
-      image: product_cart_img,
-    },
-    {
-      id: "msme-registration",
-      name: "MSME/UDYAM Registration Certificate",
-      price: 450,
-      quantity: 1,
-      subtotal: 450,
-      image: product_cart_img,
-    },
-    {
-      id: "iso-certification",
-      name: "ISO Certificate",
-      price: 450,
-      quantity: 1,
-      subtotal: 450,
-      image: product_cart_img,
-    },
-  ];
-
+      
+    };
+    
+    console.log("Adding to cart:", defaultPlan);
+    dispatch(addToCart(defaultPlan));
+    console.log("Navigating to cart");
+    router.push("/cart");
+  };
   const handleAddToCart = (item: Item) => {
     dispatch(addToCart(item));
+    // Force refresh after adding to cart
+    setRefreshTrigger(prev => prev + 1);
   };
+  
   const handleRemoveFromCart = (item: Item) => {
     dispatch(removeFromCart(item.id));
   };
+  
   const handleIncrement = (item: Item, value: number) => {
     if (item.quantity + value > 0) {
       dispatch(
@@ -140,10 +84,12 @@ const Cart = () => {
       );
     }
   };
+  
   const handleAddToWishlist = (item: Item) => {
     dispatch(addToWishlist(item));
     dispatch(removeFromCart(item.id));
   };
+  
   const tax = 12;
   const total = cartItems.reduce((acc, item) => acc + item.subtotal, 0);
   const subtotal =
@@ -188,17 +134,17 @@ const Cart = () => {
               <p>Empty Cart</p>
             </button>
             <section className=" grid grid-cols-12 ">
-              <div className="bg-white shadow-xl rounded-lg  p-5 min-w-80 col-span-12 md:col-span-6 md:col-start-4">
+              <div className="bg-white shadow-xl rounded-lg p-5 min-w-80 col-span-12 md:col-span-6 md:col-start-4">
                 <div className="flex justify-between items-center pb-6 border-b text-bodyText">
                   <p>Tax</p>
                   <p>₹ {total} + 12% GST</p>
                 </div>
-                <div className="flex justify-between text-mainTextColor font-bold items-center  pt-6 pb-6 border-b mb-8">
+                <div className="flex justify-between text-mainTextColor font-bold items-center pt-6 pb-6 border-b mb-8">
                   <p>Subtotal</p>
                   <p>₹ {subtotal} /-</p>
                 </div>
                 <button
-                  className="bg-s2 rounded group border border-p1 py-2 sm:py-3 px-4 sm:px-6 font-medium  border-mainTextColor text text-mainTextColor flex gap-x-3 duration-500"
+                  className="bg-s2 rounded group border border-p1 py-2 sm:py-3 px-4 sm:px-6 font-medium border-mainTextColor text text-mainTextColor flex gap-x-3 duration-500"
                   onClick={() => {
                     Checkout();
                   }}
@@ -215,9 +161,9 @@ const Cart = () => {
         </div>
       </div>
 
-      <section className="stp-15 sbp-30  gap-x-5 flex justify-center flex-wrap">
-        <div className="bg-softBg1  overflow-x-auto">
-          <table className=" m-4 pl-5 min-w-80 ">
+      <section className="stp-15 sbp-30 gap-x-5 flex justify-center flex-wrap">
+        <div className="bg-softBg1 overflow-x-auto">
+          <table className="m-4 pl-5 min-w-80">
             <thead className="">
               <tr className="w-full border-b">
                 <th className="text-start pb-4">Product</th>
@@ -237,66 +183,67 @@ const Cart = () => {
             </thead>
 
             <tbody>
-              {cartItems?.map((item, index) => (
-                <tr key={index} className="w-full border-b ">
-                  <td className="py-3">
-                    <Image src={item.image} alt="product" />
-                  </td>
-                  <td className="text-start pl-3 min-w-60 ">{item.name}</td>
-                  <td className="text-start whitespace-nowrap pl-3">
-                    ₹ {item.price}
-                  </td>
-                  <td className="text-start pl-3">
-                    <div className="flex justify-between items-center text-lg border border-strokeColor w-[130px] px-3">
-                      <button
-                        className="pr-2 remove"
-                        onClick={() => {
-                          handleIncrement(item, -1);
-                        }}
-                      >
-                        <Minus size={16} />
-                      </button>
-                      <div className="flex justify-center items-center">
-                        <p className="w-[50px] outline-none border-x pl-4 py-1 sm:py-2 count">
-                          {item.quantity}
-                        </p>
+              {cartItems && cartItems.length > 0 ? (
+                cartItems.map((item, index) => (
+                  <tr key={index} className="w-full border-b">
+                    <td className="py-3">
+                      <Image src={item.image} alt="product" />
+                    </td>
+                    <td className="text-start pl-3 min-w-60">{item.name}</td>
+                    <td className="text-start whitespace-nowrap pl-3">
+                      ₹ {item.price}
+                    </td>
+                    <td className="text-start pl-3">
+                      <div className="flex justify-between items-center text-lg border border-strokeColor w-[130px] px-3">
+                        <button
+                          className="pr-2 remove"
+                          onClick={() => {
+                            handleIncrement(item, -1);
+                          }}
+                        >
+                          <Minus size={16} />
+                        </button>
+                        <div className="flex justify-center items-center">
+                          <p className="w-[50px] outline-none border-x pl-4 py-1 sm:py-2 count">
+                            {item.quantity}
+                          </p>
+                        </div>
+                        <button
+                          className="pl-2 add"
+                          onClick={() => {
+                            handleIncrement(item, 1);
+                          }}
+                        >
+                          <Plus size={16} />
+                        </button>
                       </div>
+                    </td>
+                    <td className="text-start pl-3">₹ {item.subtotal}</td>
+                    <td className="text-start pl-3">
                       <button
-                        className="pl-2 add"
+                        className="pl-3"
                         onClick={() => {
-                          handleIncrement(item, 1);
+                          handleRemoveFromCart(item);
                         }}
                       >
-                        <Plus size={16} />
+                        <Trash size={24} />
                       </button>
-                    </div>
-                  </td>
-                  <td className="text-start pl-3">₹ {item.subtotal}</td>
-                  <td className="text-start pl-3 ">
-                    <button
-                      className="pl-3"
-                      onClick={() => {
-                        handleRemoveFromCart(item);
-                      }}
-                    >
-                      <Trash size={24} />
-                    </button>
-                  </td>
-                  <td className="text-start px-5">
-                    <button
-                      className=""
-                      onClick={() => {
-                        handleAddToWishlist(item);
-                      }}
-                    >
-                      <Heart size={24} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              {cartItems?.length === 0 && (
-                <tr className="w-full border-b py-14 ">
-                  <td className="py-3 text-center " colSpan={6} rowSpan={3}>
+                    </td>
+                    <td className="text-start px-5">
+                      <button
+                        className=""
+                        onClick={() => {
+                          handleAddToWishlist(item);
+                        }}
+                      >
+                        <Heart size={24} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr className="w-full border-b py-14">
+                  <td className="py-3 text-center" colSpan={7} rowSpan={3}>
                     <PiCalendarSlash size={32} className="mx-auto m-5" />
                     Your Ensurekar Cart is empty
                   </td>
@@ -305,128 +252,17 @@ const Cart = () => {
             </tbody>
           </table>
         </div>
-        <div className="flex justify-start my-10 items-center ">
+        <div className="flex justify-start my-10 items-center">
           <input
             type="text"
-            className="border outline-none px-2 md:px-8 py-2 sm:py-3 text-bodyText placeholder:text-bodyText "
+            className="border outline-none px-2 md:px-8 py-2 sm:py-3 text-bodyText placeholder:text-bodyText"
             placeholder="Coupon Code"
           />
           <button className="bg-p1 border border-p1 py-2 sm:py-3 px-2 sm:px-6 font-medium text-white hover:border-mainTextColor hover:bg-s2 hover:text-mainTextColor duration-500">
             Coupon Code
           </button>
         </div>
-        {/* <div className="md:fle justify-between items-center flex-wrap flex-col  pt-6 gap-6 w-full max-sm:flex-col-reverse hidden">
-          <div className="flex justify-start items-center ">
-            <input
-              type="text"
-              className="border outline-none px-2 md:px-8 py-2 sm:py-3 text-bodyText placeholder:text-bodyText "
-              placeholder="Coupon Code"
-            />
-            <button className="bg-p1 border border-p1 py-2 sm:py-3 px-2 sm:px-6 font-medium text-white hover:border-mainTextColor hover:bg-s2 hover:text-mainTextColor duration-500">
-              Coupon Code
-            </button>
-          </div>
-          <div className="sm:w-2/3 sbp-15">
-            <div className="border p-8 col-span-12 md:col-span-6 md:col-start-4">
-              <div className="flex justify-between items-center pb-6 border-b text-bodyText">
-                <p>Tax</p>
-                <p>₹ {total} + 12% GST</p>
-              </div>
-              <div className="flex justify-between items-center font-medium pt-6 pb-6 border-b mb-8">
-                <p>Subtotal</p>
-                <p>₹ {subtotal} /-</p>
-              </div>
-              <button
-                className="bg-p1 border border-p1 py-2 sm:py-3 px-4 sm:px-6 font-medium text-white hover:border-mainTextColor hover:bg-s2 hover:text-mainTextColor duration-500"
-                onClick={() => {
-                  Checkout();
-                }}
-              >
-                Proceed To Checkout
-              </button>
-            </div>
-          </div>
-        </div> */}
       </section>
-      {/* <section className=" grid grid-cols-12 container sbp-15">
-        <div className="border p-8 col-span-12 md:col-span-6 md:col-start-4">
-          <div className="flex justify-between items-center pb-6 border-b text-bodyText">
-            <p>Tax</p>
-            <p>₹ {total} + 12% GST</p>
-          </div>
-          <div className="flex justify-between items-center font-medium pt-6 pb-6 border-b mb-8">
-            <p>Subtotal</p>
-            <p>₹ {subtotal} /-</p>
-          </div>
-          <button
-            className="bg-p1 border border-p1 py-2 sm:py-3 px-4 sm:px-6 font-medium text-white hover:border-mainTextColor hover:bg-s2 hover:text-mainTextColor duration-500"
-            onClick={() => {
-              Checkout();
-            }}
-          >
-            Proceed To Checkout
-          </button>
-        </div>
-      </section> */}
-      {/* //comment available item demo  */}
-
-      {/* <section className="stp-30 sbp-30 container overflow-hidden">
-        <h2 className=" heading-1 my-14 font-semibold">
-          Available Items (DEMO)
-        </h2>
-        <div className="overflow-x-auto">
-          <table className="min-w-[774px] w-full whitespace-nowrap">
-            <thead className="">
-              <tr className="w-full border-b">
-                <th className="text-start pb-4">Product</th>
-                <th className="text-start pb-4">Name</th>
-                <th className="text-start pb-4">Unit Price</th>
-                <th className="text-start pb-4">Quantity</th>
-                <th className="text-start pb-4">Subtotal</th>
-                <th className="text-start pb-4">Add to Cart</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {itemsData.map((item, index) => (
-                <tr key={index} className="w-full border-b ">
-                  <td className="py-3">
-                    <Image src={item.image} alt="product" />
-                  </td>
-                  <td className="text-start">{item.name}</td>
-                  <td className="text-start">₹ {item.price}</td>
-                  <td className="text-start">
-                    <div className="flex justify-between items-center text-lg border border-strokeColor w-[130px] px-3">
-                      <button className="pr-2 remove" onClick={() => { handleIncrement(item, -1)}}>
-                        <Minus size={16} />
-                      </button>
-                      <div className="flex justify-center items-center">
-                        <p className="w-[50px] outline-none border-x pl-4 py-1 sm:py-2 count">
-                          {item.quantity}
-                        </p>
-                      </div>
-                      <button className="pl-2 add" onClick={() => {handleIncrement(item, 1)}}>
-                        <Plus size={16} />
-                      </button>
-                    </div>
-                  </td>
-                  <td className="text-start">₹ {item.subtotal}</td>
-                  <td className="text-start">
-                    <button
-                      className="bg-p1 border border-p1 py-2 sm:py-3 px-4 sm:px-6 font-medium text-white hover:border-mainTextColor hover:bg-s2 hover:text-mainTextColor duration-500"
-                      onClick={() => {
-                        handleAddToCart(item);
-                      }}
-                    >
-                      Add to Cart
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section> */}
     </div>
   );
 };

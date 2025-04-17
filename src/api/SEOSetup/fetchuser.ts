@@ -2,9 +2,9 @@
 import { User } from "../../../types/User-Type";
 import { SetCookie } from "./CookiesSetup";
 import { GetUserProfile } from "./userProfile";
-const CLIENT_ID = '' ; //process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-const CLIENT_SECRET =''; // process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
-const REDIRECT_URI = ''; //process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
+const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+const CLIENT_SECRET = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
+const REDIRECT_URI = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
 
 if (!CLIENT_ID || !CLIENT_SECRET || !REDIRECT_URI) {
   throw new Error("Missing required environment variables");
@@ -101,8 +101,8 @@ const UserInfo = async (code: string) => {
 };
 
 const HandleGoogleLogin = () => {
-  const CLIENT_ID = ''; // process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
-  const REDIRECT_URI = '';//process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI || "";
+  const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
+  const REDIRECT_URI = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI || "";
 
   const AUTH_URL = `https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&access_type=offline`;
 
@@ -110,7 +110,7 @@ const HandleGoogleLogin = () => {
 };
 
 const PostToServer = async (data: User) => {
-  const NEXT_PUBLIC_API_URL = '';// process.env.NEXT_PUBLIC_API_URL;
+  const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
  
   const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/v1/auth/`, {
   // const response = await fetch(`http://localhost:8000/`, {

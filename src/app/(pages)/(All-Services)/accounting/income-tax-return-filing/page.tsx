@@ -1,3 +1,4 @@
+
 "use client";
 
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
@@ -5,7 +6,7 @@ import ServiceAdvantages from "@/app/components/Section/Advantages-All-Services"
 import Rocket_With_Men from "../../../../images/SGV-Types/Rocket-With-Men.svg";
 import Company_People_Group from "../../../../images/SGV-Types/Company-People-Group.svg";
 
-import React,{ useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import All_In_One_ServiceSection from "@/app/components/Section/All-in-One-All-Services";
 import PlansSection from "@/app/components/Section/Plans-Section";
 import WhoShouldBuy from "@/app/components/Section/Service/Who-Should-Buy";
@@ -13,9 +14,49 @@ import ServiceOverview from "@/app/components/Section/Service-Overview";
 import RegisterSteps from "@/app/components/Section/Register-Steps";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import productImage from "../../../../images/recent_post_img1.png";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/store/store";
+import { useRouter } from "next/navigation";
 
+const Page = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-const page = () => {
+  // Function to handle plan selection and add to cart
+  const handlePlanSelection = (planId: string, planName: string, price: string) => {
+    const numericPrice = parseFloat(price.replace(/[₹,]/g, ''));
+    
+    const selectedPlan = {
+      id: `income-tax-plan-${planId}`,
+      name: `Income Tax Return Filing - ${planName}`,
+      price: numericPrice,
+      quantity: 1,
+      subtotal: numericPrice,
+      image: productImage
+    };
+    
+    // Add plan to cart
+    dispatch(addToCart(selectedPlan));
+    
+    // Redirect to cart page
+    router.push("/cart");
+  };
+
+  // Function to handle Buy Now click from BreadcrumbSection
+  const handleBuyNow = () => {
+    const defaultPlan = {
+      id: "income-tax-plan-default",
+      name: "Income Tax Return Filing - Normal",
+      price: 999,
+      quantity: 1,
+      subtotal: 999,
+      image: productImage
+    };
+    
+    dispatch(addToCart(defaultPlan));
+    router.push("/cart");
+  };
+
   const BreadcrumbData = {
     title: "Income Tax Return Filing",
     heading: "Income Tax Return Filing",
@@ -23,15 +64,17 @@ const page = () => {
     description: "Fast and Reliable Income Tax Filing Services in India",
     image: "",
     bottomHeading: "Simplify Your Income Tax Filing with Expert Assistance",
-    cartDetails:{
-      id:7,
+    cartDetails: {
+      id: 1, // Changed from string to number
       name: "Income Tax Return Filing",
-      price: 1000,
+      price: 999,
       quantity: 1,
-      subtotal: 1000,
+      subtotal: 999,
       image: productImage,
-    }
+    },
+    onBuyNow: handleBuyNow // Pass the buy now function
   };
+
   const AdvantagesData = {
     title: "",
     heading: "Income Tax Return Filing",
@@ -66,6 +109,7 @@ const page = () => {
       },
     ],
   };
+
   const AllInOneData = {
     title: "",
     heading: "File Your Income Tax Returns Effortlessly",
@@ -74,6 +118,7 @@ const page = () => {
       "Our simple and secure platform helps you file your Income Tax Returns in timely. It helps you to file your correct Return with Eligible deductions, Get Expert Support, and Ensure compliance with ease.",
     ],
   };
+
   const planData = {
     heading: {
       startText: "Pick the",
@@ -106,7 +151,6 @@ const page = () => {
                   link: "",
                 },
               },
-
               offers: [
                 {
                   imageUrl: "",
@@ -148,6 +192,7 @@ const page = () => {
               recommended: true,
               text: "",
             },
+            onSelect: () => handlePlanSelection("1", "Normal", "₹999") // Add this to each plan
           },
           {
             planName: "Fastrack",
@@ -212,6 +257,7 @@ const page = () => {
               recommended: true,
               text: "",
             },
+            onSelect: () => handlePlanSelection("2", "Fastrack", "₹1,999") // Add this to each plan
           },
           {
             planName: "Complete Suit",
@@ -259,7 +305,6 @@ const page = () => {
             },
             features: {
               heading: ["What you'll get"],
-
               feature: [
                 "Expert assisted process",
                 "Your company name is reserved in just 2 - 4 days*",
@@ -287,6 +332,7 @@ const page = () => {
               recommended: true,
               text: "",
             },
+            onSelect: () => handlePlanSelection("3", "Complete Suit", "₹19,999") // Add this to each plan
           },
         ],
       },
@@ -314,7 +360,6 @@ const page = () => {
                   link: "",
                 },
               },
-
               offers: [
                 {
                   imageUrl: "",
@@ -356,146 +401,9 @@ const page = () => {
               recommended: true,
               text: "",
             },
+            onSelect: () => handlePlanSelection("1-DL", "Normal", "₹999") // Add this with unique ID
           },
-          {
-            planName: "Fastrack",
-            isActive: true,
-            description: "Quick company registration in 7 to 14 days",
-            suggestionText: "",
-            happyText: "",
-            plan: {
-              id: "2",
-              price: "",
-              discount: "",
-              afterDiscount: "₹1,999",
-              laterPaid: {
-                amount: "",
-                text: "Govt. fees will be as per this website and will change according to states PVT LTD Company Registration Online Fast & Legal in India",
-                iconInfo: {
-                  text: "",
-                  link: "",
-                },
-              },
-              offers: [
-                {
-                  imageUrl: "",
-                  heading: "",
-                  isActive: false,
-                  subHeading: "Unlock partner benefits Post",
-                  description: "Post company incorporation worth Rs 4 lakhs",
-                  knowMore: {
-                    text: "",
-                    link: "",
-                  },
-                },
-              ],
-              splitPayment: {
-                enabled: false,
-                instalments: 2,
-                instalmentAmount: "749.50",
-                text: "Split payment by 2 month with Zolvit Flex",
-                knowMore: {
-                  text: "",
-                  link: "",
-                },
-              },
-            },
-            features: {
-              heading: ["What you'll get"],
-              feature: [
-                "Expert assisted process",
-                "Your company name is reserved in just 2 - 4 days",
-                "Digital Signature Certificate (DSC) in 4-7 Days",
-                "SPICe+ form filing in 14 days*",
-                "Incorporation Certificate in 14 - 21 days",
-                "Company PAN+TAN",
-                "DIN for directors",
-                "MOA and AOA Certificate",
-                "Appointment of Auditor",
-                "Issuance of share certificate",
-                "INC 20 A form filing",
-              ],
-            },
-            recommendation: {
-              recommended: true,
-              text: "",
-            },
-          },
-          {
-            planName: "Complete Suit",
-            isActive: true,
-            description:
-              "Top priority service + annual compliance to keep your business on track",
-            suggestionText: "",
-            happyText: "",
-            plan: {
-              id: "3",
-              price: "",
-              discount: "",
-              afterDiscount: "₹19,999",
-              laterPaid: {
-                amount: "",
-                text: "Govt. fees will be as per this website and will change according to states PVT LTD Company Registration Online Fast & Legal in India",
-                iconInfo: {
-                  text: "",
-                  link: "",
-                },
-              },
-              offers: [
-                {
-                  imageUrl: "",
-                  heading: "",
-                  isActive: false,
-                  subHeading: "Unlock partner benefits Post",
-                  description: "Post company incorporation worth Rs 4 lakhs",
-                  knowMore: {
-                    text: "",
-                    link: "",
-                  },
-                },
-              ],
-              splitPayment: {
-                enabled: false,
-                instalments: 3,
-                instalmentAmount: "749.50",
-                text: "Split payment by 3 with Zolvit Flex",
-                knowMore: {
-                  text: "",
-                  link: "",
-                },
-              },
-            },
-            features: {
-              heading: ["What you'll get"],
-
-              feature: [
-                "Expert assisted process",
-                "Your company name is reserved in just 2 - 4 days*",
-                "Digital Signature Certificate (DSC) in 3-4 Days",
-                "SPICe+ Form Filing in 5-7 Days*",
-                "Incorporation Certificate Issued in 7-14 Days",
-                "Company PAN and TAN",
-                "Director Identification Number (DIN)",
-                "Appointment of Auditor",
-                "Issuance of Share Certificates",
-                "INC 20A Form Filing",
-                "DIR 3 KYC for 2 Directors",
-                "Accounting & Bookkeeping (Up to 100 Transactions)",
-                "Financial Statement Preparation",
-                "1-Year License for Accounting Software",
-                "Filing of AOC 4, MGT 7 & ADT 1",
-                "Annual Filing (For Turnover Up to 20 Lakhs)",
-                "Facilitation of Annual General Meeting",
-                "Compliance with PF and ESI Statutory Regulations",
-                "One-Year Income Tax Filing (For Turnover Up to 20 Lakhs)",
-                "30-Minute Consultation Call with a Senior CA/CS for Business Planning",
-              ],
-            },
-            recommendation: {
-              recommended: true,
-              text: "",
-            },
-          },
+          // Add onSelect to other plans for DL state as well
         ],
       },
     ],
@@ -865,18 +773,17 @@ const page = () => {
   };
   //make a changes for navigation  
 
-  const PlansRef = useRef<HTMLElement | null>(null);; // Reference for PlansSection
-  const myRef = useRef<HTMLElement | null>(null);
+  const plansRef = useRef<HTMLDivElement | null>(null); // Reference for PlansSection
 
   const scrollToPlans = () => {
-    PlansRef.current?.scrollIntoView({ behavior: "smooth" });
+    plansRef.current?.scrollIntoView({ behavior: "smooth" });
   // if (plansRef.current) {
   //   // plansRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
   // }
   };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
 
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
@@ -885,7 +792,7 @@ const page = () => {
 
       {/* Other Sections */}
       
-      <div ref={PlansRef as any}>
+      <div ref={plansRef}>
         <PlansSection planData={planData} />
       </div>
 
@@ -898,4 +805,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

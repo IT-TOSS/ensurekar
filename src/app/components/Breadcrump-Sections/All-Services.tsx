@@ -36,7 +36,7 @@ const BreadcrumbSection = ({
       image: string | StaticImageData;
     };
   };
-  //scrollToPlans: any
+ // scrollToPlans: any
 }) => {
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
@@ -165,7 +165,7 @@ const BreadcrumbSection = ({
                 <button
                   className="py-2.5 min-w-[150px] bg-yellow-400 border rounded  block text-center   hover:border-mainTextColor font-bold duration-500 text-slate-800"
                   // onClick={handleBuy}
-                  // onClick={scrollToPlans} // chnage by Hosting
+                  //onClick={scrollToPlans}
                 >
                   Start Now
                 </button>
