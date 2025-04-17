@@ -30,7 +30,7 @@ export async function seoData({alias, title, description}: {alias?: string; titl
   }
 // return null
   try {
-    const URL = process.env.NEXT_PUBLIC_API_URL;
+    const URL = '/';//process.env.NEXT_PUBLIC_API_URL;
     const response = await axios.get(`${URL}/api/v1/page/${alias}/`);
     const data = response.data.meta;
 console.log("seoData",data)

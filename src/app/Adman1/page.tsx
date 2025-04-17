@@ -11,9 +11,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
-const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
-const CLIENT_SECRET = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET || "";
-const REDIRECT_URI = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI || "";
+const CLIENT_ID = "" ; //process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
+const CLIENT_SECRET =""; // process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET || "";
+const REDIRECT_URI = ""; //process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI || "";
 
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 

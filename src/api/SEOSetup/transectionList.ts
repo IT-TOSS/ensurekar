@@ -1,6 +1,6 @@
 import { GetCookie } from "./CookiesSetup";
 
-const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+const NEXT_PUBLIC_API_URL = '' ; //process.env.NEXT_PUBLIC_API_URL;
 
 const TransectionHistory = async () => {
   const token = await GetCookie();

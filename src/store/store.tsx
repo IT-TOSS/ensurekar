@@ -108,7 +108,7 @@ const initialState: State = {
     { code: "en", name: "English" },
     // Other languages...
   ],
-  localUrl: process.env.NEXT_LOCAL_API_URL || "",
+  localUrl: '', // process.env.NEXT_LOCAL_API_URL || "",
   SeoData : {
     title: themeConfig.SeoData.title,
     description: themeConfig.SeoData.description,

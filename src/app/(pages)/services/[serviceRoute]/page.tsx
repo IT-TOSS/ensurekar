@@ -12,7 +12,7 @@ const ServicePage = async ({
 }: {
   params: { serviceRoute: string };
 }) => {
-  const baseUrl = process.env.PUBLIC_URL || "/";
+  const baseUrl = '/' ;//process.env.PUBLIC_URL || "/";
 
   const response = await fetch(
     `${baseUrl}/api/services/${params.serviceRoute}`,
