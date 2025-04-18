@@ -9,6 +9,7 @@ import Company_People_Group from "../../../../images/SGV-Types/Company-People-Gr
 import React, { useRef, useEffect } from "react";
 import All_In_One_ServiceSection from "@/app/components/Section/All-in-One-All-Services";
 import PlansSection from "@/app/components/Section/Plans-Section";
+import NewPlansSection from "@/app/components/Section/New-Plans-Section";
 import WhoShouldBuy from "@/app/components/Section/Service/Who-Should-Buy";
 import ServiceOverview from "@/app/components/Section/Service-Overview";
 import RegisterSteps from "@/app/components/Section/Register-Steps";
@@ -121,11 +122,15 @@ const Page = () => {
 
   const planData = {
     heading: {
-      startText: "Pick the",
-      blueText: " Business Plan ",
-      endText: "for Your Goals",
+      // startText: "Pick the",
+      startText: "Income Tax",                 
+      blueText: " Return ",
+      endText: "filing plan",
+      // blueText: " Business Plan ",
+      // endText: "for Your Goals",
     },
-    description: "Our Incorporation Expert's Know What is your Need",
+    // description: "Our Incorporation Expert's Know What is your Need",
+    description: "Select the best Product suits you",
     plansData: [
       {
         id: 1,
@@ -793,7 +798,8 @@ const Page = () => {
       {/* Other Sections */}
       
       <div ref={plansRef}>
-        <PlansSection planData={planData} />
+        <NewPlansSection planData={planData} />
+        {/* <PlansSection planData={planData} /> */}
       </div>
 
       {/* <PlansSection planData={planData} /> */}
