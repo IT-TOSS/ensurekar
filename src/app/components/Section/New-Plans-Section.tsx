@@ -2261,9 +2261,7 @@ const PricingPlans = ({ planData }: { planData: PlanData }) => {
                   <div key={`${catIndex}-${featIndex}`} className="grid grid-cols-7 gap-1">
                     <div className="col-span-1 p-2 pl-6 bg-white border-b border-l border-gray-200 flex items-center">
                       <span className="text-xs text-gray-600">{feature.name}</span>
-                      {feature.tooltip && (
-                        <span className="ml-1 text-gray-400 text-xs">ⓘ</span>
-                      )}
+                      
                     </div>
                     {/* Plan feature availability */}
                     {plansData.map((plan) => (
