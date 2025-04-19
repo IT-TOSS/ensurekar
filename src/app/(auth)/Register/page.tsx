@@ -356,7 +356,7 @@ const Register = () => {
       }
 
       const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-      console.log(newOtp+111111 + " : ooo");
+      // console.log(newOtp+111111 + " : ooo");
       setGeneratedOtp(newOtp);
 
       setUserCredential(null);

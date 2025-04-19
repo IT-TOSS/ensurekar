@@ -36,7 +36,7 @@ const BreadcrumbSection = ({
       image: string | StaticImageData;
     };
   };
- // scrollToPlans: any
+  //scrollToPlans: any
 }) => {
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
@@ -85,8 +85,7 @@ const BreadcrumbSection = ({
     //   router.push("/Login");
     // }
   };
-  //  const hanleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-
+  
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>
   ): Promise<void> {
@@ -165,7 +164,7 @@ const BreadcrumbSection = ({
                 <button
                   className="py-2.5 min-w-[150px] bg-yellow-400 border rounded  block text-center   hover:border-mainTextColor font-bold duration-500 text-slate-800"
                   // onClick={handleBuy}
-                  //onClick={scrollToPlans}
+                  // onClick={scrollToPlans}
                 >
                   Start Now
                 </button>

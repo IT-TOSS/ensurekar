@@ -19,6 +19,15 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/store";
 import { useRouter } from "next/navigation";
 
+import BasicPlan from "../../../../images/plan.png";
+import BusinessIncomePlan from "../../../../images/BusinessIncomePlan.png";
+import MultipleEmployerPlan from "../../../../images/MultipleEmployerPlan.png";
+
+import CapitalGainsPlan from "../../../../images/CapitalGainsPlan.png";
+
+import NRIPlan from "../../../../images/NRIPlan.png";
+
+import ForeignIncomePlan from "../../../../images/ForeignIncomePlan.png";
 const Page = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -778,6 +787,362 @@ const Page = () => {
   };
   //make a changes for navigation  
 
+// -- i have make a changes for new Pack within New UI
+
+
+ const plansData = [
+  {
+    id: 1,
+    iconSrc: BasicPlan.src,
+    title: "Basic Plan",
+    subtitle: "",
+    description: "Includes income from one employer, one house property & other sources.",
+    originalPrice: "₹1499",
+    discountedPrice: "₹499",
+    discount: "₹1000 off",
+    features: {
+      "Single Employer": true,
+      "Multiple Employers": false,
+      "One Residential Property": true,
+      "multiple_house": false,
+      "interest_other": true,
+      "capital_gains": false,
+      "presumptive": false,
+      "section_44ad": false,
+      "preparation_filing": true,
+      "schedule": false,
+      "foreign_tax": false,
+      "form_67": false,
+      "foreign_income": false,
+      "non_resident": false,
+      "computation": true,
+      "examination": false,
+      "data_import": true,
+      "document_assistance": true,
+      "verification": true
+    },
+    recommendation: {
+      recommended: true,
+      text: ""
+    },
+    laterPaid: {
+      amount: "₹13,726",
+      text: "+ Govt. Fee (to be paid later)",
+      iconInfo: {
+        text: "Government fees vary by state",
+        link: ""
+      }
+    },
+    offers: [
+      {
+        imageUrl: "",
+        isActive: true,
+        heading: "Special Offer",
+        subHeading: "Unlock partner benefits",
+        description: "Post incorporation worth Rs 2 lakhs",
+        knowMore: {
+          text: "Learn more",
+          link: "#"
+        }
+      }
+    ],
+    splitPayment: {
+      enabled: true,
+      instalments: 2,
+      instalmentAmount: "₹249.50",
+      text: "Split payment by 2 months",
+      knowMore: {
+        text: "Learn more",
+        link: "#"
+      }
+    },
+    navigationUrl: "/cart",
+    onSelect: () => handlePlanSelection("1", "Basic Plan", "₹499") // Add this to each plan
+  },
+  {
+    id: 2,
+    iconSrc: MultipleEmployerPlan.src,
+    title: "Multiple Employer Plan",
+    subtitle: "",
+    description: "Includes everything in Basic + income from multiple employers.",
+    originalPrice: "₹1999",
+    discountedPrice: "₹999",
+    discount: "50% off",
+    features: {
+      "Single Employer": true,
+      "Multiple Employers": true,
+      "One Residential Property": true,
+      "multiple_house": true,
+      "interest_other": true,
+      "capital_gains": false,
+      "presumptive": false,
+      "section_44ad": false,
+      "preparation_filing": true,
+      "schedule": false,
+      "foreign_tax": false,
+      "form_67": false,
+      "foreign_income": false,
+      "non_resident": false,
+      "computation": true,
+      "examination": true,
+      "data_import": true,
+      "document_assistance": true,
+      "verification": true
+    },
+    recommendation: {
+      recommended: true,
+      text: ""
+    },
+    laterPaid: {
+      amount: "₹13,726",
+      text: "+ Govt. Fee (to be paid later)",
+      iconInfo: {
+        text: "Government fees vary by state",
+        link: ""
+      }
+    },
+    splitPayment: {
+      enabled: true,
+      instalments: 2,
+      instalmentAmount: "₹499.50",
+      text: "Split payment by 2 months",
+      knowMore: {
+        text: "Learn more",
+        link: "#"
+      }
+    },
+    navigationUrl: "/cart",
+    onSelect: () => handlePlanSelection("2", "Multiple Employer Plan", "₹499") // Add this to each plan
+  },
+  // More plans...
+  {
+    id: 3,
+    iconSrc: BusinessIncomePlan.src,
+    title: "Business Income Plan",
+    subtitle: "",
+    description: "Covers business/profession income, multiple properties & 44AD/44ADA.",
+    originalPrice: "₹3124",
+    discountedPrice: "₹1499",
+    discount: "52% off",
+    features: {
+      "Single Employer": true,
+      "Multiple Employers": true,
+      "One Residential Property": true,
+      "multiple_house": true,
+      "interest_other": true,
+      "capital_gains": false,
+      "presumptive": false,
+      "section_44ad": true,
+      "preparation_filing": true,
+      "schedule": false,
+      "foreign_tax": false,
+      "form_67": false,
+      "foreign_income": false,
+      "non_resident": false,
+      "computation": true,
+      "examination": false,
+      "data_import": true,
+      "document_assistance": true,
+      "verification": true
+    },
+    recommendation: {
+      recommended: true,
+      text: ""
+    },
+    laterPaid: {
+      amount: "₹13,726",
+      text: "+ Govt. Fee (to be paid later)",
+      iconInfo: {
+        text: "Government fees vary by state",
+        link: ""
+      }
+    },
+    splitPayment: {
+      enabled: true,
+      instalments: 3,
+      instalmentAmount: "₹499.67",
+      text: "Split payment by 3 months",
+      knowMore: {
+        text: "Learn more",
+        link: "#"
+      }
+    },
+    navigationUrl: "/cart",
+    onSelect: () => handlePlanSelection("3", "Business Income Plan", "₹1499") // Add this to each plan
+  },
+  {
+    id: 4,
+    iconSrc: CapitalGainsPlan.src,
+    title: "Capital Gains Plan",
+    subtitle: "",
+    description: "Covers capital gains from investments & relief under Sec 89.",
+    originalPrice: "₹4999",
+    discountedPrice: "₹2499",
+    discount: "50% off",
+    features: {
+      "Single Employer": true,
+      "Multiple Employers": true,
+      "One Residential Property": true,
+      "multiple_house": true,
+      "interest_other": true,
+      "capital_gains": true,
+      "presumptive": true,
+      "section_44ad": true,
+      "preparation_filing": true,
+      "schedule": false,
+      "foreign_tax": false,
+      "form_67": false,
+      "foreign_income": false,
+      "non_resident": false,
+      "computation": true,
+      "examination": true,
+      "data_import": true,
+      "document_assistance": true,
+      "verification": true
+    },
+    recommendation: {
+      recommended: true,
+      text: ""
+    },
+    laterPaid: {
+      amount: "₹13,726",
+      text: "+ Govt. Fee (to be paid later)",
+      iconInfo: {
+        text: "Government fees vary by state",
+        link: ""
+      }
+    },
+    splitPayment: {
+      enabled: true,
+      instalments: 3,
+      instalmentAmount: "₹833",
+      text: "Split payment by 3 months",
+      knowMore: {
+        text: "Learn more",
+        link: "#"
+      }
+    },
+    navigationUrl: "/checkout/capital-gains-plan",
+    onSelect: () => handlePlanSelection("4", "Capital Gains Plan", "₹2499") // Add this to each plan
+  },
+  {
+    id: 5,
+    iconSrc: NRIPlan.src,
+    title: "NRI Plan",
+    subtitle: "",
+    description: "Designed for NRIs with income in India & eligible tax benefits.",
+    originalPrice: "₹9374",
+    discountedPrice: "₹4999",
+    discount: "47% off",
+    features: {
+      "Single Employer": true,
+      "Multiple Employers": true,
+      "One Residential Property": true,
+      "multiple_house": true,
+      "interest_other": true,
+      "capital_gains": true,
+      "presumptive": true,
+      "section_44ad": true,
+      "preparation_filing": true,
+      "schedule": false,
+      "foreign_tax": false,
+      "form_67": false,
+      "foreign_income": true,
+      "non_resident": true,
+      "computation": true,
+      "examination": true,
+      "data_import": true,
+      "document_assistance": true,
+      "verification": true
+    },
+    recommendation: {
+      recommended: true,
+      text: ""
+    },
+    laterPaid: {
+      amount: "₹13,726",
+      text: "+ Govt. Fee (to be paid later)",
+      iconInfo: {
+        text: "Government fees vary by state",
+        link: ""
+      }
+    },
+    splitPayment: {
+      enabled: true,
+      instalments: 3,
+      instalmentAmount: "₹1,666.33",
+      text: "Split payment by 3 months",
+      knowMore: {
+        text: "Learn more",
+        link: "#"
+      }
+    },
+    navigationUrl: "/checkout/nri-plan",
+    onSelect: () => handlePlanSelection("5", "NRI Plan", "₹4999") // Add this to each plan
+  },
+  {
+    id: 6,
+    iconSrc: ForeignIncomePlan.src,
+    title: "Foreign Income Plan",
+    subtitle: "",
+    description: "Covers global income and max benefits under DTAA.",
+    originalPrice: "₹12499",
+    discountedPrice: "₹7999",
+    discount: "36% off",
+    features: {
+      "Single Employer": true,
+      "Multiple Employers": true,
+      "One Residential Property": true,
+      "multiple_house": true,
+      "interest_other": true,
+      "capital_gains": true,
+      "presumptive": true,
+      "section_44ad": true,
+      "preparation_filing": true,
+      "schedule": true,
+      "foreign_tax": true,
+      "form_67": true,
+      "foreign_income": true,
+      "non_resident": false,
+      "computation": true,
+      "examination": true,
+      "data_import": true,
+      "document_assistance": true,
+      "verification": true
+    },
+    recommendation: {
+      recommended: true,
+      text: ""
+    },
+    laterPaid: {
+      amount: "₹13,726",
+      text: "+ Govt. Fee (to be paid later)",
+      iconInfo: {
+        text: "Government fees vary by state",
+        link: ""
+      }
+    },
+    splitPayment: {
+      enabled: true,
+      instalments: 3,
+      instalmentAmount: "₹2,666.33",
+      text: "Split payment by 3 months",
+      knowMore: {
+        text: "Learn more",
+        link: "#"
+      }
+    },
+    navigationUrl: "/checkout/foreign-income-plan",
+    onSelect: () => handlePlanSelection("6", "Foreign Income Plan", "₹7999") // Add this to each plan
+  }
+];
+
+
+
+
+
+
+
   const plansRef = useRef<HTMLDivElement | null>(null); // Reference for PlansSection
 
   const scrollToPlans = () => {
@@ -798,7 +1163,7 @@ const Page = () => {
       {/* Other Sections */}
       
       <div ref={plansRef}>
-        <NewPlansSection planData={planData} />
+        <NewPlansSection planData={planData} plansData={plansData} />
         {/* <PlansSection planData={planData} /> */}
       </div>
 
