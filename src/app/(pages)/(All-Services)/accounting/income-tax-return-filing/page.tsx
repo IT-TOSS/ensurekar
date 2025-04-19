@@ -782,9 +782,9 @@ const Page = () => {
 
   const scrollToPlans = () => {
     plansRef.current?.scrollIntoView({ behavior: "smooth" });
-  // if (plansRef.current) {
-  //   // plansRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  // }
+  if (plansRef.current) {
+    plansRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
   };
   return (
     <>

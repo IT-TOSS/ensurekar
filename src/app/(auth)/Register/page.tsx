@@ -13,7 +13,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { setAuth } from "@/store/themeConfigSlice";
 
-//import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
 
 
 const Register = () => {
@@ -84,7 +84,7 @@ const Register = () => {
   };
 
   const checkOtp = () => {
-    console.log("otp is " + otp + "& " + generatedOtp);
+    // console.log("otp is " + otp + "& " + generatedOtp);
 
     if (otp === generatedOtp) {
       setIsOtpVerified(true);
@@ -132,11 +132,11 @@ const Register = () => {
       if (!userCredential && formData.email && formData.password) {
         const credential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
 
-        console.log(credential, " I am credential by Created my Krishna");
+        // console.log(credential, " I am credential by Created my Krishna");
 
         const user = credential.user;
 
-        console.log(user, " I am User by Created my Krishna");
+        // console.log(user, " I am User by Created my Krishna");
 
         await updateProfile(user, {
           displayName: `${formData.firstName} ${formData.lastName}`,
@@ -216,7 +216,7 @@ const Register = () => {
         });
 
         const result = await response.json();
-        console.log(result, " I am result by Created my Krishna completed ebery thing");
+        // console.log(result, " I am result by Created my Krishna completed ebery thing");
 
         if (response.ok) {
           console.log("User data successfully sent to backend:", result);
@@ -264,7 +264,7 @@ const Register = () => {
         const user = userCredential.user;
         const isNewUser = userCredential.additionalUserInfo?.isNewUser;
 
-        console.log(user, " I am User by Google Sign In by Krishna");
+        // console.log(user, " I am User by Google Sign In by Krishna");
 
         if (isNewUser) {
           await setDoc(doc(db, "users", user.uid), {
@@ -356,7 +356,7 @@ const Register = () => {
       }
 
       const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-      console.log(newOtp + " : generated OTP");
+      console.log(newOtp+111111 + " : ooo");
       setGeneratedOtp(newOtp);
 
       setUserCredential(null);
@@ -578,7 +578,7 @@ const Register = () => {
                 };
         
                 const user = await signInWithGoogle();
-        console.log(user, "user Created by Krishna coming from firebase");
+        // console.log(user, "user Created by Krishna coming from firebase");
         
         if (user && user.uid) {
           const displayName = user.displayName;
@@ -596,7 +596,7 @@ const Register = () => {
             password: user.uid.slice(0, 8)         
           };
           
-          console.log(payload, "I am result by Google Sign In by Krishna");
+          // console.log(payload, "I am result by Google Sign In by Krishna");
           
           // First check if the user exists in the database
           const response = await fetch('/api/CheckGoogleLogin', {
@@ -608,8 +608,8 @@ const Register = () => {
           });
           
           const userData = await response.json();
-          console.log(userData, "user and result by Google Sign In by Krishna from backend");
-          console.log(userData.exists);
+          // console.log(userData, "user and result by Google Sign In by Krishna from backend");
+          // console.log(userData.exists);
           
           // If user doesn't exist, redirect to registration
           if (!userData.exists) {

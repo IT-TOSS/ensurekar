@@ -479,7 +479,7 @@ const Login = () => {
       // Krishna Code
       const user = await signInWithGoogle();
   
-      console.log(user, "user Created by Krishna coming fron firbase");
+      // console.log(user, "user Created by Krishna coming fron firbase");
   
       if (user && user.uid) {
         const displayName = user.displayName ;
@@ -497,7 +497,7 @@ const Login = () => {
           password: user.uid.slice(0, 8)         
         };
   
-        console.log(payload, " I am result by Google Sign In by Krishna");
+        // console.log(payload, " I am result by Google Sign In by Krishna");
   
         const response = await fetch('/api/CheckGoogleLogin', {
           method: 'POST',
@@ -508,9 +508,9 @@ const Login = () => {
         });
   
         const userData = await response.json();
-        console.log(userData, "user and result by Google Sign In by Krishna from backend");
+        // console.log(userData, "user and result by Google Sign In by Krishna from backend");
 
-        console.log(userData.exists )
+        // console.log(userData.exists )
   
         //------------krishna Code-------------
   
