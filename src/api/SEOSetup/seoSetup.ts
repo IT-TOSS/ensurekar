@@ -70,6 +70,7 @@
 
 // "use client";
 
+
 import { StaticImageData } from "next/image";
 import axios from "axios";
 // import { useDispatch, useSelector } from "react-redux";
