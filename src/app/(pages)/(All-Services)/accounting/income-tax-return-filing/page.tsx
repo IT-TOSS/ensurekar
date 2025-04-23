@@ -16,6 +16,7 @@ import RegisterSteps from "@/app/components/Section/Register-Steps";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import productImage from "../../../../images/recent_post_img1.png";
 import { useDispatch } from "react-redux";
+import Script from "next/script";
 import { addToCart } from "@/store/store";
 import { useRouter } from "next/navigation";
 
@@ -1139,10 +1140,6 @@ const Page = () => {
 
 
 
-
-
-
-
   const plansRef = useRef<HTMLDivElement | null>(null); // Reference for PlansSection
 
   const scrollToPlans = () => {
@@ -1153,6 +1150,35 @@ const Page = () => {
   };
   return (
     <>
+
+     {/* Facebook Meta Pixel */}
+     <Script id="facebook-pixel" strategy="afterInteractive">
+      {`
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1163338854969827');
+        fbq('track', 'PageView');
+      `}
+    </Script>
+
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        style={{ display: 'none' }}
+        src="https://www.facebook.com/tr?id=1163338854969827&ev=PageView&noscript=1"
+      />
+    </noscript>
+
+
+        {/* my actual code*/}
+
       <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
 
