@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import CreateConnection from './../../../lib/db.js';
+import CreateConnection from './../../../lib/Rdb.js';
 
 export async function GET() {
 

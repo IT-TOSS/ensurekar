@@ -171,12 +171,12 @@
 //       try {
 //         const response = await GetUserProfile("GET")
 //         setFormData(response)
-        
+
 //         // Update inputFormData with API data
 //         if (response) {
 //           setInputFormData(prevData => {
 //             const newData = { ...prevData };
-            
+
 //             // Map API data to our form structure
 //             for (const section in response) {
 //               if (section in newData && typeof response[section] === 'object') {
@@ -188,7 +188,7 @@
 //             }
 //             console.log("i am new data---"); 
 //             console.log(inputFormData);
-            
+
 //             return newData;
 //           });
 //         }
@@ -196,7 +196,7 @@
 //         console.error("Error fetching user profile:", error)
 //       }
 //     }
-    
+
 //     if (!existingFirebaseData) {
 //       getUserData()
 //     }
@@ -211,13 +211,13 @@
 //         setLoading(false)
 //         return
 //       }
-      
+
 //       if (firebaseUserId) {
 //         // If we have a document ID, get the document directly
 //         try {
 //           const docRef = doc(db, "users", firebaseUserId)
 //           const docSnap = await getDoc(docRef)
-          
+
 //           if (docSnap.exists()) {
 //             const userData = docSnap.data()
 //             setFirebaseData(userData)
@@ -226,18 +226,18 @@
 //         } catch (error) {
 //           console.error("Error getting document by ID:", error)
 //         }
-        
+
 //         setLoading(false)
 //         return
 //       }
-      
+
 //       if (userInfo?.email) {
 //         await getUserByEmail(userInfo.email)
 //       } else {
 //         setLoading(false)
 //       }
 //     }
-    
+
 //     getUserDataFromFirebase()
 //   }, [existingFirebaseData, firebaseUserId, userInfo])
 
@@ -250,12 +250,12 @@
 
 //     try {
 //       setLoading(true)
-      
+
 //       // First try direct document ID (in case email is used as document ID)
 //       try {
 //         const docRef = doc(db, "users", email)
 //         const docSnap = await getDoc(docRef)
-        
+
 //         if (docSnap.exists()) {
 //           const userData = docSnap.data()
 //           setFirebaseData(userData)
@@ -267,7 +267,7 @@
 //       } catch (directError) {
 //         console.log("Direct document access failed, trying query...")
 //       }
-      
+
 //       // Create a query to find users with the matching email
 //       const usersRef = collection(db, "users")
 //       const q = query(usersRef, where("email", "==", email))
@@ -283,11 +283,11 @@
 //       const userDoc = querySnapshot.docs[0]
 //       const userData = userDoc.data()
 //       const docId = userDoc.id
-      
+
 //       console.log("Firebase user data found:", userData)
 //       setFirebaseData(userData)
 //       setUserId(docId)
-      
+
 //       // Process the data immediately to populate the form
 //       processFirebaseData(userData)
 //       setLoading(false)
@@ -368,11 +368,11 @@
 //   // Handle form input changes - FIXED VERSION
 //   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
 //     const { name, value } = e.target
-    
+
 //     // Check if the name includes a dot (section.field format)
 //     if (name.includes(".")) {
 //       const [sectionName, fieldName] = name.split(".")
-      
+
 //       setInputFormData(prevData => ({
 //         ...prevData,
 //         [sectionName]: {
@@ -383,7 +383,7 @@
 //     } else {
 //       // For inputs without section prefix, we need to determine which section it belongs to
 //       let sectionName = ""
-      
+
 //       // Check which section this field belongs to
 //       if (Object.keys(inputFormData.personal).includes(name)) {
 //         sectionName = "personal"
@@ -396,7 +396,7 @@
 //       } else if (Object.keys(inputFormData.address).includes(name)) {
 //         sectionName = "address"
 //       }
-      
+
 //       if (sectionName) {
 //         setInputFormData(prevData => ({
 //           ...prevData,
@@ -430,7 +430,7 @@
 //     try {
 //       // Prepare data for Firebase
 //       const flattenedData: Record<string, any> = {}
-      
+
 //       // Flatten the form data structure with dot notation for Firebase
 //       Object.entries(formData).forEach(([section, sectionData]: [string, any]) => {
 //         if (section !== "document") {
@@ -441,10 +441,10 @@
 //           })
 //         }
 //       })
-      
+
 //       // Add email at root level for easier queries
 //       flattenedData.email = userInfo.email
-      
+
 //       // Update or create the user document
 //       if (userId) {
 //         // If we have a userId, update the existing document
@@ -462,7 +462,7 @@
 //           setUserId(newDocRef.id)
 //         }
 //       }
-      
+
 //       return true
 //     } catch (error) {
 //       console.error("Error updating user in Firebase:", error)
@@ -478,17 +478,17 @@
 //     //   return
 //     // }
 
-    
+
 //     try {
 //       // First update in Firebase
-      
+
 //       // if(validate()){
 //       //   return;
 //       // }
-      
+
 //       setLoading(true)
 //       const firebaseSuccess = await updateUserInFirebase(inputFormData)
-      
+
 //       // Create a FormData object for server API submission
 //       const formDataToSend = new FormData()
 
@@ -507,7 +507,7 @@
 //           formDataToSend.append(`document.${key}`, file)
 //         }
 //       })
-      
+
 
 //       try {
 //         // Send the data to the server API
@@ -535,10 +535,10 @@
 //       setLoading(false)
 //     }
 //   }
-  
+
 //   // Fix: Create this function for Contact tab
 //   const handlePersonalInformation = handleSubmit;
-  
+
 //   const Tabs = ["Personal", "Company", "Identity", "Bank", "Contact"]
 
 //   return (
@@ -1101,384 +1101,384 @@
 
 
 
-  // const [inputFormData, setInputFormData] = useState<InitialFormData>(initialFormData)
-  // const userInfo = useSelector((state: IRootState) => state.themeConfig.userInfo)
+// const [inputFormData, setInputFormData] = useState<InitialFormData>(initialFormData)
+// const userInfo = useSelector((state: IRootState) => state.themeConfig.userInfo)
 
-  // // Fetch user profile data from API
-  // useEffect(() => {
-  //   const getUserData = async () => {
-  //     try {
-  //       const response = await GetUserProfile("GET")
-  //       setFormData(response)
-        
-  //       // Update inputFormData with API data
-  //       if (response) {
-  //         setInputFormData(prevData => {
-  //           const newData = { ...prevData };
-            
-  //           // Map API data to our form structure
-  //           for (const section in response) {
-  //             if (section in newData && typeof response[section] === 'object') {
-  //               newData[section as keyof InitialFormData] = {
-  //                 ...(newData[section as keyof InitialFormData]),
-  //                 ...response[section]
-  //               }
-  //             }
-  //           }
-  //           console.log("i am new data---"); 
-  //           console.log(inputFormData);
-            
-  //           return newData;
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching user profile:", error)
-  //     }
-  //   }
-    
-  //   if (!existingFirebaseData) {
-  //     getUserData()
-  //   }
-  // }, [profileData, existingFirebaseData])
+// // Fetch user profile data from API
+// useEffect(() => {
+//   const getUserData = async () => {
+//     try {
+//       const response = await GetUserProfile("GET")
+//       setFormData(response)
 
-  // // Get user data from Firebase by email or use existing data
-  // useEffect(() => {
-  //   const getUserDataFromFirebase = async () => {
-  //     if (existingFirebaseData) {
-  //       // Use existing Firebase data passed from parent
-  //       processFirebaseData(existingFirebaseData)
-  //       setLoading(false)
-  //       return
-  //     }
-      
-  //     if (firebaseUserId) {
-  //       // If we have a document ID, get the document directly
-  //       try {
-  //         const docRef = doc(db, "users", firebaseUserId)
-  //         const docSnap = await getDoc(docRef)
-          
-  //         if (docSnap.exists()) {
-  //           const userData = docSnap.data()
-  //           setFirebaseData(userData)
-  //           processFirebaseData(userData)
-  //         }
-  //       } catch (error) {
-  //         console.error("Error getting document by ID:", error)
-  //       }
-        
-  //       setLoading(false)
-  //       return
-  //     }
-      
-  //     if (userInfo?.email) {
-  //       await getUserByEmail(userInfo.email)
-  //     } else {
-  //       setLoading(false)
-  //     }
-  //   }
-    
-  //   getUserDataFromFirebase()
-  // }, [existingFirebaseData, firebaseUserId, userInfo])
+//       // Update inputFormData with API data
+//       if (response) {
+//         setInputFormData(prevData => {
+//           const newData = { ...prevData };
 
-  // // Get user data from Firebase by email
-  // const getUserByEmail = async (email: string): Promise<void> => {
-  //   if (!email) {
-  //     console.error("No email provided to getUserByEmail")
-  //     return
-  //   }
+//           // Map API data to our form structure
+//           for (const section in response) {
+//             if (section in newData && typeof response[section] === 'object') {
+//               newData[section as keyof InitialFormData] = {
+//                 ...(newData[section as keyof InitialFormData]),
+//                 ...response[section]
+//               }
+//             }
+//           }
+//           console.log("i am new data---"); 
+//           console.log(inputFormData);
 
-  //   try {
-  //     setLoading(true)
-      
-  //     // First try direct document ID (in case email is used as document ID)
-  //     try {
-  //       // const docRef = doc(db, "users", email)
-  //       // const docSnap = await getDoc(docRef)
-        
-  //       // if (docSnap.exists()) {
-  //       //   const userData = docSnap.data()
-  //       //   setFirebaseData(userData)
-  //       //   setUserId(email)
-  //       //   processFirebaseData(userData)
-  //       //   setLoading(false)
-  //       //   return
-  //       // }
-  //     } catch (directError) {
-  //       console.log("Direct document access failed, trying query...")
-  //     }
-      
-  //     // Create a query to find users with the matching email
-  //     const usersRef = collection(db, "users")
-  //     const q = query(usersRef, where("email", "==", email))
-  //     const querySnapshot = await getDocs(q)
+//           return newData;
+//         });
+//       }
+//     } catch (error) {
+//       console.error("Error fetching user profile:", error)
+//     }
+//   }
 
-  //     if (querySnapshot.empty) {
-  //       console.log("No user found with email:", email)
-  //       setLoading(false)
-  //       return
-  //     }
+//   if (!existingFirebaseData) {
+//     getUserData()
+//   }
+// }, [profileData, existingFirebaseData])
 
-  //     // Get the first matching document
-  //     const userDoc = querySnapshot.docs[0]
-  //     const userData = userDoc.data()
-  //     const docId = userDoc.id
-      
-  //     console.log("Firebase user data found:", userData)
-  //     setFirebaseData(userData)
-  //     setUserId(docId)
-      
-  //     // Process the data immediately to populate the form
-  //     processFirebaseData(userData)
-  //     setLoading(false)
-  //   } catch (error) {
-  //     console.error("Error fetching user data:", error)
-  //     setLoading(false)
-  //   }
-  // }
+// // Get user data from Firebase by email or use existing data
+// useEffect(() => {
+//   const getUserDataFromFirebase = async () => {
+//     if (existingFirebaseData) {
+//       // Use existing Firebase data passed from parent
+//       processFirebaseData(existingFirebaseData)
+//       setLoading(false)
+//       return
+//     }
 
-  // // Process Firebase data to populate form
-  // const processFirebaseData = (data: any) => {
-  //   if (!data) return
+//     if (firebaseUserId) {
+//       // If we have a document ID, get the document directly
+//       try {
+//         const docRef = doc(db, "users", firebaseUserId)
+//         const docSnap = await getDoc(docRef)
 
-  //   const newFormData = { ...initialFormData }
+//         if (docSnap.exists()) {
+//           const userData = docSnap.data()
+//           setFirebaseData(userData)
+//           processFirebaseData(userData)
+//         }
+//       } catch (error) {
+//         console.error("Error getting document by ID:", error)
+//       }
 
-  //   // Handle flat data structure with dot notation (Firebase format)
-  //   Object.keys(data).forEach((key) => {
-  //     if (key.includes(".")) {
-  //       const [section, field] = key.split(".")
-  //       if (section in newFormData && field in newFormData[section as keyof InitialFormData]) {
-  //         (newFormData[section as keyof InitialFormData] as any)[field] = data[key]
-  //       }
-  //     } else if (key === "email") {
-  //       // Handle email specially if it's at the root level
-  //       newFormData.address.email = data.email
-  //     }
-  //   })
+//       setLoading(false)
+//       return
+//     }
 
-  //   // Also look for nested objects
-  //   for (const section in newFormData) {
-  //     if (data[section]) {
-  //       for (const field in newFormData[section as keyof InitialFormData]) {
-  //         if (data[section][field] !== undefined) {
-  //           (newFormData[section as keyof InitialFormData] as any)[field] = data[section][field]
-  //         }
-  //       }
-  //     }
-  //   }
+//     if (userInfo?.email) {
+//       await getUserByEmail(userInfo.email)
+//     } else {
+//       setLoading(false)
+//     }
+//   }
 
-  //   // Set basic user info from Redux if not already set
-  //   if (userInfo) {
-  //     newFormData.personal.firstName = newFormData.personal.firstName || userInfo.Fname || ""
-  //     newFormData.personal.lastName = newFormData.personal.lastName || userInfo.Lname || ""
-  //     newFormData.personal.userName = newFormData.personal.userName || userInfo.username || ""
-  //     newFormData.address.email = newFormData.address.email || userInfo.email || ""
-  //     newFormData.address.contactNo = newFormData.address.contactNo || userInfo.contact || ""
-  //   }
+//   getUserDataFromFirebase()
+// }, [existingFirebaseData, firebaseUserId, userInfo])
 
-  //   setInputFormData(newFormData)
-  // }
+// // Get user data from Firebase by email
+// const getUserByEmail = async (email: string): Promise<void> => {
+//   if (!email) {
+//     console.error("No email provided to getUserByEmail")
+//     return
+//   }
 
-  // // Form validation
-  // const validate = () => {
-  //   let valid = true
-  //   const newErrors = { ...errors }
+//   try {
+//     setLoading(true)
 
-  //   if (!inputFormData.personal.userName) {
-  //     newErrors.userName = "Username is required"
-  //     valid = false
-  //   }
+//     // First try direct document ID (in case email is used as document ID)
+//     try {
+//       // const docRef = doc(db, "users", email)
+//       // const docSnap = await getDoc(docRef)
 
-  //   // Add more validation as needed
-  //   // For example:
-  //   if (inputFormData.identity.pan && !/[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(inputFormData.identity.pan)) {
-  //     newErrors.pan = "Invalid PAN format"
-  //     valid = false
-  //   }
+//       // if (docSnap.exists()) {
+//       //   const userData = docSnap.data()
+//       //   setFirebaseData(userData)
+//       //   setUserId(email)
+//       //   processFirebaseData(userData)
+//       //   setLoading(false)
+//       //   return
+//       // }
+//     } catch (directError) {
+//       console.log("Direct document access failed, trying query...")
+//     }
 
-  //   if (inputFormData.identity.aadhar && !/^\d{12}$/.test(inputFormData.identity.aadhar)) {
-  //     newErrors.aadhar = "Aadhar should be 12 digits"
-  //     valid = false
-  //   }
+//     // Create a query to find users with the matching email
+//     const usersRef = collection(db, "users")
+//     const q = query(usersRef, where("email", "==", email))
+//     const querySnapshot = await getDocs(q)
 
-  //   setErrors(newErrors)
-  //   return valid
-  // }
+//     if (querySnapshot.empty) {
+//       console.log("No user found with email:", email)
+//       setLoading(false)
+//       return
+//     }
 
-  // // Handle form input changes - FIXED VERSION
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-  //   const { name, value } = e.target
-    
-  //   // Check if the name includes a dot (section.field format)
-  //   if (name.includes(".")) {
-  //     const [sectionName, fieldName] = name.split(".")
-      
-  //     setInputFormData(prevData => ({
-  //       ...prevData,
-  //       [sectionName]: {
-  //         ...(prevData[sectionName as keyof InitialFormData]),
-  //         [fieldName]: value
-  //       }
-  //     }))
-  //   } else {
-  //     // For inputs without section prefix, we need to determine which section it belongs to
-  //     let sectionName = ""
-      
-  //     // Check which section this field belongs to
-  //     if (Object.keys(inputFormData.personal).includes(name)) {
-  //       sectionName = "personal"
-  //     } else if (Object.keys(inputFormData.company).includes(name)) {
-  //       sectionName = "company"
-  //     } else if (Object.keys(inputFormData.identity).includes(name)) {
-  //       sectionName = "identity"
-  //     } else if (Object.keys(inputFormData.bank).includes(name)) {
-  //       sectionName = "bank"
-  //     } else if (Object.keys(inputFormData.address).includes(name)) {
-  //       sectionName = "address"
-  //     }
-      
-  //     if (sectionName) {
-  //       setInputFormData(prevData => ({
-  //         ...prevData,
-  //         [sectionName]: {
-  //           ...(prevData[sectionName as keyof InitialFormData] as any),
-  //           [name]: value
-  //         }
-  //       }))
-  //     }
-  //   }
-  // }
+//     // Get the first matching document
+//     const userDoc = querySnapshot.docs[0]
+//     const userData = userDoc.data()
+//     const docId = userDoc.id
 
-  // // Handle file uploads
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, files } = e.target
-  //   if (files && files.length > 0) {
-  //     setInputFormData((prevData) => ({
-  //       ...prevData,
-  //       document: { ...prevData.document, [name]: files[0] },
-  //     }))
-  //   }
-  // }
+//     console.log("Firebase user data found:", userData)
+//     setFirebaseData(userData)
+//     setUserId(docId)
 
-  // // Update user profile in Firebase
-  // const updateUserInFirebase = async (formData: any) => {
-  //   if (!userInfo?.email) {
-  //     console.error("No user email available")
-  //     return false
-  //   }
+//     // Process the data immediately to populate the form
+//     processFirebaseData(userData)
+//     setLoading(false)
+//   } catch (error) {
+//     console.error("Error fetching user data:", error)
+//     setLoading(false)
+//   }
+// }
 
-  //   try {
-  //     // Prepare data for Firebase
-  //     const flattenedData: Record<string, any> = {}
-      
-  //     // Flatten the form data structure with dot notation for Firebase
-  //     Object.entries(formData).forEach(([section, sectionData]: [string, any]) => {
-  //       if (section !== "document") {
-  //         Object.entries(sectionData).forEach(([key, value]) => {
-  //           if (value !== null && value !== "") {
-  //             flattenedData[`${section}.${key}`] = value
-  //           }
-  //         })
-  //       }
-  //     })
-      
-  //     // Add email at root level for easier queries
-  //     flattenedData.email = userInfo.email
-      
-  //     // Update or create the user document
-  //     if (userId) {
-  //       // If we have a userId, update the existing document
-  //       await setDoc(doc(db, "users", userId), flattenedData, { merge: true })
-  //     } else {
-  //       // Try using email as the document ID first
-  //       try {
-  //         await setDoc(doc(db, "users", userInfo.email), flattenedData)
-  //         setUserId(userInfo.email)
-  //       } catch (error) {
-  //         // If that fails, create a new document with auto-generated ID
-  //         const usersRef = collection(db, "users")
-  //         const newDocRef = doc(usersRef)
-  //         await setDoc(newDocRef, flattenedData)
-  //         setUserId(newDocRef.id)
-  //       }
-  //     }
-      
-  //     return true
-  //   } catch (error) {
-  //     console.error("Error updating user in Firebase:", error)
-  //     return false
-  //   }
-  // }
+// // Process Firebase data to populate form
+// const processFirebaseData = (data: any) => {
+//   if (!data) return
 
-  // // Handle form submission
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault()
+//   const newFormData = { ...initialFormData }
 
-  //   if (validate()) { // here we peform update operation
-  //     return
-  //   }
+//   // Handle flat data structure with dot notation (Firebase format)
+//   Object.keys(data).forEach((key) => {
+//     if (key.includes(".")) {
+//       const [section, field] = key.split(".")
+//       if (section in newFormData && field in newFormData[section as keyof InitialFormData]) {
+//         (newFormData[section as keyof InitialFormData] as any)[field] = data[key]
+//       }
+//     } else if (key === "email") {
+//       // Handle email specially if it's at the root level
+//       newFormData.address.email = data.email
+//     }
+//   })
 
-    
-  //   try {
-  //     // First update in Firebase
-      
-  //     // if(validate()){
-  //     //   return;
-  //     // }
-      
-  //     setLoading(true)
-  //     const firebaseSuccess = await updateUserInFirebase(inputFormData)
-      
-  //     // Create a FormData object for server API submission
-  //     const formDataToSend = new FormData()
+//   // Also look for nested objects
+//   for (const section in newFormData) {
+//     if (data[section]) {
+//       for (const field in newFormData[section as keyof InitialFormData]) {
+//         if (data[section][field] !== undefined) {
+//           (newFormData[section as keyof InitialFormData] as any)[field] = data[section][field]
+//         }
+//       }
+//     }
+//   }
 
-  //     // Add data from each section
-  //     Object.entries(inputFormData).forEach(([section, sectionData]: [string, any]) => {
-  //       if (section !== "document") {
-  //         Object.entries(sectionData).forEach(([key, value]) => {
-  //           if (value) formDataToSend.append(`${section}.${key}`, value as string)
-  //         })
-  //       }
-  //     })
+//   // Set basic user info from Redux if not already set
+//   if (userInfo) {
+//     newFormData.personal.firstName = newFormData.personal.firstName || userInfo.Fname || ""
+//     newFormData.personal.lastName = newFormData.personal.lastName || userInfo.Lname || ""
+//     newFormData.personal.userName = newFormData.personal.userName || userInfo.username || ""
+//     newFormData.address.email = newFormData.address.email || userInfo.email || ""
+//     newFormData.address.contactNo = newFormData.address.contactNo || userInfo.contact || ""
+//   }
 
-  //     // Add files
-  //     Object.entries(inputFormData.document).forEach(([key, file]) => {
-  //       if (file instanceof File) {
-  //         formDataToSend.append(`document.${key}`, file)
-  //       }
-  //     })
-      
+//   setInputFormData(newFormData)
+// }
 
-  //     try {
-  //       // Send the data to the server API
+// // Form validation
+// const validate = () => {
+//   let valid = true
+//   const newErrors = { ...errors }
 
-  //       console.log("i am Data whose going to backend")
-  //       const response = await axios.post("http://localhost:4000/v1/setting/update-user-info", formDataToSend)
-  //       console.log("API Success:", response)
-  //     } catch (apiError) {
-  //       console.error("API update error:", apiError)
-  //       // Continue - we'll still consider it a success if Firebase updated
-  //     }
+//   if (!inputFormData.personal.userName) {
+//     newErrors.userName = "Username is required"
+//     valid = false
+//   }
 
-  //     setSuccessMessage(firebaseSuccess 
-  //       ? "Profile updated successfully!" 
-  //       : "There was an issue updating your profile. Please try again.")
+//   // Add more validation as needed
+//   // For example:
+//   if (inputFormData.identity.pan && !/[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(inputFormData.identity.pan)) {
+//     newErrors.pan = "Invalid PAN format"
+//     valid = false
+//   }
 
-  //     // Clear success message after 3 seconds
-  //     setTimeout(() => {
-  //       setSuccessMessage("")
-  //     }, 3000)
-  //   } catch (error) {
-  //     console.error("Error submitting form:", error)
-  //     setSuccessMessage("There was an error updating your profile. Please try again.")
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
-  
-  // // Fix: Create this function for Contact tab
-  // const handlePersonalInformation = handleSubmit;
-  
-  // const Tabs = ["Personal", "Company", "Identity", "Bank", "Contact"]
+//   if (inputFormData.identity.aadhar && !/^\d{12}$/.test(inputFormData.identity.aadhar)) {
+//     newErrors.aadhar = "Aadhar should be 12 digits"
+//     valid = false
+//   }
+
+//   setErrors(newErrors)
+//   return valid
+// }
+
+// // Handle form input changes - FIXED VERSION
+// const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+//   const { name, value } = e.target
+
+//   // Check if the name includes a dot (section.field format)
+//   if (name.includes(".")) {
+//     const [sectionName, fieldName] = name.split(".")
+
+//     setInputFormData(prevData => ({
+//       ...prevData,
+//       [sectionName]: {
+//         ...(prevData[sectionName as keyof InitialFormData]),
+//         [fieldName]: value
+//       }
+//     }))
+//   } else {
+//     // For inputs without section prefix, we need to determine which section it belongs to
+//     let sectionName = ""
+
+//     // Check which section this field belongs to
+//     if (Object.keys(inputFormData.personal).includes(name)) {
+//       sectionName = "personal"
+//     } else if (Object.keys(inputFormData.company).includes(name)) {
+//       sectionName = "company"
+//     } else if (Object.keys(inputFormData.identity).includes(name)) {
+//       sectionName = "identity"
+//     } else if (Object.keys(inputFormData.bank).includes(name)) {
+//       sectionName = "bank"
+//     } else if (Object.keys(inputFormData.address).includes(name)) {
+//       sectionName = "address"
+//     }
+
+//     if (sectionName) {
+//       setInputFormData(prevData => ({
+//         ...prevData,
+//         [sectionName]: {
+//           ...(prevData[sectionName as keyof InitialFormData] as any),
+//           [name]: value
+//         }
+//       }))
+//     }
+//   }
+// }
+
+// // Handle file uploads
+// const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//   const { name, files } = e.target
+//   if (files && files.length > 0) {
+//     setInputFormData((prevData) => ({
+//       ...prevData,
+//       document: { ...prevData.document, [name]: files[0] },
+//     }))
+//   }
+// }
+
+// // Update user profile in Firebase
+// const updateUserInFirebase = async (formData: any) => {
+//   if (!userInfo?.email) {
+//     console.error("No user email available")
+//     return false
+//   }
+
+//   try {
+//     // Prepare data for Firebase
+//     const flattenedData: Record<string, any> = {}
+
+//     // Flatten the form data structure with dot notation for Firebase
+//     Object.entries(formData).forEach(([section, sectionData]: [string, any]) => {
+//       if (section !== "document") {
+//         Object.entries(sectionData).forEach(([key, value]) => {
+//           if (value !== null && value !== "") {
+//             flattenedData[`${section}.${key}`] = value
+//           }
+//         })
+//       }
+//     })
+
+//     // Add email at root level for easier queries
+//     flattenedData.email = userInfo.email
+
+//     // Update or create the user document
+//     if (userId) {
+//       // If we have a userId, update the existing document
+//       await setDoc(doc(db, "users", userId), flattenedData, { merge: true })
+//     } else {
+//       // Try using email as the document ID first
+//       try {
+//         await setDoc(doc(db, "users", userInfo.email), flattenedData)
+//         setUserId(userInfo.email)
+//       } catch (error) {
+//         // If that fails, create a new document with auto-generated ID
+//         const usersRef = collection(db, "users")
+//         const newDocRef = doc(usersRef)
+//         await setDoc(newDocRef, flattenedData)
+//         setUserId(newDocRef.id)
+//       }
+//     }
+
+//     return true
+//   } catch (error) {
+//     console.error("Error updating user in Firebase:", error)
+//     return false
+//   }
+// }
+
+// // Handle form submission
+// const handleSubmit = async (e: React.FormEvent) => {
+//   e.preventDefault()
+
+//   if (validate()) { // here we peform update operation
+//     return
+//   }
+
+
+//   try {
+//     // First update in Firebase
+
+//     // if(validate()){
+//     //   return;
+//     // }
+
+//     setLoading(true)
+//     const firebaseSuccess = await updateUserInFirebase(inputFormData)
+
+//     // Create a FormData object for server API submission
+//     const formDataToSend = new FormData()
+
+//     // Add data from each section
+//     Object.entries(inputFormData).forEach(([section, sectionData]: [string, any]) => {
+//       if (section !== "document") {
+//         Object.entries(sectionData).forEach(([key, value]) => {
+//           if (value) formDataToSend.append(`${section}.${key}`, value as string)
+//         })
+//       }
+//     })
+
+//     // Add files
+//     Object.entries(inputFormData.document).forEach(([key, file]) => {
+//       if (file instanceof File) {
+//         formDataToSend.append(`document.${key}`, file)
+//       }
+//     })
+
+
+//     try {
+//       // Send the data to the server API
+
+//       console.log("i am Data whose going to backend")
+//       const response = await axios.post("http://localhost:4000/v1/setting/update-user-info", formDataToSend)
+//       console.log("API Success:", response)
+//     } catch (apiError) {
+//       console.error("API update error:", apiError)
+//       // Continue - we'll still consider it a success if Firebase updated
+//     }
+
+//     setSuccessMessage(firebaseSuccess 
+//       ? "Profile updated successfully!" 
+//       : "There was an issue updating your profile. Please try again.")
+
+//     // Clear success message after 3 seconds
+//     setTimeout(() => {
+//       setSuccessMessage("")
+//     }, 3000)
+//   } catch (error) {
+//     console.error("Error submitting form:", error)
+//     setSuccessMessage("There was an error updating your profile. Please try again.")
+//   } finally {
+//     setLoading(false)
+//   }
+// }
+
+// // Fix: Create this function for Contact tab
+// const handlePersonalInformation = handleSubmit;
+
+// const Tabs = ["Personal", "Company", "Identity", "Bank", "Contact"]
 
 // -- it's new Code
 
@@ -1570,21 +1570,21 @@ interface InitialFormData {
   }
 }
 
-const AccountSettings = ({ 
-  profileData, 
+const AccountSettings = ({
+  profileData,
   firebaseUserId,
-  existingFirebaseData 
-}: { 
+  existingFirebaseData
+}: {
   profileData?: ProfileData,
   firebaseUserId?: string,
   existingFirebaseData?: any
 }) => {
-  const [formData, setFormData] = useState<ProfileData | undefined>(profileData)
+  // const [formData, setFormData] = useState<ProfileData | undefined>(profileData)
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
   const [selectedTab, setSelectedTab] = useState("Personal")
-  const [loading, setLoading] = useState(true)
-  const [clients, setClients] = useState<ClientData[]>([])
-  const [filteredClients, setFilteredClients] = useState<ClientData[]>([])
+  const [loading, setLoading] = useState(false)
+  //const [clients, setClients] = useState<ClientData[]>([])
+  //const [filteredClients, setFilteredClients] = useState<ClientData[]>([])
   const [firebaseData, setFirebaseData] = useState<any>(existingFirebaseData || null)
   const [successMessage, setSuccessMessage] = useState<string>("")
   const [userId, setUserId] = useState<string>(firebaseUserId || "")
@@ -1652,8 +1652,7 @@ const AccountSettings = ({
 
 
   const [inputFormData, setInputFormData] = useState<InitialFormData>(initialFormData)
-  // const userInfo = useSelector((state: IRootState) => state.themeConfig.userInfo)
-
+ 
   const [userInfo, setUserInfo] = useState<any>(null);
 
   useEffect(() => {
@@ -1670,142 +1669,138 @@ const AccountSettings = ({
       }
     }
   }, []);
-
-  
-
-  // const key = "userInfo";
-  // const LocalStorageData = key ? localStorage.getItem(key) : null;
-
-  // // const userInfo = LocalStorageData ? JSON.parse(LocalStorageData) : null;
-  // console.log(userInfo?.email);
-  // console.log(userInfo?.username);
-  
-  // if (value) {
-  //   try {
-  //     const parsedValue = JSON.parse(value);
-  //     console.log("Parsed userInfo:", parsedValue);
-  //   } catch (e) {
-  //     console.log("Raw userInfo value:", value); // fallback if not JSON
-  //   }
-  // } else {
-  //   console.log("No data found for key:", key);
-  // }
-
-  // userInfo = {
-  //   "username":"Toss Krishna",
-  //   "email":"toss125training@gmail.com",
-  //   "Fname":"Toss",
-  //   "Lname":"Krishna",
-  //   "contact":"N/A",
-  //   "role":"user",
-  //   "picture":"https://lh3.googleusercontent.com/a/Cg8ocK52whD2mxQ83wPohu2lcEw7sdZNJH1svMyRMI2FSfrb4uvW1g=s96-c"
-  // }
-
-
-  // {"username":"Toss Krishna","email":"toss125training@gmail.com","Fname":"Toss","Lname":"Krishna","contact":"N/A","role":"user","picture":"https://lh3.googleusercontent.com/a/ACg8ocK52whD2mxQ83wPohu2lcEw7sdZNJH1svMyRMI2FSfrb4uvW1g=s96-c"}
-  // Fetch user profile data from API
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const response = await GetUserProfile("GET")
-        setFormData(response)
+        const response = await axios.get("/api/Setting/updateuserinfo", {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
         
-        // Update inputFormData with API data
-        if (response) {
-          setInputFormData(prevData => {
-            const newData = { ...prevData };
+        const userData = response.data.data;
+        console.log(userInfo.email);
+        
+        for(let i=0; i < userData.length; i++) {
+          if(userData[i].email === userInfo.email) {
+            console.log(userData[i], "kk");
             
-            // Map API data to our form structure
-            for (const section in response) {
-              if (section in newData && typeof response[section] === 'object') {
-                newData[section as keyof InitialFormData] = {
-                  ...(newData[section as keyof InitialFormData]),
-                  ...response[section]
-                }
+            const transformedData = {
+              personal: {
+                userName: userData[i].userName || '',
+                firstName: userData[i].firstName || '',
+                lastName: userData[i].lastName || '',
+                fatherName: userData[i].fatherName || '',
+                DOB: userData[i].DOB || '',
+                sex: userData[i].sex || '',
+                maritalStatus: userData[i].maritalStatus || '',
+                id: userData[i].id
+              },
+              company: {
+                company: userData[i].company || '',
+                organisationType: userData[i].organisationType || '',
+                about: userData[i].about || '',
+                cin: userData[i].cin || '',
+                pan: userData[i].pan || '',
+                aadhar: userData[i].aadhar || '',
+                incorporationDate: userData[i].incorporationDate || '',
+                moa: userData[i].moa || '',
+                aoa: userData[i].aoa || '',
+                gst: userData[i].gst || '',
+                udyamNumber: userData[i].udyamNumber || '',
+                dpit: userData[i].dpit || ''
+              },
+              identity: {
+                pan: userData[i].pan || '',
+                aadhar: userData[i].aadhar || '',
+                din: userData[i].din || '',
+                addressProof: userData[i].addressProof || '',
+                addressProofName: userData[i].addressProofName || '',
+                nationality: userData[i].nationality || ''
+              },
+              bank: {
+                bank: userData[i].bank || '',
+                accountHolderName: userData[i].accountHolderName || '',
+                accountNumber: userData[i].accountNumber || '',
+                ifsc: userData[i].ifsc || ''
+              },
+              address: {
+                address: userData[i].address || '',
+                state: userData[i].state || '',
+                city: userData[i].city || '',
+                pin: userData[i].pin || '',
+                email: userData[i].email || '',
+                secondaryEmail: userData[i].secondaryEmail || '',
+                contactNo: userData[i].contactNo || '',
+                secondaryContact: userData[i].secondaryContact || ''
+              },
+              document: {
+                other: null,
+                addharcar: null,
+                InvestmentDetails: null,
+                form16: null,
+                BankDetails: null,
+                OtherDocument: null
               }
-            }
-            console.log("i am new data---"); 
-            console.log(inputFormData);
+            };
             
-            return newData;
-          });
+            setInputFormData(transformedData);
+            console.log(transformedData);
+            break;
+          } else {
+            console.log("user is not registered Yet");
+          }
         }
       } catch (error) {
-        console.error("Error fetching user profile:", error)
+        console.error("Error fetching user profile Data:", error);
       }
-    }
-    
+    };
     if (!existingFirebaseData) {
-      getUserData()
+      getUserData();
+    } else {
+      getUserData(); 
     }
-  }, [profileData, existingFirebaseData])
+  }, [userInfo, existingFirebaseData]);
+  
+  // console.log(inputFormData, "am data");
+
+  //--------------------
 
   // Get user data from database by email or use existing data
   useEffect(() => {
     const getUserDataFromDatabase = async () => {
-      if (existingFirebaseData) {
-        // Use existing user data passed from parent
-        processUserData(existingFirebaseData)
-        setLoading(false)
-        return
-      }
       
-      if (userId) {
-        // TODO: Add Database API - Get user by ID
-        // If we have a user ID, get the user directly
+      const localData = localStorage.getItem("userInfo");
+      if (localData) {
         try {
-          // Replace with your NextJS database call
-          // const userData = await getUserById(userId);
-          // if (userData) {
-          //   setUserData(userData)
-          //   processUserData(userData)
-          // }
-        } catch (error) {
-          console.error("Error getting user by ID:", error)
+          const parsed = JSON.parse(localData);
+          // setUserInfo(parsed); // store userInfo for reference if needed
+          setInputFormData((prev) => ({
+            ...prev,
+            personal: {
+              ...prev.personal,
+              firstName: parsed.Fname || "",
+              lastName: parsed.Lname || "",
+              userName: parsed.username || "",
+            },
+            address: {
+              ...prev.address,
+              email: parsed.email || "",
+              contactNo: parsed.contact || "",
+            },
+          }));
+        } catch (e) {
+          console.error("Error parsing localStorage data");
         }
-        
-        setLoading(false)
-        return
       }
-      
-      if (userInfo?.email) {
-        await getUserByEmail(userInfo.email)
-      } else {
-        setLoading(false)
-      }
+
+
     }
-    
+
     getUserDataFromDatabase()
   }, [existingFirebaseData, userId, userInfo])
 
-  // Get user data from database by email
-  const getUserByEmail = async (email: string): Promise<void> => {
-    if (!email) {
-      console.error("No email provided to getUserByEmail")
-      return
-    }
-
-    try {
-      setLoading(true)
-      
-      // TODO: Add Database API - Get user by email
-      // Replace with your NextJS database call to find user by email
-      // const user = await getUserByEmail(email);
-      // if (user) {
-      //   setUserData(user)
-      //   setCurrentUserId(user.id)
-      //   processUserData(user)
-      // } else {
-      //   console.log("No user found with email:", email)
-      // }
-      
-      setLoading(false)
-    } catch (error) {
-      console.error("Error fetching user data:", error)
-      setLoading(false)
-    }
-  }
-
+  
   // Process user data to populate form
   const processUserData = (data: any) => {
     if (!data) return
@@ -1848,6 +1843,8 @@ const AccountSettings = ({
     setInputFormData(newFormData)
   }
 
+
+
   // Form validation
   const validate = () => {
     let valid = true
@@ -1877,11 +1874,11 @@ const AccountSettings = ({
   // Handle form input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    
+
     // Check if the name includes a dot (section.field format)
     if (name.includes(".")) {
       const [sectionName, fieldName] = name.split(".")
-      
+
       setInputFormData(prevData => ({
         ...prevData,
         [sectionName]: {
@@ -1892,7 +1889,7 @@ const AccountSettings = ({
     } else {
       // For inputs without section prefix, we need to determine which section it belongs to
       let sectionName = ""
-      
+
       // Check which section this field belongs to
       if (Object.keys(inputFormData.personal).includes(name)) {
         sectionName = "personal"
@@ -1905,7 +1902,7 @@ const AccountSettings = ({
       } else if (Object.keys(inputFormData.address).includes(name)) {
         sectionName = "address"
       }
-      
+
       if (sectionName) {
         setInputFormData(prevData => ({
           ...prevData,
@@ -1937,10 +1934,9 @@ const AccountSettings = ({
     }
 
     try {
-      // TODO: Add Database API - Update user
-      // Prepare data for database
+
       const flattenedData: Record<string, any> = {}
-      
+
       // Flatten the form data structure for database
       Object.entries(formData).forEach(([section, sectionData]: [string, any]) => {
         if (section !== "document") {
@@ -1951,20 +1947,9 @@ const AccountSettings = ({
           })
         }
       })
-      
+
       // Add email at root level for easier queries
       flattenedData.email = userInfo.email
-      
-      // Update or create the user document
-      if (userId) {
-        // If we have a userId, update the existing user
-        // await updateUser(currentUserId, flattenedData);
-      } else {
-        // Create new user
-        // const newUser = await createUser(flattenedData);
-        // setCurrentUserId(newUser.id);
-      }
-      
       return true
     } catch (error) {
       console.error("Error updating user in database:", error)
@@ -1974,57 +1959,43 @@ const AccountSettings = ({
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log( "user is not")
+    console.log("every thing in process")
     e.preventDefault()
 
     // if (!validate()) { 
     //   console.log( "user is not validate")
     //   return
     // }
-    
+
     try {
       // First update in database
       setLoading(true)
-      console.log( "DATA IS dOLDING ")
+      console.log("Data in Loding And Presscess")
       const databaseSuccess = await updateUserInDatabase(inputFormData)
 
       console.log(inputFormData);  // it's import for backend
 
-      // console.log(databaseSuccess);
       
-      // // Create a FormData object for server API submission
-
-      // console.log( "user is not validate124455")
-      // const formDataToSend = new FormData()
-
-      // Add data from each section
-      // Object.entries(inputFormData).forEach(([section, sectionData]: [string, any]) => {
-      //   if (section !== "document") {
-      //     Object.entries(sectionData).forEach(([key, value]) => {
-      //       if (value) formDataToSend.append(`${section}.${key}`, value as string)
-      //     })
-      //   }
-      // })
-
-      // // Add files
-      // Object.entries(inputFormData.document).forEach(([key, file]) => {
-      //   if (file instanceof File) {
-      //     formDataToSend.append(`document.${key}`, file)
-      //   }
-      // })
-      
+      let data;
       try {
         // Send the data to the server API
         console.log("Data being sent to backend:")
-        const response = await axios.post("/api/Setting/updateuserinfo", inputFormData)
+
+        const response = await axios.post("/api/Setting/updateuserinfo", inputFormData, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
         console.log("API Success:", response)
+
       } catch (apiError) {
         console.error("API update error:", apiError)
+        console.log(apiError)
         // Continue - we'll still consider it a success if database updated
       }
 
-      setSuccessMessage(databaseSuccess 
-        ? "Profile updated successfully!" 
+      setSuccessMessage(databaseSuccess
+        ? "Profile updated successfully!"
         : "There was an issue updating your profile. Please try again.")
 
       // Clear success message after 3 seconds
@@ -2038,10 +2009,10 @@ const AccountSettings = ({
       setLoading(false)
     }
   }
-  
+
   // Fix: Create this function for Contact tab
   const handlePersonalInformation = handleSubmit;
-  
+
   const Tabs = ["Personal", "Company", "Identity", "Bank", "Contact"]
 
   return (
@@ -2067,9 +2038,8 @@ const AccountSettings = ({
           <button
             key={index}
             onClick={() => setSelectedTab(tab)}
-            className={`px-3 py-2 min-w-[100px] hover:bg-s2 hover:text-black duration-300 font-bold rounded ${
-              selectedTab === tab ? "bg-s2 text-black" : "bg-softBg1 text-bodyText"
-            }`}
+            className={`px-3 py-2 min-w-[100px] hover:bg-s2 hover:text-black duration-300 font-bold rounded ${selectedTab === tab ? "bg-s2 text-black" : "bg-softBg1 text-bodyText"
+              }`}
           >
             {tab}
           </button>
@@ -2100,13 +2070,14 @@ const AccountSettings = ({
                 <input
                   type="text"
                   name="userName"
-                  value={userInfo?.username || inputFormData.personal.userName}
+                  value={inputFormData.personal.userName}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                   placeholder="Enter your username"
-                  readOnly
+                  //readOnly
+                  required
                 />
-                {/* {errors.userName && <p className="text-red-500 text-xs">{errors.userName}</p>} */}
+                {errors.userName && <p className="text-red-500 text-xs">{errors.userName}</p>}
               </div>
 
               {/* First Name */}
@@ -2115,10 +2086,11 @@ const AccountSettings = ({
                 <input
                   type="text"
                   name="firstName"
-                  value={ userInfo?.Fname || inputFormData.personal.firstName || ""}
+                  value={inputFormData.personal.firstName || ""}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                   placeholder="Enter your first name"
+                  required
                 />
               </div>
 
@@ -2128,7 +2100,7 @@ const AccountSettings = ({
                 <input
                   type="text"
                   name="lastName"
-                  value={ userInfo?.Lname || inputFormData.personal.lastName || ""}
+                  value={inputFormData.personal.lastName || ""}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                   placeholder="Enter your last name"
@@ -2488,6 +2460,7 @@ const AccountSettings = ({
                   value={inputFormData.address.address || ""}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+                  required
                 />
               </div>
 
@@ -2529,11 +2502,11 @@ const AccountSettings = ({
                 <input
                   type="email"
                   name="email"
-                  value={userInfo.email || inputFormData.address.email || ""}
+                  value={inputFormData.address.email || ""}
                   onChange={handleChange}
-                   readOnly
+                  readOnly
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
-                  
+
                 />
               </div>
 
@@ -2553,7 +2526,7 @@ const AccountSettings = ({
                 <input
                   type="text"
                   name="contactNo"
-                  value={ inputFormData.address.contactNo || userInfo.contact || ""}
+                  value={inputFormData.address.contactNo || ""}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                 />

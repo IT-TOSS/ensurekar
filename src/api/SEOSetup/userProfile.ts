@@ -45,11 +45,11 @@ interface InitialFormData {
 const GetUserProfile = async (Method?: string | undefined ,data?:InitialFormData|undefined) => {
 const token = await GetCookie();
 console.log(Method,data)
-  if (!token) {
-    throw new Error("Access token not found");
-  }
-  const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/v1/profile/`, {
-    // const response = await fetch(`http://localhost:4000/api/v1/profile/`, {
+  // if (!token) {
+  //   throw new Error("Access token not found");
+  // }
+  // const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/v1/profile/`, {
+    const response = await fetch(`http://localhost:3000/api/Setting/updateuserinfo`, {
     method: Method || "GET",
     headers: {
       "Content-Type": "application/json",
