@@ -23,17 +23,6 @@ const CANCEL_URL =  true //process.env.NODE_ENV === 'production'
   : 'http://localhost:3000/payment/cancel';
 
 // Encrypt function for CCAvenue parameters
-// function encrypt(plainText, workingKey) {
-//   const m = crypto.createHash('md5');
-//   m.update(workingKey);
-//   const key = m.digest();
-//   const iv = '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f';
-//   const cipher = crypto.createCipheriv('aes-128-cbc', key, iv);
-//   let encoded = cipher.update(plainText, 'utf8', 'hex');
-//   encoded += cipher.final('hex');
-//   return encoded;
-// }
-
 
 function encrypt(plainText, workingKey) {
   const m = crypto.createHash('md5');
@@ -49,8 +38,12 @@ function encrypt(plainText, workingKey) {
 export async function POST(request) {
   try {
     const body = await request.json();
+
+    console.log('Received Payment Request:', body);
     const { amount, orderId, customerInfo, products } = body;
     
+
+    console.log(customerInfo," customerInfo")
     // Format the amount to 2 decimal places
     const formattedAmount = parseFloat(amount).toFixed(2);
     

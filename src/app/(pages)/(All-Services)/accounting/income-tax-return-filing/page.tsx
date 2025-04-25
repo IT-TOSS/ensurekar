@@ -1140,13 +1140,14 @@ const Page = () => {
 
 
 
-  const plansRef = useRef<HTMLDivElement | null>(null); // Reference for PlansSection
-
+  const plansRef = useRef<HTMLDivElement | null>(null); 
   const scrollToPlans = () => {
-    plansRef.current?.scrollIntoView({ behavior: "smooth" });
-  if (plansRef.current) {
-    plansRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+    if (plansRef.current) {
+      plansRef.current.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   };
   return (
     <>
@@ -1179,7 +1180,7 @@ const Page = () => {
 
         {/* my actual code*/}
 
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans}  />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
 
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
@@ -1188,7 +1189,7 @@ const Page = () => {
 
       {/* Other Sections */}
       
-      <div ref={plansRef}>
+      <div ref={plansRef} id="plans" className="plans-section">
         <NewPlansSection planData={planData} plansData={plansData} />
         {/* <PlansSection planData={planData} /> */}
       </div>

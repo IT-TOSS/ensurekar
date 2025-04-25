@@ -1,5 +1,5 @@
 
-import CreateConnection from './../../../lib/db.js';
+import CreateConnection from './../../../lib/Rdb.js';
 
 export async function GET() {
     const data = {
@@ -116,35 +116,40 @@ export async function POST(req) {
       const { name = '', email = '', phone = '', address = '' } = customerInfo;
   
       // Validate items is actually an array
-      if (!Array.isArray(items)) {
-        throw new Error('Invalid or missing "items" array in request.');
-      }
+      ///   ----------------// for check payment
+      // if (!Array.isArray(items)) {
+      //   throw new Error('Invalid or missing "items" array in request.');
+      // }
   
-      const db = await CreateConnection();
+      // const db = await CreateConnection();
   
-      const [result] = await db.execute(`
-        INSERT INTO orders 
-          (customer_name, email, phone, address, items, total, payment_status) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `, [
-        name,
-        email,
-        phone,
-        address,
-        JSON.stringify(items), // store items as JSON
-        total,
-        paymentStatus
-      ]);
+      // const [result] = await db.execute(`
+      //   INSERT INTO orders 
+      //     (customer_name, email, phone, address, items, total, payment_status) 
+      //   VALUES (?, ?, ?, ?, ?, ?, ?)
+      // `, [
+      //   name,
+      //   email,
+      //   phone,
+      //   address,
+      //   JSON.stringify(items), // store items as JSON
+      //   total,
+      //   paymentStatus
+      // ]);
   
-      const orderId = result.insertId;
+      // const orderId = result.insertId;
   
-      console.log('Inserted Order ID:', orderId);
+      // console.log('Inserted Order ID:', orderId);
   
-      return new Response(
-        JSON.stringify({ success: true, id: orderId }),
-        { status: 200 }
-      );
-  
+      // return new Response(
+      //   JSON.stringify({ success: true, id: orderId }),
+      //   { status: 200 }
+      // );
+  // ==============// for check payment
+  return new Response(
+      JSON.stringify({ success: true, id: 8 }),
+      { status: 200 }
+    );
     } catch (err) {
       console.error('Order insertion error:', err.message);
       return new Response(

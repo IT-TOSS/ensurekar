@@ -16,7 +16,7 @@ import { ContactUs } from "@/api/SEOSetup/contact";
 import { motion } from "framer-motion";
 
 const BreadcrumbSection = ({
-  BreadcrumbData //, scrollToPlans 
+  BreadcrumbData, scrollToPlans
 }: {
   BreadcrumbData: {
     title: string;
@@ -36,7 +36,7 @@ const BreadcrumbSection = ({
       image: string | StaticImageData;
     };
   };
-  //scrollToPlans: any
+  scrollToPlans?: () => void
 }) => {
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
@@ -85,36 +85,57 @@ const BreadcrumbSection = ({
     //   router.push("/Login");
     // }
   };
-  
+
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>
   ): Promise<void> {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget);
-  const data = Object.fromEntries(formData.entries());
-  setIsOpen(false);
- const TalkToExpert : ContactForm = {
-    firstName: data.firstName as string,
-    lastName: data.lastName as string,
-    email: data.email as string,
-    subject: data.subject as string,
-    message: "",
-    origin: "Talk_To_Expert",
-    phone: data.phone as string,
-  };
-  setMessage("Sending Message...");
-  const response = await ContactUs(TalkToExpert);
-  if (response.status === "success") {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+    setIsOpen(false);
+    const TalkToExpert: ContactForm = {
+      firstName: data.firstName as string,
+      lastName: data.lastName as string,
+      email: data.email as string,
+      subject: data.subject as string,
+      message: "",
+      origin: "Talk_To_Expert",
+      phone: data.phone as string,
+    };
+    setMessage("Sending Message...");
+    const response = await ContactUs(TalkToExpert);
+    if (response.status === "success") {
 
-    setMessage(response.message);
-    setTimeout(() => {
-      setMessage(null);
-     
-    }, 10000);
-  } else {
-    alert("Failed to send message");
+      setMessage(response.message);
+      setTimeout(() => {
+        setMessage(null);
+
+      }, 10000);
+    } else {
+      alert("Failed to send message");
+    }
   }
-  }
+
+  const handleStartNow = () => {
+    if (scrollToPlans) {
+      // If scrollToPlans is provided, use it
+      scrollToPlans();
+    } else {
+      // Default behavior: try to find an element with id "plans" or similar
+      const plansElement = document.getElementById('plans') ||
+        document.querySelector('.plans-section') ||
+        document.querySelector('[data-section="plans"]');
+
+      if (plansElement) {
+        // If found, scroll to it
+        plansElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        // If not found, you could redirect to a specific URL with plans
+        // or just do nothing
+        console.log("No plans section found to scroll to");
+      }
+    }
+  };
   return (
     <>
       <section className="stp-30 sbp-30 bg-softBg1 relative max-xxl:overflow-hidden">
@@ -165,6 +186,7 @@ const BreadcrumbSection = ({
                   className="py-2.5 min-w-[150px] bg-yellow-400 border rounded  block text-center   hover:border-mainTextColor font-bold duration-500 text-slate-800"
                   // onClick={handleBuy}
                   // onClick={scrollToPlans}
+                  onClick={handleStartNow}
                 >
                   Start Now
                 </button>
@@ -199,17 +221,15 @@ const BreadcrumbSection = ({
       </section>
       {isOpen && (
         <div
-          className={`fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center bg-black bg-opacity-50 transition-opacity duration-300 ${
-            isOpen ? "opacity-100" : "opacity-0"
-          }`}
+          className={`fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"
+            }`}
           onClick={handleCloseModal}
         >
           <div
-            className={`bg-white p-5 shadow-md rounded flex flex-col justify-center items-center relative transition-all transform duration-500 ${
-              isOpen
+            className={`bg-white p-5 shadow-md rounded flex flex-col justify-center items-center relative transition-all transform duration-500 ${isOpen
                 ? "scale-100 translate-y-0 opacity-100"
                 : "scale-75 translate-y-10 opacity-0"
-            }`}
+              }`}
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -218,7 +238,7 @@ const BreadcrumbSection = ({
             >
               <X weight="bold" size={24} />
             </button>
-         
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 max-w-4xl mx-auto  ">
               {/* Left Side - Image */}
               <div className="flex items-center justify-center">
@@ -237,7 +257,7 @@ const BreadcrumbSection = ({
               {/* Right Side - Form */}
               <div>
                 <h2 className="text-2xl text-center font-semibold text-gray-800 mb-4">
-                  Still Confused ? 
+                  Still Confused ?
                 </h2>
                 <form className="space-y-4" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-2 gap-4">
@@ -265,7 +285,7 @@ const BreadcrumbSection = ({
                     placeholder="Subject"
                     className="border p-2 rounded-md w-full"
                   /> */}
-                     <input
+                  <input
                     type="text"
                     placeholder="Phone Number"
                     name="phone"
@@ -284,20 +304,20 @@ const BreadcrumbSection = ({
                     placeholder="Message"
                     className="border p-2 rounded-md w-full h-24"
                   /> */}
-               
-                 <div className="col-span-2">
-                  <button type="submit"
-                  className="py-2.5 bg-s2 border rounded block text-center hover:border-mainTextColor font-bold duration-500 w-full text-slate-800">
-                    Connect With Us ..!!
-                  </button>
-                </div>
+
+                  <div className="col-span-2">
+                    <button type="submit"
+                      className="py-2.5 bg-s2 border rounded block text-center hover:border-mainTextColor font-bold duration-500 w-full text-slate-800">
+                      Connect With Us ..!!
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>
           </div>
         </div>
       )}
-       <div>
+      <div>
         {message && (
           <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center bg-black bg-opacity-50 transition-opacity duration-300 ">
             <motion.div
@@ -310,15 +330,15 @@ const BreadcrumbSection = ({
               <div>
                 <h3 className="text-2xl font-bold mb-5">Message</h3>
                 <p className="font-semibold text-bodyText">{message}</p>
-            
+
               </div>
-            <div className="flex justify-end mr-5 mt-5">
-              <button
-          onClick={() => setMessage(null)}
-          className="mt-4 py-2 px-4 bg-s2 text-bodyText font-bold rounded"
-              >
-          Close
-              </button>
+              <div className="flex justify-end mr-5 mt-5">
+                <button
+                  onClick={() => setMessage(null)}
+                  className="mt-4 py-2 px-4 bg-s2 text-bodyText font-bold rounded"
+                >
+                  Close
+                </button>
               </div>
             </motion.div>
           </div>

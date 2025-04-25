@@ -1,7 +1,5 @@
 // setting / update-user-info/route.js
 
-
-import bcrypt from 'bcrypt';
 import CreateConnection from '../../../../lib/Rdb.js'; 
 
 
@@ -25,6 +23,17 @@ export async function POST(req) {
     console.log("Request body:", body);
     
     const { personal, company, identity, bank, address } = body;
+
+
+    let formattedDOB = '';
+    if (personal?.DOB) {
+        const date = new Date(personal.DOB);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); 
+        const year = date.getFullYear();
+        // formattedDOB = `${day}-${month}-${year}`;
+        formattedDOB = `${year}-${month}-${day}`;
+    }
     
     // Validate required email
     if (!address?.email) {
@@ -35,7 +44,6 @@ export async function POST(req) {
     try {
         const db = await CreateConnection();
         
-        // First check if email already exists
         const [existingUsers] = await db.query(
             "SELECT * FROM user_info WHERE email = ?",
             [address.email]
@@ -44,7 +52,7 @@ export async function POST(req) {
         let result;
         
         if (existingUsers.length > 0) {
-            // Email exists, update the record
+
             console.log(`Updating existing user with email: ${address.email}`);
             
             const [updateResult] = await db.query(
@@ -80,7 +88,8 @@ export async function POST(req) {
                     personal.firstName,
                     personal.lastName,
                     personal.fatherName,
-                    personal.DOB,
+                    // personal.DOB,
+                    formattedDOB,
                     personal.sex,
                     personal.maritalStatus,
                     
@@ -106,7 +115,7 @@ export async function POST(req) {
                     address.contactNo,
                     address.secondaryContact,
                     
-                    address.email // WHERE clause parameter
+                    address.email
                 ]
             );
             
@@ -134,6 +143,7 @@ export async function POST(req) {
                     personal.lastName,
                     personal.fatherName,
                     personal.DOB,
+                    // formattedDOB,
                     personal.sex,
                     personal.maritalStatus,
                     

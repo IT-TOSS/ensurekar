@@ -1652,7 +1652,7 @@ const AccountSettings = ({
 
 
   const [inputFormData, setInputFormData] = useState<InitialFormData>(initialFormData)
- 
+
   const [userInfo, setUserInfo] = useState<any>(null);
 
   useEffect(() => {
@@ -1677,21 +1677,38 @@ const AccountSettings = ({
             "Content-Type": "application/json"
           }
         });
-        
+
         const userData = response.data.data;
         console.log(userInfo.email);
-        
-        for(let i=0; i < userData.length; i++) {
-          if(userData[i].email === userInfo.email) {
+
+        for (let i = 0; i < userData.length; i++) {
+          if (userData[i].email === userInfo.email) {
             console.log(userData[i], "kk");
-            
+
+            const isoDate = userData[i].DOB || '';
+            let formattedDate = '';
+
+            if (isoDate) {
+              const date = new Date(isoDate);
+
+              // Get day, month and year
+              const day = String(date.getDate()).padStart(2, '0');
+              // Note: getMonth() returns 0-11, so we add 1 to get 1-12
+              const month = String(date.getMonth() + 1).padStart(2, '0');
+              const year = date.getFullYear();
+
+              // Format as dd-mm-yyyy
+              // formattedDate = `${day}-${month}-${year}`;
+              formattedDate = `${year}-${month}-${day}`;
+            }
+
             const transformedData = {
               personal: {
                 userName: userData[i].userName || '',
                 firstName: userData[i].firstName || '',
                 lastName: userData[i].lastName || '',
                 fatherName: userData[i].fatherName || '',
-                DOB: userData[i].DOB || '',
+                DOB: formattedDate || '',
                 sex: userData[i].sex || '',
                 maritalStatus: userData[i].maritalStatus || '',
                 id: userData[i].id
@@ -1743,7 +1760,7 @@ const AccountSettings = ({
                 OtherDocument: null
               }
             };
-            
+
             setInputFormData(transformedData);
             console.log(transformedData);
             break;
@@ -1758,10 +1775,10 @@ const AccountSettings = ({
     if (!existingFirebaseData) {
       getUserData();
     } else {
-      getUserData(); 
+      getUserData();
     }
   }, [userInfo, existingFirebaseData]);
-  
+
   // console.log(inputFormData, "am data");
 
   //--------------------
@@ -1769,7 +1786,7 @@ const AccountSettings = ({
   // Get user data from database by email or use existing data
   useEffect(() => {
     const getUserDataFromDatabase = async () => {
-      
+
       const localData = localStorage.getItem("userInfo");
       if (localData) {
         try {
@@ -1800,7 +1817,7 @@ const AccountSettings = ({
     getUserDataFromDatabase()
   }, [existingFirebaseData, userId, userInfo])
 
-  
+
   // Process user data to populate form
   const processUserData = (data: any) => {
     if (!data) return
@@ -1975,7 +1992,7 @@ const AccountSettings = ({
 
       console.log(inputFormData);  // it's import for backend
 
-      
+
       let data;
       try {
         // Send the data to the server API
@@ -1991,14 +2008,13 @@ const AccountSettings = ({
       } catch (apiError) {
         console.error("API update error:", apiError)
         console.log(apiError)
-        // Continue - we'll still consider it a success if database updated
       }
 
       setSuccessMessage(databaseSuccess
         ? "Profile updated successfully!"
         : "There was an issue updating your profile. Please try again.")
 
-      // Clear success message after 3 seconds
+
       setTimeout(() => {
         setSuccessMessage("")
       }, 3000)
@@ -2121,12 +2137,26 @@ const AccountSettings = ({
               </div>
 
               {/* Date of Birth */}
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
                 <input
                   type="date"
                   name="DOB"
                   value={inputFormData.personal.DOB || ""}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+                />
+              </div> */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
+                <input
+                  type="date"
+                  name="DOB"
+                  value={
+                    inputFormData.personal.DOB
+                      ? new Date(inputFormData.personal.DOB).toISOString().split('T')[0]
+                      : ""
+                  }
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                 />
