@@ -239,10 +239,21 @@
 
 
 import { NextResponse } from 'next/server';
-import { decrypt } from '@/lib/ccavenue/decrypt'; // your decrypt function
+// import { decrypt } from '@/lib/ccavenue/decrypt'; // your decrypt function
 import CreateConnection from '@/lib/db'; // your DB connection file
 
 const WORKING_KEY = '0187BDEA47CA90A12EEFACDFA5D3D900';
+
+function decrypt(encryptedText, workingKey) {
+  const m = crypto.createHash('md5');
+  m.update(workingKey);
+  const key = m.digest();
+  const iv = '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f';
+  const decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
+  let decoded = decipher.update(encryptedText, 'hex', 'utf8');
+  decoded += decipher.final('utf8');
+  return decoded;
+}
 
 export async function POST(request) {
   const formData = await request.formData();
