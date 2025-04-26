@@ -1495,11 +1495,6 @@ import { useSelector } from "react-redux"
 import { GetUserProfile } from "@/api/SEOSetup/userProfile"
 import axios from "axios"
 
-// Firebase imports
-import { db } from "../../../firebase/firebase.config"
-import { collection, getDocs, query, where, doc, setDoc, getDoc } from "firebase/firestore"
-import { UserInfo } from "@/api/SEOSetup/fetchuser"
-
 interface ClientData {
   id: string
   firstName?: string
@@ -1561,7 +1556,7 @@ interface InitialFormData {
     secondaryContact: string
   }
   document: {
-    other: File | null
+    // other: File | null
     addharcar: File | null
     InvestmentDetails: File | null
     form16: File | null
@@ -1588,6 +1583,8 @@ const AccountSettings = ({
   const [firebaseData, setFirebaseData] = useState<any>(existingFirebaseData || null)
   const [successMessage, setSuccessMessage] = useState<string>("")
   const [userId, setUserId] = useState<string>(firebaseUserId || "")
+
+
 
 
   // Initialize form data
@@ -1640,7 +1637,7 @@ const AccountSettings = ({
       secondaryContact: "",
     },
     document: {
-      other: null,
+      // other: null,
       addharcar: null,
       InvestmentDetails: null,
       form16: null,
@@ -1752,7 +1749,7 @@ const AccountSettings = ({
                 secondaryContact: userData[i].secondaryContact || ''
               },
               document: {
-                other: null,
+                // other: null,
                 addharcar: null,
                 InvestmentDetails: null,
                 form16: null,
@@ -1974,57 +1971,223 @@ const AccountSettings = ({
     }
   }
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    console.log("every thing in process")
-    e.preventDefault()
+  // // Handle form submission
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   console.log("every thing in process")
+  //   e.preventDefault()
 
-    // if (!validate()) { 
-    //   console.log( "user is not validate")
-    //   return
-    // }
+  //   // if (!validate()) { 
+  //   //   console.log( "user is not validate")
+  //   //   return
+  //   // }
+
+  //   try {
+  //     // First update in database
+  //     setLoading(true)
+  //     console.log("Data in Loding And Presscess")
+  //     // const databaseSuccess = await updateUserInDatabase(inputFormData)
+
+  //     console.log(inputFormData);  // it's import for backend
+  //     const formDataToSend = new FormData();
+
+  //     // Object.entries(inputFormData).forEach(([section, sectionData]: [string, any]) => {
+  //     //   if (section !== "document") {
+  //     //     // For regular data fields
+  //     //     Object.entries(sectionData).forEach(([key, value]) => {
+  //     //       if (value !== null && value !== "") {
+  //     //         formDataToSend.append(`${section}.${key}`, (value ?? "").toString());
+  //     //       }
+  //     //     });
+  //     //   } else if (section === "document") {
+  //     //     // For file fields
+  //     //     Object.entries(sectionData).forEach(([key, file]) => {
+  //     //       if (file !== null) {
+  //     //         if (file instanceof Blob) {
+  //     //           formDataToSend.append(`document.${key}`, file);
+  //     //         }
+  //     //       }
+  //     //     });
+  //     //   }
+  //     // });
+
+      
+      
+  //     // if (userInfo?.email) {
+  //     //   formDataToSend.append("email", userInfo.email);
+  //     // }
+
+  //     let data;
+  //     try {
+  //       // Send the data to the server API
+  //       console.log("Data being sent to backend:", inputFormData)
+
+  //       const response = await axios.post("/api/Setting/updateuserinfo", inputFormData, {
+  //         headers: {
+  //           "Content-Type": "appliction/form-data"
+  //         }
+  //       });
+  //       console.log("API Success:", response)
+  //       console.log("API Success:", response.statusText)
+
+  //        setSuccessMessage( response.statusText === "OK"
+  //           ? "Profile updated successfully!"
+  //           : "There was an issue updating your profile. Please try again.")
+
+        
+
+  //     } catch (apiError) {
+  //       console.error("API update error:", apiError)
+  //       console.log(apiError)
+  //     }
+
+  //     // setSuccessMessage(databaseSuccess
+  //     //   ? "Profile updated successfully!"
+  //     //   : "There was an issue updating your profile. Please try again.")
+
+
+  //       setSuccessMessage("Profile updated successfully!");
+
+  //     setTimeout(() => {
+  //       setSuccessMessage("")
+  //     }, 3000)
+  //   } catch (error) {
+  //     console.error("Error submitting form:", error)
+  //     setSuccessMessage("There was an error updating your profile. Please try again.")
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+
+
+
+  //000000000000000000000000000000000000000000000
+
+  // Handle form submission
+const handleSubmit = async (e: React.FormEvent) => {
+  console.log("Everything in process")
+  e.preventDefault()
+
+  // if (!validate()) { 
+  //   console.log( "user is not validate")
+  //   return
+  // }
+
+  try {
+    setLoading(true)
+    console.log("Data in Loading And Process")
+    
+    // Create a FormData object for sending files
+    const formDataToSend = new FormData()
+    
+    // Add regular form fields to FormData
+    Object.entries(inputFormData).forEach(([section, sectionData]: [string, any]) => {
+      if (section !== "document") {
+        // For regular data fields
+        Object.entries(sectionData).forEach(([key, value]) => {
+          if (value !== null && value !== "") {
+            formDataToSend.append(`${section}.${key}`, (value ?? "").toString())
+          }
+        })
+      } else if (section === "document") {
+        // For file fields
+        Object.entries(sectionData).forEach(([key, file]) => {
+          if (file !== null && file instanceof Blob) {
+            formDataToSend.append(`document.${key}`, file)
+          }
+        })
+      }
+    })
+    
+    // Add email to form data if available
+    if (userInfo?.email) {
+      formDataToSend.append("email", userInfo.email)
+    }
 
     try {
-      // First update in database
-      setLoading(true)
-      console.log("Data in Loding And Presscess")
-      const databaseSuccess = await updateUserInDatabase(inputFormData)
-
-      console.log(inputFormData);  // it's import for backend
-
-
-      let data;
-      try {
-        // Send the data to the server API
-        console.log("Data being sent to backend:")
-
-        const response = await axios.post("/api/Setting/updateuserinfo", inputFormData, {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-        console.log("API Success:", response)
-
-      } catch (apiError) {
-        console.error("API update error:", apiError)
-        console.log(apiError)
-      }
-
-      setSuccessMessage(databaseSuccess
+      // Log what we're sending to help with debugging
+      console.log("Data being sent to backend:", formDataToSend)
+      console.log("Files being sent:", inputFormData.document) //inputFormData
+      
+      // Send the data to the server API - using formDataToSend for multipart/form-data
+      const response = await axios.post("/api/Setting/updateuserinfo", formDataToSend, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      
+      console.log("API Success:", response)
+      
+      setSuccessMessage(response.statusText === "OK"
         ? "Profile updated successfully!"
         : "There was an issue updating your profile. Please try again.")
 
-
-      setTimeout(() => {
-        setSuccessMessage("")
-      }, 3000)
-    } catch (error) {
-      console.error("Error submitting form:", error)
+    } catch (apiError) {
+      console.error("API update error:", apiError)
       setSuccessMessage("There was an error updating your profile. Please try again.")
-    } finally {
-      setLoading(false)
     }
+
+    setTimeout(() => {
+      setSuccessMessage("")
+    }, 3000)
+  } catch (error) {
+    console.error("Error submitting form:", error)
+    setSuccessMessage("There was an error updating your profile. Please try again.")
+  } finally {
+    setLoading(false)
   }
+}
+
+
+
+
+
+  //---------------------------------------------------------
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   console.log("everything in process...");
+  //   e.preventDefault();
+  
+  //   try {
+  //     setLoading(true);
+  
+  //     const formDataToSend = new FormData();
+  
+  //     // JSON data append karo
+  //     formDataToSend.append("jsonData", JSON.stringify({
+  //       personal: inputFormData.personal,
+  //       company: inputFormData.company,
+  //       identity: inputFormData.identity,
+  //       bank: inputFormData.bank,
+  //       address: inputFormData.address
+  //     }));
+  
+  //     // Files append karo
+  //     Object.entries(inputFormData.document).forEach(([key, file]) => {
+  //       if (file) {
+  //         formDataToSend.append(key, file);
+  //       }
+  //     });
+  
+  //     console.log("Sending data to backend..." , formDataToSend);
+  
+  //     const response = await axios.post("/api/Setting/updateuserinfo", formDataToSend);
+  
+  //     console.log("API Success:", response.data);
+  
+  //     setSuccessMessage("Profile updated successfully!");
+  
+  //     setTimeout(() => {
+  //       setSuccessMessage("");
+  //     }, 3000);
+  
+  //   } catch (error) {
+  //     console.error("Error submitting form:", error);
+  //     setSuccessMessage("There was an error updating your profile. Please try again.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
+  
 
   // Fix: Create this function for Contact tab
   const handlePersonalInformation = handleSubmit;
@@ -2137,16 +2300,6 @@ const AccountSettings = ({
               </div>
 
               {/* Date of Birth */}
-              {/* <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
-                <input
-                  type="date"
-                  name="DOB"
-                  value={inputFormData.personal.DOB || ""}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
-                />
-              </div> */}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
                 <input
@@ -2196,7 +2349,7 @@ const AccountSettings = ({
               </div>
 
               {/* Upload document */}
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">Upload Document</label>
                 <input
                   type="file"
@@ -2205,7 +2358,7 @@ const AccountSettings = ({
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                   placeholder="Upload your Document"
                 />
-              </div>
+              </div> */}
 
               <div className="lg:col-span-3 md:col-span-2 col-span-1 mx-auto my-6">
                 <button
@@ -2225,6 +2378,7 @@ const AccountSettings = ({
           <div>
             <h2 className="font-bold text-2xl text-center my-5 bg-softBg1 text-bodyText p-5">Company Information</h2>
             <form
+            encType="multipart/form-data"
               className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white rounded-lg shadow-lg"
               onSubmit={handleSubmit}
             >
@@ -2288,6 +2442,7 @@ const AccountSettings = ({
           <div>
             <h2 className="font-bold text-2xl text-center my-5 bg-softBg1 text-bodyText p-5">Identity Information</h2>
             <form
+            encType="multipart/form-data"
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 bg-white rounded-lg shadow-lg"
               onSubmit={handleSubmit}
             >
@@ -2414,6 +2569,7 @@ const AccountSettings = ({
           <div>
             <h2 className="font-bold text-2xl text-center my-5 bg-softBg1 text-bodyText p-5">Bank Information</h2>
             <form
+            encType="multipart/form-data"
               className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white rounded-lg shadow-lg"
               onSubmit={handleSubmit}
             >
@@ -2452,7 +2608,7 @@ const AccountSettings = ({
 
               {/* Upload bank details */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Upload Bank Details</label>
+                <label className="block text-sm font-medium text-gray-700">Upload Bank Details(Bank Passbook)</label>
                 <input
                   type="file"
                   name="BankDetails"
@@ -2479,6 +2635,7 @@ const AccountSettings = ({
           <div>
             <h2 className="font-bold text-2xl text-center my-5 bg-softBg1 text-bodyText p-5">Contact Information</h2>
             <form
+            encType="multipart/form-data"
               className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white rounded-lg shadow-lg"
               onSubmit={handleSubmit}
             >

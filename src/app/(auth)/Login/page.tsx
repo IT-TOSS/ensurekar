@@ -143,6 +143,7 @@ const Login = () => {
               contact: phoneNumber || "N/A",
               role: "user", // Default role
               picture: user.photoURL || "N/A",
+              uid: user.user.userId,
             },
             // Token: await user.getIdToken(),  //Authe
             Token: Authe,
@@ -534,6 +535,7 @@ const Login = () => {
               contact: phoneNumber || "N/A",
               role: "user", // Default role
               picture: user.photoURL || "N/A",
+              uid: userData.userId,
             },
             Token: token,
           })

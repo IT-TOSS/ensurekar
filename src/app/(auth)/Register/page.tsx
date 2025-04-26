@@ -12,6 +12,7 @@ import { createUserWithEmailAndPassword, signInWithPopup, updateProfile, GoogleA
 import { doc, setDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { setAuth } from "@/store/themeConfigSlice";
+import { u } from "framer-motion/client";
 
 
 
@@ -145,59 +146,6 @@ const Register = () => {
         console.log(user.uid, " I am User Id");
 
         console.log(formData.firstName + "  " + formData.lastName)
-
-
-        //here write SQL Code 
-
-
-        //         displayName
-        //         :
-        //         "Krishna Vishwakarma"
-        //         email
-        //         :
-        //         "krishna.vish9329@gmail.com"
-        //         emailVerified
-        //         :
-        //         false
-        //         isAnonymous
-        //         :
-        //         false
-        //         metadata
-        //         : 
-        // UserMetadata { createdAt: '1743833054104', lastLoginAt: '1743833054104', lastSignInTime: 'Sat, 05 Apr 2025 06:04:14 GMT', creationTime: 'Sat, 05 Apr 2025 06:04:14 GMT' }
-        //         phoneNumber
-        //         :
-        //         null
-        //         photoURL
-        //         :
-        //         null
-        //         proactiveRefresh
-        //         : 
-        // ProactiveRefresh { user: UserImpl, isRunning: false, timerId: null, errorBackoff: 30000 }
-        //         providerData
-        //         :
-        //         [{… }]
-        //         providerId
-        //         :
-        //         "firebase"
-        //         reloadListener
-        //         :
-        //         null
-        //         reloadUserInfo
-        //         :
-        //         { localId: 'H7EVQwSV0bYDsIvCBbGKDtZGU5V2', email: 'krishna.vish9329@gmail.com', passwordHash: 'UkVEQUNURUQ=', emailVerified: false, passwordUpdatedAt: 1743833054104, … }
-        //         stsTokenManager
-        //         : 
-        // StsTokenManager { refreshToken: 'AMf-vBwfR1ydL-ibO6UEmaW9gG6px7gs2JL-Q9f9LWm2uZXA6w…Cb0c4IWywpWKeU23RBBJUEqx89CcrcUEhDr3YDKv4gtcd8BFw', accessToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImE5ZGRjYTc2YzEyMzMyNm…69h7TuCfA93RWnRttCI0c-7fxxj4SDIbRxQ67w-0NZPkXvuzg', expirationTime: 1743836654702 }
-        //         tenantId
-        //         :
-        //         null
-        //         uid
-        //         :
-        //         "H7EVQwSV0bYDsIvCBbGKDtZGU5V2"
-
-        //__-------------------
-
         const response = await fetch("/api/Register", {
           method: "POST",
           headers: {
@@ -224,20 +172,6 @@ const Register = () => {
           console.error("Error sending user data to backend:", result.error);
         }
 
-
-
-        // console.log();
-
-        // await setDoc(doc(db, "users", user.uid), {
-        //   firstName: formData.firstName,
-        //   lastName: formData.lastName,
-        //   email: formData.email,
-        //   whatsappNumber: formData.whatsappNumber,
-        //   createdAt: new Date().toISOString(),
-        //   role: "user",
-        //   picture: user.photoURL,
-        // });
-
         dispatch(
           setAuth({
             isAuthenticated: true,
@@ -249,6 +183,7 @@ const Register = () => {
               contact: formData.whatsappNumber || "N/A",
               role: "user",
               picture: user.photoURL || "N/A",
+              uid: user.uid,
             },
             Token: await user.getIdToken(),
           })
@@ -266,17 +201,17 @@ const Register = () => {
 
         // console.log(user, " I am User by Google Sign In by Krishna");
 
-        if (isNewUser) {
-          await setDoc(doc(db, "users", user.uid), {
-            firstName: user.displayName?.split(" ")[0] || "",
-            lastName: user.displayName?.split(" ").slice(1).join(" ") || "",
-            email: user.email,
-            whatsappNumber: formData.whatsappNumber || "",
-            createdAt: new Date().toISOString(),
-            role: "user",
-            picture: user.photoURL,
-          });
-        }
+        // if (isNewUser) {
+        //   await setDoc(doc(db, "users", user.uid), {
+        //     firstName: user.displayName?.split(" ")[0] || "",
+        //     lastName: user.displayName?.split(" ").slice(1).join(" ") || "",
+        //     email: user.email,
+        //     whatsappNumber: formData.whatsappNumber || "",
+        //     createdAt: new Date().toISOString(),
+        //     role: "user",
+        //     picture: user.photoURL,
+        //   });
+        // }
 
         dispatch(
           setAuth({
@@ -289,6 +224,7 @@ const Register = () => {
               contact: formData.whatsappNumber || "N/A",
               role: "user",
               picture: user.photoURL || "N/A",
+              uid: user.uid,
             },
             Token: await user.getIdToken(),
           })
@@ -374,195 +310,6 @@ const Register = () => {
       setLoading(false);
     }
   };
-
-  // const handleGoogleSignIn = async () => {
-  //   try {
-  //     setLoading(true);
-  //     console.log("Trying Google Sign-In...");
-  //     const result = await signInWithPopup(auth, googleProvider);
-
-  //     //---krishna code---
-
-  //     console.log(result.user, "created by Krishna")
-
-
-  //     const user1 = result.user;
-
-  //     const payload = {
-  //       userId: user1.uid,
-  //       firstName: user1.displayName?.split(" ")[0] || "Unknown",
-  //       lastName: user1.displayName?.split(" ")[1] || "User",
-  //       email: user1.email,
-  //       phoneNumber: user1.phoneNumber || "",       
-  //       whatsappNumber: "",                         
-  //       photoURL: user1.photoURL,
-  //       password: user1.uid.slice(0, 8) 
-  //     };
-
-  //     console.log(payload, " I am result by Google Sign In by Krishna");
-
-
-  //      const response = await fetch('/api/Register', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(payload),
-  //     });
-
-  //     const user = await response.json();
-  //     console.log(user);
-
-  //     // const data = await response.json();
-  //     // console.log('Server response:', data);
-  //     // const resultData = await response.json();
-
-  //     dispatch(
-  //       setAuth({
-  //         isAuthenticated: true,
-  //         userInfo: {
-  //           username: user.uid,
-  //           email: user.email,
-  //           Fname: formData.firstName,
-  //           Lname: formData.lastName,
-  //           contact: formData.whatsappNumber || "N/A",
-  //           role: "user",
-  //           picture: user.photoURL || "N/A",
-  //         },
-  //         // Token: await user.getIdToken(),
-  //       })
-  //     );
-
-  //     setMessage({
-  //       message: "Registration Successful! You can now proceed to dashboard.",
-  //       showModel: true,
-  //       success: true,
-  //       userId: user.uid,
-  //     });
-
-
-  //     setUserCredential(user);
-  //     console.log("Google authentication successful");
-  //     navigate.push("/dashboard");
-
-  //   } catch (error : any) {
-  //     console.error("Google Sign-In Error:", error.code, error.message);
-  //     let errorMessage = "Google Sign-In Failed";
-  //     if (error.code === "auth/operation-not-allowed") {
-  //       errorMessage = "Google authentication is not enabled in Firebase";
-  //     }
-
-  //     setMessage({
-  //       message: errorMessage,
-  //       showModel: true,
-  //       success: false,
-  //       userId: "",
-  //     });
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  //copy by Login with auth
-
-  // const handleGoogleSignIn = async () => {
-  //     try {
-  //       setLoading(true);
-       
-  //       console.log("Trying Google Log-In...");
-    
-  //       // Krishna Code
-  //       const user = await signInWithGoogle();
-    
-  //       console.log(user, "user Created by Krishna coming fron firbase");
-    
-  //       if (user && user.uid) {
-  //         const displayName = user.displayName ;
-  //         const email = user.email;
-  //         const phoneNumber = user.phoneNumber || '';
-          
-  //         const payload = {
-  //           userId: user.uid,
-  //           firstName: user.displayName?.split(" ")[0] || "Unknown",
-  //           lastName: user.displayName?.split(" ")[1] || "User",
-  //           email: user.email,
-  //           phoneNumber: user.phoneNumber || "",        
-  //           whatsappNumber: "",                         
-  //           photoURL: user.photoURL,
-  //           password: user.uid.slice(0, 8)         
-  //         };
-    
-  //         console.log(payload, " I am result by Google Sign In by Krishna");
-    
-  //         const response = await fetch('/api/CheckGoogleLogin', {
-  //           method: 'POST',
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //           },
-  //           body: JSON.stringify(payload),
-  //         });
-    
-  //         const userData = await response.json();
-  //         console.log(userData, "user and result by Google Sign In by Krishna from backend");
-  
-  //         console.log(userData.exists )
-    
-  //         //------------krishna Code-------------
-    
-  //         if (!userData.exists) {
-  //           alert("Please complete registration first.");
-  //           router.push("/Register");
-  //           return; 
-  //         }
-    
-  //         // Get the token safely
-  //         const token = await user.getIdToken?.() || "";
-    
-  //         dispatch(
-  //           setAuth({
-  //             isAuthenticated: true,
-  //             userInfo: {
-  //               username: displayName || email.split('@')[0],
-  //               email: email,
-  //               Fname: displayName ? displayName.split(' ')[0] : '', // Split first name
-  //               Lname: displayName ? displayName.split(' ').slice(1).join(' ') : '',
-  //               contact: phoneNumber || "N/A",
-  //               role: "user", // Default role
-  //               picture: user.photoURL || "N/A",
-  //             },
-  //             Token: token,
-  //           })
-  //         );
-  
-  //         localStorage.setItem('authToken', token);
-  //         router.push("/dashboard");
-    
-  //       } else {
-  //         setError("Google login failed. Please try again.");
-  //       }
-  //     } catch (err) {
-  //       console.error("Google login error:", err);
-  //       let errorMessage = "An error occurred during Google login. Please try again.";
-    
-  //       if (err && typeof err === 'object' && 'code' in err) {
-  //         const errorCode = err.code;
-  //         if (errorCode === 'auth/popup-closed-by-user') errorMessage = "Login popup was closed before completion.";
-  //         if (errorCode === 'auth/cancelled-popup-request') errorMessage = "The login operation was cancelled.";
-  //       }
-    
-
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-
-
-
-
-
-
-
 
     const handleGoogleSignIn = async () => {
       try {
@@ -650,6 +397,7 @@ const Register = () => {
                 contact: phoneNumber || "N/A",
                 role: "user", // Default role
                 picture: user.photoURL || "N/A",
+                uid: user.uid,
               },
               Token: token,
             })
