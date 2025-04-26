@@ -4,7 +4,7 @@ import  { usePathname } from "next/navigation"
 import { Provider, useSelector } from "react-redux";
 import store, { IRootState } from "@/store";
 import { logout } from "@/store/themeConfigSlice";
-import LoggedNavbar from "../components/LoggedNavbar";
+//import LoggedNavbar from "../components/LoggedNavbar";
 
 export default function Layout({
   children,
