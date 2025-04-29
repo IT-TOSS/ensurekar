@@ -53,10 +53,10 @@ const page = () => {
       </section>
       <section className="container stp-30 sbp-30 flex flex-col gap-2">
         <div className="">
-          <h3 className="heading-1 py-6">
+          <h3 className="heading-1 py-6 dark:text-[#ddf3f0]">
             We don't share personal information.
           </h3>
-          <p className="text-bodyText">
+          <p className="text-bodyText dark:text-[#ddf3f0]">
             We thank you and appreciate your service or product purchase with us
             on our Website www.Ensurekar.com (hereinafter referred to as
             “Ensurekar”). Please read this policy and the Ensurekar terms and
@@ -64,7 +64,7 @@ const page = () => {
             guidelines about your rights and obligations as our customer, with
             respect to any purchase or service we provide to you.{" "}
           </p>
-          <p className="text-bodyText">
+          <p className="text-bodyText dark:text-[#ddf3f0]">
             We make every effort to provide the service to you as per the
             specifications and timelines mentioned against each service or
             product purchased by you from Ensurekar, however if, due to any
@@ -75,8 +75,8 @@ const page = () => {
         </div>
 
         <div className="">
-          <h3 className="heading-2 py-6">Services Offered</h3>
-          <p className="text-bodyText">
+          <h3 className="heading-2 py-6 dark:text-[#ddf3f0]">Services Offered</h3>
+          <p className="text-bodyText dark:text-[#ddf3f0]">
             EnsureKar provides fintech solutions, including legal, tax, and
             finance services such as business incorporation, government
             registrations, accounting, documentation, and annual compliance.
@@ -86,7 +86,7 @@ const page = () => {
               <span className="text-2xl text-p1">
                 <CheckCircle />
               </span>
-              <p className="ml-2">
+              <p className="ml-2 dark:text-white">
                 The Refund shall be only considered in the event there is a
                 clear, visible deficiency with the service or product purchased
                 from Ensurekar.
@@ -96,7 +96,7 @@ const page = () => {
               <span className="text-2xl text-p1">
                 <CheckCircle />
               </span>
-              <p className="ml-2">
+              <p className="ml-2 dark:text-[#ddf3f0]">
                 In the event a customer has paid for a service and then requests
                 for a refund only because there was a change in mind, the refund
                 shall not be considered as there is no fault, defect, or onus on
@@ -107,7 +107,7 @@ const page = () => {
               <span className="text-2xl text-p1">
                 <CheckCircle />
               </span>
-              <p className="ml-2">
+              <p className="ml-2 dark:text-[#ddf3f0]">
                 Refund requests shall not be entertained after the work has been
                 shared with you in the event of change of mind. However, we
                 shall give you the option of using the amount paid for by you,
@@ -120,7 +120,7 @@ const page = () => {
               <span className="text-2xl text-p1">
                 <CheckCircle />
               </span>
-              <p className="ml-2">
+              <p className="ml-2 dark:text-[#ddf3f0]">
                 If the request for a refund has been raised 30 (thirty) days
                 after the purchase of a service or product has been completed
                 and the same has been intimated and indicated via email or
@@ -130,7 +130,7 @@ const page = () => {
               </p>
             </li>
           </ul>
-          <p className="text-bodyText mt-5">
+          <p className="text-bodyText mt-5 dark:text-[#ddf3f0]">
             If the request for the refund has been approved by Ensurekar, the
             same shall be processed and intimated to you via email. This refund
             process could take a minimum of 15 (fifteen) business days to
@@ -141,11 +141,11 @@ const page = () => {
         </div>
 
         <div className="mt-5">
-          <h3 className="display-3 py-6  text-center">Privacy Policy</h3>
-          <p className="text-bodyText">We don't share personal information.</p>
-          <p className="heading-1 mt-5"> 1. GENERAL</p>
+          <h3 className="display-3 py-6  text-center dark:text-[#ddf3f0]">Privacy Policy</h3>
+          <p className="text-bodyText dark:text-[#ddf3f0]">We don't share personal information.</p>
+          <p className="heading-1 mt-5 text-[#ddf3f0]"> 1. GENERAL</p>
           <ul className="pt-6 flex flex-col gap-4">
-            <li className="flex justify-start items-start gap-1">
+            <li className="flex justify-start items-start gap-1 text-[#ddf3f0]">
               <b>a)</b> This document is an electronic record in terms of
               Information Technology Act, 2000 and rules there under as
               applicable and the amended provisions pertaining to electronic
@@ -154,14 +154,14 @@ const page = () => {
               computer system and does not require any physical or digital
               signatures.
             </li>
-            <li className="flex justify-start items-start gap-1">
+            <li className="flex justify-start items-start gap-1 text-[#ddf3f0]">
               <b>b)</b> This document is published in accordance with the
               provisions of Rule 3 (1) of the Information Technology
               (Intermediaries guidelines) Rules, 2011 that require publishing
               the rules and regulations, privacy policy and Terms of Use for
               access or usage of Ensurekar.com.
             </li>
-            <li className="flex justify-start items-start gap-1">
+            <li className="flex justify-start items-start gap-1 text-[#ddf3f0]">
               <b>c)</b> The domain name www.Ensurekar.com ("Website"), is owned
               and operated by Ensurekar Legal solutions Pvt. Ltd. (“Company”) a
               Private Company limited by shares, incorporated under the
@@ -173,7 +173,7 @@ const page = () => {
               employees, directors, officers, agents and their successors and
               assigns.
             </li>
-            <li className="flex justify-start flex-col items-start gap-1">
+            <li className="flex justify-start flex-col items-start gap-1 text-[#ddf3f0]">
               <div>
                 {" "}
                 <b className="inline-block"> d)</b> For the purpose of this
@@ -198,7 +198,7 @@ const page = () => {
                 collectively, as the context so requires.
               </div>
             </li>
-            <li className="flex justify-start items-start gap-1">
+            <li className="flex justify-start items-start gap-1 text-[#ddf3f0]">
               <b>e)</b> The headings of each section in this Policy are only for
               the purpose of organizing the various provisions under this Policy
               in an orderly manner, and shall not be used by either Party to
@@ -206,7 +206,7 @@ const page = () => {
               it is specifically agreed to by the Parties that the headings
               shall have no legal or contractual value.
             </li>
-            <li className="flex justify-start items-start gap-1">
+            <li className="flex justify-start items-start gap-1 text-[#ddf3f0]">
               <b>f)</b> The use of the Website by the User is solely governed by
               this Policy as well as the Terms of Use of the Website (“Terms”,
               available at www.Ensurekar.com), and any modifications or
@@ -220,7 +220,7 @@ const page = () => {
               termination of either one will lead to the termination of the
               other.
             </li>
-            <li className="flex justify-start items-start gap-1">
+            <li className="flex justify-start items-start gap-1 text-[#ddf3f0]">
               <b>g)</b> The User unequivocally agrees that this Policy and the
               aforementioned Terms constitute a legally binding agreement
               between the User and the Company, and that the User shall be
@@ -234,7 +234,7 @@ const page = () => {
               constitutes the User’s full and final acceptance of the Policy and
               the aforementioned Terms.
             </li>
-            <li className="flex justify-start items-start gap-1">
+            <li className="flex justify-start items-start gap-1 text-[#ddf3f0]">
               <b>h)</b> The Parties expressly agree that the Company retains the
               sole and exclusive right to amend or modify the Policy and the
               aforementioned Terms without any prior permission or intimation to
@@ -250,8 +250,8 @@ const page = () => {
               and use the Website.
             </li>
           </ul>
-          <ul className="pt-6 flex flex-col gap-4">
-            <li className="flex justify-start items-start flex-col gap-1">
+          <ul className="pt-6 flex flex-col gap-4 dark:text-[#ddf3f0]">
+            <li className="flex justify-start items-start flex-col gap-1 ">
               <h1 className="heading-1 my-2">
                 2. COLLECTION OF PERSONAL AND OTHER INFORMATION
               </h1>
@@ -294,8 +294,8 @@ const page = () => {
                 </li>
               </ul>
             </li>
-            <li className="flex justify-start flex-col items-start gap-1">
-              <p className="heading-1 mt-5">3. COOKIES</p>
+            <li className="flex justify-start flex-col items-start gap-1 ">
+              <p className="heading-1 mt-5 ">3. COOKIES</p>
               <ul className="pl-4">
                 <li className="flex justify-start items-start gap-1">
                   <b>a)</b> The User is aware that a ‘Cookie’ is a small piece
@@ -330,7 +330,7 @@ const page = () => {
                 </li>
               </ul>
             </li>
-            <li className="flex justify-start flex-col items-start gap-1">
+            <li className="flex justify-start flex-col items-start gap-1 ">
               <p className="heading-1 mt-5">
                 4. DIVULGING/SHARING OF PERSONAL INFORMATION
               </p>
@@ -371,7 +371,7 @@ const page = () => {
                 </li>
               </ul>
             </li>
-            <li className="flex justify-start flex-col items-start gap-1">
+            <li className="flex justify-start flex-col items-start gap-1 ">
               <p className="heading-1 mt-5">5. SECURITY</p>
               <p>
                 Transactions on the Website are secure and protected. Any
@@ -386,7 +386,7 @@ const page = () => {
                 institutions and payment franchisees that it is associated with.
               </p>
             </li>
-            <li className="flex justify-start flex-col items-start gap-1">
+            <li className="flex justify-start flex-col items-start gap-1 ">
               <p className="heading-1 mt-5">
                 6. THIRD PARTY ADVERTISEMENTS / PROMOTIONS
               </p>
@@ -466,12 +466,12 @@ const page = () => {
           </ul>
         </div>
         <div className="mt-5">
-          <h3 className="display-3 py-6 text-center">Terms of Services</h3>
-          <p className="text-bodyText">
+          <h3 className="display-3 py-6 text-center dark:text-[#ddf3f0]">Terms of Services</h3>
+          <p className="text-bodyText dark:text-[#ddf3f0]">
             Please read these Terms and Conditions carefully before using this
             site.
           </p>
-          <div className="text-bodyText mt-5">
+          <div className="text-bodyText mt-5 dark:text-[#ddf3f0]">
             <h4 className="heading-4">1. WELCOME TO ENSUREKAR.COM!</h4>
             <p>
               Since we will not be meeting face to face, it is important to set
@@ -1182,14 +1182,14 @@ const page = () => {
           </div>
         </div>
         <div className="mt-5">
-          <h3 className="display-3 py-6 text-center">Cookie policy –</h3>
-          <p className="text-bodyText">
+          <h3 className="display-3 py-6 text-center dark:text-[#ddf3f0]">Cookie policy –</h3>
+          <p className="text-bodyText dark:text-[#ddf3f0]">
             <b> We don't share personal information.</b> <br />
             By using this website, you're confirming that you're happy to accept
             our use of cookies. This page tells you more about what cookies are
             and how we use them.
           </p>
-          <div className="text-bodyText mt-5 gap-y-5">
+          <div className="text-bodyText mt-5 gap-y-5 dark:text-[#ddf3f0]">
             <h4 className="heading-4 mt-3">1.What are cookies?</h4>
             <p className="mt-3">Cookies are small data files that are placed onto your computer's hard drive or in your web browser memory when you visit a website. Almost every website uses cookies.</p>
             <h4 className="heading-4 mt-3"> 2.What are cookies for?</h4>

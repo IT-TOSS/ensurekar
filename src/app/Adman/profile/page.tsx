@@ -15,6 +15,7 @@ interface ClientData {
   role?: string;
   createdAt?: number; // Timestamp in milliseconds
   lastLogin?: number; // Timestamp in milliseconds
+  uid?: string; // Add uid property
   // Add other fields as needed
 }
 
@@ -170,7 +171,7 @@ const Page = () => {
                     {client.firstName || "User"} {client.lastName || ""}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-700">
-                    {client.id}
+                    {client.uid}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-700">
                     {client.email || "No email"}
@@ -180,7 +181,7 @@ const Page = () => {
                       className="border border-gray-400 bg-[#eafaf8] px-4 py-2 rounded-md hover:bg-yellow-400 hover:text-black transition"
                       onClick={() => 
                        {
-                         navigate.push(`/Adman/profile/${gmail}`)
+                         navigate.push(`/Adman/profile/${client.uid}`)
                        } 
                       }
                     >

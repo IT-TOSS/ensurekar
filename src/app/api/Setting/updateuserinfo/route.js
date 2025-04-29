@@ -27,11 +27,11 @@ export async function POST(req) {
     const body = JSON.parse(rawBody); // now parse manually
 
     // your normal flow
-    console.log('Parsed Body:', body);
+    // console.log('Parsed Body:', body);
     
-    // console.log("Request body:", body);
+    console.log("Request body:", body);
     
-    const { personal, company, identity, bank, address , document} = body;
+    const { personal, company, identity, bank, address , document, uid} = body;
 
     console.log("Personal data:", personal);
     console.log("Company data:", company);
@@ -39,6 +39,7 @@ export async function POST(req) {
     console.log("Bank data:", bank);    
     console.log("Address data:", address);
     console.log("Document data:", document);
+    console.log("uid USERID:", uid);
 
 
     let formattedDOB = '';
@@ -100,36 +101,36 @@ export async function POST(req) {
                     secondaryContact = ?
                 WHERE email = ?`,
                 [
-                    personal.userName,
-                    personal.firstName,
-                    personal.lastName,
-                    personal.fatherName,
+                    personal?.userName,
+                    personal?.firstName,
+                    personal?.lastName,
+                    personal?.fatherName,
                     // personal.DOB,
                     formattedDOB,
-                    personal.sex,
-                    personal.maritalStatus,
+                    personal?.sex,
+                    personal?.maritalStatus,
                     
-                    company.company,
-                    company.organisationType,
+                    company?.company|| "",
+                    company?.organisationType|| "",
                     
-                    identity.pan,
-                    identity.aadhar,
-                    identity.din,
-                    identity.addressProof,
-                    identity.addressProofName,
-                    identity.nationality,
+                    identity?.pan,
+                    identity?.aadhar,
+                    identity?.din,
+                    identity?.addressProof,
+                    identity?.addressProofName,
+                    identity?.nationality,
                     
-                    bank.bank,
-                    bank.accountNumber,
-                    bank.ifsc,
+                    bank?.bank,
+                    bank?.accountNumber,
+                    bank?.ifsc,
                     
-                    address.address,
-                    address.state,
-                    address.city,
-                    address.pin,
-                    address.secondaryEmail,
-                    address.contactNo,
-                    address.secondaryContact,
+                    address?.address,
+                    address?.state,
+                    address?.city,
+                    address?.pin,
+                    address?.secondaryEmail,
+                    address?.contactNo,
+                    address?.secondaryContact,
                     
                     address.email
                 ]
@@ -148,43 +149,45 @@ export async function POST(req) {
             
             const [insertResult] = await db.query(
                 `INSERT INTO user_info (
+                    uid,
                     userName, firstName, lastName, fatherName, DOB, sex, maritalStatus,
                     company, organisationType, pan, aadhar, din, addressProof, addressProofName,
                     nationality, bank, accountNumber, ifsc, address, state, city, pin,
                     email, secondaryEmail, contactNo, secondaryContact
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
-                    personal.userName,
-                    personal.firstName,
-                    personal.lastName,
-                    personal.fatherName,
-                    personal.DOB,
+                    uid || personal?.id,
+                    personal?.userName,
+                    personal?.firstName,
+                    personal?.lastName,
+                    personal?.fatherName,
+                    personal?.DOB,
                     // formattedDOB,
-                    personal.sex,
-                    personal.maritalStatus,
+                    personal?.sex,
+                    personal?.maritalStatus,
                     
-                    company.company,
-                    company.organisationType,
+                    company?.company,
+                    company?.organisationType,
                     
-                    identity.pan,
-                    identity.aadhar,
-                    identity.din,
-                    identity.addressProof,
-                    identity.addressProofName,
-                    identity.nationality,
+                    identity?.pan,
+                    identity?.aadhar,
+                    identity?.din,
+                    identity?.addressProof,
+                    identity?.addressProofName,
+                    identity?.nationality,
                     
-                    bank.bank,
-                    bank.accountNumber,
-                    bank.ifsc,
+                    bank?.bank,
+                    bank?.accountNumber,
+                    bank?.ifsc,
                     
-                    address.address,
-                    address.state,
-                    address.city,
-                    address.pin,
-                    address.email,
-                    address.secondaryEmail,
-                    address.contactNo,
-                    address.secondaryContact
+                    address?.address,
+                    address?.state,
+                    address?.city,
+                    address?.pin,
+                    address?.email,
+                    address?.secondaryEmail,
+                    address?.contactNo,
+                    address?.secondaryContact
                 ]
             );
             

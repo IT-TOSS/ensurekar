@@ -1097,391 +1097,6 @@
 // export default AccountSettings
 
 
-//---------------------------------
-
-
-
-// const [inputFormData, setInputFormData] = useState<InitialFormData>(initialFormData)
-// const userInfo = useSelector((state: IRootState) => state.themeConfig.userInfo)
-
-// // Fetch user profile data from API
-// useEffect(() => {
-//   const getUserData = async () => {
-//     try {
-//       const response = await GetUserProfile("GET")
-//       setFormData(response)
-
-//       // Update inputFormData with API data
-//       if (response) {
-//         setInputFormData(prevData => {
-//           const newData = { ...prevData };
-
-//           // Map API data to our form structure
-//           for (const section in response) {
-//             if (section in newData && typeof response[section] === 'object') {
-//               newData[section as keyof InitialFormData] = {
-//                 ...(newData[section as keyof InitialFormData]),
-//                 ...response[section]
-//               }
-//             }
-//           }
-//           console.log("i am new data---"); 
-//           console.log(inputFormData);
-
-//           return newData;
-//         });
-//       }
-//     } catch (error) {
-//       console.error("Error fetching user profile:", error)
-//     }
-//   }
-
-//   if (!existingFirebaseData) {
-//     getUserData()
-//   }
-// }, [profileData, existingFirebaseData])
-
-// // Get user data from Firebase by email or use existing data
-// useEffect(() => {
-//   const getUserDataFromFirebase = async () => {
-//     if (existingFirebaseData) {
-//       // Use existing Firebase data passed from parent
-//       processFirebaseData(existingFirebaseData)
-//       setLoading(false)
-//       return
-//     }
-
-//     if (firebaseUserId) {
-//       // If we have a document ID, get the document directly
-//       try {
-//         const docRef = doc(db, "users", firebaseUserId)
-//         const docSnap = await getDoc(docRef)
-
-//         if (docSnap.exists()) {
-//           const userData = docSnap.data()
-//           setFirebaseData(userData)
-//           processFirebaseData(userData)
-//         }
-//       } catch (error) {
-//         console.error("Error getting document by ID:", error)
-//       }
-
-//       setLoading(false)
-//       return
-//     }
-
-//     if (userInfo?.email) {
-//       await getUserByEmail(userInfo.email)
-//     } else {
-//       setLoading(false)
-//     }
-//   }
-
-//   getUserDataFromFirebase()
-// }, [existingFirebaseData, firebaseUserId, userInfo])
-
-// // Get user data from Firebase by email
-// const getUserByEmail = async (email: string): Promise<void> => {
-//   if (!email) {
-//     console.error("No email provided to getUserByEmail")
-//     return
-//   }
-
-//   try {
-//     setLoading(true)
-
-//     // First try direct document ID (in case email is used as document ID)
-//     try {
-//       // const docRef = doc(db, "users", email)
-//       // const docSnap = await getDoc(docRef)
-
-//       // if (docSnap.exists()) {
-//       //   const userData = docSnap.data()
-//       //   setFirebaseData(userData)
-//       //   setUserId(email)
-//       //   processFirebaseData(userData)
-//       //   setLoading(false)
-//       //   return
-//       // }
-//     } catch (directError) {
-//       console.log("Direct document access failed, trying query...")
-//     }
-
-//     // Create a query to find users with the matching email
-//     const usersRef = collection(db, "users")
-//     const q = query(usersRef, where("email", "==", email))
-//     const querySnapshot = await getDocs(q)
-
-//     if (querySnapshot.empty) {
-//       console.log("No user found with email:", email)
-//       setLoading(false)
-//       return
-//     }
-
-//     // Get the first matching document
-//     const userDoc = querySnapshot.docs[0]
-//     const userData = userDoc.data()
-//     const docId = userDoc.id
-
-//     console.log("Firebase user data found:", userData)
-//     setFirebaseData(userData)
-//     setUserId(docId)
-
-//     // Process the data immediately to populate the form
-//     processFirebaseData(userData)
-//     setLoading(false)
-//   } catch (error) {
-//     console.error("Error fetching user data:", error)
-//     setLoading(false)
-//   }
-// }
-
-// // Process Firebase data to populate form
-// const processFirebaseData = (data: any) => {
-//   if (!data) return
-
-//   const newFormData = { ...initialFormData }
-
-//   // Handle flat data structure with dot notation (Firebase format)
-//   Object.keys(data).forEach((key) => {
-//     if (key.includes(".")) {
-//       const [section, field] = key.split(".")
-//       if (section in newFormData && field in newFormData[section as keyof InitialFormData]) {
-//         (newFormData[section as keyof InitialFormData] as any)[field] = data[key]
-//       }
-//     } else if (key === "email") {
-//       // Handle email specially if it's at the root level
-//       newFormData.address.email = data.email
-//     }
-//   })
-
-//   // Also look for nested objects
-//   for (const section in newFormData) {
-//     if (data[section]) {
-//       for (const field in newFormData[section as keyof InitialFormData]) {
-//         if (data[section][field] !== undefined) {
-//           (newFormData[section as keyof InitialFormData] as any)[field] = data[section][field]
-//         }
-//       }
-//     }
-//   }
-
-//   // Set basic user info from Redux if not already set
-//   if (userInfo) {
-//     newFormData.personal.firstName = newFormData.personal.firstName || userInfo.Fname || ""
-//     newFormData.personal.lastName = newFormData.personal.lastName || userInfo.Lname || ""
-//     newFormData.personal.userName = newFormData.personal.userName || userInfo.username || ""
-//     newFormData.address.email = newFormData.address.email || userInfo.email || ""
-//     newFormData.address.contactNo = newFormData.address.contactNo || userInfo.contact || ""
-//   }
-
-//   setInputFormData(newFormData)
-// }
-
-// // Form validation
-// const validate = () => {
-//   let valid = true
-//   const newErrors = { ...errors }
-
-//   if (!inputFormData.personal.userName) {
-//     newErrors.userName = "Username is required"
-//     valid = false
-//   }
-
-//   // Add more validation as needed
-//   // For example:
-//   if (inputFormData.identity.pan && !/[A-Z]{5}[0-9]{4}[A-Z]{1}/.test(inputFormData.identity.pan)) {
-//     newErrors.pan = "Invalid PAN format"
-//     valid = false
-//   }
-
-//   if (inputFormData.identity.aadhar && !/^\d{12}$/.test(inputFormData.identity.aadhar)) {
-//     newErrors.aadhar = "Aadhar should be 12 digits"
-//     valid = false
-//   }
-
-//   setErrors(newErrors)
-//   return valid
-// }
-
-// // Handle form input changes - FIXED VERSION
-// const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-//   const { name, value } = e.target
-
-//   // Check if the name includes a dot (section.field format)
-//   if (name.includes(".")) {
-//     const [sectionName, fieldName] = name.split(".")
-
-//     setInputFormData(prevData => ({
-//       ...prevData,
-//       [sectionName]: {
-//         ...(prevData[sectionName as keyof InitialFormData]),
-//         [fieldName]: value
-//       }
-//     }))
-//   } else {
-//     // For inputs without section prefix, we need to determine which section it belongs to
-//     let sectionName = ""
-
-//     // Check which section this field belongs to
-//     if (Object.keys(inputFormData.personal).includes(name)) {
-//       sectionName = "personal"
-//     } else if (Object.keys(inputFormData.company).includes(name)) {
-//       sectionName = "company"
-//     } else if (Object.keys(inputFormData.identity).includes(name)) {
-//       sectionName = "identity"
-//     } else if (Object.keys(inputFormData.bank).includes(name)) {
-//       sectionName = "bank"
-//     } else if (Object.keys(inputFormData.address).includes(name)) {
-//       sectionName = "address"
-//     }
-
-//     if (sectionName) {
-//       setInputFormData(prevData => ({
-//         ...prevData,
-//         [sectionName]: {
-//           ...(prevData[sectionName as keyof InitialFormData] as any),
-//           [name]: value
-//         }
-//       }))
-//     }
-//   }
-// }
-
-// // Handle file uploads
-// const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//   const { name, files } = e.target
-//   if (files && files.length > 0) {
-//     setInputFormData((prevData) => ({
-//       ...prevData,
-//       document: { ...prevData.document, [name]: files[0] },
-//     }))
-//   }
-// }
-
-// // Update user profile in Firebase
-// const updateUserInFirebase = async (formData: any) => {
-//   if (!userInfo?.email) {
-//     console.error("No user email available")
-//     return false
-//   }
-
-//   try {
-//     // Prepare data for Firebase
-//     const flattenedData: Record<string, any> = {}
-
-//     // Flatten the form data structure with dot notation for Firebase
-//     Object.entries(formData).forEach(([section, sectionData]: [string, any]) => {
-//       if (section !== "document") {
-//         Object.entries(sectionData).forEach(([key, value]) => {
-//           if (value !== null && value !== "") {
-//             flattenedData[`${section}.${key}`] = value
-//           }
-//         })
-//       }
-//     })
-
-//     // Add email at root level for easier queries
-//     flattenedData.email = userInfo.email
-
-//     // Update or create the user document
-//     if (userId) {
-//       // If we have a userId, update the existing document
-//       await setDoc(doc(db, "users", userId), flattenedData, { merge: true })
-//     } else {
-//       // Try using email as the document ID first
-//       try {
-//         await setDoc(doc(db, "users", userInfo.email), flattenedData)
-//         setUserId(userInfo.email)
-//       } catch (error) {
-//         // If that fails, create a new document with auto-generated ID
-//         const usersRef = collection(db, "users")
-//         const newDocRef = doc(usersRef)
-//         await setDoc(newDocRef, flattenedData)
-//         setUserId(newDocRef.id)
-//       }
-//     }
-
-//     return true
-//   } catch (error) {
-//     console.error("Error updating user in Firebase:", error)
-//     return false
-//   }
-// }
-
-// // Handle form submission
-// const handleSubmit = async (e: React.FormEvent) => {
-//   e.preventDefault()
-
-//   if (validate()) { // here we peform update operation
-//     return
-//   }
-
-
-//   try {
-//     // First update in Firebase
-
-//     // if(validate()){
-//     //   return;
-//     // }
-
-//     setLoading(true)
-//     const firebaseSuccess = await updateUserInFirebase(inputFormData)
-
-//     // Create a FormData object for server API submission
-//     const formDataToSend = new FormData()
-
-//     // Add data from each section
-//     Object.entries(inputFormData).forEach(([section, sectionData]: [string, any]) => {
-//       if (section !== "document") {
-//         Object.entries(sectionData).forEach(([key, value]) => {
-//           if (value) formDataToSend.append(`${section}.${key}`, value as string)
-//         })
-//       }
-//     })
-
-//     // Add files
-//     Object.entries(inputFormData.document).forEach(([key, file]) => {
-//       if (file instanceof File) {
-//         formDataToSend.append(`document.${key}`, file)
-//       }
-//     })
-
-
-//     try {
-//       // Send the data to the server API
-
-//       console.log("i am Data whose going to backend")
-//       const response = await axios.post("http://localhost:4000/v1/setting/update-user-info", formDataToSend)
-//       console.log("API Success:", response)
-//     } catch (apiError) {
-//       console.error("API update error:", apiError)
-//       // Continue - we'll still consider it a success if Firebase updated
-//     }
-
-//     setSuccessMessage(firebaseSuccess 
-//       ? "Profile updated successfully!" 
-//       : "There was an issue updating your profile. Please try again.")
-
-//     // Clear success message after 3 seconds
-//     setTimeout(() => {
-//       setSuccessMessage("")
-//     }, 3000)
-//   } catch (error) {
-//     console.error("Error submitting form:", error)
-//     setSuccessMessage("There was an error updating your profile. Please try again.")
-//   } finally {
-//     setLoading(false)
-//   }
-// }
-
-// // Fix: Create this function for Contact tab
-// const handlePersonalInformation = handleSubmit;
-
-// const Tabs = ["Personal", "Company", "Identity", "Bank", "Contact"]
-
-// -- it's new Code
-
 
 
 "use client"
@@ -1678,6 +1293,15 @@ const AccountSettings = ({
         const userData = response.data.data;
         console.log(userInfo.email);
 
+        // get user uid in local storage
+
+        const localStorageData = localStorage.getItem("userInfo");
+        const parsed = localStorageData ? JSON.parse(localStorageData) : null;
+        const userId = parsed?.uid
+
+        console.log(parsed, "parsed get user data from local stroge");
+        console.log(userId, "uid");
+
         for (let i = 0; i < userData.length; i++) {
           if (userData[i].email === userInfo.email) {
             console.log(userData[i], "kk");
@@ -1708,7 +1332,7 @@ const AccountSettings = ({
                 DOB: formattedDate || '',
                 sex: userData[i].sex || '',
                 maritalStatus: userData[i].maritalStatus || '',
-                id: userData[i].id
+                id: userId
               },
               company: {
                 company: userData[i].company || '',
@@ -2010,8 +1634,8 @@ const AccountSettings = ({
   //     //   }
   //     // });
 
-      
-      
+
+
   //     // if (userInfo?.email) {
   //     //   formDataToSend.append("email", userInfo.email);
   //     // }
@@ -2033,7 +1657,7 @@ const AccountSettings = ({
   //           ? "Profile updated successfully!"
   //           : "There was an issue updating your profile. Please try again.")
 
-        
+
 
   //     } catch (apiError) {
   //       console.error("API update error:", apiError)
@@ -2063,79 +1687,89 @@ const AccountSettings = ({
   //000000000000000000000000000000000000000000000
 
   // Handle form submission
-const handleSubmit = async (e: React.FormEvent) => {
-  console.log("Everything in process")
-  e.preventDefault()
+  const handleSubmit = async (e: React.FormEvent) => {
+    console.log("Everything in process")
+    e.preventDefault()
 
-  // if (!validate()) { 
-  //   console.log( "user is not validate")
-  //   return
-  // }
-
-  try {
-    setLoading(true)
-    console.log("Data in Loading And Process")
-    
-    // Create a FormData object for sending files
-    const formDataToSend = new FormData()
-    
-    // Add regular form fields to FormData
-    Object.entries(inputFormData).forEach(([section, sectionData]: [string, any]) => {
-      if (section !== "document") {
-        // For regular data fields
-        Object.entries(sectionData).forEach(([key, value]) => {
-          if (value !== null && value !== "") {
-            formDataToSend.append(`${section}.${key}`, (value ?? "").toString())
-          }
-        })
-      } else if (section === "document") {
-        // For file fields
-        Object.entries(sectionData).forEach(([key, file]) => {
-          if (file !== null && file instanceof Blob) {
-            formDataToSend.append(`document.${key}`, file)
-          }
-        })
-      }
-    })
-    
-    // Add email to form data if available
-    if (userInfo?.email) {
-      formDataToSend.append("email", userInfo.email)
-    }
+    // if (!validate()) { 
+    //   console.log( "user is not validate")
+    //   return
+    // }
 
     try {
-      // Log what we're sending to help with debugging
-      console.log("Data being sent to backend:", formDataToSend)
-      console.log("Files being sent:", inputFormData.document) //inputFormData
-      
-      // Send the data to the server API - using formDataToSend for multipart/form-data
-      const response = await axios.post("/api/Setting/updateuserinfo", formDataToSend, {
-        headers: {
-          "Content-Type": "application/json"
+      setLoading(true)
+      console.log("Data in Loading And Process")
+
+      // Create a FormData object for sending files
+      const formDataToSend = new FormData()
+
+      // Add regular form fields to FormData
+      Object.entries(inputFormData).forEach(([section, sectionData]: [string, any]) => {
+        if (section !== "document") {
+          // For regular data fields
+          Object.entries(sectionData).forEach(([key, value]) => {
+            if (value !== null && value !== "") {
+              formDataToSend.append(`${section}.${key}`, (value ?? "").toString())
+            }
+          })
+        } else if (section === "document") {
+          // For file fields
+          Object.entries(sectionData).forEach(([key, file]) => {
+            if (file !== null && file instanceof Blob) {
+              formDataToSend.append(`document.${key}`, file)
+            }
+          })
         }
       })
-      
-      console.log("API Success:", response)
-      
-      setSuccessMessage(response.statusText === "OK"
-        ? "Profile updated successfully!"
-        : "There was an issue updating your profile. Please try again.")
 
-    } catch (apiError) {
-      console.error("API update error:", apiError)
+      // Add email to form data if available
+      if (userInfo?.email) {
+        formDataToSend.append("email", userInfo.email)
+      }
+
+      const localStorageData = localStorage.getItem("userInfo");
+      const parsed = localStorageData ? JSON.parse(localStorageData) : null;
+      const userId = parsed?.uid
+
+      if (parsed?.uid) {
+        formDataToSend.append("uid", userId)
+      }
+
+      try {
+        // Log what we're sending to help with debugging
+        console.log("Data being sent to backend:", formDataToSend)
+        console.log("Files being sent:", inputFormData.document) //inputFormData
+
+        console.log("User ID:", formDataToSend.get("uid")) // Check if userId is being sent
+
+        // Send the data to the server API - using formDataToSend for multipart/form-data
+        const response = await axios.post("/api/Setting/updateuserinfo", formDataToSend, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+
+        console.log("API Success:", response)
+
+        setSuccessMessage(response.statusText === "OK"
+          ? "Profile updated successfully!"
+          : "There was an issue updating your profile. Please try again.")
+
+      } catch (apiError) {
+        console.error("API update error:", apiError)
+        setSuccessMessage("There was an error updating your profile. Please try again.")
+      }
+
+      setTimeout(() => {
+        setSuccessMessage("")
+      }, 3000)
+    } catch (error) {
+      console.error("Error submitting form:", error)
       setSuccessMessage("There was an error updating your profile. Please try again.")
+    } finally {
+      setLoading(false)
     }
-
-    setTimeout(() => {
-      setSuccessMessage("")
-    }, 3000)
-  } catch (error) {
-    console.error("Error submitting form:", error)
-    setSuccessMessage("There was an error updating your profile. Please try again.")
-  } finally {
-    setLoading(false)
   }
-}
 
 
 
@@ -2146,12 +1780,12 @@ const handleSubmit = async (e: React.FormEvent) => {
   // const handleSubmit = async (e: React.FormEvent) => {
   //   console.log("everything in process...");
   //   e.preventDefault();
-  
+
   //   try {
   //     setLoading(true);
-  
+
   //     const formDataToSend = new FormData();
-  
+
   //     // JSON data append karo
   //     formDataToSend.append("jsonData", JSON.stringify({
   //       personal: inputFormData.personal,
@@ -2160,26 +1794,26 @@ const handleSubmit = async (e: React.FormEvent) => {
   //       bank: inputFormData.bank,
   //       address: inputFormData.address
   //     }));
-  
+
   //     // Files append karo
   //     Object.entries(inputFormData.document).forEach(([key, file]) => {
   //       if (file) {
   //         formDataToSend.append(key, file);
   //       }
   //     });
-  
+
   //     console.log("Sending data to backend..." , formDataToSend);
-  
+
   //     const response = await axios.post("/api/Setting/updateuserinfo", formDataToSend);
-  
+
   //     console.log("API Success:", response.data);
-  
+
   //     setSuccessMessage("Profile updated successfully!");
-  
+
   //     setTimeout(() => {
   //       setSuccessMessage("");
   //     }, 3000);
-  
+
   //   } catch (error) {
   //     console.error("Error submitting form:", error);
   //     setSuccessMessage("There was an error updating your profile. Please try again.");
@@ -2187,7 +1821,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   //     setLoading(false);
   //   }
   // }
-  
+
 
   // Fix: Create this function for Contact tab
   const handlePersonalInformation = handleSubmit;
@@ -2378,7 +2012,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           <div>
             <h2 className="font-bold text-2xl text-center my-5 bg-softBg1 text-bodyText p-5">Company Information</h2>
             <form
-            encType="multipart/form-data"
+              encType="multipart/form-data"
               className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white rounded-lg shadow-lg"
               onSubmit={handleSubmit}
             >
@@ -2442,7 +2076,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           <div>
             <h2 className="font-bold text-2xl text-center my-5 bg-softBg1 text-bodyText p-5">Identity Information</h2>
             <form
-            encType="multipart/form-data"
+              encType="multipart/form-data"
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 bg-white rounded-lg shadow-lg"
               onSubmit={handleSubmit}
             >
@@ -2569,7 +2203,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           <div>
             <h2 className="font-bold text-2xl text-center my-5 bg-softBg1 text-bodyText p-5">Bank Information</h2>
             <form
-            encType="multipart/form-data"
+              encType="multipart/form-data"
               className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white rounded-lg shadow-lg"
               onSubmit={handleSubmit}
             >
@@ -2635,7 +2269,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           <div>
             <h2 className="font-bold text-2xl text-center my-5 bg-softBg1 text-bodyText p-5">Contact Information</h2>
             <form
-            encType="multipart/form-data"
+              encType="multipart/form-data"
               className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white rounded-lg shadow-lg"
               onSubmit={handleSubmit}
             >
