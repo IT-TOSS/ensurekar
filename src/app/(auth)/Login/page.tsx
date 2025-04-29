@@ -669,7 +669,7 @@ const Login = () => {
               />
               <span className="dark:text-white">Remember me</span>
             </label>
-            <Link href="/Forget-Password" className="font-medium">
+            <Link href="/Forget-Password" className="font-medium dark:text-white">
               Forget Password?
             </Link>
           </div>

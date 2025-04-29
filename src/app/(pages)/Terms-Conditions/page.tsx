@@ -21,17 +21,17 @@ const TermsConditions = () => {
           </p>
         </div> */}
 
-        <div className="">
-          <h3 className="heading-1 py-6">Acceptance of Terms</h3>
-          <p className="text-bodyText">
+        <div className=" ">
+          <h3 className="heading-1 py-6 dark:text-[#d2f7f2]">Acceptance of Terms</h3>
+          <p className="text-bodyText dark:text-[#d2f7f2]">
           By accessing and using EnsureKar's platform, you agree to comply with these Terms & Conditions. If you do not agree, please refrain from using our services.
           </p>
         
         </div>
 
         <div className="">
-          <h3 className="heading-2 py-6">Services Offered</h3>
-          <p className="text-bodyText">
+          <h3 className="heading-2 py-6 dark:text-[#d2f7f2]">Services Offered</h3>
+          <p className="text-bodyText dark:text-[#d2f7f2]">
           EnsureKar provides fintech solutions, including legal, tax, and finance services such as business incorporation, government registrations, accounting, documentation, and annual compliance.
           </p>
 
@@ -39,11 +39,11 @@ const TermsConditions = () => {
         </div>
 
         <div className="">
-          <h3 className="heading-3 py-6">Client Responsibilities</h3>
-          <p className="text-bodyText">
+          <h3 className="heading-3 py-6 dark:text-[#d2f7f2]">Client Responsibilities</h3>
+          <p className="text-bodyText dark:text-[#d2f7f2]">
           Users agree to:
           </p>
-          <ul className="pt-6 flex flex-col gap-4">
+          <ul className="pt-6 flex flex-col gap-4 dark:text-[#d2f7f2]">
             <li className="flex justify-start items-center gap-1">
               <span className="text-2xl text-p1">
               <CheckCircle />
@@ -67,30 +67,30 @@ const TermsConditions = () => {
         </div>
 
         <div className="">
-          <h3 className="heading-3 py-6">Limitation of Liability</h3>
-          <p className="text-bodyText">
+          <h3 className="heading-3 py-6 dark:text-[#d2f7f2]">Limitation of Liability</h3>
+          <p className="text-bodyText dark:text-[#d2f7f2]">
           EnsureKar is not liable for any direct, indirect, incidental, or consequential damages arising from the use of our platform or services. Users are responsible for ensuring their compliance with legal and tax regulations.
           </p>
         </div>
 
         <div className="">
-          <h3 className="heading-3 py-6">Termination of Services</h3>
-          <p className="text-bodyText">
+          <h3 className="heading-3 py-6 dark:text-[#d2f7f2]">Termination of Services</h3>
+          <p className="text-bodyText dark:text-[#d2f7f2]">
           We reserve the right to suspend or terminate accounts if users violate our terms, engage in illegal activities, or provide false information.
           </p>
         </div>
 
         <div className="">
-          <h3 className="heading-3 py-6">Governing Law & Dispute Resolution</h3>
-          <p className="text-bodyText">
+          <h3 className="heading-3 py-6 dark:text-[#d2f7f2]">Governing Law & Dispute Resolution</h3>
+          <p className="text-bodyText dark:text-[#d2f7f2]">
           These Terms & Conditions are governed by the laws of India. Any disputes shall be resolved through arbitration in [City, State], as per Indian Arbitration laws.
           </p>
         </div>
 
         <div className="">
-          <h3 className="heading-3 py-6"> Contact Information</h3>
-          <p className="text-bodyText">
-          For any queries regarding our Terms & Conditions, contact us at <Link href="mailto:connect@ensurekar.in" className='text-blue-800'>connect@ensurekar.in</Link>.
+          <h3 className="heading-3 py-6 dark:text-[#d2f7f2]"> Contact Information</h3>
+          <p className="text-bodyText dark:text-[#d2f7f2]">
+          For any queries regarding our Terms & Conditions, contact us at <Link href="mailto:connect@ensurekar.in" className='text-blue-800 ' >connect@ensurekar.in</Link>.
           </p>
         </div>
 
