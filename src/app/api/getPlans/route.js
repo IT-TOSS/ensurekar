@@ -33,14 +33,6 @@ export async function POST(req) {
             }, { status: 400 });
         }
 
-        const passwordMatch = await bcrypt.compare(passwordInput, user.password);
-
-        if (!passwordMatch) {
-            return Response.json({
-                error: 'Invalid password.'
-            }, { status: 401 });
-        }
-
         const db = await CreateConnection();
 
         // 1. Check if email exists
@@ -58,6 +50,12 @@ export async function POST(req) {
 
         // 2. Compare password with hashed password
         const passwordMatch = await bcrypt.compare(passwordInput, user.password);
+
+        if (!passwordMatch) {
+            return Response.json({
+                error: 'Invalid password.'
+            }, { status: 401 });
+        }
 
         if (!passwordMatch) {
             return Response.json({
