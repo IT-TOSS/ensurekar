@@ -133,11 +133,11 @@ const Register = () => {
       if (!userCredential && formData.email && formData.password) {
         const credential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
 
-        // console.log(credential, " I am credential by Created my Krishna");
+        console.log(credential, " I am credential by Created my Krishna");
 
         const user = credential.user;
 
-        // console.log(user, " I am User by Created my Krishna");
+        console.log(user, " I am User by Created my Krishna");
 
         await updateProfile(user, {
           displayName: `${formData.firstName} ${formData.lastName}`,
@@ -146,7 +146,7 @@ const Register = () => {
         console.log(user.uid, " I am User Id");
 
         console.log(formData.firstName + "  " + formData.lastName)
-        const response = await fetch("/api/Register", {
+        const response = await fetch("https://edueye.co.in/ensurekar/existing-site/register.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -164,7 +164,7 @@ const Register = () => {
         });
 
         const result = await response.json();
-        // console.log(result, " I am result by Created my Krishna completed ebery thing");
+        console.log(result, " I am result by Created my Krishna completed ebery thing");
 
         if (response.ok) {
           console.log("User data successfully sent to backend:", result);
@@ -292,7 +292,7 @@ const Register = () => {
       }
 
       const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-      // console.log(newOtp+111111 + " : ooo");
+      console.log(newOtp + " : ooo");
       setGeneratedOtp(newOtp);
 
       setUserCredential(null);
@@ -343,25 +343,27 @@ const Register = () => {
             password: user.uid.slice(0, 8)         
           };
           
-          // console.log(payload, "I am result by Google Sign In by Krishna");
+          console.log(payload, "I am result by Google Sign In by Krishna");
           
           // First check if the user exists in the database
-          const response = await fetch('/api/CheckGoogleLogin', {
+          const response = await fetch('https://edueye.co.in/ensurekar/existing-site/register.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(payload),
           });
+
+          console.log(response, "response by Google Sign In by Krishna from backend");
           
           const userData = await response.json();
-          // console.log(userData, "user and result by Google Sign In by Krishna from backend");
-          // console.log(userData.exists);
+          console.log(userData, "user and result by Google Sign In by Krishna from backend");
+          console.log(userData.exists);
           
           // If user doesn't exist, redirect to registration
           if (!userData.exists) {
             // First register the user in the database
-            const registerResponse = await fetch('/api/Register', {
+            const registerResponse = await fetch('https://edueye.co.in/ensurekar/existing-site/register.php', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

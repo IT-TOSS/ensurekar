@@ -96,7 +96,9 @@ const Login = () => {
         password: input.password,
       };
 
-      const response = await fetch('/api/Login', {
+      console.log(payload, " I am result by Login by Krishna");
+      ///api/Login
+      const response = await fetch('https://edueye.co.in/ensurekar/existing-site/login.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -108,21 +110,6 @@ const Login = () => {
       console.log(user, "user Created by Krishna coming fron backend");
 
       console.log(user.user, "user Created bt Krishna")
-
-
-
-      /**
-       * 
-       *createdAt: "2025-04-07T06:20:11.000Z"
-        email:"krishna.vish9329@gmail.com"
-        firstName: "Krishna"
-        id  :1
-        lastName:"Vishwakarma"
-        phoneNumber:null
-        photoURL:null
-        userId:"uAyN6EdmLUgersTuGp5aWQI3NSs1"
-        whatsappNumber:"1"
-       */
 
       if (user.user.email && user.user.userId) {
         // Safely access user properties with optional chaining
@@ -181,294 +168,6 @@ const Login = () => {
     }
   };
 
-
-  // // S
-  // const handleGoogleLogin = async () => {
-  //   try {
-  //     setLoading(true);
-  //     setError("");
-
-  //     // Krishna Code
-  //     const user = await signInWithGoogle();
-
-  //     console.log(user, "user Created by Krishna coming fron backend");
-
-  //     if (user && user.uid) {
-  //       // Safely access user properties with optional chaining
-  //       // const displayName = user.displayName || '';
-  //       // const email = user.email || '';
-  //       // const phoneNumber = user.phoneNumber || '';
-        
-
-        
-  //     const payload = {
-  //       userId: user.uid,
-  //       firstName: user.displayName?.split(" ")[0] || "Unknown",
-  //       lastName: user.displayName?.split(" ")[1] || "User",
-  //       email: user.email,
-  //       phoneNumber: user.phoneNumber || "",        
-  //       whatsappNumber: "",                         
-  //       photoURL: user.photoURL,
-  //       password: user.uid.slice(0, 8)         
-  //     };
-
-  //     console.log(payload, " I am result by Google Sign In by Krishna");
-
-
-  //      const response = await fetch('/api/Register', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(payload),
-  //     });
-
-  //     const user = await response.json();
-  //     console.log(user , "user and result by Google Sign In by Krishna");
-
-
-  //     // const res = await fetch("/api/CheckGoogleLogin", {
-  //     //   method: "POST",
-  //     //   headers: { "Content-Type": "application/json" },
-  //     //   body: JSON.stringify({
-  //     //     userId: user.uid,
-  //     //     email: user.email,
-  //     //   }),
-  //     // });
-
-  //     const data = await res.json();
-
-  //     console.log(data, "return Data")
-  //     //------------krishna Code-------------
-
-  //     if (!data.exists) {
-  //       alert("Please complete registration first.");
-  //       router.push("/register");
-  //     }
-
-  //     dispatch(
-  //       setAuth({
-  //         isAuthenticated: true,
-  //         userInfo: {
-  //           username: displayName || email.split('@')[0],
-  //           email: email,
-  //           Fname: displayName ? displayName.split(' ')[0] : '', // Split first name
-  //           Lname: displayName ? displayName.split(' ').slice(1).join(' ') : '',
-  //           contact: phoneNumber || "N/A",
-  //           role: "user", // Default role
-  //           picture: user.photoURL || "N/A",
-  //         },
-  //         Token: await user.getIdToken(),
-  //       })
-  //     );
-
-  //     // Store token in localStorage for persistence
-  //     localStorage.setItem('authToken', await user.getIdToken());
-  //     router.push("/dashboard");
-
-
-
-
-  //     //-----------------------------------------------------------------------------------
-  //     // if (user && user.uid) {
-  //     //   // Safely access user properties with optional chaining
-  //     //   const displayName = user.displayName || '';
-  //     //   const email = user.email || '';
-  //     //   const phoneNumber = user.phoneNumber || '';
-  //     // }
-
-
-
-  //       // Store authentication info in Redux
-  //       // dispatch(
-  //       //   setAuth({
-  //       //     isAuthenticated: true,
-  //       //     userInfo: {
-  //       //       username: displayName || email.split('@')[0],
-  //       //       email: email,
-  //       //       Fname: displayName ? displayName.split(' ')[0] : '', // Split first name
-  //       //       Lname: displayName ? displayName.split(' ').slice(1).join(' ') : '',
-  //       //       contact: phoneNumber || "N/A",
-  //       //       role: "user", // Default role
-  //       //       picture: user.photoURL || "N/A",
-  //       //     },
-  //       //     Token: await user.getIdToken(),
-  //       //   })
-  //       // );
-
-  //       // // Store token in localStorage for persistence
-  //       // localStorage.setItem('authToken', await user.getIdToken());
-  //       // router.push("/dashboard");
-  //     } else {
-  //       setError("Google login failed. Please try again.");
-  //     }
-  //   } catch (err) {
-  //     console.error("Google login error:", err);
-  //     // Handle specific Google sign-in errors safely
-  //     let errorMessage = "An error occurred during Google login. Please try again.";
-
-  //     if (err && typeof err === 'object' && 'code' in err) {
-  //       const errorCode = err.code;
-  //       if (errorCode === 'auth/popup-closed-by-user') errorMessage = "Login popup was closed before completion.";
-  //       if (errorCode === 'auth/cancelled-popup-request') errorMessage = "The login operation was cancelled.";
-  //     }
-
-  //     setError(errorMessage);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
-
-  // const handleGoogleLogin = async () => {
-  //   try {
-  //     setLoading(true);
-  //     setError("");
-  
-  //     // Krishna Code
-  //     const user = await signInWithGoogle();
-  
-  //     console.log(user, "user Created by Krishna coming fron backend");
-  
-  //     if (user && user.uid) {
-  //       // Safely access user properties with optional chaining
-  //       const displayName = user.displayName || '';
-  //       const email = user.email || '';
-  //       const phoneNumber = user.phoneNumber || '';
-        
-  //       const payload = {
-  //         userId: user.uid,
-  //         firstName: user.displayName?.split(" ")[0] || "Unknown",
-  //         lastName: user.displayName?.split(" ")[1] || "User",
-  //         email: user.email,
-  //         phoneNumber: user.phoneNumber || "",        
-  //         whatsappNumber: "",                         
-  //         photoURL: user.photoURL,
-  //         password: user.uid.slice(0, 8)         
-  //       };
-  
-  //       console.log(payload, " I am result by Google Sign In by Krishna");
-  
-  //       const response = await fetch('/api/Register', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify(payload),
-  //       });
-  
-  //       const userData = await response.json();
-  //       console.log(userData, "user and result by Google Sign In by Krishna");
-  
-  //       // const res = await fetch("/api/CheckGoogleLogin", {
-  //       //   method: "POST",
-  //       //   headers: { "Content-Type": "application/json" },
-  //       //   body: JSON.stringify({
-  //       //     userId: user.uid,
-  //       //     email: user.email,
-  //       //   }),
-  //       // });
-  
-  //       // Using a placeholder to avoid error since 'res' is referenced but not defined
-  //       // We'll create a function to handle this correctly
-  //       const checkUserExists = async () => {
-  //         try {
-  //           const res = await fetch("/api/CheckGoogleLogin", {
-  //             method: "POST",
-  //             headers: { "Content-Type": "application/json" },
-  //             body: JSON.stringify({
-  //               userId: user.uid,
-  //               email: user.email,
-  //             }),
-  //           });
-  //           return await res.json();
-  //         } catch (error) {
-  //           console.error("Error checking if user exists:", error);
-  //           return { exists: true }; // Default assumption to prevent errors
-  //         }
-  //       };
-  
-  //       const data = await checkUserExists();
-  //       console.log(data, "return Data");
-  //       //------------krishna Code-------------
-  
-  //       if (!data.exists) {
-  //         alert("Please complete registration first.");
-  //         router.push("/register");
-  //         return; // Exit the function early
-  //       }
-  
-  //       // Get the token safely
-  //       const token = await user.getIdToken?.() || "";
-  
-  //       dispatch(
-  //         setAuth({
-  //           isAuthenticated: true,
-  //           userInfo: {
-  //             username: displayName || email.split('@')[0],
-  //             email: email,
-  //             Fname: displayName ? displayName.split(' ')[0] : '', // Split first name
-  //             Lname: displayName ? displayName.split(' ').slice(1).join(' ') : '',
-  //             contact: phoneNumber || "N/A",
-  //             role: "user", // Default role
-  //             picture: user.photoURL || "N/A",
-  //           },
-  //           Token: token,
-  //         })
-  //       );
-  
-  //       // Store token in localStorage for persistence
-  //       localStorage.setItem('authToken', token);
-  //       router.push("/dashboard");
-  
-  //       //-----------------------------------------------------------------------------------
-  //       // if (user && user.uid) {
-  //       //   // Safely access user properties with optional chaining
-  //       //   const displayName = user.displayName || '';
-  //       //   const email = user.email || '';
-  //       //   const phoneNumber = user.phoneNumber || '';
-  //       // }
-  
-  //       // // Store authentication info in Redux
-  //       // dispatch(
-  //       //   setAuth({
-  //       //     isAuthenticated: true,
-  //       //     userInfo: {
-  //       //       username: displayName || email.split('@')[0],
-  //       //       email: email,
-  //       //       Fname: displayName ? displayName.split(' ')[0] : '', // Split first name
-  //       //       Lname: displayName ? displayName.split(' ').slice(1).join(' ') : '',
-  //       //       contact: phoneNumber || "N/A",
-  //       //       role: "user", // Default role
-  //       //       picture: user.photoURL || "N/A",
-  //       //     },
-  //       //     Token: await user.getIdToken(),
-  //       //   })
-  //       // );
-  
-  //       // // Store token in localStorage for persistence
-  //       // localStorage.setItem('authToken', await user.getIdToken());
-  //       // router.push("/dashboard");
-  //     } else {
-  //       setError("Google login failed. Please try again.");
-  //     }
-  //   } catch (err) {
-  //     console.error("Google login error:", err);
-  //     // Handle specific Google sign-in errors safely
-  //     let errorMessage = "An error occurred during Google login. Please try again.";
-  
-  //     if (err && typeof err === 'object' && 'code' in err) {
-  //       const errorCode = err.code;
-  //       if (errorCode === 'auth/popup-closed-by-user') errorMessage = "Login popup was closed before completion.";
-  //       if (errorCode === 'auth/cancelled-popup-request') errorMessage = "The login operation was cancelled.";
-  //     }
-  
-  //     setError(errorMessage);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-
   //---krishna code---
 
   const handleGoogleLogin = async () => {
@@ -498,9 +197,11 @@ const Login = () => {
           password: user.uid.slice(0, 8)         
         };
   
-        // console.log(payload, " I am result by Google Sign In by Krishna");
+        console.log(payload, " I am result by Google Sign In by Krishna");
+
+        ///api/CheckGoogleLogin
   
-        const response = await fetch('/api/CheckGoogleLogin', {
+        const response = await fetch('https://edueye.co.in/ensurekar/existing-site/login_google.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -509,16 +210,16 @@ const Login = () => {
         });
   
         const userData = await response.json();
-        // console.log(userData, "user and result by Google Sign In by Krishna from backend");
+        console.log(userData, "user and result by Google Sign In by Krishna from backend");
 
-        // console.log(userData.exists )
+        console.log(userData.exists )
   
         //------------krishna Code-------------
   
         if (!userData.exists) {
           alert("Please complete registration first.");
-          router.push("/Register");
-          return; 
+          // router.push("/settings");
+          // return; 
         }
   
         // Get the token safely

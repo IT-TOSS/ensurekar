@@ -14,111 +14,6 @@ export async function GET() {
     }
 }
 
-
-// export async function POST(req) {
-//     try {
-//         const requestData = await req.json();
-//         console.log('Received Login Request: DATA from authentication', requestData);
-
-//         const { userId, email } = body;
-//         const db = await CreateConnection();
-//         const [rows] = await db.execute(
-//             "SELECT * FROM users WHERE userId = ? OR email = ?",
-//             [userId, email]
-//         );
-
-//         return Response.json({ exists: rows.length > 0 });
-//     } catch (err) {
-//         return Response.json({ error: err.message }, { status: 500 });
-//     }
-// }
-
-
-
-// export async function POST(req) {
-//     try {
-//         const requestData = await req.json();
-//         console.log('Received Data:', requestData);
-
-//         const {
-//             userId,
-//             firstName,
-//             lastName,
-//             email,
-//             phoneNumber,
-//             whatsappNumber,
-//             photoURL,
-//             password
-//         } = requestData;
-
-//         // Normalize fields
-//         const emailWithTrim = email?.trim().toLowerCase();
-//         const normalizedPhoneNumber = phoneNumber?.trim() || null;
-//         const normalizedWhatsappNumber = whatsappNumber?.trim() || null;
-//         const normalizedPhotoURL = photoURL?.trim() || null;
-
-//         // ✅ Hash the password securely
-//         const hashedPassword = await bcrypt.hash(password.trim(), 10);
-
-//         console.log('Normalized user data:', {
-//             userId,
-//             firstName,
-//             lastName,
-//             email: emailWithTrim,
-//             phoneNumber: normalizedPhoneNumber,
-//             whatsappNumber: normalizedWhatsappNumber,
-//             photoURL: normalizedPhotoURL,
-//             password
-//             // password: '[HIDDEN]' // Don't log actual password
-//         });
-
-//         const db = await CreateConnection();
-
-//         const insertSQL = `
-//             INSERT INTO users (
-//                 userId,
-//                 firstName,
-//                 lastName,
-//                 email,
-//                 phoneNumber,
-//                 whatsappNumber,
-//                 photoURL,
-//                 password
-//             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-//         `;
-
-//         const insertValues = [
-//             userId,
-//             firstName,
-//             lastName,
-//             emailWithTrim,
-//             normalizedPhoneNumber,
-//             normalizedWhatsappNumber,
-//             normalizedPhotoURL,
-//             hashedPassword
-//         ];
-
-//         await db.query(insertSQL, insertValues);
-//         console.log('✅ User data inserted successfully.');
-
-//         const selectSQL = 'SELECT * FROM users WHERE email = ?';
-//         const [rows] = await db.query(selectSQL, [emailWithTrim]);
-
-//         return Response.json({
-//             message: 'User saved successfully',
-//             data: rows
-//         }, { status: 200 });
-
-//     } catch (error) {
-//         console.error('❌ Error saving user data:', error);
-//         return Response.json(
-//             { error: error.message || 'Failed to save user data' },
-//             { status: 500 }
-//         );
-//     }
-// }
-
-
 export async function POST(req) {
     try {
         const requestData = await req.json();
@@ -249,9 +144,5 @@ export async function POST(req) {
             { error: error.message || 'Failed to process registration' },
             { status: 500 }
         );
-    } finally {
-        // Close the database connection if needed
-        // If your CreateConnection function doesn't handle this automatically
-        // await db?.end();
-    }
+    } 
 }
