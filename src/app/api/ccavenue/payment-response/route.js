@@ -238,9 +238,136 @@
 // ----------------------------------
 
 
-import { NextResponse } from 'next/server';
-// import { decrypt } from '@/lib/ccavenue/decrypt'; // your decrypt function
-import CreateConnection from '@/lib/db'; // your DB connection file
+// import { NextResponse } from 'next/server';
+// // import { decrypt } from '@/lib/ccavenue/decrypt'; // your decrypt function
+// import CreateConnection from '@/lib/db'; // your DB connection file
+
+// const WORKING_KEY = '0187BDEA47CA90A12EEFACDFA5D3D900';
+
+// function decrypt(encryptedText, workingKey) {
+//   const m = crypto.createHash('md5');
+//   m.update(workingKey);
+//   const key = m.digest();
+//   const iv = '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f';
+//   const decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
+//   let decoded = decipher.update(encryptedText, 'hex', 'utf8');
+//   decoded += decipher.final('utf8');
+//   return decoded;
+// }
+
+// export async function POST(request) {
+//   const formData = await request.formData();
+//   console.log('CCAvenue Payment Response:', formData);
+//   console.log('CCAvenue Payment Response:', formData.get('encResp'));
+//   const encResp = formData.get('encResp')?.toString();
+
+//   if (!encResp) {
+//     // return NextResponse.redirect(new URL('/payment/cancel?error=NoResponse', request.url));
+//     return new Response(`
+//       <html>
+//         <head>
+//           <meta http-equiv="refresh" content="0;url=/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}" />
+//         </head>
+//         <body>
+//           <p>Redirecting to cancel page...</p>
+//         </body>
+//       </html>
+//     `, {
+//       headers: {
+//         'Content-Type': 'text/html',
+//       },
+//     });
+    
+//   }
+
+//   try {
+//     const decrypted = decrypt(encResp, WORKING_KEY);
+//     const data = Object.fromEntries(new URLSearchParams(decrypted));
+//     console.log('CCAvenue Payment Data:', data);
+
+//     // OPTIONAL: Save payment data into database
+//     // const db = await CreateConnection();
+//     // await db.execute(
+//     //   `INSERT INTO ccavenue_transactions (order_id, tracking_id, bank_ref_no, order_status, amount, billing_email) VALUES (?, ?, ?, ?, ?, ?)`,
+//     //   [
+//     //     data.order_id || '',
+//     //     data.tracking_id || '',
+//     //     data.bank_ref_no || '',
+//     //     data.order_status || '',
+//     //     data.amount || 0,
+//     //     data.billing_email || ''
+//     //   ]
+//     // );
+
+//     if (data.order_status === 'Success') {
+
+//       return new Response(`
+//         <html>
+//           <head>
+//             <meta http-equiv="refresh" content="0;url=/payment/success?order_id=${data.order_id}&amount=${data.amount}" />
+//           </head>
+//           <body>
+//             <p>Redirecting to success page...</p>
+//           </body>
+//         </html>
+//       `, {
+//         headers: {
+//           'Content-Type': 'text/html',
+//         },
+//       });
+      
+
+
+//      /* return NextResponse.redirect(
+//         new URL(`/payment/success?order_id=${data.order_id}&amount=${data.amount}`, request.url)
+//       );*/
+//     } else {
+//       // return NextResponse.redirect(
+//       //   new URL(`/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}`, request.url)
+//       // );
+//       return new Response(`
+//         <html>
+//           <head>
+//             <meta http-equiv="refresh" content="0;url=/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}" />
+//           </head>
+//           <body>
+//             <p>Redirecting to cancel page...</p>
+//           </body>
+//         </html>
+//       `, {
+//         headers: {
+//           'Content-Type': 'text/html',
+//         },
+//       });
+      
+//     }
+//   } catch (error) {
+//     console.error('Error decrypting CCAvenue response:', error);
+//     return new Response(`
+//       <html>
+//         <head>
+//           <meta http-equiv="refresh" content="0;url=/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}" />
+//         </head>
+//         <body>
+//           <p>Redirecting to cancel page...</p>
+//         </body>
+//       </html>
+//     `, {
+//       headers: {
+//         'Content-Type': 'text/html',
+//       },
+//     });
+    
+//     //NextResponse.redirect(new URL('/payment/cancel?error=DecryptFailed', request.url));
+//   }
+// }
+
+//-----------------------------
+
+
+// File: app/api/ccavenue/payment-response/route.js
+
+import crypto from 'crypto';
 
 const WORKING_KEY = '0187BDEA47CA90A12EEFACDFA5D3D900';
 
@@ -248,7 +375,7 @@ function decrypt(encryptedText, workingKey) {
   const m = crypto.createHash('md5');
   m.update(workingKey);
   const key = m.digest();
-  const iv = '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f';
+  const iv = Buffer.from([...Array(16).keys()]);
   const decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
   let decoded = decipher.update(encryptedText, 'hex', 'utf8');
   decoded += decipher.final('utf8');
@@ -256,108 +383,50 @@ function decrypt(encryptedText, workingKey) {
 }
 
 export async function POST(request) {
-  const formData = await request.formData();
-  console.log('CCAvenue Payment Response:', formData);
-  console.log('CCAvenue Payment Response:', formData.get('encResp'));
-  const encResp = formData.get('encResp')?.toString();
-
-  if (!encResp) {
-    // return NextResponse.redirect(new URL('/payment/cancel?error=NoResponse', request.url));
-    return new Response(`
-      <html>
-        <head>
-          <meta http-equiv="refresh" content="0;url=/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}" />
-        </head>
-        <body>
-          <p>Redirecting to cancel page...</p>
-        </body>
-      </html>
-    `, {
-      headers: {
-        'Content-Type': 'text/html',
-      },
-    });
-    
-  }
-
   try {
+    const formData = await request.formData();
+    const encResp = formData.get('encResp')?.toString();
+
+    if (!encResp) {
+      throw new Error('No encResp received');
+    }
+
     const decrypted = decrypt(encResp, WORKING_KEY);
     const data = Object.fromEntries(new URLSearchParams(decrypted));
-    console.log('CCAvenue Payment Data:', data);
+    console.log('Decrypted CCAvenue Response:', data);
 
-    // OPTIONAL: Save payment data into database
-    // const db = await CreateConnection();
-    // await db.execute(
-    //   `INSERT INTO ccavenue_transactions (order_id, tracking_id, bank_ref_no, order_status, amount, billing_email) VALUES (?, ?, ?, ?, ?, ?)`,
-    //   [
-    //     data.order_id || '',
-    //     data.tracking_id || '',
-    //     data.bank_ref_no || '',
-    //     data.order_status || '',
-    //     data.amount || 0,
-    //     data.billing_email || ''
-    //   ]
-    // );
+    const successUrl = `https://ensurekar.com/payment/success?order_id=${data.order_id}&amount=${data.amount}`;
+    const cancelUrl = `https://ensurekar.com/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}`;
 
-    if (data.order_status === 'Success') {
+    const finalRedirect = data.order_status === 'Success' ? successUrl : cancelUrl;
 
-      return new Response(`
-        <html>
-          <head>
-            <meta http-equiv="refresh" content="0;url=/payment/success?order_id=${data.order_id}&amount=${data.amount}" />
-          </head>
-          <body>
-            <p>Redirecting to success page...</p>
-          </body>
-        </html>
-      `, {
-        headers: {
-          'Content-Type': 'text/html',
-        },
-      });
-      
-
-
-     /* return NextResponse.redirect(
-        new URL(`/payment/success?order_id=${data.order_id}&amount=${data.amount}`, request.url)
-      );*/
-    } else {
-      // return NextResponse.redirect(
-      //   new URL(`/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}`, request.url)
-      // );
-      return new Response(`
-        <html>
-          <head>
-            <meta http-equiv="refresh" content="0;url=/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}" />
-          </head>
-          <body>
-            <p>Redirecting to cancel page...</p>
-          </body>
-        </html>
-      `, {
-        headers: {
-          'Content-Type': 'text/html',
-        },
-      });
-      
-    }
-  } catch (error) {
-    console.error('Error decrypting CCAvenue response:', error);
     return new Response(`
       <html>
         <head>
-          <meta http-equiv="refresh" content="0;url=/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}" />
+          <meta http-equiv="refresh" content="0;url=${finalRedirect}" />
         </head>
-        <body>
-          <p>Redirecting to cancel page...</p>
+        <body style="font-family:sans-serif; text-align:center; padding-top:3rem;">
+          <p>Redirecting to <a href="${finalRedirect}">${finalRedirect}</a></p>
         </body>
       </html>
     `, {
-      headers: {
-        'Content-Type': 'text/html',
-      },
+      headers: { 'Content-Type': 'text/html' },
     });
-    
-    //NextResponse.redirect(new URL('/payment/cancel?error=DecryptFailed', request.url));
+  } catch (error) {
+    console.error('Payment Response Error:', error);
+    return new Response(`
+      <html>
+        <head>
+          <meta http-equiv="refresh" content="0;url=https://ensurekar.com/payment/cancel?reason=processing_failed" />
+        </head>
+        <body style="font-family:sans-serif; text-align:center; padding-top:3rem;">
+          <h2>Oops! Something went wrong.</h2>
+          <p>${error.message}</p>
+        </body>
+      </html>
+    `, {
+      headers: { 'Content-Type': 'text/html' },
+      status: 500
+    });
   }
 }
