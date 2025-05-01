@@ -6,6 +6,7 @@ import Select from "react-select";
 import Link from "next/link";
 import Image from "next/image";
 import { div } from "framer-motion/client";
+import axios from "axios";
 
 interface planData {
   heading: {
@@ -565,17 +566,42 @@ const PlansSection = ({ planData }: { planData: planData }) => {
 
   const plan = plansData.find((plan) => plan.state === selectedState);
   const plans = plan?.plans.filter((plan) => plan.isActive);
-  const handleBuy = (plan: any) => {
-    console.log(plan);
+  const handleBuy = async (plan: any) => {
 
-     if (plan.onSelect) {
-       plan.onSelect();
-      } else {
-          console.log(plan);
-      }
+    try {
+      console.log("Fetching plans...");
+      const response = await axios.get("https://edueye.co.in/ensurekar/wp-json/wc/v3/products?consumer_key=ck_1a163a1d803b2ed9c2c501a232692bd5ee3c2619&consumer_secret=cs_054aea9c8f7ddeef9b7ceb5fc45c56cd422ba4a2");
+      
+      console.log("Response data:", response.data); 
+    } catch (error) {
+      console.error("Error fetching plans:", error);
+    } 
+    // console.log(plan);
+
+    //  if (plan.onSelect) {
+    //    plan.onSelect();
+    //   } else {
+    //       console.log(plan);
+    //   }
     
 
   };
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        console.log("Fetching plans...");
+        const response = await axios.get("https://edueye.co.in/ensurekar/wp-json/wc/v3/products?consumer_key=ck_1a163a1d803b2ed9c2c501a232692bd5ee3c2619&consumer_secret=cs_054aea9c8f7ddeef9b7ceb5fc45c56cd422ba4a2");
+        
+        console.log("Response data:", response.data); // ✅ CORRECT
+      } catch (error) {
+        console.error("Error fetching plans:", error);
+      } 
+    };
+  
+    fetchPlans();
+  }, []);
+
   useEffect(() => {
     const plan = plansData.find((plan) => plan.state === selectedState);
     setPlansData(plan?.plans.filter((plan) => plan.isActive) || []);
@@ -616,28 +642,6 @@ const PlansSection = ({ planData }: { planData: planData }) => {
             {description}
           </p>
         </div>
-        {/* <div className="flex flex-col w-full items-center justify-center">
-          <div className="flex md:flex-row flex-col md:w-[619px] w-[320px] px-[12px] items-center md:justify-between justify-center md:gap-[5px] md:py-[10px] py-[10px] border-[#53A3F9] rounded-[3px] bg-yellow-400 my-[16px]">
-            <div className="flex flex-col md:gap-[5px] gap-[2px]">
-              <p className="md:text-[18px] text-[14px] max-md:w-full text-[#022B50] md:text-left text-center font-medium">
-                Select your state to view the Government Fee
-              </p>
-            </div>
-            <div className=" my-2 w-full md:max-w-[200px]">
-              <div className="cursor-pointer">
-                <Select
-                  closeMenuOnSelect={true}
-                  options={statesOptions}
-                  defaultValue={statesOptions.find(
-                    (option) => option.value === selectedState
-                  )}
-                  onChange={handleStateChange}
-                  className="bg-[#CCE4FF]"
-                />
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
 
       {/* Plan Section */}

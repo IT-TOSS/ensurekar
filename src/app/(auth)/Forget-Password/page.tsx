@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setAuth } from "@/store/themeConfigSlice";
+import axios from "axios";
 
 const Login = () => {
   const testimonials = [
@@ -76,27 +77,27 @@ const Login = () => {
         email: input.email
       };
 
+      const response = await axios.post('/api/forget-Password', payload);
+      console.log(response.data);
 
-      const response = await fetch('/api/Login', { // change the Api
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+      console.log(response, "response coming from backend");
 
-      const user = await response.json();
-      console.log(user, "user Created by Krishna coming fron backend");
+      // console.lo g(response.body, "response coming from backend");
 
-      console.log(user.user, "user Created bt Krishna")
+      const user = response.data.user;
+      // console.log(user, "user Created by Krishna coming fron backend");
+
+      console.log(user, "user Created bt Krishna")
+      if(user){
+        setSuccess("Reset link sent to your email.");
+        // router.push(`Forget-Password/${user}`);
+      }
+      else{
       setError("Forget-Password failed. Please check your credentials.");
-      setSuccess("Reset link sent to your email.");
-      alert(`Reset link sent to your email: ${input.email}`);
+
+      }
       
-
-
-
-    //   router.push("/Login");
+      // alert(`Reset link sent to your email: ${input.email}`);
     
     } catch (err) {
       console.error("Login error:", err);

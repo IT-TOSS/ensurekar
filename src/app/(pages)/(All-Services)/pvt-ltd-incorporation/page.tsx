@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React,{useEffect} from "react";
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import faq_illus from "../../../images/faq_illus.png";
 import Rocket_With_Men from "../../../images/SGV-Types/Rocket-With-Men.svg";
@@ -34,7 +34,69 @@ import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 import { HandCoins } from "lucide-react";
 
+import DynamicPlansSection from "../../../components/Section/DynamicPlansSection";
+
+import axios from "axios";
+
+
 const Pvt_Ltd_Incorporation_Registration = () => {
+
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      // setLoading(true);
+      try {
+        const response = await axios.get("https://edueye.co.in/ensurekar/wp-json/wc/v3/products?consumer_key=ck_1a163a1d803b2ed9c2c501a232692bd5ee3c2619&consumer_secret=cs_054aea9c8f7ddeef9b7ceb5fc45c56cd422ba4a2");
+        const data = response.data;
+
+        console.log("Response:data", data.data);
+        // const grouped = groupPlans(data.data);
+        // console.log("Grouped Plans:", grouped);
+
+        // console.log(Array.isArray(data.data))
+        
+        // if (data && Array.isArray(data.data)) {
+        //   setPlansData(grouped);
+        //   console.log("Plans Data:", plansData);
+          
+        //   // Create states dropdown options
+        //   const states = Object.values(grouped).map(group => ({ 
+        //     value: group.state, 
+        //     label: group.state_name 
+        //   }));
+        //   setStatesOptions(states);
+          
+        //   // Initialize split payment toggle states
+        //   const toggleStates: { [key: string]: boolean } = {};
+        //   Object.values(grouped).forEach(group => {
+        //     group.plans.forEach(p => {
+        //       toggleStates[p.plan.id] = false;
+        //     });
+        //   });
+        //   setSplitPaymentStates(toggleStates);
+          
+        //   // Set initial filtered plans based on default state
+        //   const initialPlans = grouped[selectedState]?.plans.filter(p => p.isActive) || [];
+        //   setFilteredPlans(initialPlans);
+          
+        //   // Set initial selected plan if available
+        //   if (initialPlans.length > 0) {
+        //     setSelectedPlan(initialPlans[0].planName);
+        //   }
+        // } else {
+        //   setError("Invalid data format received from server");
+        // }
+      } catch (error) {
+        console.error("Error fetching plans:", error);
+        // setError("Failed to load plans. Please try again later.");
+      } 
+    };
+
+    fetchPlans();
+  }, []);
+
+
+
   const BreadcrumbData = {
     title: "Private Limited Incorporation",
     heading: "Private Limited Incorporation Registration",
@@ -1058,11 +1120,24 @@ const Pvt_Ltd_Incorporation_Registration = () => {
       },
     ],
   };
+
+
+
+
   return (
     <div>
       <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       <PlansSection planData={planData} />
+
+      {/* Dynamic data */}
+
+      <DynamicPlansSection />
+
+
+
+
+
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />

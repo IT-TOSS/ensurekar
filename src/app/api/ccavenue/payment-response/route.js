@@ -262,7 +262,22 @@ export async function POST(request) {
   const encResp = formData.get('encResp')?.toString();
 
   if (!encResp) {
-    return NextResponse.redirect(new URL('/payment/cancel?error=NoResponse', request.url));
+    // return NextResponse.redirect(new URL('/payment/cancel?error=NoResponse', request.url));
+    return new Response(`
+      <html>
+        <head>
+          <meta http-equiv="refresh" content="0;url=/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}" />
+        </head>
+        <body>
+          <p>Redirecting to cancel page...</p>
+        </body>
+      </html>
+    `, {
+      headers: {
+        'Content-Type': 'text/html',
+      },
+    });
+    
   }
 
   try {
@@ -285,16 +300,64 @@ export async function POST(request) {
     // );
 
     if (data.order_status === 'Success') {
-      return NextResponse.redirect(
+
+      return new Response(`
+        <html>
+          <head>
+            <meta http-equiv="refresh" content="0;url=/payment/success?order_id=${data.order_id}&amount=${data.amount}" />
+          </head>
+          <body>
+            <p>Redirecting to success page...</p>
+          </body>
+        </html>
+      `, {
+        headers: {
+          'Content-Type': 'text/html',
+        },
+      });
+      
+
+
+     /* return NextResponse.redirect(
         new URL(`/payment/success?order_id=${data.order_id}&amount=${data.amount}`, request.url)
-      );
+      );*/
     } else {
-      return NextResponse.redirect(
-        new URL(`/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}`, request.url)
-      );
+      // return NextResponse.redirect(
+      //   new URL(`/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}`, request.url)
+      // );
+      return new Response(`
+        <html>
+          <head>
+            <meta http-equiv="refresh" content="0;url=/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}" />
+          </head>
+          <body>
+            <p>Redirecting to cancel page...</p>
+          </body>
+        </html>
+      `, {
+        headers: {
+          'Content-Type': 'text/html',
+        },
+      });
+      
     }
   } catch (error) {
     console.error('Error decrypting CCAvenue response:', error);
-    return NextResponse.redirect(new URL('/payment/cancel?error=DecryptFailed', request.url));
+    return new Response(`
+      <html>
+        <head>
+          <meta http-equiv="refresh" content="0;url=/payment/cancel?order_id=${data.order_id}&reason=${encodeURIComponent(data.failure_message || 'PaymentFailed')}" />
+        </head>
+        <body>
+          <p>Redirecting to cancel page...</p>
+        </body>
+      </html>
+    `, {
+      headers: {
+        'Content-Type': 'text/html',
+      },
+    });
+    
+    //NextResponse.redirect(new URL('/payment/cancel?error=DecryptFailed', request.url));
   }
 }

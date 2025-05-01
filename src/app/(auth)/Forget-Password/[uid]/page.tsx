@@ -6,7 +6,8 @@ import login_bg_img from "../../../images/login_bg_img.png";
 import { ArrowLeft, ArrowRight, Envelope, Lock, Password } from "phosphor-react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-
+import { useParams } from 'next/navigation';
+import axios from "axios";
 
 const Login = () => {
     const testimonials = [
@@ -33,6 +34,10 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [Success, setSuccess] = useState("");
+
+    const { uid } = useParams(); 
+
+    // console.log(uid, "uid coming from params");
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) =>
@@ -65,6 +70,7 @@ const Login = () => {
             setLoading(true);
             setError("");
             setSuccess("");
+            console.log(input, uid, "input coming from user");
             if (!input.password && !input.confirmPassword) {
                 setError("Please enter your password address.");
                 return;
@@ -76,31 +82,44 @@ const Login = () => {
             }
 
             const payload = {
+                uid: uid,
                 password: input.password,
                 confirmPassword: input.confirmPassword
             };
 
+            const response = await axios.put('/api/forget-Password', payload);
+            
+            console.log(response, "response coming from backend");
+            
+            console.log(response.data );
 
-            const response = await fetch('/api/Login', { // change the Api
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
+            if(response.data.message === "Password updated successfully."){
 
-            const user = await response.json();
-            console.log(user, "user Created by Krishna coming fron backend");
+                setSuccess("Password resset successfully.\n Go back to login page.");
+                
+            }
+            else{
+                setError("Forget-Password failed. Please check your credentials.");
+            }
 
-            console.log(user.user, "user Created bt Krishna")
-            setError("Forget-Password failed. Please check your credentials.");
-            setSuccess("Reset link sent to your email.");
-            alert(`Reset link sent to your email: ${input.password}`);
+            setTimeout(() => {
+                router.push("/Login");
+            }
+            , 2000);
 
-
+            // const user = response.data.message;
 
 
-            //   router.push("/Login");
+            // // console.log(user, "user Created bt Krishna")
+            // if(user){
+            //   setSuccess("Reset link sent to your email.");
+            //   // router.push(`Forget-Password/${user}`);
+            // }
+            // else{
+            // setError("Forget-Password failed. Please check your credentials.");
+            
+            // }
+           //   router.push("/Login");
 
         } catch (err) {
             console.error("Login error:", err);
@@ -195,15 +214,14 @@ const Login = () => {
                     <div className="col-span-2">
                         <button
                             className="py-4 bg-p1 text-white block text-center border border-p1 hover:bg-s2 hover:border-mainTextColor hover:text-mainTextColor duration-500 w-full"
-                            onClick={handleLogin}
-                            disabled={loading}
+                            onClick={()=>{handleLogin() 
+                                setLoading(true)
+                            }}
+                            // disabled={loading}
                         >
-                            {loading ? "Forget-Password..." : "Forget-Password"}
+                            {loading ? "Reset-Password..." : "Reset-Password"}
                         </button>
-                        <div className='text-center relative my-5'>
-                            <span className='relative z-10 bg-white px-2 dark:bg-black dark:text-white'>Don't have an account? Register here</span>
-                            <div className='absolute top-1/2 left-0 w-full border-t border-gray-300 transform -translate-y-1/2'></div>
-                        </div>
+
                     </div>
                 </div>
             </div>
