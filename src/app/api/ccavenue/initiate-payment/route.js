@@ -15,11 +15,11 @@ const ACCESS_CODE = 'AVTB18KB63AS79BTSA';
 const WORKING_KEY = '0187BDEA47CA90A12EEFACDFA5D3D900';
 
 // URLs for redirect after payment completion  //6BD6040DF585C3B1E524422B603652E8
-const REDIRECT_URL = "/api/ccavenue/payment-response"
+const REDIRECT_URL = "https://ensurekar.com/api/ccavenue/payment-response"
 /* true //process.env.NODE_ENV === 'production' 
   ? 'https://ensurekar.com/payment/success' 
   : 'http://localhost:3000/payment/success';*/
-const CANCEL_URL = "/api/ccavenue/payment-response"
+const CANCEL_URL = "https://ensurekar.com/api/ccavenue/payment-response"
 /* true //process.env.NODE_ENV === 'production'
   ? 'https://ensurekar.com/payment/cancel'
   : 'http://localhost:3000/payment/cancel';*/
