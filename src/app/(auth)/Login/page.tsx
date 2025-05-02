@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import login_bg_img from "../../images/login_bg_img.png";
 import google from "../../images/google.png";
@@ -143,6 +143,18 @@ const Login = () => {
           localStorage.setItem('authToken', JSON.stringify(Authe));
         }
 
+
+        // Redirect to the Cart page  
+
+        const redirectAfterLogin = localStorage.getItem('redirectAfterLogin');
+
+        if (redirectAfterLogin) {
+          console.log("Redirecting to cart page after login...");
+          localStorage.removeItem('redirectAfterLogin');
+          router.push("/cart");
+          return;
+        }
+
         router.push("/dashboard");
       } else {
         setError("Login failed. Please check your credentials.");
@@ -243,6 +255,18 @@ const Login = () => {
         );
 
         localStorage.setItem('authToken', token);
+
+        // Redirect to the Cart page  
+
+        const redirectAfterLogin = localStorage.getItem('redirectAfterLogin');
+
+        if (redirectAfterLogin) {
+          console.log("Redirecting to cart page after login...");
+          localStorage.removeItem('redirectAfterLogin');
+          router.push("/cart");
+          return;
+
+        }
         router.push("/dashboard");
   
       } else {

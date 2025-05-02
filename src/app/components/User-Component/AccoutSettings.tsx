@@ -1284,13 +1284,14 @@ const AccountSettings = ({
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const response = await axios.get("/api/Setting/updateuserinfo", {
+        const response = await axios.get("https://edueye.co.in/ensurekar/existing-site/userinfo_get.php", {
           headers: {
             "Content-Type": "application/json"
           }
         });
 
         const userData = response.data.data;
+        console.log(userData, "user data from database");
         console.log(userInfo.email);
 
         // get user uid in local storage
@@ -1727,23 +1728,27 @@ const AccountSettings = ({
         formDataToSend.append("email", userInfo.email)
       }
 
+      
       const localStorageData = localStorage.getItem("userInfo");
       const parsed = localStorageData ? JSON.parse(localStorageData) : null;
       const userId = parsed?.uid
-
+      
       if (parsed?.uid) {
         formDataToSend.append("uid", userId)
       }
+      console.log("Data being sent to backend:", inputFormData.personal)
 
       try {
         // Log what we're sending to help with debugging
-        console.log("Data being sent to backend:", formDataToSend)
+        console.log("Data being sent to backend11:",  inputFormData )
         console.log("Files being sent:", inputFormData.document) //inputFormData
 
         console.log("User ID:", formDataToSend.get("uid")) // Check if userId is being sent
 
         // Send the data to the server API - using formDataToSend for multipart/form-data
-        const response = await axios.post("/api/Setting/updateuserinfo", formDataToSend, {
+
+        ///api/Setting/updateuserinfo
+        const response = await axios.post("https://edueye.co.in/ensurekar/existing-site/userinfo_post.php", formDataToSend, {
           headers: {
             "Content-Type": "application/json"
           }

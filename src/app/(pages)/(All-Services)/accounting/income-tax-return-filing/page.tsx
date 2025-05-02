@@ -34,23 +34,52 @@ const Page = () => {
   const router = useRouter();
 
   // Function to handle plan selection and add to cart
+
+  // const handlePlanSelection = (planId: string, planName: string, price: string) => {
+  //   const numericPrice = parseFloat(price.replace(/[₹,]/g, ''));
+    
+  //   const selectedPlan = {
+  //     id: `income-tax-plan-${planId}`,
+  //     name: `Income Tax Return Filing - ${planName}`,
+  //     price: numericPrice,
+  //     quantity: 1,
+  //     subtotal: numericPrice,
+  //     image: productImage
+  //   };
+    
+  //   // Add plan to cart
+  //   dispatch(addToCart(selectedPlan));
+
+
+    
+  //   // Redirect to cart page
+  //   router.push("/cart");
+  // };
+
+  // reimplementing the handlePlanSelection function to include the planId in the cart item ID
+
   const handlePlanSelection = (planId: string, planName: string, price: string) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo') || 'null');
+    console.log("User Info:", userInfo); 
     const numericPrice = parseFloat(price.replace(/[₹,]/g, ''));
-    
-    const selectedPlan = {
-      id: `income-tax-plan-${planId}`,
-      name: `Income Tax Return Filing - ${planName}`,
-      price: numericPrice,
-      quantity: 1,
-      subtotal: numericPrice,
-      image: productImage
-    };
-    
-    // Add plan to cart
-    dispatch(addToCart(selectedPlan));
-    
-    // Redirect to cart page
-    router.push("/cart");
+     const selectedPlan = {
+       id: `income-tax-plan-${planId}`,
+       name: `Income Tax Return Filing - ${planName}`,
+       price: numericPrice,
+       quantity: 1,
+       subtotal: numericPrice,
+       image: productImage
+     };
+     dispatch(addToCart(selectedPlan));
+    if (userInfo && userInfo.email) 
+    {
+      router.push("/cart");
+ 
+    } else {
+    console.log("User is not logged in. Redirecting to login page.");
+    localStorage.setItem("redirectAfterLogin", "/cart");
+    router.push("/Login");
+    }
   };
 
   // Function to handle Buy Now click from BreadcrumbSection
@@ -76,7 +105,7 @@ const Page = () => {
     image: "",
     bottomHeading: "Simplify Your Income Tax Filing with Expert Assistance",
     cartDetails: {
-      id: 1, // Changed from string to number
+      id: 1, 
       name: "Income Tax Return Filing",
       price: 999,
       quantity: 1,

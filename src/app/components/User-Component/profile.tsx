@@ -371,6 +371,8 @@ export default function Profile({
   MetricData: MetricDataType[];
   Othertabs: string[];
 }) {
+
+  
   const themeConfig = useSelector((state: IRootState) => state.themeConfig);
   const userInfo = useSelector((state: IRootState) => state.themeConfig.userInfo);
   const dispatch = useDispatch();
@@ -435,6 +437,16 @@ export default function Profile({
   const [selectedTab, setSelectedTab] = useState("Identity");
   // const [existingFirebaseData, setExistingFirebaseData] = useState(false);
   const navigate = useRouter();
+
+  // commented by Krishna ( cart page naviation)
+
+  // useEffect(() => {
+  //   const redirectAfterLogin = localStorage.getItem('redirectAfterLogin');
+  //   if (redirectAfterLogin) {
+  //     localStorage.removeItem('redirectAfterLogin');
+  //     navigate.push("/cart");
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (!themeConfig.userInfo) {

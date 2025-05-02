@@ -2,9 +2,11 @@
 import Profile from "@/app/components/User-Component/profile";
 import { Metadata } from "next/types";
 import { seoData as getSeoData } from "@/api/SEOSetup/seoSetup";
+import { use } from "react";
 export const dynamic = 'force-dynamic';
 
 // import React, { useEffect, useState } from "react";
+// import router from "next/router";
 // import { UserInfo } from "@/api/SEOSetup/fetchuser";
 // import { GetUserProfile } from "@/api/SEOSetup/userProfile";
 // import { ProfileData } from "../../../../types/Profile-Data";
@@ -26,6 +28,14 @@ export const metadata = async (): Promise<Metadata> => {
 
 
 const page = () => {
+
+  // useEffect(() => {
+  //   const redirectAfterLogin = localStorage.getItem('redirectAfterLogin');
+  //   if (redirectAfterLogin) {
+  //     localStorage.removeItem('redirectAfterLogin');
+  //     router.push("/card");
+  //   }
+  // }, []);
  
 
   const MetricData = [
