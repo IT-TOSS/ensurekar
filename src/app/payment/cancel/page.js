@@ -32,12 +32,12 @@ const [paymentData, setPaymentData] = useState(null);
   
   console.log(paymentData, "Payment Data");
 
-  const tracking_id = paymentData.tracking_id;
+  // const tracking_id = paymentData.tracking_id;
 
   const orderId = paymentData.order_id;
   const reason = paymentData.order_status;
   const error = paymentData.status_message;
-  
+
 
 
   return (
@@ -71,9 +71,6 @@ const [paymentData, setPaymentData] = useState(null);
           <>
             <div className="mb-4 p-4 bg-gray-50 rounded">
               <p><span className="font-semibold">Order ID:</span> {orderId}</p>
-            </div>
-            <div className="mb-4 p-4 bg-gray-50 rounded">
-              <p><span className="font-semibold">tracking_id:</span> {tracking_id}</p>
             </div>
           </>
         )}
