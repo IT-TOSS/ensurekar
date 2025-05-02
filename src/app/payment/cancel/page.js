@@ -1,7 +1,7 @@
 // File: /app/payment/cancel/page.js
 "use client";
 
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -22,14 +22,14 @@ const [paymentData, setPaymentData] = useState(null);
     }
   }, []);
 
-  console.log(paymentData, "Payment Data");
-
-
+  
+  
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
   const reason = searchParams.get("reason");
   const error = searchParams.get("error");
-
+  
+  console.log(paymentData, "Payment Data");
   return (
     <div className="container mx-auto px-4 py-16 text-center">
       <div className="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-lg">
