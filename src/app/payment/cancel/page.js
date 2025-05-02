@@ -26,17 +26,17 @@ const [paymentData, setPaymentData] = useState(null);
   
   
   const searchParams = useSearchParams();
-  // const orderId = searchParams.get("order_id");
-  // const reason = searchParams.get("reason");
-  // const error = searchParams.get("error");
+  const orderId = searchParams.get("order_id");
+  const reason = searchParams.get("reason");
+  const error = searchParams.get("error");
   
   console.log(paymentData, "Payment Data");
 
   // const tracking_id = paymentData.tracking_id;
 
-  const orderId = paymentData.order_id;
-  const reason = paymentData.order_status;
-  const error = paymentData.status_message;
+  // const orderId = paymentData.order_id;
+  // const reason = paymentData.order_status;
+  // const error = paymentData.status_message;
 
 
 

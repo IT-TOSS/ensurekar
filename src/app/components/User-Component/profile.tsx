@@ -454,109 +454,211 @@ export default function Profile({
     }
   }, [userInfo]);
 
+  // useEffect(() => {
+  //   const getUserData = async () => {
+  //     try {
+  //       const response = await axios.get("https://edueye.co.in/ensurekar/existing-site/userinfo_get.php", {
+  //         headers: {
+  //           "Content-Type": "application/json"
+  //         }
+  //       });
+        
+  //       const userData = response.data.data;
+  //       console.log(userInfo.email);
+        
+  //       for(let i=0; i < userData.length; i++) {
+  //         if(userData[i].email === userInfo.email) {
+  //           console.log(userData[i], "data In Processing");
+
+  //           const isoDate = userData[i].DOB || '';
+  //           let formattedDate = '';
+
+  //           if (isoDate) {
+  //             const date = new Date(isoDate);
+  //             const day = String(date.getDate()).padStart(2, '0');
+  //             const month = String(date.getMonth() + 1).padStart(2, '0');
+  //             const year = date.getFullYear();
+  //             formattedDate = `${year}-${month}-${day}`;
+  //           }
+
+            
+  //           const transformedData = {
+  //             personal: {
+  //               userName: userData[i].userName || '',
+  //               firstName: userData[i].firstName || '',
+  //               lastName: userData[i].lastName || '',
+  //               fatherName: userData[i].fatherName || '',
+  //               DOB: formattedDate || '',
+  //               sex: userData[i].sex || '',
+  //               maritalStatus: userData[i].maritalStatus || '',
+  //               id: userData[i].id
+  //             },
+  //             company: {
+  //               company: userData[i].company || '',
+  //               organisationType: userData[i].organisationType || '',
+  //               about: userData[i].about || '',
+  //               cin: userData[i].cin || '',
+  //               pan: userData[i].pan || '',
+  //               aadhar: userData[i].aadhar || '',
+  //               incorporationDate: userData[i].incorporationDate || '',
+  //               moa: userData[i].moa || '',
+  //               aoa: userData[i].aoa || '',
+  //               gst: userData[i].gst || '',
+  //               udyamNumber: userData[i].udyamNumber || '',
+  //               dpit: userData[i].dpit || ''
+  //             },
+  //             identity: {
+  //               pan: userData[i].pan || '',
+  //               aadhar: userData[i].aadhar || '',
+  //               din: userData[i].din || '',
+  //               addressProof: userData[i].addressProof || '',
+  //               addressProofName: userData[i].addressProofName || '',
+  //               nationality: userData[i].nationality || ''
+  //             },
+  //             bank: {
+  //               bank: userData[i].bank || '',
+  //               accountHolderName: userData[i].accountHolderName || '',
+  //               accountNumber: userData[i].accountNumber || '',
+  //               ifsc: userData[i].ifsc || ''
+  //             },
+  //             address: {
+  //               address: userData[i].address || '',
+  //               state: userData[i].state || '',
+  //               city: userData[i].city || '',
+  //               pin: userData[i].pin || '',
+  //               email: userData[i].email || '',
+  //               secondaryEmail: userData[i].secondaryEmail || '',
+  //               contactNo: userData[i].contactNo || '',
+  //               secondaryContact: userData[i].secondaryContact || ''
+  //             },
+  //             document: {
+  //               other: null,
+  //               addharcar: null,
+  //               InvestmentDetails: null,
+  //               form16: null,
+  //               BankDetails: null,
+  //               OtherDocument: null
+  //             }
+  //           };
+            
+  //           setInputFormData(transformedData);
+  //           console.log(transformedData);
+  //           console.log(inputFormData, "inputFormData");
+  //           break;
+  //         } else {
+  //           console.log("user is not registered Yet");
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching user profile Data:", error);
+  //     }
+  //   };
+    
+    
+  //     getUserData();
+    
+  // }, [userInfo]);
+
   useEffect(() => {
+    if (!userInfo?.email) return;
+  
     const getUserData = async () => {
       try {
-        const response = await axios.get("/api/Setting/updateuserinfo", {
-          headers: {
-            "Content-Type": "application/json"
-          }
+        const response = await axios.get("https://edueye.co.in/ensurekar/existing-site/userinfo_get.php", {
+          headers: { "Content-Type": "application/json" }
         });
-        
-        const userData = response.data.data;
-        console.log(userInfo.email);
-        
-        for(let i=0; i < userData.length; i++) {
-          if(userData[i].email === userInfo.email) {
-            console.log(userData[i], "data In Processing");
-
-            const isoDate = userData[i].DOB || '';
-            let formattedDate = '';
-
-            if (isoDate) {
-              const date = new Date(isoDate);
-              const day = String(date.getDate()).padStart(2, '0');
-              const month = String(date.getMonth() + 1).padStart(2, '0');
-              const year = date.getFullYear();
-              formattedDate = `${year}-${month}-${day}`;
-            }
-
-            
-            const transformedData = {
-              personal: {
-                userName: userData[i].userName || '',
-                firstName: userData[i].firstName || '',
-                lastName: userData[i].lastName || '',
-                fatherName: userData[i].fatherName || '',
-                DOB: formattedDate || '',
-                sex: userData[i].sex || '',
-                maritalStatus: userData[i].maritalStatus || '',
-                id: userData[i].id
-              },
-              company: {
-                company: userData[i].company || '',
-                organisationType: userData[i].organisationType || '',
-                about: userData[i].about || '',
-                cin: userData[i].cin || '',
-                pan: userData[i].pan || '',
-                aadhar: userData[i].aadhar || '',
-                incorporationDate: userData[i].incorporationDate || '',
-                moa: userData[i].moa || '',
-                aoa: userData[i].aoa || '',
-                gst: userData[i].gst || '',
-                udyamNumber: userData[i].udyamNumber || '',
-                dpit: userData[i].dpit || ''
-              },
-              identity: {
-                pan: userData[i].pan || '',
-                aadhar: userData[i].aadhar || '',
-                din: userData[i].din || '',
-                addressProof: userData[i].addressProof || '',
-                addressProofName: userData[i].addressProofName || '',
-                nationality: userData[i].nationality || ''
-              },
-              bank: {
-                bank: userData[i].bank || '',
-                accountHolderName: userData[i].accountHolderName || '',
-                accountNumber: userData[i].accountNumber || '',
-                ifsc: userData[i].ifsc || ''
-              },
-              address: {
-                address: userData[i].address || '',
-                state: userData[i].state || '',
-                city: userData[i].city || '',
-                pin: userData[i].pin || '',
-                email: userData[i].email || '',
-                secondaryEmail: userData[i].secondaryEmail || '',
-                contactNo: userData[i].contactNo || '',
-                secondaryContact: userData[i].secondaryContact || ''
-              },
-              document: {
-                other: null,
-                addharcar: null,
-                InvestmentDetails: null,
-                form16: null,
-                BankDetails: null,
-                OtherDocument: null
-              }
-            };
-            
-            setInputFormData(transformedData);
-            console.log(transformedData);
-            break;
-          } else {
-            console.log("user is not registered Yet");
-          }
+  
+        const userData = response.data.data || [];
+        const user = userData.find((u: { email: string }) => u.email === userInfo.email);
+  
+        if (!user) {
+          console.log("user is not registered Yet");
+          return;
         }
+  
+        const isoDate = user.DOB || '';
+        let formattedDate = '';
+  
+        if (isoDate) {
+          const date = new Date(isoDate);
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const year = date.getFullYear();
+          formattedDate = `${year}-${month}-${day}`;
+        }
+  
+        const transformedData = {
+          personal: {
+            userName: user.userName || '',
+            firstName: user.firstName || '',
+            lastName: user.lastName || '',
+            fatherName: user.fatherName || '',
+            DOB: formattedDate,
+            sex: user.sex || '',
+            maritalStatus: user.maritalStatus || '',
+            id: user.id || ''
+          },
+          company: {
+            company: user.company || '',
+            organisationType: user.organisationType || '',
+            about: user.about || '',
+            cin: user.cin || '',
+            pan: user.pan || '',
+            aadhar: user.aadhar || '',
+            incorporationDate: user.incorporationDate || '',
+            moa: user.moa || '',
+            aoa: user.aoa || '',
+            gst: user.gst || '',
+            udyamNumber: user.udyamNumber || '',
+            dpit: user.dpit || ''
+          },
+          identity: {
+            pan: user.pan || '',
+            aadhar: user.aadhar || '',
+            din: user.din || '',
+            addressProof: user.addressProof || '',
+            addressProofName: user.addressProofName || '',
+            nationality: user.nationality || ''
+          },
+          bank: {
+            bank: user.bank || '',
+            accountHolderName: user.accountHolderName || '',
+            accountNumber: user.accountNumber || '',
+            ifsc: user.ifsc || ''
+          },
+          address: {
+            address: user.address || '',
+            state: user.state || '',
+            city: user.city || '',
+            pin: user.pin || '',
+            email: user.email || '',
+            secondaryEmail: user.secondaryEmail || '',
+            contactNo: user.contactNo || '',
+            secondaryContact: user.secondaryContact || ''
+          },
+          document: {
+            other: null,
+            addharcar: null,
+            InvestmentDetails: null,
+            form16: null,
+            BankDetails: null,
+            OtherDocument: null
+          }
+        };
+        
+        
+        console.log(transformedData, "transformedData");
+        setInputFormData(transformedData);
+
+        console.log(inputFormData, "inputFormData");
       } catch (error) {
         console.error("Error fetching user profile Data:", error);
       }
     };
-    
-    
-      getUserData();
-    
+  
+    getUserData();
   }, [userInfo]);
+  
 
   if (!userInfo) return <div>Loading...</div>;
 
