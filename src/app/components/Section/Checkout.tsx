@@ -594,11 +594,14 @@ const Checkout = () => {
       // await initiateCCAvenuePay("12");
       
       // Make API call to create order
-      const response = await axios.post("/api/Orders", orderData);
+      const response = await axios.post(" https://edueye.co.in/ensurekar/existing-site/orderid.php", orderData);
+      console.log('Order response:', response);
+
+      console.log('Order response12:', response.data);
       
-      if (response.status === 200 && response.data && response.data.id) {
+      if (response.status === 200 && response.data && response.data.order_id) {
         // Format order ID with prefix and timestamp to ensure uniqueness
-        const orderId = `ORD${response.data.id}${Date.now()}`;
+        const orderId = `ORD${response.data.order_id}${Date.now()}`;
         console.log("Successfully created order with ID:", orderId);
 
         // Initiate CCAvenue payment with the order ID

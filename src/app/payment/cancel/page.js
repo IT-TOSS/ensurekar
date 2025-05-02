@@ -6,6 +6,25 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function PaymentCancel() {
+
+  
+const [paymentData, setPaymentData] = useState(null);
+
+  useEffect(() => {
+    const encoded = new URLSearchParams(window.location.search).get('data');
+    if (encoded) {
+      try {
+        const decoded = JSON.parse(atob(encoded));
+        setPaymentData(decoded);
+      } catch (e) {
+        console.error("Failed to decode payment data:", e);
+      }
+    }
+  }, []);
+
+  console.log(paymentData, "Payment Data");
+
+
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
   const reason = searchParams.get("reason");
