@@ -4,12 +4,14 @@
 import React,{useState,useEffect} from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { tr } from "framer-motion/client";
 
-export default function PaymentCancel() {
+export default async function PaymentCancel() {
 
 
 
   const [paymentData, setPaymentData] = useState(null);
+  const [paymentDataStatur, setPaymentDataStatur] = useState(false); 
 
   useEffect(() => {
     const encoded = new URLSearchParams(window.location.search).get('data');
@@ -24,50 +26,38 @@ export default function PaymentCancel() {
     }
   }, []);
 
-
-
-
-
-
-
-
-  
-// const [paymentData, setPaymentData] = useState(null);
-const searchParams = useSearchParams();
-
-// const [paymentData, setPaymentData] = useState(null);
-  const [orderId, setOrderId] = useState('');
-  const [reason, setReason] = useState('');
-  const [error, setError] = useState('');
-
   // useEffect(() => {
-  //   const encoded = new URLSearchParams(window.location.search).get('data');
-  //   if (encoded) {
+  //   const postPaymentData = async () => {
   //     try {
-  //       const decoded = JSON.parse(atob(encoded));
-  //       setPaymentData(decoded);
-  //       console.log(decoded, "Decoded Payment Data");
-  //     } catch (e) {
-  //       console.error("Failed to decode payment data:", e);
+  //       const response = await axios.post('', paymentData, {
+  //         headers: {
+  //           'Content-Type': 'application/json'
+  //         }
+  //       });
+  //       console.log(response, "Response from server");
+  //       setPaymentDataStatur(true);
+
+  //     } catch (error) {
+  //       console.error("Error posting payment data:", error);
   //     }
+  //   };
+
+  //   if (paymentData) {
+  //     postPaymentData();
   //   }
   // }, []);
-
-  /
-  
-  
-  
-  // const orderId = searchParams.get("order_id");
-  // const reason = searchParams.get("reason");
-  // const error = searchParams.get("error");
+// const searchParams = useSearchParams();
   
   console.log(paymentData, "Payment Data");
 
-  // const tracking_id = paymentData.tracking_id;
+  const tracking_id = paymentData.tracking_id;
 
-  // const orderId = paymentData.order_id;
-  // const reason = paymentData.order_status;
-  // const error = paymentData.status_message;
+  const orderId = paymentData.order_id;
+  const reason = paymentData.order_status;
+  const error = paymentData.status_message;
+
+  console.log(tracking_id, "tracking_id");
+
 
 
 
@@ -105,6 +95,8 @@ const searchParams = useSearchParams();
             </div>
           </>
         )}
+
+        <p className="background-red-500">{paymentDataStatur}</p>
         
         {(reason || error) && (
           <p className="mb-6 text-red-600">
