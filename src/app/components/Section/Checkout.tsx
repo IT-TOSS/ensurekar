@@ -591,20 +591,23 @@ const Checkout = () => {
       };
   
       console.log('Placing order with data:', orderData);
-      await initiateCCAvenuePay("12");
+      // await initiateCCAvenuePay("12");
       
       // Make API call to create order
-      // const response = await axios.post("/api/Orders", orderData);
+      const response = await axios.post("/api/Orders", orderData);
       
-      // if (response.status === 200 && response.data && response.data.id) {
-      //   // Format order ID with prefix and timestamp to ensure uniqueness
-      //   const orderId = `ORD${response.data.id}${Date.now()}`;
-      //   console.log("Successfully created order with ID:", orderId);
+      if (response.status === 200 && response.data && response.data.id) {
+        // Format order ID with prefix and timestamp to ensure uniqueness
+        const orderId = `ORD${response.data.id}${Date.now()}`;
+        console.log("Successfully created order with ID:", orderId);
 
-      //   // Initiate CCAvenue payment with the order ID
-      // } else {
-      //   throw new Error("Failed to create order - no order ID returned");
-      // }
+        // Initiate CCAvenue payment with the order ID
+        console.log("orderId", orderId);
+        console.log("Initiating CCAvenue payment...");
+        // await initiateCCAvenuePay("orderId");
+      } else {
+        throw new Error("Failed to create order - no order ID returned");
+      }
     } catch (error: any) {
       console.error("Order placement failed:", error);
       setLoading(false);

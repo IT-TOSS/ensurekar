@@ -3,6 +3,7 @@
 import React, { lazy } from "react";
 import OurServices from "./components/Section/Our-Services-Section";
 
+
 const HeroSection = lazy(() => import("./components/Section/Hero-Section"));
 const SecuritySolutions = lazy(
   () => import("./components/Section/Security-Solutions")
@@ -90,10 +91,10 @@ export default function Home() {
       { src: logo2, alt: "logo2" },
     ],
   };
-  const SolutionData  ={
+  const SolutionData = {
     heading: "Talk To Experts",
-    subHeading:"50+ Trusted CA, CS & Legal Experts are here To Grow Your Business ",
-    propertiesData :[
+    subHeading: "50+ Trusted CA, CS & Legal Experts are here To Grow Your Business ",
+    propertiesData: [
       {
         icon: FileText,
         text: "Charted Accountant"
@@ -114,7 +115,11 @@ export default function Home() {
   }
   return (
     <>
-     {/* <Header /> */}
+
+      
+
+
+      {/* <Header /> */}
       <HeroSection />
       <CompanySlider SlideData={CompliancesData} />
       <OurServices />
@@ -141,7 +146,7 @@ export default function Home() {
       <GotQuestionsSection />
       {/* <CTASection />
         <Footer /> */}
-      
+
     </>
   );
 }
