@@ -16,6 +16,7 @@ const [paymentData, setPaymentData] = useState(null);
       try {
         const decoded = JSON.parse(atob(encoded));
         setPaymentData(decoded);
+        console.log(decoded, "Decoded Payment Data");
       } catch (e) {
         console.error("Failed to decode payment data:", e);
       }
@@ -25,11 +26,20 @@ const [paymentData, setPaymentData] = useState(null);
   
   
   const searchParams = useSearchParams();
-  const orderId = searchParams.get("order_id");
-  const reason = searchParams.get("reason");
-  const error = searchParams.get("error");
+  // const orderId = searchParams.get("order_id");
+  // const reason = searchParams.get("reason");
+  // const error = searchParams.get("error");
   
   console.log(paymentData, "Payment Data");
+
+  const tracking_id = paymentData.tracking_id;
+
+  const orderId = paymentData.order_id;
+  const reason = paymentData.order_status;
+  const error = paymentData.status_message;
+  
+
+
   return (
     <div className="container mx-auto px-4 py-16 text-center">
       <div className="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-lg">
@@ -56,10 +66,16 @@ const [paymentData, setPaymentData] = useState(null);
           Your payment could not be processed successfully.
         </p>
         
+        
         {orderId && (
-          <div className="mb-4 p-4 bg-gray-50 rounded">
-            <p><span className="font-semibold">Order ID:</span> {orderId}</p>
-          </div>
+          <>
+            <div className="mb-4 p-4 bg-gray-50 rounded">
+              <p><span className="font-semibold">Order ID:</span> {orderId}</p>
+            </div>
+            <div className="mb-4 p-4 bg-gray-50 rounded">
+              <p><span className="font-semibold">tracking_id:</span> {tracking_id}</p>
+            </div>
+          </>
         )}
         
         {(reason || error) && (
