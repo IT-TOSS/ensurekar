@@ -7,28 +7,59 @@ import Link from "next/link";
 
 export default function PaymentCancel() {
 
-  
-const [paymentData, setPaymentData] = useState(null);
+
+
+  const [paymentData, setPaymentData] = useState(null);
 
   useEffect(() => {
     const encoded = new URLSearchParams(window.location.search).get('data');
     if (encoded) {
       try {
         const decoded = JSON.parse(atob(encoded));
+        console.log(decoded, " Decoded Payment Data");
         setPaymentData(decoded);
-        console.log(decoded, "Decoded Payment Data");
       } catch (e) {
-        console.error("Failed to decode payment data:", e);
+        console.error(" Failed to decode payment data:", e);
       }
     }
   }, []);
 
+
+
+
+
+
+
+
+  
+// const [paymentData, setPaymentData] = useState(null);
+const searchParams = useSearchParams();
+
+// const [paymentData, setPaymentData] = useState(null);
+  const [orderId, setOrderId] = useState('');
+  const [reason, setReason] = useState('');
+  const [error, setError] = useState('');
+
+  // useEffect(() => {
+  //   const encoded = new URLSearchParams(window.location.search).get('data');
+  //   if (encoded) {
+  //     try {
+  //       const decoded = JSON.parse(atob(encoded));
+  //       setPaymentData(decoded);
+  //       console.log(decoded, "Decoded Payment Data");
+  //     } catch (e) {
+  //       console.error("Failed to decode payment data:", e);
+  //     }
+  //   }
+  // }, []);
+
+  /
   
   
-  const searchParams = useSearchParams();
-  const orderId = searchParams.get("order_id");
-  const reason = searchParams.get("reason");
-  const error = searchParams.get("error");
+  
+  // const orderId = searchParams.get("order_id");
+  // const reason = searchParams.get("reason");
+  // const error = searchParams.get("error");
   
   console.log(paymentData, "Payment Data");
 
