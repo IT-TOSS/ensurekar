@@ -607,7 +607,7 @@ const Checkout = () => {
         // Initiate CCAvenue payment with the order ID
         console.log("orderId", orderId);
         console.log("Initiating CCAvenue payment...");
-        // await initiateCCAvenuePay("orderId");
+        await initiateCCAvenuePay("orderId");
       } else {
         throw new Error("Failed to create order - no order ID returned");
       }
