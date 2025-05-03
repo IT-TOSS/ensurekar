@@ -27,9 +27,8 @@ export default async function PaymentCancel() {
   useEffect(() => {
     const postPaymentData = async () => {
       try {
-        const response = await axios.post(
-          'https://edueye.co.in/ensurekar/existing-site/orderidpost.php',
-          paymentData,
+        const response = await axios.post('https://edueye.co.in/ensurekar/existing-site/orderidpost.php',
+          JSON.stringify(paymentData),
           {
             headers: {
               'Content-Type': 'application/json',
