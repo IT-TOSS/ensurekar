@@ -823,7 +823,8 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                           className="py-2.5  bg-yellow-400 border  rounded  block text-center   hover:border-mainTextColo group-hover:border-black font-bold duration-500 w-full text-slate-800"
                           onClick={() => handleBuy(plan)}
                         >
-                          Buy Now
+                          {/* Buy Now */}
+                          Releasing Shortly
                         </button>
                       </div>
                     </div>

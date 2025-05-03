@@ -186,7 +186,7 @@ const Page = () => {
               id: "1",
               price: "",
               discount: "",
-              afterDiscount: "₹999",
+              afterDiscount: "₹1",
               laterPaid: {
                 amount: "",
                 text: "Govt. fees will be as per this website and will change according to states - PVT LTD Company Registration Online - Fast & Legal in India",
@@ -211,7 +211,7 @@ const Page = () => {
               splitPayment: {
                 enabled: false,
                 instalments: 2,
-                instalmentAmount: "₹499.50",
+                instalmentAmount:"1" ,//"₹499.50",
                 text: "Split payment by 2 month with Zolvit Flex",
                 knowMore: {
                   text: "",
@@ -236,7 +236,7 @@ const Page = () => {
               recommended: true,
               text: "",
             },
-            onSelect: () => handlePlanSelection("1", "Normal", "₹999") // Add this to each plan
+            onSelect: () => handlePlanSelection("1", "Normal", "1") // Add this to each plan
           },
           {
             planName: "Fastrack",

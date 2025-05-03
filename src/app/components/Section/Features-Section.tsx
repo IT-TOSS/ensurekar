@@ -37,12 +37,12 @@ const FeaturesSection = () => {
               <p className="text-bodyText pb-6">
               Ensure your business adheres to all relevant laws and regulations.
               </p>
-              <Link
+              {/* <Link
                 href="/blogs"
                 className="flex justify-start items-center gap-2 font-medium"
               >
                 Learn more <ArrowRight size={18} color="#0e160f" />
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className="col-span-12  sm:col-span-6 lg:col-span-3 wow animate__animated animate__fadeInUp"
@@ -63,12 +63,12 @@ const FeaturesSection = () => {
               <p className="text-bodyText pb-6">
               Streamline your financial operations and optimize your tax strategy.
               </p>
-              <Link
+              {/* <Link
                 href="/blogs"
                 className="flex justify-start items-center gap-2 font-medium"
               >
                 Learn more <ArrowRight size={18} color="#0e160f" />
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className="col-span-12 sm:col-span-6 lg:col-span-3 wow animate__animated animate__fadeInUp"
@@ -83,12 +83,12 @@ const FeaturesSection = () => {
               <p className="text-bodyText pb-6">
               Manage your company's statutory compliance requirements.
               </p>
-              <Link
+              {/* <Link
                 href="/blogs"
                 className="flex justify-start items-center gap-2 font-medium"
               >
                 Learn more <ArrowRight size={18} color="#0e160f" />
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className="col-span-12 sm:col-span-6 lg:col-span-3 wow animate__animated animate__fadeInUp"
@@ -103,12 +103,12 @@ const FeaturesSection = () => {
               <p className="text-bodyText pb-6">
               Receive expert advice and support for your business's growth.
               </p>
-              <Link
+              {/* <Link
                 href="/blogs"
                 className="flex justify-start items-center gap-2 font-medium"
               >
                 Learn more <ArrowRight size={18} color="#0e160f" />
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
