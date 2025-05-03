@@ -65,7 +65,7 @@ export default function PaymentSuccess() {
 
   // const searchParams = useSearchParams();
   // const orderId = searchParams.get("order_id");
-  const trackingId = searchParams.tracking_id;
+  // const trackingId = searchParams.tracking_id;
 
   const orderId = paymentData?.order_id || "";
   const reason = paymentData?.order_status || "";
@@ -99,9 +99,9 @@ export default function PaymentSuccess() {
         
         <div className="mb-6 p-4 bg-gray-50 rounded">
           <p className="mb-2"><span className="font-semibold">Order ID:</span> {orderId || 'N/A'}</p>
-          {trackingId && (
+          {/* {trackingId && (
             <p><span className="font-semibold">Transaction ID:</span> {trackingId}</p>
-          )}
+          )} */}
         </div>
         
         <p className="mb-6">
