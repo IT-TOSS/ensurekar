@@ -8,28 +8,68 @@ import Link from "next/link";
 export default function PaymentSuccess() {
 
   
-    const [paymentData, setPaymentData] = useState(null);
-    const [paymentDataStatur, setPaymentDataStatur] = useState(false); 
-  
-    useEffect(() => {
-      const encoded = new URLSearchParams(window.location.search).get('data');
-      if (encoded) {
-        try {
-          const decoded = JSON.parse(atob(encoded));
-          console.log(decoded, " Decoded Payment Data");
-          setPaymentData(decoded);
-        } catch (e) {
-          console.error(" Failed to decode payment data:", e);
-        }
+  const [paymentData, setPaymentData] = useState(null);
+  const [paymentDataStatus, setPaymentDataStatus] = useState(false);
+
+  useEffect(() => {
+    const encoded = new URLSearchParams(window.location.search).get("data");
+    if (encoded) {
+      try {
+        const decoded = JSON.parse(atob(encoded));
+        setPaymentData(decoded);
+        console.log(decoded, "Decoded Payment Data");
+      } catch (e) {
+        console.error("Failed to decode payment data:", e);
       }
-    }, []);
-  
+    }
+  }, []);
 
-    console.log(paymentData, "Payment Data");
+  useEffect(() => {
+    const postPaymentData = async () => {
+      try {
+        const formData = new URLSearchParams();
 
-  const searchParams = useSearchParams();
-  const orderId = searchParams.get("order_id");
-  const trackingId = searchParams.get("tracking_id");
+        for (const key in paymentData) {
+          const value = paymentData[key];
+          if (value !== null && value !== undefined && value !== "") {
+            formData.append(key, value);
+          }
+        }
+
+        const response = await axios.post(
+          "https://edueye.co.in/ensurekar/existing-site/orderidpost.php",
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
+
+        console.log(response.data, "Response from server");
+
+        if (response.data.status === "success") {
+          setPaymentDataStatus(true);
+        } else {
+          console.warn("Payment not saved:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error posting payment data:", error);
+      }
+    };
+
+    if (paymentData && Object.keys(paymentData).length) {
+      postPaymentData();
+    }
+  }, [paymentData]);
+
+  // const searchParams = useSearchParams();
+  // const orderId = searchParams.get("order_id");
+  const trackingId = searchParams.tracking_id;
+
+  const orderId = paymentData?.order_id || "";
+  const reason = paymentData?.order_status || "";
+  const error = paymentData?.status_message || "";
 
   return (
     <div className="container mx-auto px-4 py-16 text-center">
