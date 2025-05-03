@@ -7,21 +7,25 @@ import Link from "next/link";
 
 export default function PaymentSuccess() {
 
-  const [paymentData, setPaymentData] = useState(null);
-
-  useEffect(() => {
-    const encoded = new URLSearchParams(window.location.search).get('data');
-    if (encoded) {
-      try {
-        const decoded = JSON.parse(atob(encoded));
-        setPaymentData(decoded);
-      } catch (e) {
-        console.error("Failed to decode payment data:", e);
+  
+    const [paymentData, setPaymentData] = useState(null);
+    const [paymentDataStatur, setPaymentDataStatur] = useState(false); 
+  
+    useEffect(() => {
+      const encoded = new URLSearchParams(window.location.search).get('data');
+      if (encoded) {
+        try {
+          const decoded = JSON.parse(atob(encoded));
+          console.log(decoded, " Decoded Payment Data");
+          setPaymentData(decoded);
+        } catch (e) {
+          console.error(" Failed to decode payment data:", e);
+        }
       }
-    }
-  }, []);
+    }, []);
+  
 
-  console.log(paymentData, "Payment Data");
+    console.log(paymentData, "Payment Data");
 
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
