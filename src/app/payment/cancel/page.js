@@ -24,22 +24,30 @@ export default async function PaymentCancel() {
     }
   }, []);
 
+  // 
+  
   useEffect(() => {
     const postPaymentData = async () => {
       try {
-        const response = await axios.post('https://edueye.co.in/ensurekar/existing-site/orderidpost.php',
-          JSON.stringify(paymentData),
+        const formData = new URLSearchParams();
+        for (const key in paymentData) {
+          formData.append(key, paymentData[key] ?? ""); // Handle nulls
+        }
+  
+        const response = await axios.post(
+          'https://edueye.co.in/ensurekar/existing-site/orderidpost.php',
+          formData,
           {
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/x-www-form-urlencoded',
             },
           }
         );
-
+  
         console.log(response.data, "Response from server");
-
+  
         if (response.data.status === "success") {
-          setPaymentDataStatur(true);   
+          setPaymentDataStatur(true);
           console.log(response.data.message);
         } else {
           console.warn("Payment failed or not saved:", response.data.message);
@@ -48,11 +56,12 @@ export default async function PaymentCancel() {
         console.error("Error posting payment data:", error);
       }
     };
-
-    if (paymentData) {
+  
+    if (paymentData && Object.keys(paymentData).length) {
       postPaymentData();
     }
   }, []);
+  
 
 
 
