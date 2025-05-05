@@ -318,7 +318,7 @@ export default function PaymentCancel() {
           </div>
         )}
 
-        {paymentDataStatus && (
+        {!paymentDataStatus && (
           <p className="mb-4 p-4 bg-gray-50 rounded">
             <span className="font-semibold">Server error</span>
           </p>
