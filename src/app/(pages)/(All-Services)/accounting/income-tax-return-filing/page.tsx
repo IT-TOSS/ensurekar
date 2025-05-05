@@ -186,7 +186,7 @@ const Page = () => {
               id: "1",
               price: "",
               discount: "",
-              afterDiscount: "₹1",
+              afterDiscount: "₹499 ",
               laterPaid: {
                 amount: "",
                 text: "Govt. fees will be as per this website and will change according to states - PVT LTD Company Registration Online - Fast & Legal in India",
@@ -236,7 +236,7 @@ const Page = () => {
               recommended: true,
               text: "",
             },
-            onSelect: () => handlePlanSelection("1", "Normal", "1") // Add this to each plan
+            onSelect: () => handlePlanSelection("1", "Normal", "499 ") // Add this to each plan
           },
           {
             planName: "Fastrack",
