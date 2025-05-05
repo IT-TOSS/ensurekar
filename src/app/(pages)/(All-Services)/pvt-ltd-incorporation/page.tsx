@@ -1132,7 +1132,7 @@ const Pvt_Ltd_Incorporation_Registration = () => {
 
       {/* Dynamic data */}
 
-      <DynamicPlansSection />
+      {/* <DynamicPlansSection /> */}
 
 
 

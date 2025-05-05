@@ -32,7 +32,7 @@ export default function Layout({
     { link: "/orders", title: "Orders" },
     { link: "/transactions", title: "Transactions" },
     { link: "/cart", title: "Cart" },
-    { link: "/wishlist", title: "Wishlist" },
+    // { link: "/wishlist", title: "Wishlist" },
     { link: "/settings", title: "Settings" },
     // { link: "/help", title: "Help" },
   ];

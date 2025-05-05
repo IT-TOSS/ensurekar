@@ -2,9 +2,9 @@
 
 import React from 'react'
 import Image from 'next/image';
-import blogImg1 from "../../images/blogImg1.png";
-import blogImg2 from "../../images/blogImg2.png";
-import blogImg3 from "../../images/blogImg3.png";
+import blogImg1 from "../../images/payrollProcess.jpg";
+import blogImg2 from "../../images/AccountingTechnology.png";
+import blogImg3 from "../../images/mistakesinHome.png";
 import { ArrowRight, ArrowUpRight } from 'phosphor-react';
 import ScrollTotop from '../Scroll-To-top';
 
@@ -64,13 +64,13 @@ const BlogSection = () => {
               Explore essential factors to consider when selecting payroll
               processing services. From compliance expertise
             </p>
-            <a
+            {/* <a
               href="./blog-details.html"
               className="text-mainTextColor flex justify-start items-center gap-3 border-b border-mainTextColor hover:border-s2 duration-500 dark:text-white"
             >
               Read more
               <ArrowRight/>
-            </a>
+            </a> */}
           </div>
         </div>
         <div
@@ -103,13 +103,13 @@ const BlogSection = () => {
               Discover how technology is reshaping modern accounting
               practices. From automation to cloud-based solutions,
             </p>
-            <a
+            {/* <a
               href="./blog-details.html"
               className="text-mainTextColor flex justify-start items-center gap-3 border-b border-mainTextColor hover:border-s2 duration-500 dark:text-white"
             >
               Read more
               <ArrowRight/>
-            </a>
+            </a> */}
           </div>
         </div>
         <div
@@ -142,13 +142,13 @@ const BlogSection = () => {
               Identify and prevent common accounting mistakes with our
               insightful guide. Learn practical strategies.
             </p>
-            <a
+            {/* <a
               href="./blog-details.html"
               className="text-mainTextColor flex justify-start items-center gap-3 border-b border-mainTextColor hover:border-s2 duration-500 dark:text-white"
             >
               Read more
               <ArrowRight/>
-            </a>
+            </a> */}
           </div>
         </div>
       </div>
