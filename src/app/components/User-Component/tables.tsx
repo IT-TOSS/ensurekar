@@ -398,8 +398,13 @@ const TablesComponent = ({ itemsData }: { itemsData: TableTypes }) => {
         }
         console.log("OrderHistory response:", response.data);
         const allData = response.data.data;
-        const userOrders = allData.filter((item: { customer_email: string }) => 
-          item.customer_email === userEmail
+        // const userOrders = allData.filter((item: { customer_email: string }) => 
+        //   item.customer_email === userEmail
+        // );
+
+        const userOrders = allData.filter(
+          (item: { customer_email: string; order_status: string }) =>
+            item.customer_email === userEmail && item.order_status === "Success"
         );
         console.log("Filtered OrderHistory data:", userOrders);
         
@@ -408,7 +413,7 @@ const TablesComponent = ({ itemsData }: { itemsData: TableTypes }) => {
           id: order.order_id || order.id || "N/A",
           amount: order.total_amount || 0,
           date: order.date || order.created_at || "N/A",
-          status: order. order_status|| "Processing",
+          status: order.order_status || "Processing",
           // Add any other fields that come from the API
           // cart: order.cart || "",
           // description: order.description || "",
@@ -532,7 +537,7 @@ const TablesComponent = ({ itemsData }: { itemsData: TableTypes }) => {
                       
                       {data.total !== undefined && (
                         <td className="px-6 py-4 whitespace-nowrap text-green-500">
-                          ₹{data.total}
+                          {data.total}
                         </td>
                       )}
                       

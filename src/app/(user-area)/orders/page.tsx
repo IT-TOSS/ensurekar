@@ -141,4 +141,3 @@ export default async function OrderList() {
     <TablesComponent itemsData={OrderData} />
   );
 }
-

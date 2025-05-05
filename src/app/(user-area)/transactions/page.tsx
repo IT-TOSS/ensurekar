@@ -1,5 +1,5 @@
 
-import TablesComponent from "@/app/components/User-Component/tables";
+import TTablesComponent from "@/app/components/User-Component/ttables";
 import { Metadata } from "next/types";
 import { seoData as getSeoData } from "@/api/SEOSetup/seoSetup";
 
@@ -86,9 +86,9 @@ export default async function Transactions() {
   const itemsData = {
     header: "Transactions",
     description: "View your transactions",
-    tableHead: ["Transaction ID", "Cart", "Amount", "Discount", "Paid", "Mode", "Status", "Date", "Action"],
+    tableHead: ["Transaction ID", "Amount", "Discount", "Paid", "Mode", "Status", "Date", "Action"],
     tableData: transactionsDataFilter(data),
   };
 
-  return <TablesComponent itemsData={itemsData} />;
+  return <TTablesComponent itemsData={itemsData} />;
 }
