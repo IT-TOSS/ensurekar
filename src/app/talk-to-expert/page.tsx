@@ -61,15 +61,15 @@ const Contact = () => {
               <div>
                 <h3 className="text-2xl font-bold mb-5">Message</h3>
                 <p className="font-semibold text-bodyText">{message}</p>
-            
+
               </div>
-            <div className="flex justify-end mr-5 mt-5">
-              <button
-          onClick={() => setMessage(null)}
-          className="mt-4 py-2 px-4 bg-s2 text-bodyText font-bold rounded"
-              >
-          Close
-              </button>
+              <div className="flex justify-end mr-5 mt-5">
+                <button
+                  onClick={() => setMessage(null)}
+                  className="mt-4 py-2 px-4 bg-s2 text-bodyText font-bold rounded"
+                >
+                  Close
+                </button>
               </div>
             </motion.div>
           </div>
@@ -187,13 +187,25 @@ const Contact = () => {
           </ul>
         </div>
 
-        <div className="col-span-12 md:col-span-7 xl:col-start-6 overflow-hidden">
+        {/* <div className="col-span-12 md:col-span-7 xl:col-start-6 overflow-hidden">
           <Image
             src={contact_page_img}
             alt="image"
             className="hover:scale-110 duration-500 w-full h-full"
           />
+        </div> */}
+        <div className="col-span-12 md:col-span-7 xl:col-start-6 overflow-hidden">
+          <div className="relative w-full h-0 pb-[56.25%]"> {/* 16:9 aspect ratio */}
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3668.1872076984246!2d79.9189809743064!3d23.163366511061255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3981af39ce977003%3A0xec01b518cc9bc2d6!2sEnsurekar!5e0!3m2!1sen!2sin!4v1746511287857!5m2!1sen!2sin"
+              className="absolute top-0 left-0 w-full h-full border-0 hover:scale-110 duration-500"
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
         </div>
+
       </section>
     </div>
   );

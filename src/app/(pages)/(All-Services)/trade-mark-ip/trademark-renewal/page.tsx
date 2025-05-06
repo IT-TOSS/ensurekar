@@ -16,7 +16,8 @@ import {
 } from "phosphor-react";
 import RegisterSteps from "@/app/components/Section/Register-Steps";
 import HelpSection from "@/app/components/Section/help-section";
-import we_help from "../../../../images/we_help.png";
+// import we_help from "../../../../images/we_help.png";
+import we_help from "../../../../images/Documents Required for Trademark Registration Renewal Online India.jpeg";
 import never_worry_img from "../../../../images/never_worry_img.png";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import CopyrightEducation from "@/app/components/Section/Copyright-Education";

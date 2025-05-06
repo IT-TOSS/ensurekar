@@ -31,6 +31,13 @@ import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 import HelpSection from "@/app/components/Section/help-section";
 import ServiceCovered from "@/app/components/Section/Service/Service-Covered";
 import { Calculator } from "phosphor-react";
+
+
+import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";//"./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
+
+
 const TrademarkRegistration = () => {
   const BreadcrumbData = {
     title: "Trademark Registration",
@@ -739,19 +746,19 @@ const TrademarkRegistration = () => {
         heading: "TM Symbol (™)",
         description:
           "The TM symbol indicates that a brand is claimed by its owner, even if the trademark is not yet registered. It establishes ownership rights and offers basic protection in case of disputes or infringement.",
-        imageUrl: "",
+        imageUrl: TalkExpert,
       },
       {
         heading: "R Symbol (®)",
         description:
           "The ® symbol signifies that a trademark is officially registered with the appropriate authority. It grants full legal protection, ensuring exclusive rights to use the brand for specific goods or services.",
-        imageUrl: "",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: "SM Symbol (℠)",
         description:
           "The SM symbol is used for service marks associated with services, even without registration. Similar to the TM symbol, it helps assert ownership and provides basic protection for service-related brands.",
-        imageUrl: "",
+        imageUrl: HandUserMoney,
       },
     ],
   };
@@ -759,7 +766,7 @@ const TrademarkRegistration = () => {
     heading: "Benefits of Trademark Registration",
     subHeading: "",
     description: "",
-    image: we_help,
+    image: StepByStep, //we_help,
     bottomHeading: "",
     bottomDescription: "",
     bottomList: [
@@ -886,17 +893,17 @@ const TrademarkRegistration = () => {
       {
         heading: " Expert Assistance",
         description: "EnsureKar provides professional guidance at every step of the trademark registration process, ensuring compliance with all legal requirements seamlessly.",
-        imageUrl: "",
+        imageUrl: TalkExpert,
       },
       {
         heading: " Hassle-Free & Efficient Service",
         description: "From conducting trademark searches to filing applications, we handle every aspect of the process, ensuring a smooth and swift experience for our clients.",
-        imageUrl: "",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: " Transparent & Affordable Pricing",
         description: "With clear, upfront pricing and no hidden fees, EnsureKar offers a cost-effective and stress-free trademark registration solution tailored to your needs.",
-        imageUrl: "",
+        imageUrl: HandUserMoney,
       },
     ],
   };

@@ -18,6 +18,13 @@ import RegisterSteps from "@/app/components/Section/Register-Steps";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import productImage from "../../../../images/recent_post_img1.png";
 
+
+
+import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";//"./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
+
+
 const Patentregistration = () => {
   const BreadcrumbData = {
     title: "Patent  Registration",
@@ -110,7 +117,8 @@ const Patentregistration = () => {
     heading: "Importance of Patent Registration",
     subHeading: "",
     description: "",
-    image: we_help,
+    image: Company_People_Group,
+    // image: we_help,
     bottomHeading: "",
     bottomDescription: "",
     bottomList: [
@@ -287,19 +295,19 @@ const Patentregistration = () => {
         heading: "Expert Guidance",
         description:
           "Our team of patent experts will guide you through the entire registration process, ensuring compliance with all legal requirements.",
-        imageUrl: "",
+        imageUrl: TalkExpert,
       },
       {
         heading: "Efficient and Streamlined",
         description:
           "We handle all aspects of your patent application, from initial filing to obtaining the patent, making the process seamless and efficient.",
-        imageUrl: "",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: "Transparent and Affordable",
         description:
           " We offer clear pricing with no hidden fees, providing a cost-effective and stress-free experience.",
-        imageUrl: "",
+        imageUrl: HandUserMoney,
       },
     ],
   };

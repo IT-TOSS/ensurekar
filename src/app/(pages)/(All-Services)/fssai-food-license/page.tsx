@@ -18,6 +18,10 @@ import WhyEnsurekarSection from "@/app/components/Section/Why-Ensurekar-All-Serv
 import ServiceOverview from "@/app/components/Section/Service-Overview";
 import productImage from "../../../images/recent_post_img1.png";
 
+import TalkExpert from "./../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
+
 const FSSAI_Food_Licence = () => {
   const Component = (
     <div className="col-span-12 md:col-span-6 mt-5 md:mt-10 flex justify-center items-center">
@@ -455,20 +459,20 @@ const FSSAI_Food_Licence = () => {
       {
         heading: "Expert Assistance",
         description:
-          "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements.",
-        imageUrl: "",
+          "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
+        imageUrl:TalkExpert ,
       },
       {
         heading: "Hassle-Free & Fast Service",
         description:
-          "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process.",
-        imageUrl: "",
+          "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: "Transparent & Affordable",
         description:
-          "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free.",
-        imageUrl: "",
+          "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free",
+        imageUrl: HandUserMoney,
       },
     ],
   };

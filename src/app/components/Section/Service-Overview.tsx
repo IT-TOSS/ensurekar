@@ -72,7 +72,7 @@ const ServiceOverview = ({ OverviewData }: { OverviewData: OverviewData }) => {
               {introduction?.heading && (
                 <span className="text-blue-600 ">{'"'}</span>
               )}{" "}
-                <span className="text-mainTextColor">{introduction?.heading}</span>{" "}
+                <span className="text-mainTextColor dark:text-blue-600 ">{introduction?.heading}</span>{" "}
               {introduction?.heading && (
                 <span className="text-blue-600">{'"'}</span>
               )}
@@ -101,9 +101,10 @@ const ServiceOverview = ({ OverviewData }: { OverviewData: OverviewData }) => {
               key={advantage.heading}
               className="flex flex-col justify-between items-center bg-slate-100 rounded p-3 m-3 w-full sm:w-[45%] max-w-[45%] min-h-[280px] dark:text-white"
               >
-              <div className="border w-[70px] h-[70px] mx-auto">
+              {/* insert Image */}
+              {/* <div className="border w-[70px] h-[70px] mx-auto">
                 <Image src={advantage.imageUrl} alt="img" />
-              </div>
+              </div> */}
               <h5 className="text-center heading-5 text-black dark:text-black">{advantage.heading}</h5>
               <p className="text-center px-5 mb-2 text-black dark:text-black">{advantage.details}</p>
               {advantage.note && (

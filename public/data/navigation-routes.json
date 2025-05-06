@@ -162,8 +162,8 @@
     ]
   },
 
-  { "title": "Talk to Expert", "link": "/Contact" },
-  { "title": "Knowledge Section", "link": "/blog" }
+  { "title": "Talk to Expert", "link": "/talk-to-expert" },
+  { "title": "Knowledge Section", "link": "/talk-to-expert" }
 
   
 ]

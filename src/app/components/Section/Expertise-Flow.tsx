@@ -28,13 +28,13 @@ const ExpertiseFlow = ({ExpertiseFlowData}:{ExpertiseFlowData:ExpertiseFlowData}
             <p className="text-bodyText pb-10 dark:text-white">
              {description}
             </p>
-            <div className="flex justify-center items-center w-full overflow-hidden">
+            {/* <div className="flex justify-center items-center w-full overflow-hidden">
               <Image
                 src={image}
                 alt="image"
                 className="hover:scale-110 duration-500 w-full h-full"
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="col-span-12 lg:col-span-6 xxl:col-start-7 flex flex-col gap-6 xl:gap-10 justify-start items-start">

@@ -20,6 +20,13 @@ import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 import { title } from "process";
 import productImage from "../../../images/recent_post_img1.png";
 
+
+
+//Krishna
+import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
+
 interface AdvantagesData {
   title: string;
   heading: string;
@@ -332,14 +339,25 @@ const UdyamRegistration = () => {
   const WhyEnsurekar = {
     heading: "Why Choose Ensurekar for Udaym Registration?",
     description: "",
-    elements: [
+    elements:  [
       {
-        heading: "Expert Guidance",
-        description: "Ensurekar offers personalized consultation to understand your unique business needs and streamline the Udyam registration process.",
-        imageUrl: "",
+        heading: "Expert Assistance",
+        description:
+          "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
+        imageUrl:TalkExpert ,
       },
-      { heading: "Hassle-Free Documentation", description: "We ensure all required documents are accurately collected and submitted, saving you time and effort.", imageUrl: "" },
-      { heading: "Quick & Reliable Registration", description: "With our efficient services, you can swiftly receive your Udyam registration and start enjoying the benefits.", imageUrl: "" },
+      {
+        heading: "Hassle-Free & Fast Service",
+        description:
+          "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process",
+        imageUrl: EnhancedBusinessCredibility,
+      },
+      {
+        heading: "Transparent & Affordable",
+        description:
+          "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free",
+        imageUrl: HandUserMoney,
+      },
     ],
   };
   return (

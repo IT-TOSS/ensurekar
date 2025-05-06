@@ -2,7 +2,10 @@ import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services
 import ServiceCovered from "@/app/components/Section/Service/Service-Covered";
 import WhoConsidered from "@/app/components/Section/Who-Considered";
 import React from "react";
-import healthcare_section_img from "../../../../images/healthcare_section_img.png";
+// import healthcare_section_img from "../../../../images/healthcare_section_img.png";
+
+import healthcare_section_img from "../../../../images/TDS and TCS Certificates.npm.jpeg";
+
 import BenefitSection from "@/app/components/Section/Benefit-Section";
 import DocumentsRequired from "@/app/components/Section/Documents-Required";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
@@ -24,6 +27,11 @@ import FeaturesSection from "@/app/components/Section/Features-Section";
 import ServiceAdvantages from "@/app/components/Section/Advantages-All-Services";
 import All_In_One_ServiceSection from "@/app/components/Section/All-in-One-All-Services";
 import Image from "next/image";
+
+import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
+
 
 const TDSReturnFilings = () => {
   const BreadcrumbData = {
@@ -185,24 +193,24 @@ const TDSReturnFilings = () => {
   const WhyEnsurekar = {
     heading: "Why to choose Ensurekar for TDS/TCS Registration ",
     description: "",
-    elements: [
+    elements:  [
       {
         heading: "Expert Assistance",
         description:
-          "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements.",
-        imageUrl: "",
+          "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
+        imageUrl:TalkExpert ,
       },
       {
         heading: "Hassle-Free & Fast Service",
         description:
-          "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process.",
-        imageUrl: "",
+          "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: "Transparent & Affordable",
         description:
-          "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free.",
-        imageUrl: "",
+          "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free",
+        imageUrl: HandUserMoney,
       },
     ],
   };

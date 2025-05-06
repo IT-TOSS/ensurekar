@@ -20,6 +20,11 @@ import WhyEnsurekarSection from "@/app/components/Section/Why-Ensurekar-All-Serv
 import RegisterSteps from "@/app/components/Section/Register-Steps";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 
+
+import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
+
 const page = () => {
   const BreadcrumbData = {
     title: "Income Tax Return Filing",
@@ -147,21 +152,22 @@ const page = () => {
     description: "",
     elements: [
       {
-        heading: "Expert Guidance",
+        heading: "Expert Assistance",
         description:
-          "Our experienced tax professionals will provide expert advice to navigate complex tax issues.",
-        imageUrl: "",
+          "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
+        imageUrl:TalkExpert ,
       },
       {
-        heading: "Hassle-Free Process",
-        description: "We streamline the process, saving you time and effort.",
-        imageUrl: "",
+        heading: "Hassle-Free & Fast Service",
+        description:
+          "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
-        heading: "Cost-Effective Solutions",
+        heading: "Transparent & Affordable",
         description:
-          "Our affordable services ensure you get the best value for your money.",
-        imageUrl: "",
+          "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free",
+        imageUrl: HandUserMoney,
       },
     ],
   };

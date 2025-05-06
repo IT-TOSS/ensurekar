@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import manage_health_section_img from "../../images/manage_health_section_img.png";
-
+// import manage_health_section_img from "../../images/manage_health_section_img.png"; 
+import manage_health_section_img from "../../images/Documents For Shop and Establishment Registration.png.jpeg";
 interface DocumentsRequiredData {
   title: string;
   heading: string;
@@ -51,7 +51,7 @@ const DocumentsRequired = ({
           </div>
         </div>
         <div className="col-span-12 md:col-span-6 xl:col-span-5 xxl:col-start-8 flex justify-center items-center">
-          <Image src={manage_health_section_img} alt="image" />
+          <Image src={manage_health_section_img} alt="image" height={392} width={525} />
         </div>
       </div>
     </section>

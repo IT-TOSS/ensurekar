@@ -16,6 +16,14 @@ import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 import StepByStep from "../../../images/SGV-Types/Step-By-Step.svg";
 import productImage from "../../../images/recent_post_img1.png";
 
+//--Krishna code
+import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
+
+
+
+
 const OnePersonCompany = () => {
   const BreadcrumbData = {
     title: "One Person Company Registration ",
@@ -836,19 +844,19 @@ const OnePersonCompany = () => {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl: "",
+        imageUrl:TalkExpert ,
       },
       {
         heading: "Hassle-Free & Fast Service",
         description:
           "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process",
-        imageUrl: "",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: "Transparent & Affordable",
         description:
           "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free",
-        imageUrl: "",
+        imageUrl: HandUserMoney,
       },
     ],
   };

@@ -2,7 +2,8 @@ import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services
 import BrandnameSearch from "@/app/components/Section/Brandname-Search";
 import HelpSection from "@/app/components/Section/help-section";
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
-import we_help from "@/app/images/we_help.png";
+// import we_help from "@/app/images/we_help.png";
+import we_help from "@/app/images/Trademark Search India.jpeg";
 import React from "react";
 import StepByStep from "../../../../images/SGV-Types/Step-By-Step.svg";
 import RegisterSteps from "@/app/components/Section/Register-Steps";
@@ -656,7 +657,7 @@ const TrademarkSearch = () => {
   return (
     <>
       <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
-      <BrandnameSearch />
+      {/* <BrandnameSearch /> */}
       <PlansSection planData={planData} />
       <HelpSection HelpSectionData={HelpSectionData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />

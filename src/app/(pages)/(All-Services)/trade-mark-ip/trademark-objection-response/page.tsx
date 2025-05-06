@@ -1,7 +1,8 @@
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import HelpSection from "@/app/components/Section/help-section";
 import React from "react";
-import we_help from "../../../../images/we_help.png";
+// import we_help from "../../../../images/we_help.png";
+import we_help from "../../../../images/Trade Mark Objection.jpeg";
 import StepByStep from "../../../../images/SGV-Types/Step-By-Step.svg";
 import whyAccoupayCard_1 from "../../../../images/whyAccoupayCard_1.png";
 import whyAccoupayCard_2 from "../../../../images/whyAccoupayCard_2.png";
@@ -15,6 +16,12 @@ import EnsurekarFeature from "@/app/components/Section/features";
 import WhyEnsurekarSection from "@/app/components/Section/Why-Ensurekar-All-Services";
 import ServiceOverview from "@/app/components/Section/Service-Overview";
 import productImage from "../../../../images/recent_post_img1.png";
+
+
+import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";//"./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
+
 
 const TrademarkObjectionResponse = () => {
   const BreadcrumbData = {
@@ -310,19 +317,19 @@ const TrademarkObjectionResponse = () => {
         heading: "Expert Guidance",
         description:
           "EnsureKar offers professional assistance throughout the trademark objection process, helping you navigate legal complexities and ensuring a robust defense.",
-        imageUrl: "",
+        imageUrl: TalkExpert,
       },
       {
         heading: "Quick and Hassle-Free",
         description:
           "We handle everything from drafting responses to managing hearings, ensuring a smooth and efficient resolution of your trademark objection.",
-        imageUrl: "",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: "Transparent and Affordable",
         description:
           "With clear, upfront pricing and no hidden fees, we make the trademark objection process cost-effective and stress-free.",
-        imageUrl: "",
+        imageUrl: HandUserMoney,
       },
     ],
   };

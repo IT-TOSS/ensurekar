@@ -1,4 +1,3 @@
-import React from "react";
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import PlansSection from "@/app/components/Section/Plans-Section";
 import ServiceOverview from "@/app/components/Section/Service-Overview";
@@ -13,6 +12,12 @@ import testimonial7 from "../../../images/testimonial7.png";
 import testimonial8 from "../../../images/testimonial8.png";
 import testimonial6 from "../../../images/testimonial6.png";
 import productImage from "../../../images/recent_post_img1.png";
+
+
+import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
+
 
 const MCA_Compliances = () => {
   const BreadcrumbData = {
@@ -704,9 +709,26 @@ const MCA_Compliances = () => {
   const WhyEnsurekarData ={
     heading:"Why to choose Ensurekar for Private Limited Registration ",
     description:"",
-    elements:[{ heading: "Expert Assistance", description: "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements.", imageUrl: "" },
-    { heading: "Hassle-Free & Fast Service", description: "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process.", imageUrl: "" },
-    { heading: "Transparent & Affordable", description: "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free.", imageUrl: "" }],
+    elements:[
+      {
+        heading: "Expert Assistance",
+        description:
+          "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
+        imageUrl:TalkExpert ,
+      },
+      {
+        heading: "Hassle-Free & Fast Service",
+        description:
+          "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process",
+        imageUrl: EnhancedBusinessCredibility,
+      },
+      {
+        heading: "Transparent & Affordable",
+        description:
+          "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free",
+        imageUrl: HandUserMoney,
+      },
+    ],
   }
   const FAQsData = {
     title: "FAQs",

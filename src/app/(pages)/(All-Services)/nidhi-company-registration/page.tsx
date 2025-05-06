@@ -21,6 +21,13 @@ import testimonial6 from "../../../images/testimonial6.png";
 import productImage from "../../../images/recent_post_img1.png";
 
 
+//--Krishna code
+import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
+
+
+
 const NidhiCompanyRegistration = () => {
 
   const BreadcrumbData = {
@@ -797,19 +804,19 @@ const NidhiCompanyRegistration = () => {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl: "",
+        imageUrl:TalkExpert ,
       },
       {
         heading: "Hassle-Free & Fast Service",
         description:
           "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process",
-        imageUrl: "",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: "Transparent & Affordable",
         description:
           "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free",
-        imageUrl: "",
+        imageUrl: HandUserMoney,
       },
     ],
   };

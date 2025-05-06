@@ -1,6 +1,7 @@
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import WhoConsidered from "@/app/components/Section/Who-Considered";
-import healthcare_section_img from "../../../../images/healthcare_section_img.png";
+// import healthcare_section_img from "../../../../images/healthcare_section_img.png";
+import healthcare_section_img from "../../../../images/GST Return Filing1.npm.jpeg";
 import React from "react";
 import BenefitSection from "@/app/components/Section/Benefit-Section";
 import All_In_One_ServiceSection from "@/app/components/Section/All-in-One-All-Services";
@@ -18,6 +19,12 @@ import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import WhyEnsurekarSection from "@/app/components/Section/Why-Ensurekar-All-Services";
 import TestimonialSectionAllServices from "@/app/components/Section/Testimonial-Section-All-Services";
 import productImage from "../../../../images/recent_post_img1.png";
+
+
+import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
+
 
 const GSTFiling = () => {
   const BreadcrumbData = {
@@ -367,20 +374,20 @@ const GSTFiling = () => {
       {
         heading: "Expert Assistance",
         description:
-          "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements.",
-        imageUrl: "",
+          "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
+        imageUrl:TalkExpert ,
       },
       {
         heading: "Hassle-Free & Fast Service",
         description:
-          "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process.",
-        imageUrl: "",
+          "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: "Transparent & Affordable",
         description:
-          "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free.",
-        imageUrl: "",
+          "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free",
+        imageUrl: HandUserMoney,
       },
     ],
   };
@@ -651,9 +658,10 @@ const GSTFiling = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-12 md:col-span-6 xl:col-span-5 xxl:col-start-8 flex justify-center items-center">
+          {/*add image */}
+          {/* <div className="col-span-12 md:col-span-6 xl:col-span-5 xxl:col-start-8 flex justify-center items-center">
             <Image src={manage_health_section_img} alt="image" />
-          </div>
+          </div> */}
         </div>
       </section>
       <FAQsServicesSection FAQsData={FAQsData} />

@@ -105,7 +105,7 @@ const Login = () => {
             setTimeout(() => {
                 router.push("/Login");
             }
-            , 2000);
+            , 1000);
 
             // const user = response.data.message;
 

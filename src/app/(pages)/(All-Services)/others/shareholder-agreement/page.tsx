@@ -1,6 +1,7 @@
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import HelpSection from "@/app/components/Section/help-section";
-import we_help from "../../../../images/we_help.png";
+// import we_help from "../../../../images/we_help.png";
+import we_help from "../../../../images/Shareholder Agreement.jpeg";
 import StepByStep from "../../../../images/SGV-Types/Step-By-Step.svg";
 import React from "react";
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
@@ -17,6 +18,10 @@ import WhoShouldBuy from "@/app/components/Section/Service/Who-Should-Buy";
 import WhyEnsurekarSection from "@/app/components/Section/Why-Ensurekar-All-Services";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import productImage from "../../../../images/recent_post_img1.png";
+
+import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";//"../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
 
 const ShareholderAgreement = () => {
   const BreadcrumbData = {
@@ -227,19 +232,19 @@ const ShareholderAgreement = () => {
         heading: "Expert Guidance",
         description:
           "Ensurekar offers comprehensive support, addressing legal requirements and safeguarding stakeholder interests with expert advice tailored to your business needs.",
-        imageUrl: "",
+        imageUrl: TalkExpert,
       },
       {
         heading: "Effortless and Efficient Process",
         description:
           "From drafting to finalization, we ensure a hassle-free experience, streamlining the process for all involved parties.",
-        imageUrl: "",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: "Transparent and Cost-Effective Pricing",
         description:
           "Our upfront pricing eliminates hidden costs, delivering a stress-free and budget-friendly solution.",
-        imageUrl: "",
+        imageUrl: HandUserMoney,
       },
     ],
   };

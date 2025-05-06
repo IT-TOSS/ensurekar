@@ -2,7 +2,8 @@
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import HelpSection from "@/app/components/Section/help-section";
 import React from "react";
-import we_help from "../../../../images/we_help.png";
+// import we_help from "../../../../images/we_help.png";
+import we_help from "../../../../images/Shareholder Agreement.jpeg";
 import StepByStep from "../../../../images/SGV-Types/Step-By-Step.svg";
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 import ServiceCovered from "@/app/components/Section/Service/Service-Covered";
@@ -23,6 +24,13 @@ import ExpertiseFlow from "@/app/components/Section/Expertise-Flow";
 import CopyrightEducation from "@/app/components/Section/Copyright-Education";
 import { ChartLineUp, ChatCircle, NotePencil } from "phosphor-react";
 import productImage from "../../../../images/recent_post_img1.png";
+
+
+
+import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";//"./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "./../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "./../../../../images/SGV-Types/Hand-User-Money.svg";
+
 
 const NonDisclosureAgreement = () => {
   const BreadcrumbData = {
@@ -288,19 +296,19 @@ const NonDisclosureAgreement = () => {
         heading: "Professional Support",
         description:
           "At EnsureKar, we offer expert guidance throughout the entire NDA process, ensuring that all legal and confidentiality requirements are met.",
-        imageUrl: "",
+        imageUrl: TalkExpert,
       },
       {
         heading: "Quick and Effortless Service",
         description:
           "We manage everything, from drafting to finalizing the NDA, ensuring a seamless and efficient experience.",
-        imageUrl: "",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: "Clear and Cost-Effective Pricing",
         description:
           "Our transparent pricing guarantees no hidden fees, making the process stress-free and affordable.",
-        imageUrl: "",
+        imageUrl: HandUserMoney,
       },
     ],
   };

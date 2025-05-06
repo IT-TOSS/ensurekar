@@ -1,7 +1,8 @@
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import WhoConsidered from "@/app/components/Section/Who-Considered";
 import React from "react";
-import healthcare_section_img from "../../../../images/healthcare_section_img.png";
+// import healthcare_section_img from "../../../../images/healthcare_section_img.png";
+import healthcare_section_img from "../../../../images/Shop Act License Introduced.npm.jpeg";
 import BenefitSection from "@/app/components/Section/Benefit-Section";
 import DocumentsRequired from "@/app/components/Section/Documents-Required";
 import OnlineProcessforEmployers from "@/app/components/Section/Online-Process-for-Employers";
@@ -16,6 +17,13 @@ import testimonial8 from "../../../../images/testimonial8.png";
 import testimonial6 from "../../../../images/testimonial6.png";
 import ServiceOverview from "@/app/components/Section/Service-Overview";
 import productImage from "../../../../images/recent_post_img1.png";
+
+
+//Krishna
+
+import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
+import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
+import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
 
 const ShopandEstablishmentRegistration = () => {
   const BreadcrumbData = {
@@ -198,24 +206,24 @@ const ShopandEstablishmentRegistration = () => {
   const WhyEnsurekar = {
     heading: "Why to choose Ensurekar for Shop and Establishment Registration",
     description: "",
-    elements: [
+    elements:[
       {
         heading: "Expert Assistance",
         description:
-          "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements.",
-        imageUrl: "",
+          "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
+        imageUrl:TalkExpert ,
       },
       {
         heading: "Hassle-Free & Fast Service",
         description:
-          "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process.",
-        imageUrl: "",
+          "We handle everything from name approval to incorporation documents, ensuring a smooth and quick registration process",
+        imageUrl: EnhancedBusinessCredibility,
       },
       {
         heading: "Transparent & Affordable",
         description:
-          "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free.",
-        imageUrl: "",
+          "We provide clear, upfront pricing with no hidden fees, making the entire process cost-effective and stress-free",
+        imageUrl: HandUserMoney,
       },
     ],
   };

@@ -1,13 +1,13 @@
-"use client";
+// "use client";
 
 
-export default function HandleLogin({data}:{data:{email:string,password:string,remember:boolean}}) {
+// export default function HandleLogin({data}:{data:{email:string,password:string,remember:boolean}}) {
      
 
 
-  console.log(data);
+//   console.log(data);
    
-  return ;
+//   return ;
 
 
-}
+// }

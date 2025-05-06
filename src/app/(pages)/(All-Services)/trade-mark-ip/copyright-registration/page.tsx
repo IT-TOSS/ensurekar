@@ -10,9 +10,10 @@ import {
   Money,
   NotePencil,
 } from "phosphor-react";
+// import never_worry_img from "../../../../images/never_worry_img.png";
 import never_worry_img from "../../../../images/never_worry_img.png";
 import faq_illus from "../../../../images/faq_illus.png";
-import we_help from "../../../../images/we_help.png";
+import we_help from "../../../../images/Trade Mark Objection.jpeg";
 import React from "react";
 import RegisterSteps from "@/app/components/Section/Register-Steps";
 import HelpSection from "@/app/components/Section/help-section";
