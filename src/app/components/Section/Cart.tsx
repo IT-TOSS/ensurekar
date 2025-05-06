@@ -166,10 +166,10 @@ const Cart = () => {
           <table className="m-4 pl-5 min-w-80">
             <thead className="">
               <tr className="w-full border-b">
-                <th className="text-start pb-4">Product</th>
+                {/* <th className="text-start pb-4">Product</th> */}
                 <th className="text-start pb-4 pl-3">Name</th>
                 <th className="text-start pb-4 pl-3 whitespace-nowrap">
-                  Unit Price
+                  Price
                 </th>
                 <th className="text-start pb-4 pl-3 whitespace-nowrap">
                   Quantity
@@ -186,9 +186,9 @@ const Cart = () => {
               {cartItems && cartItems.length > 0 ? (
                 cartItems.map((item, index) => (
                   <tr key={index} className="w-full border-b">
-                    <td className="py-3">
+                    {/* <td className="py-3">
                       <Image src={item.image} alt="product" />
-                    </td>
+                    </td> */}
                     <td className="text-start pl-3 min-w-60">{item.name}</td>
                     <td className="text-start whitespace-nowrap pl-3">
                       ₹ {item.price}
@@ -229,7 +229,7 @@ const Cart = () => {
                         <Trash size={24} />
                       </button>
                     </td>
-                    <td className="text-start px-5">
+                    {/* <td className="text-start px-5">
                       <button
                         className=""
                         onClick={() => {
@@ -238,7 +238,7 @@ const Cart = () => {
                       >
                         <Heart size={24} />
                       </button>
-                    </td>
+                    </td> */}
                   </tr>
                 ))
               ) : (
