@@ -618,20 +618,6 @@ const Checkout = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (storedUserInfo) {
-  //     const { Fname, Lname, email, contact } = storedUserInfo;
-  //     setUserInfo(prevState => ({
-  //       ...prevState,
-  //       firstName: Fname || prevState.firstName,
-  //       lastName: Lname || prevState.lastName,
-  //       email: email || prevState.email,
-  //       contactNo: Number(contact) || prevState.contactNo,
-  //     }));
-  //   }
-  // }, [storedUserInfo]);
-
-
   useEffect(() => {
     if (storedUserInfo) {
       const { Fname, Lname, email, contact } = storedUserInfo;
@@ -642,12 +628,8 @@ const Checkout = () => {
         email: email || prevState.email,
         contactNo: Number(contact) || prevState.contactNo,
       }));
-  
-      // Remove from localStorage after setting state
-      localStorage.removeItem('storedUserInfo');
     }
   }, [storedUserInfo]);
-  
 
   useEffect(() => {
       setItemsData(cartItems.map(item => ({ ...item, id: String(item.id) }))); // Ensure id is always a string
