@@ -828,7 +828,7 @@ const Page = () => {
     subtitle: "",
     description: "Includes income from one employer, one house property & other sources.",
     originalPrice: "₹1499",
-    discountedPrice: "₹1",
+    discountedPrice: "₹499",
     discount: "₹1000 off",
     features: {
       "Single Employer": true,
@@ -887,7 +887,7 @@ const Page = () => {
       }
     },
     navigationUrl: "/cart",
-    onSelect: () => handlePlanSelection("1", "Basic Plan", "₹1") // Add this to each plan
+    onSelect: () => handlePlanSelection("1", "Basic Plan", "₹499") // Add this to each plan
   },
   {
     id: 2,
