@@ -541,14 +541,9 @@ const Checkout = () => {
         accessCodeField.value = response.data.accessCode;  
         form.appendChild(accessCodeField);
         
-        // Append the form to the container
+        // Append the form to the containerr
         formContainer.appendChild(form);
-        
-        // Submit the form after a slight delay to ensure it's fully in the DOM
-        setTimeout(() => {
-          console.log('Submitting CCAvenue form...');
-          form.submit();
-        }, 150);
+   
       } else {
         throw new Error(response.data.message || 'Failed to initialize payment gateway');
       }
