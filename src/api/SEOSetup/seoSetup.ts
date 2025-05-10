@@ -92,6 +92,11 @@ interface SeoData {
 export async function seoData({alias, title, description}: {alias?: string; title?: string; description?: string}): Promise<SeoData | null> {
   //   const dispatch = useDispatch();
   //   const SEOData = useSelector((state: IRootState) => state.themeConfig.SeoData);
+  
+  return {
+    title: title || "Ensurekar",
+    description: description || "Ensurekar",
+  };
 
   if (!alias) {
     return {
@@ -100,7 +105,7 @@ export async function seoData({alias, title, description}: {alias?: string; titl
     };
   }
 // return null
-  try {
+  // try {
     // const URL =  '' ;//process.env.NEXT_PUBLIC_API_URL;
     // const response = ''await axios.get(``); ///api/v1/page/home_page/
     // const data = response.data.meta;
@@ -120,23 +125,23 @@ export async function seoData({alias, title, description}: {alias?: string; titl
     // return seoData || SEOData;
     // return seoData;
      return null;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error(
-        "Axios error occurred:",
-        error.response?.data || error.message
-      );
-      return {
-        title: error.response?.data.meta?.name,
-        description:
-          error.response?.data.meta?.description ||
-          error.response?.data.meta?.short_description,
-      };
-    } else {
-      console.error("Unknown error occurred:", error);
-    }
-    return null;
-  }
+  // } catch (error) {
+  //   if (axios.isAxiosError(error)) {
+  //     console.error(
+  //       "Axios error occurred:",
+  //       error.response?.data || error.message
+  //     );
+  //     return {
+  //       title: error.response?.data.meta?.name,
+  //       description:
+  //         error.response?.data.meta?.description ||
+  //         error.response?.data.meta?.short_description,
+  //     };
+  //   } else {
+  //     console.error("Unknown error occurred:", error);
+  //   }
+  //   return null;
+  // }
 }
 
  
