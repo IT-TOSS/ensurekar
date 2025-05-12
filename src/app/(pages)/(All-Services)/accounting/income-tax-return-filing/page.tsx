@@ -942,7 +942,7 @@ const Page = () => {
       }
     },
     navigationUrl: "/cart",
-    onSelect: () => handlePlanSelection("2", "Multiple Employer Plan", "₹499") // Add this to each plan
+    onSelect: () => handlePlanSelection("2", "Multiple Employer Plan", "₹999") // Add this to each plan
   },
   // More plans...
   {
