@@ -90,7 +90,7 @@ const Cart = () => {
     dispatch(removeFromCart(item.id));
   };
   
-  const tax = 12;
+  const tax = 18;
   const total = cartItems.reduce((acc, item) => acc + item.subtotal, 0);
   const subtotal =
     cartItems.reduce((acc, item) => acc + item.subtotal, 0) +
@@ -137,7 +137,7 @@ const Cart = () => {
               <div className="bg-white shadow-xl rounded-lg p-5 min-w-80 col-span-12 md:col-span-6 md:col-start-4">
                 <div className="flex justify-between items-center pb-6 border-b text-bodyText">
                   <p>Tax</p>
-                  <p>₹ {total} + 12% GST</p>
+                  <p>₹ {total} + 18% GST</p>
                 </div>
                 <div className="flex justify-between text-mainTextColor font-bold items-center pt-6 pb-6 border-b mb-8">
                   <p>Subtotal</p>

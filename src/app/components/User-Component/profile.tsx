@@ -750,11 +750,11 @@ export default function Profile({
                         <h3 className="text-lg font-semibold">{inputFormData.bank.bank || "N/A"}</h3>
                         <p className="text-sm">{inputFormData.bank.accountHolderName || "N/A"}</p>
                       </div>
-                      <Image
+                      {/* <Image
                         src={userImage}
                         alt="Bank Logo"
                         className="rounded-full w-[50px] h-[50px] object-cover"
-                      />
+                      /> */}
                     </div>
                     <div className="space-y-4">
                       <ProfileItem label="Account Number" value={inputFormData.bank.accountNumber || "N/A"} />

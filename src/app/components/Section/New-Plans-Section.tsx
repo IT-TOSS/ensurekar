@@ -1749,7 +1749,7 @@ const PricingPlans: React.FC<PricingPlansProps> = ({
       bg-white flex flex-col items-center text-center
       transition-all duration-300 ease-in-out
       hover:shadow-lg hover:scale-105 hover:-translate-y-1
-      h-full min-h-80 z-10 relative overflow-hidden
+      h-full min-h-70 z-10 relative overflow-hidden
     `}
     >
       {/* Sticky header container */}
@@ -1792,8 +1792,8 @@ const PricingPlans: React.FC<PricingPlansProps> = ({
         </div>
   
         {/* Fixed-height additional payment options section */}
-        <div className="flex-1 flex flex-col w-full min-h-16">
-          {plan.laterPaid && (
+        {/* <div className="flex-1 flex flex-col w-full min-h-16">
+          {/*{plan.laterPaid && (
             <p className="text-sm text-gray-600 mt-2">
               {plan.laterPaid.amount} {plan.laterPaid.text}
             </p>
@@ -1810,7 +1810,7 @@ const PricingPlans: React.FC<PricingPlansProps> = ({
                   : plan.splitPayment.text}
               </span>
             </div>
-          )}
+          )}*}
   
           {isMobile && plan.offers && plan.offers.some(offer => offer.isActive) && (
             <div className="mt-4 w-full bg-blue-50 border border-blue-200 rounded-md p-3 text-left">
@@ -1822,9 +1822,21 @@ const PricingPlans: React.FC<PricingPlansProps> = ({
               </p>
             </div>
           )}
-        </div>
+
+
+        </div> */}
+
+        {isMobile && plan.offers && plan.offers.some(offer => offer.isActive) && (
+            <div className="mt-4 w-full bg-blue-50 border border-blue-200 rounded-md p-3 text-left">
+              <h5 className="text-blue-800 font-medium text-sm">
+                {plan.offers.find(offer => offer.isActive)?.heading}
+              </h5>
+              <p className="text-blue-600 text-xs mt-1">
+                {plan.offers.find(offer => offer.isActive)?.description}
+              </p>
+            </div>
+          )}
   
-        {/* Button at the bottom - fixed alignment */}
         <div className="w-full mt-auto">
           <button
             className={`

@@ -1728,11 +1728,11 @@ const AccountSettings = ({
         formDataToSend.append("email", userInfo.email)
       }
 
-      
+
       const localStorageData = localStorage.getItem("userInfo");
       const parsed = localStorageData ? JSON.parse(localStorageData) : null;
       const userId = parsed?.uid
-      
+
       if (parsed?.uid) {
         formDataToSend.append("uid", userId)
       }
@@ -1740,7 +1740,7 @@ const AccountSettings = ({
 
       try {
         // Log what we're sending to help with debugging
-        console.log("Data being sent to backend11:",  inputFormData )
+        console.log("Data being sent to backend11:", inputFormData)
         console.log("Files being sent:", inputFormData.document) //inputFormData
 
         console.log("User ID:", formDataToSend.get("uid")) // Check if userId is being sent
@@ -1944,8 +1944,13 @@ const AccountSettings = ({
                 <input
                   type="date"
                   name="DOB"
+                  // value={
+                  //   inputFormData.personal.DOB
+                  //     ? new Date(inputFormData.personal.DOB).toISOString().split('T')[0]
+                  //     : ""
+                  // }
                   value={
-                    inputFormData.personal.DOB
+                    inputFormData.personal.DOB && !isNaN(new Date(inputFormData.personal.DOB).getTime())
                       ? new Date(inputFormData.personal.DOB).toISOString().split('T')[0]
                       : ""
                   }
@@ -2052,7 +2057,7 @@ const AccountSettings = ({
               </div>
 
               {/* Upload investment details */}
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">Investment details</label>
                 <input
                   type="file"
@@ -2061,7 +2066,7 @@ const AccountSettings = ({
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                   placeholder="Upload your Document"
                 />
-              </div>
+              </div> */}
 
               <div className="md:col-span-2 col-span-1 mx-auto my-6">
                 <button
@@ -2167,7 +2172,7 @@ const AccountSettings = ({
               </div>
 
               {/* Upload aadhar card */}
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">Upload Aadhar Card</label>
                 <input
                   type="file"
@@ -2178,7 +2183,7 @@ const AccountSettings = ({
                 />
               </div>
 
-              {/* Upload form 16 */}
+              {/* Upload form 16 *}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">Upload Form 16</label>
                 <input
@@ -2188,7 +2193,7 @@ const AccountSettings = ({
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                   placeholder="Upload your Form 16"
                 />
-              </div>
+              </div> */}
 
               <div className="lg:col-span-3 md:col-span-2 col-span-1 mx-auto my-6">
                 <button
@@ -2246,7 +2251,7 @@ const AccountSettings = ({
               </div>
 
               {/* Upload bank details */}
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">Upload Bank Details(Bank Passbook)</label>
                 <input
                   type="file"
@@ -2255,7 +2260,7 @@ const AccountSettings = ({
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                   placeholder="Upload your Document"
                 />
-              </div>
+              </div> */}
 
               <div className="md:col-span-2 col-span-1 mx-auto my-6">
                 <button
@@ -2370,7 +2375,7 @@ const AccountSettings = ({
               </div>
 
               {/* Upload other document */}
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">Other Document</label>
                 <input
                   type="file"
@@ -2379,7 +2384,7 @@ const AccountSettings = ({
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                   placeholder="Upload your Document"
                 />
-              </div>
+              </div> */}
 
               <div className="md:col-span-2 col-span-1 mx-auto my-6">
                 <button

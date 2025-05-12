@@ -944,7 +944,6 @@ const Page = () => {
     navigationUrl: "/cart",
     onSelect: () => handlePlanSelection("2", "Multiple Employer Plan", "₹999") // Add this to each plan
   },
-  // More plans...
   {
     id: 3,
     iconSrc: BusinessIncomePlan.src,
