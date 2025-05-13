@@ -17,29 +17,42 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-export async function POST(req) {
-    try {
-        const { email, textDetails  } = await req.json();
+export async function POST(request) {
+  try {
+    const body = await request.json();
+    console.log("Received data:", body);
+    const { firstName, lastName ,email, subject, message , origin, phone  , textDetails  } = body;
 
-        console.log('Received OTP Request:', { email, otp });
-
-        if (!email || !otp) {
-            return NextResponse.json({ error: 'Email and OTP are required' }, { status: 400 });
+    if (!email) {
+            return NextResponse.json({ error: 'Email are required' }, { status: 400 });
         }
+
+  const emailText = textDetails || `Hello Team Ensurekar,
+Mr./Mrs. ${firstName} ${lastName}
+Email: ${email}
+Phone: ${phone}
+Origin: ${origin}
+Subject: ${subject}
+Message: They are very confused on the Income Tax Return Filing page.
+Please help them choose the right package.
+Regards,
+
+${firstName} ${lastName}`;
+
+        const companyName = "Krishna.vish9329@gmail.com";
 
         const mailOptions = {
             from: "info@ensurekar.com",
-            to: email,
-            subject: 'payment details',
-            text: textDetails,
+            to: companyName,
+            subject: subject,
+            text: emailText,
         };
 
-        await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions);
 
-        return NextResponse.json({ message: 'payment details sent successfully' }, { status: 200 });
-
-    } catch (error) {
-        console.error('payment details Send Error:', error);
-        return NextResponse.json({ error: error.message || 'Failed to send payment details' }, { status: 500 });
-    }
+    return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 });
+  } catch (error) {
+    console.error("payment details Send Error:", error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
 }

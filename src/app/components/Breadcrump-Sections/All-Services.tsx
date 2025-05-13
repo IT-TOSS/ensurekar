@@ -102,9 +102,12 @@ const BreadcrumbSection = ({
       origin: "Talk_To_Expert",
       phone: data.phone as string,
     };
+    console.log("TalkToExpert", TalkToExpert);
     setMessage("Sending Message...");
     const response = await ContactUs(TalkToExpert);
-    if (response.status === "success") {
+
+    console.log("response", response);
+    if (response.message === 'Email sent successfully') {
 
       setMessage(response.message);
       setTimeout(() => {

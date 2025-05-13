@@ -5,12 +5,14 @@ import { GetCookie } from "./CookiesSetup";
 const NEXT_PUBLIC_API_URL = '' ;// process.env.NEXT_PUBLIC_API_URL;
 
 const ContactUs = async (data:ContactForm) => {
-  const token = await GetCookie();
-  const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/v1/contact/`, {
+  // const token = await GetCookie();
+  //const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/v1/contact/`, {
+  // change by krishna
+  const response = await fetch(`/api/Gmail`,{
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization" :`Token ${token}`,
+      // "Authorization" :`Token ${token}`,
     },
     body: JSON.stringify(data),
   });

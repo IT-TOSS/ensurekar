@@ -51,6 +51,7 @@ import { HandCoins } from "lucide-react";
 import CTASection from "./components/Section/CTA-Section";
 import Footer from "./components/footer";
 import Header from "./components/Header";
+import Script from 'next/script';
 export default function Home() {
   const CounterSectionData = [
     { number: 25000, text: "Client Served" },
@@ -115,6 +116,24 @@ export default function Home() {
   }
   return (
     <>
+
+    {/* Google tag (gtag.js) */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-DELN23M1SD"
+        strategy="afterInteractive"
+      />
+      <Script
+        id="gtag-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-DELN23M1SD');
+          `,
+        }}
+      />
 
       
 
