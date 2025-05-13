@@ -774,7 +774,7 @@ const Cart = () => {
                   <PiCalendarSlash className="h-16 w-16 text-gray-400 mb-4" />
                   <h3 className="text-xl font-medium mb-4 text-gray-700">Your Ensurekar Cart is empty</h3>
                   <Link
-                    href="/products"
+                    href="/accounting/income-tax-return-filing"
                     className="mt-4 px-6 py-2 bg-p1 text-white font-medium rounded hover:bg-p1/90 transition-all duration-300 flex items-center gap-2"
                   >
                     Continue Shopping <ArrowRight className="h-5 w-5" />

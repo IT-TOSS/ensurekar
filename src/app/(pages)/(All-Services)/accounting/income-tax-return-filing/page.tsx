@@ -16,7 +16,7 @@ import RegisterSteps from "@/app/components/Section/Register-Steps";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import productImage from "../../../../images/recent_post_img1.png";
 import { useDispatch } from "react-redux";
-import Script from "next/script";
+import Script from 'next/script';
 import { addToCart } from "@/store/store";
 import { useRouter } from "next/navigation";
 
@@ -1204,6 +1204,24 @@ const Page = () => {
         src="https://www.facebook.com/tr?id=1163338854969827&ev=PageView&noscript=1"
       />
     </noscript>
+
+    {/* Google tag (gtag.js) */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-DELN23M1SD"
+        strategy="afterInteractive"
+      />
+      <Script
+        id="gtag-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-DELN23M1SD');
+          `,
+        }}
+      />
 
 
         {/* my actual code*/}
