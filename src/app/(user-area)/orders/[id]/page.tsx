@@ -163,8 +163,8 @@ import { OrderHistoryOne } from "@/api/SEOSetup/ordersList";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Image from "next/image"; // Use Next.js Image component
-import ensureLogo from "../../../images/ensure_logo.png"; // Correct path to the logo file
+import Image from "next/image"; 
+import ensureLogo from "../../../images/ensure_logo.png"; 
 import { Download, PrinterIcon } from "lucide-react";
 
 type PageProps = {
@@ -217,12 +217,12 @@ const Page = ({ params }: PageProps) => {
 
             try {
                 // Try both data sources
-                const [apiResponse, localResponse] = await Promise.all([
+                const [apiResponse] = await Promise.all([
                     axios.get("https://edueye.co.in/ensurekar/existing-site/orderid_get.php", {
                         headers: { "Content-Type": "application/json" },
                     }).catch(err => null),
 
-                    OrderHistoryOne(id).catch(err => null)
+                    // OrderHistoryOne(id).catch(err => null)
                 ]);
 
                 // Process API response
@@ -253,7 +253,7 @@ const Page = ({ params }: PageProps) => {
                             customer: {
                                 name: userOrder.customer_name || "Customer",
                                 email: userOrder.customer_email || "customer@example.com",
-                                address: userOrder.shipping_address || "Customer Address"
+                                address: userOrder.shipping_address || "Customer Address not found"
                             }
                         });
                         setLoading(false);
@@ -262,35 +262,35 @@ const Page = ({ params }: PageProps) => {
                 }
 
                 // If API response didn't have matching order, try local data
-                if (localResponse) {
-                    // Mock items for demonstration
-                    const mockItems = [
-                        {
-                            name: "Product/Service Item",
-                            quantity: 1,
-                            price: localResponse.total || 0
-                        }
-                    ];
+                // if (localResponse) {
+                //     // Mock items for demonstration
+                //     const mockItems = [
+                //         {
+                //             name: "Product/Service Item",
+                //             quantity: 1,
+                //             price: localResponse.total || 0
+                //         }
+                //     ];
 
-                    setOrderDetails({
-                        id: localResponse.id || id,
-                        amount: localResponse.amount || "0.00",
-                        date: formatDate(localResponse.date || "N/A"),
-                        status: localResponse.status || "Processing",
-                        method: localResponse.method || "N/A",
-                        reference: localResponse.reference || id,
-                        total: localResponse.total || 0,
-                        tracking_id: localResponse.tracking_id || "N/A",
-                        items: mockItems,
-                        customer: {
-                            name: "Customer Name",
-                            email: "customer@example.com",
-                            address: "Customer Address"
-                        }
-                    });
-                    setLoading(false);
-                    return;
-                }
+                //     setOrderDetails({
+                //         id: localResponse.id || id,
+                //         amount: localResponse.amount || "0.00",
+                //         date: formatDate(localResponse.date || "N/A"),
+                //         status: localResponse.status || "Processing",
+                //         method: localResponse.method || "N/A",
+                //         reference: localResponse.reference || id,
+                //         total: localResponse.total || 0,
+                //         tracking_id: localResponse.tracking_id || "N/A",
+                //         items: mockItems,
+                //         customer: {
+                //             name: "Customer Name",
+                //             email: "customer@example.com",
+                //             address: "Customer Address"
+                //         }
+                //     });
+                //     setLoading(false);
+                //     return;
+                // }
 
                 // No data found in either source
                 setError("Order not found");
@@ -323,7 +323,7 @@ const Page = ({ params }: PageProps) => {
     };
 
     const handleDownload = () => {
-        window.print(); // For simplicity, we're using print to PDF
+        window.print(); 
     };
 
     return (

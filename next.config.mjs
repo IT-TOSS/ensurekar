@@ -3,6 +3,9 @@ const nextConfig = {
     images: {
         domains: ['lh3.googleusercontent.com'],
       },
+      devIndicators: {
+    autoPrerender: false,
+  },
 };
 
 export default nextConfig;

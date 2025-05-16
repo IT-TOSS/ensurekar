@@ -52,7 +52,7 @@ const Checkout = () => {
   const [itemsData, setItemsData] = useState<Item[]>(cartItems.map(item => ({ ...item, id: String(item.id) })));
 
   const total = itemsData.reduce((acc, item) => acc + item.subtotal, 0);
-  const gst = 12;
+  const gst = 18;
   const gstAmount = (total * gst) / 100;
   const grandTotal = total + gstAmount;
 
@@ -163,6 +163,20 @@ const Checkout = () => {
         return;
       }
 
+      // krishna Code i have update local storage data 
+
+      const existingData = JSON.parse(localStorage.getItem("userInfo") || "{}");
+
+      const updatedData = {
+        ...existingData, 
+        Fname: userInfo.firstName,
+        Lname: userInfo.lastName,
+        contact: userInfo.contactNo,
+        address: userInfo.address
+      };
+      localStorage.setItem("userInfo", JSON.stringify(updatedData)); 
+      console.log("Updated userInfo:", updatedData);
+
       // Prepare order data
       const orderData = {
         items: itemsData,
@@ -176,6 +190,10 @@ const Checkout = () => {
       };
 
       console.log('Placing order with data:', orderData);
+
+      
+
+      return;
       // await initiateCCAvenuePay("12");
 
       // Make API call to create order
@@ -206,137 +224,143 @@ const Checkout = () => {
 
   // Krishna Code
 
-  useEffect(() => {
-    if (storedUserInfo) {
-      const { Fname, Lname, email, contact } = storedUserInfo;
-      setUserInfo(prevState => ({
-        ...prevState,
-        firstName: Fname || prevState.firstName,
-        lastName: Lname || prevState.lastName,
-        email: email || prevState.email,
-        contactNo: Number(contact) || prevState.contactNo,
-      }));
-    }
-  }, [storedUserInfo]);
+  // useEffect(() => {
+  //   if (storedUserInfo) {
+  //     const { Fname, Lname, email, contact } = storedUserInfo;
+  //     setUserInfo(prevState => ({
+  //       ...prevState,
+  //       firstName: Fname || prevState.firstName,
+  //       lastName: Lname || prevState.lastName,
+  //       email: email || prevState.email,
+  //       contactNo: Number(contact) || prevState.contactNo,
+  //     }));
+  //   }
+  // }, [storedUserInfo]);
 
 
   // ----------------------------
 
   // improved code
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   if (storedUserInfo) {
-  //     const { email } = storedUserInfo;
-  //     if (!email) return;
-  //     const getUserData = async () => {
-  //       try {
-  //         const response = await axios.get("https://edueye.co.in/ensurekar/existing-site/userinfo_get.php", {
-  //           headers: { "Content-Type": "application/json" }
-  //         });
+    if (storedUserInfo) {
+      console.log(storedUserInfo, "storedUserInfo");
+      const { email } = storedUserInfo;
+      if (!email) return;
+      const getUserData = async () => {
+        try {
+          const response = await axios.get("https://edueye.co.in/ensurekar/existing-site/userinfo_get.php", {
+            headers: { "Content-Type": "application/json" }
+          });
 
-  //         const userData = response.data.data || [];
-  //         const user = userData.find((u: { email: string }) => u.email === userInfo.email);
-
-  //         if (!user) {
-  //           console.log("user is not registered Yet");
-  //           return;
-  //         }
-
-  //         const isoDate = user.DOB || '';
-  //         let formattedDate = '';
-
-  //         if (isoDate) {
-  //           const date = new Date(isoDate);
-  //           const day = String(date.getDate()).padStart(2, '0');
-  //           const month = String(date.getMonth() + 1).padStart(2, '0');
-  //           const year = date.getFullYear();
-  //           formattedDate = `${year}-${month}-${day}`;
-  //         }
-
-  //         const transformedData = {
-  //           personal: {
-  //             userName: user.userName || '',
-  //             firstName: user.firstName || '',
-  //             lastName: user.lastName || '',
-  //             fatherName: user.fatherName || '',
-  //             DOB: formattedDate,
-  //             sex: user.sex || '',
-  //             maritalStatus: user.maritalStatus || '',
-  //             id: user.id || ''
-  //           },
-  //           company: {
-  //             company: user.company || '',
-  //             organisationType: user.organisationType || '',
-  //             about: user.about || '',
-  //             cin: user.cin || '',
-  //             pan: user.pan || '',
-  //             aadhar: user.aadhar || '',
-  //             incorporationDate: user.incorporationDate || '',
-  //             moa: user.moa || '',
-  //             aoa: user.aoa || '',
-  //             gst: user.gst || '',
-  //             udyamNumber: user.udyamNumber || '',
-  //             dpit: user.dpit || ''
-  //           },
-  //           identity: {
-  //             pan: user.pan || '',
-  //             aadhar: user.aadhar || '',
-  //             din: user.din || '',
-  //             addressProof: user.addressProof || '',
-  //             addressProofName: user.addressProofName || '',
-  //             nationality: user.nationality || ''
-  //           },
-  //           bank: {
-  //             bank: user.bank || '',
-  //             accountHolderName: user.accountHolderName || '',
-  //             accountNumber: user.accountNumber || '',
-  //             ifsc: user.ifsc || ''
-  //           },
-  //           address: {
-  //             address: user.address || '',
-  //             state: user.state || '',
-  //             city: user.city || '',
-  //             pin: user.pin || '',
-  //             email: user.email || '',
-  //             secondaryEmail: user.secondaryEmail || '',
-  //             contactNo: user.contactNo || '',
-  //             secondaryContact: user.secondaryContact || ''
-  //           },
-  //           document: {
-  //             other: null,
-  //             addharcar: null,
-  //             InvestmentDetails: null,
-  //             form16: null,
-  //             BankDetails: null,
-  //             OtherDocument: null
-  //           }
-  //         };
+          const userData = response.data.data || [];
+          console.log(userData, "userData");
+          console.log(email, "email");
+          // const user = userData.find((u: { email: string }) => u.email === userInfo.email);
+          const user = userData.find((u: { email: string }) => u.email === email);
+          console.log(user, "user");
 
 
-  //         console.log(transformedData, "transformedData");
-  //         // setInputFormData(transformedData);
+          if (!user) {
+            console.log("user is not registered Yet");
+            return;
+          }
 
-  //         setUserInfo(prevState => ({
-  //           ...prevState,
-  //           firstName: transformedData.personal.firstName,
-  //           lastName: transformedData.personal.lastName,
-  //           email: transformedData.address.email,
-  //           contactNo: Number(transformedData.address.contactNo),
-  //           address: transformedData.address.address,
-  //         }));
+          const isoDate = user.DOB || '';
+          let formattedDate = '';
 
-  //         console.log(userInfo, "inputFormData");
-  //       } catch (error) {
-  //         console.error("Error fetching user profile Data:", error);
-  //       }
-  //     };
+          if (isoDate) {
+            const date = new Date(isoDate);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            formattedDate = `${year}-${month}-${day}`;
+          }
 
-  //     getUserData();
+          const transformedData = {
+            personal: {
+              userName: user.userName || '',
+              firstName: user.firstName || '',
+              lastName: user.lastName || '',
+              fatherName: user.fatherName || '',
+              DOB: formattedDate,
+              sex: user.sex || '',
+              maritalStatus: user.maritalStatus || '',
+              id: user.id || ''
+            },
+            company: {
+              company: user.company || '',
+              organisationType: user.organisationType || '',
+              about: user.about || '',
+              cin: user.cin || '',
+              pan: user.pan || '',
+              aadhar: user.aadhar || '',
+              incorporationDate: user.incorporationDate || '',
+              moa: user.moa || '',
+              aoa: user.aoa || '',
+              gst: user.gst || '',
+              udyamNumber: user.udyamNumber || '',
+              dpit: user.dpit || ''
+            },
+            identity: {
+              pan: user.pan || '',
+              aadhar: user.aadhar || '',
+              din: user.din || '',
+              addressProof: user.addressProof || '',
+              addressProofName: user.addressProofName || '',
+              nationality: user.nationality || ''
+            },
+            bank: {
+              bank: user.bank || '',
+              accountHolderName: user.accountHolderName || '',
+              accountNumber: user.accountNumber || '',
+              ifsc: user.ifsc || ''
+            },
+            address: {
+              address: user.address || '',
+              state: user.state || '',
+              city: user.city || '',
+              pin: user.pin || '',
+              email: user.email || '',
+              secondaryEmail: user.secondaryEmail || '',
+              contactNo: user.contactNo || '',
+              secondaryContact: user.secondaryContact || ''
+            },
+            document: {
+              other: null,
+              addharcar: null,
+              InvestmentDetails: null,
+              form16: null,
+              BankDetails: null,
+              OtherDocument: null
+            }
+          };
 
-  //   }
 
-  // }, [userInfo, storedUserInfo]);
+          console.log(transformedData, "transformedData");
+          // setInputFormData(transformedData);
+
+          setUserInfo(prevState => ({
+            ...prevState,
+            firstName: transformedData.personal.firstName,
+            lastName: transformedData.personal.lastName,
+            email: transformedData.address.email,
+            contactNo: Number(transformedData.address.contactNo),
+            address: transformedData.address.address,
+          }));
+
+          console.log(userInfo, "inputFormData");
+        } catch (error) {
+          console.error("Error fetching user profile Data:", error);
+        }
+      };
+
+      getUserData();
+
+    }
+
+  }, []); //[userInfo, storedUserInfo]);
 
   useEffect(() => {
     setItemsData(cartItems.map(item => ({ ...item, id: String(item.id) }))); // Ensure id is always a string

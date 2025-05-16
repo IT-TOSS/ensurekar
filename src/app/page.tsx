@@ -98,11 +98,11 @@ export default function Home() {
     propertiesData: [
       {
         icon: FileText,
-        text: "Charted Accountant"
+        text: "Chartered Accountant (CA)"
       },
       {
         icon: HandCoins,
-        text: "Company Secretary"
+        text: "Company Secretary (CS)"
       },
       {
         icon: LightbulbFilament,
