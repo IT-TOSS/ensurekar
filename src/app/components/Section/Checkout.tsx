@@ -193,7 +193,7 @@ const Checkout = () => {
 
       
 
-      return;
+      // return;
       // await initiateCCAvenuePay("12");
 
       // Make API call to create order
