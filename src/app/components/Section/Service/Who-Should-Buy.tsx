@@ -59,7 +59,8 @@ const WhoShouldBuy = ({
                 >
                   <div className="flex justify-center items-center min-w-60 flex-col p-6 xl:p-10 group border border-strokeColor hover:bg-s2 hover:border-mainTextColor duration-500">
                     <div className="bg-softBg1 p-4 rounded-full text-s1 group-hover:bg-mainTextColor group-hover:text-white duration-500 text-5xl">
-                      {role.icon}
+                      <img src={role.icon} alt={role.icon} />
+                      {/* {role.icon} */}
                     </div>
                     <h4 className="font-semibold pb-5 pt-8 text-wrap">
                       {role.title}

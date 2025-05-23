@@ -23,7 +23,7 @@ interface OverviewData {
         description?: string;
       };
     }[];
-    bottomText?:string;
+    bottomText?: string;
   };
   eligibilityCriteria: {
     imageData: {
@@ -57,7 +57,7 @@ const ServiceOverview = ({ OverviewData }: { OverviewData: OverviewData }) => {
         {(heading || meta) && (
           <h3 className="heading-3 text-center dork:text-white">
             <span className="text-mainTextColor dark:text-white">{heading}</span>
-            
+
             <span className="text-blue-600 ">
               {" "}
               {meta ? " - " : ""} {meta}
@@ -67,12 +67,12 @@ const ServiceOverview = ({ OverviewData }: { OverviewData: OverviewData }) => {
 
         {/* Introduction */}
         {(introduction?.heading || introduction?.description.length !== 0) && (
-          <div className={`${introduction?.heading ? "border shadow-inner my-8 p-4 ":""}  shadow-cyan max-w-[1000px]`}>
+          <div className={`${introduction?.heading ? "border shadow-inner my-8 p-4 " : ""}  shadow-cyan max-w-[1000px]`}>
             <h4 className="heading-4 my-5 text-center ">
               {introduction?.heading && (
                 <span className="text-blue-600 ">{'"'}</span>
               )}{" "}
-                <span className="text-mainTextColor dark:text-blue-600 ">{introduction?.heading}</span>{" "}
+              <span className="text-mainTextColor dark:text-blue-600 ">{introduction?.heading}</span>{" "}
               {introduction?.heading && (
                 <span className="text-blue-600">{'"'}</span>
               )}
@@ -89,55 +89,63 @@ const ServiceOverview = ({ OverviewData }: { OverviewData: OverviewData }) => {
         <div className="my-5 text-center">
           <h3 className="heading-3 my-4">
             <span className="text-blue-600 dark:text-white"> {advantagesInfo?.heading} </span>{" "}
-            <span className="text-mainTextColor dark:text-white">{advantagesInfo?.meta}</span> 
+            <span className="text-mainTextColor dark:text-white">{advantagesInfo?.meta}</span>
           </h3>
           {advantagesInfo?.description && (
             <p className="p-5 dark:text-white">{advantagesInfo?.description}</p>
           )}
 
-            <div className="flex flex-wrap justify-center items-center">
+          <div className="flex flex-wrap justify-center items-center">
             {advantagesInfo?.advantages?.map((advantage, index) => (
               <div
-              key={advantage.heading}
-              className="flex flex-col justify-between items-center bg-slate-100 rounded p-3 m-3 w-full sm:w-[45%] max-w-[45%] min-h-[280px] dark:text-white"
+                key={advantage.heading}
+                className="flex flex-col justify-between items-center bg-slate-100 rounded p-3 m-3 w-full sm:w-[45%] max-w-[45%] min-h-[280px] dark:text-white"
               >
-              {/* insert Image */}
-              {/* <div className="border w-[70px] h-[70px] mx-auto">
+                <h5 className="text-center heading-5 text-black dark:text-black">{advantage.heading}</h5>
+                {/* insert Image */}
+                {/* <div className="border w-[70px] h-[70px] mx-auto">
                 <Image src={advantage.imageUrl} alt="img" />
               </div> */}
-              <h5 className="text-center heading-5 text-black dark:text-black">{advantage.heading}</h5>
-              <p className="text-center px-5 mb-2 text-black dark:text-black">{advantage.details}</p>
-              {advantage.note && (
-                <div>
-                <h6 className="text-start mr-2 font-bold inline mt-1 dark:text-white">
-                  {advantage.note?.heading}
-                </h6>
-                <p className="inline mb-5 dark:text-white">
-                  {advantage.note?.description}
-                </p>
+                <div className="relative  w-[162px] h-[142px] ">
+
+                  <Image
+                    src={advantage.imageUrl}
+                    alt="img"
+                    fill
+                    className="object-contain"
+                  />
                 </div>
-              )}
+                <p className="text-center px-5 mb-2 text-black dark:text-black">{advantage.details}</p>
+                {advantage.note && (
+                  <div>
+                    <h6 className="text-start mr-2 font-bold inline mt-1 dark:text-white">
+                      {advantage.note?.heading}
+                    </h6>
+                    <p className="inline mb-5 dark:text-white">
+                      {advantage.note?.description}
+                    </p>
+                  </div>
+                )}
               </div>
             ))}
 
             {advantagesInfo?.bottomText && (
               <div className="my-10 w-full text-center dark:text-white">
-              <span className="font-bold heading-4 text-bodyText  dark:text-white">
-                {advantagesInfo.bottomText}
-              </span>
+                <span className="font-bold heading-4 text-bodyText  dark:text-white">
+                  {advantagesInfo.bottomText}
+                </span>
               </div>
             )}
-            </div>
+          </div>
 
           <div className="flex flex-col items-center my-5 text-center">
-            { eligibilityCriteria && eligibilityCriteria?.map((criteria) => (
+            {eligibilityCriteria && eligibilityCriteria?.map((criteria) => (
               <div
                 key={criteria.heading?.start}
-                className={`flex flex-col md:flex-row ${
-                  criteria.imageData.imageDirection === "right"
+                className={`flex flex-col md:flex-row ${criteria.imageData.imageDirection === "right"
                     ? "md:flex-row-reverse"
                     : "md:flex-row"
-                } items-center my-6 text-center`}
+                  } items-center my-6 text-center`}
               >
                 {/* Image */}
                 <div className="mx-5 mb-4 md:mb-0 w-full md:w-1/3 flex justify-center">
@@ -157,22 +165,21 @@ const ServiceOverview = ({ OverviewData }: { OverviewData: OverviewData }) => {
                     </span>{" "}
                     <span className="dark:text-white">
 
-                    {criteria.heading.end}
+                      {criteria.heading.end}
                     </span>
                   </h3>
 
                   <h3 className="font-semibold mt-4">
-                  <span className="dark:text-white">{criteria.subHeading}</span>
+                    <span className="dark:text-white">{criteria.subHeading}</span>
                     {/* {criteria.subHeading} */}
 
                   </h3>
 
                   <ul
-                    className={`text-start ml-5  ${
-                      (criteria.requiredSteps ?? []).length > 1
+                    className={`text-start ml-5  ${(criteria.requiredSteps ?? []).length > 1
                         ? "list-disc"
                         : "disc-none"
-                    }`}
+                      }`}
                   >
                     <p className="my-3 dark:text-white">{criteria.startingDescription}</p>
                     {criteria.requiredSteps?.map((step) => (

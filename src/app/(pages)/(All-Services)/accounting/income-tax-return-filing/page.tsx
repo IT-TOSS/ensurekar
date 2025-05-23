@@ -29,6 +29,21 @@ import CapitalGainsPlan from "../../../../images/CapitalGainsPlan.png";
 import NRIPlan from "../../../../images/NRIPlan.png";
 
 import ForeignIncomePlan from "../../../../images/ForeignIncomePlan.png";
+
+import LegalCompliance from "../../../../images/Income-Tax-Returns-images/Legal Compliances.png";
+import Easyloanapprovals from "../../../../images/Income-Tax-Returns-images/Easy loan approvals.png";
+import claimtexrefunds from '../../../../images/Income-Tax-Returns-images/claim tex refunds.png';
+import VisaProcessing from '../../../../images/Income-Tax-Returns-images/Visa Processing.png';
+import Carry_Forward_of_Losses from '../../../../images/Income-Tax-Returns-images/Carry_Forward_of_Losses.png';
+import ITR1 from "../../../../images/Income-Tax-Returns-images/ITR11.png";
+import ITR2 from "../../../../images/Income-Tax-Returns-images/ITR22.png";
+import ITR3 from "../../../../images/Income-Tax-Returns-images/ITR33.png";
+import ITR4 from "../../../../images/Income-Tax-Returns-images/ITR44.png";
+import ITR5 from "../../../../images/Income-Tax-Returns-images/ITR55.png";
+import ITR6 from "../../../../images/Income-Tax-Returns-images/ITR66.png";
+import ITR7 from "../../../../images/Income-Tax-Returns-images/ITR77.png";
+
+
 const Page = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -502,31 +517,31 @@ const Page = () => {
       description: "",
       roles: [
         {
-          icon: "",
+          icon: LegalCompliance.src,
           title: "Legal Compliance ",
           description:
             "Filing ITR ensures adherence to tax laws and avoids penalties for non-compliance.",
         },
         {
-          icon: "",
+          icon: Easyloanapprovals.src,
           title: "Easy Loan Approvals",
           description:
             "ITR serves as proof of income, simplifying the process for home, vehicle, or business loans.",
         },
         {
-          icon: "",
+          icon: claimtexrefunds.src,
           title: "Claim Tax Refunds",
           description:
             "Filing ITR allows you to claim refunds for any excess taxes paid during the year.",
         },
         {
-          icon: "",
+          icon: VisaProcessing.src,
           title: "Visa Processing",
           description:
             "Many countries require ITR receipts for visa applications as proof of financial stability.",
         },
         {
-          icon: "",
+          icon: Carry_Forward_of_Losses.src,
           title: "Carry Forward of Losses ",
           description:
             "Timely filing allows you to carry forward losses to offset against future profits, reducing tax liability.",
@@ -548,43 +563,43 @@ const Page = () => {
         "In India, there are seven distinct Income Tax Return (ITR) forms, each designed for different categories of taxpayers based on their income, income sources, and residency status. Here's a breakdown of the various ITR forms and their eligibility",
       advantages: [
         {
-          imageUrl: "",
+          imageUrl: ITR1.src,
           heading: "ITR-1 (Sahaj)",
           details:
             "Suitable for individuals with a total income of up to ₹50 lakhs. It’s the simplest form, meant for those with straightforward income sources.",
         },
         {
-          imageUrl: "",
+          imageUrl: ITR2.src,
           heading: "	ITR-2",
           details:
             "Applicable to individuals whose income exceeds ₹50 lakhs, or those with multiple income sources like capital gains. This form demands more detailed financial reporting.",
         },
         {
-          imageUrl: "",
+          imageUrl: ITR3.src,
           heading: "ITR-3",
           details:
             "Designed for individuals earning income from business or professional activities. It also covers those with capital gains.",
         },
         {
-          imageUrl: "",
+          imageUrl: ITR4.src,
           heading: "ITR-4 (Sugam)",
           details:
             "For individuals under the presumptive taxation scheme, such as freelancers and small business owners, where taxes are calculated at a fixed percentage of the turnover.",
         },
         {
-          imageUrl: "",
+          imageUrl: ITR5.src,
           heading: "ITR-5",
           details:
             "Meant for Hindu Undivided Families (HUFs), it requires the details of all members' incomes.",
         },
         {
-          imageUrl: "",
+          imageUrl: ITR6.src,
           heading: "ITR-6",
           details:
             "Intended for companies, this is a comprehensive form requiring detailed reporting of income, expenses, and taxes.",
         },
         {
-          imageUrl: "",
+          imageUrl: ITR7.src,
           heading: "ITR-7",
           details:
             "Applicable to individuals who are non-residents, offering specific criteria for those earning income outside of India.",
