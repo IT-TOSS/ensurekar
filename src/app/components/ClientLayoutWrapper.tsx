@@ -20,7 +20,8 @@ export default function ClientLayoutWrapper({
   scrollToTop,
 }: ClientLayoutWrapperProps) {
   const pathname = usePathname();
-  const isAdminDashboard = pathname === '/Adman' || pathname?.startsWith('/Adman/');
+  // const isAdminDashboard = pathname === '/Adman' || pathname?.startsWith('/Adman/');
+  const isAdminDashboard =  pathname === '/Adman' ||  pathname?.startsWith('/Adman/') ||  pathname === '/admin' ||  pathname?.startsWith('/admin/');
 
   return (
     <>
