@@ -30,6 +30,17 @@ import CorporateBosy from "./../../../images/Corporate Body.png.jpeg"
 
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 
+import CorporateBody from "./../../../images/LLP Page icons/Corporate Body.png";
+import PerpetualSuccession  from "./../../../images/LLP Page icons/Perpetual Succession.png";
+import SeparateLegalEntity   from "./../../../images/LLP Page icons/Separate Legal Entity.png";
+import CustomisedLLPAgreement   from "./../../../images/LLP Page icons/Customised LLP Agreement.png";
+import ArtificialLegalPerson   from "./../../../images/LLP Page icons/Artificial Legal Person.png";
+import LimitedLiability   from "./../../../images/LLP Page icons/Limited Liability.png";
+import FlexiblePartnerStructure   from "./../../../images/LLP Page icons/Flexible Partner Structure.png";
+import BusinessControl   from "./../../../images/LLP Page icons/Business Control.png";
+import ProfitOriented   from "./../../../images/LLP Page icons/Profit-Oriented.png";
+import MutualAgencyProtection  from "./../../../images/LLP Page icons/Mutual Agency Protection.png";
+
 const LimitedLiabilityPartnershipRegistration = () => {
   const BreadcrumbData = {
     title: "Limited Liability Partnership Registration",
@@ -169,61 +180,61 @@ const LimitedLiabilityPartnershipRegistration = () => {
       description: "",
       advantages: [
         {
-          imageUrl: "",
+          imageUrl: CorporateBody.src,
           heading: "Corporate Body",
           details:
             "An LLP is a separate legal entity, registered under the LLP Act 2008, giving it a distinct identity apart from its partners.",
         },
         {
-          imageUrl: "",
+          imageUrl: PerpetualSuccession.src,
           heading: "Perpetual Succession",
           details:
             "Unlike traditional partnerships, an LLP enjoys perpetual succession, meaning it continues to exist despite changes in partners due to retirement, death, or insolvency.",
         },
         {
-          imageUrl: "",
+          imageUrl: SeparateLegalEntity.src,
           heading: "Separate Legal Entity",
           details:
             "An LLP is treated as an independent legal entity. Its assets and liabilities are separate from those of its partners, protecting personal assets from business debts. Many established organizations prefer to work only with limited companies or contractors rather than sole traders.",
         },
         {
-          imageUrl: "",
+          imageUrl: CustomisedLLPAgreement.src,
           heading: "Customised LLP Agreement",
           details:
             "Partners can draft an LLP Agreement tailored to their needs, outlining rights and duties. If not, the LLP Act governs their relationship.",
         },
         {
-          imageUrl: "",
+          imageUrl: ArtificialLegalPerson.src,
           heading: "Artificial Legal Person",
           details:
             "An LLP is recognized as a legal person, capable of entering contracts, owning property, and conducting business in its own name.",
         },
         {
-          imageUrl: "",
+          imageUrl: LimitedLiability.src,
           heading: "Limited Liability",
           details:
             "Partners' liabilities are limited to their contributions, shielding personal assets from business risks. Each partner is only responsible for their own actions.",
         },
         {
-          imageUrl: "",
+          imageUrl: FlexiblePartnerStructure.src,
           heading: "Flexible Partner Structure",
           details:
             "LLPs require a minimum of two partners, with no upper limit. At least two designated partners must be individuals, one of whom must be an Indian resident.",
         },
         {
-          imageUrl: "",
+          imageUrl: BusinessControl.src,
           heading: "Business Control",
           details:
             "Partners manage day-to-day operations, but only designated partners are responsible for legal compliance, ensuring efficient governance.",
         },
         {
-          imageUrl: "",
+          imageUrl: ProfitOriented.src,
           heading: "Profit-Oriented",
           details:
             "LLPs are established solely for profit-making businesses and cannot operate as non-profits or charitable entities.",
         },
         {
-          imageUrl: "",
+          imageUrl: MutualAgencyProtection.src,
           heading: "Mutual Agency Protection",
           details:
             "In an LLP, one partner's actions do not bind others unless authorised. Each partner is liable for their own acts, not for those of other partners.",

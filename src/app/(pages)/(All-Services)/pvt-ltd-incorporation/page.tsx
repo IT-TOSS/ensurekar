@@ -1,6 +1,6 @@
 "use client";
 
-import React,{useEffect} from "react";
+import React, { useEffect, useRef } from "react";
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import faq_illus from "../../../images/faq_illus.png";
 import Rocket_With_Men from "../../../images/SGV-Types/Rocket-With-Men.svg";
@@ -543,44 +543,7 @@ const Pvt_Ltd_Incorporation_Registration = () => {
     ],
     defaultState: "MP",
     defaultPlan: "Standard",
-    statesOptions: [
-      { value: "AP", label: "Andhra Pradesh" },
-      { value: "AR", label: "Arunachal Pradesh" },
-      { value: "AS", label: "Assam" },
-      { value: "BR", label: "Bihar" },
-      { value: "CG", label: "Chhattisgarh" },
-      { value: "GA", label: "Goa" },
-      { value: "GJ", label: "Gujarat" },
-      { value: "HR", label: "Haryana" },
-      { value: "HP", label: "Himachal Pradesh" },
-      { value: "JK", label: "Jammu and Kashmir" },
-      { value: "JH", label: "Jharkhand" },
-      { value: "KA", label: "Karnataka" },
-      { value: "KL", label: "Kerala" },
-      { value: "MP", label: "Madhya Pradesh" },
-      { value: "MH", label: "Maharashtra" },
-      { value: "MN", label: "Manipur" },
-      { value: "ML", label: "Meghalaya" },
-      { value: "MZ", label: "Mizoram" },
-      { value: "NL", label: "Nagaland" },
-      { value: "OD", label: "Odisha" },
-      { value: "PB", label: "Punjab" },
-      { value: "RJ", label: "Rajasthan" },
-      { value: "SK", label: "Sikkim" },
-      { value: "TN", label: "T amil Nadu" },
-      { value: "TG", label: "Telangana" },
-      { value: "TR", label: "Tripura" },
-      { value: "UP", label: "Uttar Pradesh" },
-      { value: "UT", label: "Uttarakhand" },
-      { value: "WB", label: "West Bengal" },
-      { value: "AN", label: "Andaman and Nicobar Islands" },
-      { value: "CH", label: "Chandigarh" },
-      { value: "DN", label: "Dadra and Nagar Haveli" },
-      { value: "DD", label: "Daman and Diu" },
-      { value: "DL", label: "Delhi" },
-      { value: "LD", label: "Lakshadweep" },
-      { value: "PY", label: "Puducherry" },
-    ],
+    
   };
   const AllInOneData = {
     title: "",
@@ -1123,12 +1086,28 @@ const Pvt_Ltd_Incorporation_Registration = () => {
 
 
 
+  const plansRef = useRef<HTMLDivElement | null>(null); 
+    const scrollToPlans = () => {
+      if (plansRef.current) {
+        plansRef.current.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    };
+
 
   return (
     <div>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  scrollToPlans={scrollToPlans}/>
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
-      <PlansSection planData={planData} />
+      {/* <PlansSection planData={planData} /> */}
+
+      <div ref={plansRef} id="plans" className="plans-section">
+        {/* <NewPlansSection planData={planData} plansData={plansData} />  //  this data is not preresnt in this page*/}
+        {/* <Testpackage planData={planData} /> */}
+        <PlansSection planData={planData} />
+      </div>
 
       {/* Dynamic data */}
 
@@ -1138,7 +1117,7 @@ const Pvt_Ltd_Incorporation_Registration = () => {
 
 
 
-      <All_In_One_ServiceSection AllInOneData={AllInOneData} />
+      <All_In_One_ServiceSection AllInOneData={AllInOneData}  />
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
       <RegisterSteps RegisterSteps={RegisterStepsData} />

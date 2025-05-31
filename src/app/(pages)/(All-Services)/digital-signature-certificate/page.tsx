@@ -27,6 +27,11 @@ import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
 
+import EnhancedSecurity from "./../../../images/Digital Signature/EnhancedSecurity.png";
+import LegalValidity from "./../../../images/Digital Signature/LegalValidity.png";
+import importLegalValidity from "./../../../images/Digital Signature/LegalValidity.png"; 
+import ImprovedTraceability from "./../../../images/Digital Signature/ImprovedTraceability.png"; 
+
 interface OverviewData {
   heading: string;
   meta: string;
@@ -156,25 +161,25 @@ const DigitalSignature = () => {
       description: "",
       advantages: [
         {
-          imageUrl: "",
+          imageUrl: EnhancedSecurity.src,
           heading: "Enhanced Security",
           details:
             "Digital signatures use encryption to secure documents, ensuring their integrity and verifying the signer's identity.",
         },
         {
-          imageUrl: "",
+          imageUrl: LegalValidity.src,
           heading: "Legal Validity",
           details:
             "Recognized under the Information Technology Act, 2000, digital signatures are legally equivalent to handwritten signatures.",
         },
         {
-          imageUrl: "",
+          imageUrl: importLegalValidity.src,
           heading: "Time and Cost Efficiency",
           details:
             "They eliminate the need for physical paperwork, speeding up the signing process and reducing costs associated with printing and mailing.",
         },
         {
-          imageUrl: "",
+          imageUrl: ImprovedTraceability.src,
           heading: "Improved Traceability",
           details:
             "Digital signatures provide an audit trail, making it easy to track document signers and enhance accountability in transactions.",
