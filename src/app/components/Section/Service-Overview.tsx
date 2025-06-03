@@ -158,9 +158,9 @@ const ServiceOverview = ({ OverviewData }: { OverviewData: OverviewData }) => {
 
                 {/* Content */}
                 <div className="w-full md:w-2/3 text-center md:text-left ">
-                  <h3 className="heading-3 my-5 ">
+                  <h3 className="heading-3 my-5 dark:text-blue-600 ">
                     {criteria.heading.start}{" "}
-                    <span className="text-blue-600">
+                    <span className="dark:text-blue-600 ">
                       {criteria.heading.blueText}
                     </span>{" "}
                     <span className="dark:text-white">

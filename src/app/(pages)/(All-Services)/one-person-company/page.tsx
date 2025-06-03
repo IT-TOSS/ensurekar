@@ -16,11 +16,18 @@ import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 import StepByStep from "../../../images/SGV-Types/Step-By-Step.svg";
 import productImage from "../../../images/recent_post_img1.png";
 
+
 //--Krishna code
 import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
 
+import SeparateLegalEntity  from "../../../images/One Person Company/Separate Legal Entity –.png";
+import EasierAccesstoFunding  from "../../../images/One Person Company/Easier Access to Funding.png";
+import ReducedComplianceRequirements  from "../../../images/One Person Company/Reduced Compliance Requirements.png";
+import SimplifiedIntegration  from "../../../images/One Person Company/Simplified Integration.png";
+import EffortlessManagement  from "../../../images/One Person Company/Effortless Management.png";
+import PerpetualSuccession  from "../../../images/One Person Company/Perpetual Successio.png";
 
 
 
@@ -517,37 +524,37 @@ const OnePersonCompany = () => {
       description: "",
       advantages: [
         {
-          imageUrl: "",
+          imageUrl: SeparateLegalEntity.src,
           heading: "Separate Legal Entity",
           details:
             "An OPC enjoys the status of a separate legal entity. The individual who incorporates the OPC is protected by this distinction, meaning their personal assets are not at risk. Liability is limited to the amount of shares owned, so creditors can only sue the OPC, not the individual member or director.",
         },
         {
-          imageUrl: "",
+          imageUrl: EasierAccesstoFunding.src,
           heading: "Easier Access to Funding",
           details:
             "OPCs, being private companies, can easily attract funding from venture capitalists, angel investors, incubators, and other sources. This makes raising capital much more accessible.",
         },
         {
-          imageUrl: "",
+          imageUrl: ReducedComplianceRequirements.src,
           heading: "Reduced Compliance Requirements",
           details:
             "OPCs are granted certain exemptions under the Companies Act of 2013. For instance, they are not required to prepare a cash flow statement, maintain extensive account books, or file annual reports by a company secretary.",
         },
         {
-          imageUrl: "",
+          imageUrl: SimplifiedIntegration.src,
           heading: "Simplified Integration",
           details:
             "Establishing and operating an OPC is straightforward. With no minimum paid-up capital requirement, a sole member acting as director can easily approve and manage the company's incorporation without complex legal formalities.",
         },
         {
-          imageUrl: "",
+          imageUrl: EffortlessManagement.src,
           heading: "Effortless Management",
           details:
             "With a single individual in charge, decision-making in an OPC is quick and streamlined. Ordinary and special resolutions can be passed with minimal formalities, avoiding internal conflicts or delays, ensuring smoother management.",
         },
         {
-          imageUrl: "",
+          imageUrl: PerpetualSuccession.src,
           heading: "Perpetual Succession",
           details:
             "An OPC enjoys perpetual succession, even with a sole member. At the time of incorporation, a nominee is appointed, who will take over the company’s operations in the event of the member’s death, ensuring continuous existence.",

@@ -24,7 +24,16 @@ import productImage from "../../../images/recent_post_img1.png";
 import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
-
+import IncreasedCapital  from "../../../images/Partnership/Increased Capital.png";
+import ExpandedBusinessOpportunities  from "../../../images/Partnership/Expanded Business Opportunities.png";
+import BuiltInTrust  from "../../../images/Partnership/Built-In Trust.png";
+import SharedResponsibilities  from "../../../images/Partnership/Shared Responsibilities.png";
+import BetterDecisionMaking  from "../../../images/Partnership/Better Decision Making.png";
+import TaxBenefits  from "../../../images/Partnership/Tax Benefits.png";
+import EnhancedFlexibility   from "../../../images/Partnership/Enhanced Flexibility.png";
+import EmotionalSupport    from "../../../images/Partnership/Emotional Support.png";
+import AccesstoNewIdeas    from "../../../images/Partnership/Access to New Ideas.png";
+import BalancedLifestyle     from "../../../images/Partnership/Balanced Lifestyle.png";
 
 const PartnershipRegistration = () => {
   const BreadcrumbData = {
@@ -926,61 +935,61 @@ const PartnershipRegistration = () => {
         "Start your dream business today with Ensurekar. We simplify the process with online tools, expert guidance, and competitive pricing. Register your Partnership Firm and get started in no time. Register your Partnership with business incorporation services that help you get your entity up and running. No more delays or difficulties! Registering your business with us. We provide you with the fastest, easiest, and most reliable way to get your documents registered. Now register your business with Ensurekar.",
       advantages: [
         {
-          imageUrl: "",
+          imageUrl: IncreasedCapital.src,
           heading: "Increased Capital ",
           details:
             "With more partners, raising funds becomes easier, attracting potential investors and enhancing your creditworthiness for loans.",
         },
         {
-          imageUrl: "",
+          imageUrl: ExpandedBusinessOpportunities.src,
           heading: "Expanded Business Opportunities",
           details:
             "Partnerships distribute the workload, enabling diversification and growth, while also minimizing opportunity costs.",
         },
         {
-          imageUrl: "",
+          imageUrl: BuiltInTrust.src,
           heading: "Built-In Trust",
           details:
             "Partnership fosters trust and values different viewpoints, making it crucial for effective decision-making and shared success.",
         },
         {
-          imageUrl: "",
+          imageUrl: SharedResponsibilities.src,
           heading: "Shared Responsibilities",
           details:
             "Profit and authority are divided among partners, reducing individual burden and allowing more focus on business growth.",
         },
         {
-          imageUrl: "",
+          imageUrl: BetterDecisionMaking.src,
           heading: "Better Decision Making",
           details:
             "Diverse perspectives contribute to well-rounded decisions, driving efficient business operations and problem-solving.",
         },
         {
-          imageUrl: "",
+          imageUrl: TaxBenefits.src,
           heading: "Tax Benefits ",
           details:
             "Partnership firms are not taxed separately; partners can report profit and loss on their personal income tax returns, reducing tax liabilities.",
         },
         {
-          imageUrl: "",
+          imageUrl: EnhancedFlexibility.src,
           heading: "Enhanced Flexibility",
           details:
             "Partnership structures are less regulated, providing freedom in managing and financing the business.",
         },
         {
-          imageUrl: "",
+          imageUrl: EmotionalSupport.src,
           heading: "Emotional Support ",
           details:
             "Partners provide mutual encouragement, easing frustrations and creating a more collaborative work environment.",
         },
         {
-          imageUrl: "",
+          imageUrl: AccesstoNewIdeas.src,
           heading: "Access to New Ideas",
           details:
             "Different viewpoints stimulate creativity and innovation, offering a broader vision for business strategies.",
         },
         {
-          imageUrl: "",
+          imageUrl: BalancedLifestyle.src,
           heading: "Balanced Lifestyle",
           details:
             "Shared responsibilities allow for reduced stress and a healthier work-life balance, leading to improved mental health.",
