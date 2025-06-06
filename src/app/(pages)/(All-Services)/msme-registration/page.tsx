@@ -24,8 +24,14 @@ import productImage from "../../../images/recent_post_img1.png";
 import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
-
-
+import AccesstheUdyamRegistrationPortal from "../../../images/MSME/1UDYAM.png";
+import SelfDeclaration from "../../../images/MSME/Self-Declaration.png";
+import AadhaarVerification from "../../../images/MSME/Aadhaar_Verification1.png";
+import PANGSTINDetails from "../../../images/MSME/PAN___GSTIN_Details-removebg-preview.png";
+import ClassificationTurnover from "../../../images/MSME/Classification___Turnover-removebg-preview.png";
+import DynamicQRCodeCertificate from "../../../images/MSME/Dynamic_QR_Code_Certificate-removebg-preview.png";
+import IntegrationwithTaxSystems from "../../../images/MSME/Integration with Tax Systems.jpg";
+import ReregistrationforExistingRegistrants from "../../../images/MSME/Re-registration for Existing Registrants.png";
 
 const MSMERegistration = () => {
 
@@ -112,48 +118,48 @@ const MSMERegistration = () => {
       description: "",
       advantages: [
         {
-          imageUrl: "",
+          imageUrl: AccesstheUdyamRegistrationPortal.src,
           heading: "Access the Udyam Registration Portal",
           details:
             "Visit the official Udyam Registration portal to begin the MSME registration process.",
         },
         {
-          imageUrl: "",
+          imageUrl: SelfDeclaration.src,
           heading: "Self-Declaration",
           details: "Provide essential enterprise details such as business name, type, address, and ownership through self-declaration.",
         },
         {
-          imageUrl: "",
+          imageUrl: AadhaarVerification.src,
           heading: "Aadhaar Verification",
           details: "Verify your Aadhaar number using OTP authentication, as Aadhaar is the primary identification for registration.",
         },
         {
-          imageUrl: "",
+          imageUrl: PANGSTINDetails.src,
           heading: "PAN & GSTIN Details",
           details: "If applicable, supply PAN and GSTIN details for tax identification purposes during registration.",
         },
         {
-          imageUrl: "",
+          imageUrl: ClassificationTurnover.src,
           heading: "Classification & Turnover",
           details: "Enterprises are classified as Micro, Small, or Medium based on their investment and turnover figures.",
         },
         {
-          imageUrl: "",
+          imageUrl: DynamicQRCodeCertificate.src,
           heading: "Dynamic QR Code Certificate",
           details: "Upon successful registration, receive an e-certificate with a dynamic QR code containing enterprise details.",
         },
         {
-          imageUrl: "",
+          imageUrl: DynamicQRCodeCertificate.src,
           heading: "Dynamic QR Code Certificate",
           details: "Udyam Registration is a one-time process with no need for renewal.",
         },
         {
-          imageUrl: "",
+          imageUrl: IntegrationwithTaxSystems.src,
           heading: "Integration with Tax Systems",
           details: "The system is linked with Income Tax and GST databases to fetch investment and turnover data automatically.",
         },
         {
-          imageUrl: "",
+          imageUrl: ReregistrationforExistingRegistrants.src,
           heading: "Re-registration for Existing Registrants",
           details: "Enterprises with prior EM-II or UAM registrations need to re-register under the Udyam system.",
         },

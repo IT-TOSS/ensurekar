@@ -67,15 +67,15 @@ const FAQsServicesSection = ({ FAQsData }: { FAQsData: FAQsData }) => {
           </div>
 
           <div className="grid grid-cols-12 stp-15 max-xl:gap-6">
-            {/* {imageUrl && (
+            {imageUrl && (
                  <div className="col-span-12 lg:col-span-6 xl:col-span-5 flex justify-center items-center overflow-hidden">
                  <Image
-                   src={faq_illus}
+                   src={imageUrl}
                    alt="image"
                    className="hover:scale-110 duration-500 w-full"
                  />
                </div>
-              )} */}
+              )}
          
 
             <div className={`col-span-12 ${imageUrl ?'lg:col-span-6 xl:col-start-7 flex flex-col gap-4 md:gap-6':''}`}>

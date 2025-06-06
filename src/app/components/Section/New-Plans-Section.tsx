@@ -1871,10 +1871,7 @@ interface PlanData {
   description: string;
   defaultState: string;
   defaultPlan: string;
-  statesOptions: {
-    value: string;
-    label: string;
-  }[];
+  
 }
 
 interface PlanColumn {

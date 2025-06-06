@@ -1,31 +1,6 @@
+
 // "use client";
 // import React, { useState, useEffect } from "react";
-// // import { initializeApp } from "firebase/app";
-// // import { 
-// //   getFirestore, 
-// //   collection, 
-// //   addDoc, 
-// //   getDocs, 
-// //   doc, 
-// //   deleteDoc, 
-// //   updateDoc 
-// // } from "firebase/firestore";
-
-// // // Your Firebase configuration
-// // const firebaseConfig = {
-// //   apiKey: "AIzaSyAV9jO-wD7XFdh82I3tvtIKqDoAD7d9PyU",
-// //   authDomain: "ensurekar-d48bd.firebaseapp.com",
-// //   projectId: "ensurekar-d48bd",
-// //   storageBucket: "ensurekar-d48bd.firebasestorage.app",
-// //   messagingSenderId: "491265324820",
-// //   appId: "1:491265324820:web:8c1fb8bfc0b89e13467401",
-// //   measurementId: "G-5S2D92TP65"
-// // };
-
-// // Initialize Firebase
-// // const app = initializeApp(firebaseConfig);
-// // const db = getFirestore(app);
-// // const plansCollectionRef = collection(db, "plans");
 
 // interface PackageData {
 //   id: string;
@@ -36,386 +11,15 @@
 //   PriceAfterDiscount: number;
 //   instalments: string;
 //   Features: string;
+//   Page: string;
 // }
 
-// const Page = () => {
-//   const [showUserDetailsModal, setShowUserDetailsModal] = useState(false);
-//   const [showUserCreatModal, setShowUserCreatModal] = useState(false);
-//   const [selectedPlan, setSelectedPlan] = useState<PackageData | null>(null);
-//   const [plans, setPlans] = useState<PackageData[]>([]);
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [updateMode, setUpdateMode] = useState(false);
-
-//   const [formData, setFormData] = useState<PackageData>({
-//     id: "",
-//     planName: "",
-//     Status: "",
-//     Description: "",
-//     Price: 0,
-//     PriceAfterDiscount: 0,
-//     instalments: "",
-//     Features: "",
-//   });
-
-//   const [searchTerm, setSearchTerm] = useState("");
-
-//   // Fetch plans from Firebase on component mount
-//   // useEffect(() => {
-//   //   const fetchPlans = async () => {
-//   //     try {
-//   //       setIsLoading(true);
-//   //       const querySnapshot = await getDocs(plansCollectionRef);
-//   //       const plansData = querySnapshot.docs.map(doc => ({
-//   //         id: doc.id,
-//   //         ...doc.data()
-//   //       } as PackageData));
-        
-//   //       setPlans(plansData);
-//   //     } catch (error) {
-//   //       console.error("Error fetching plans: ", error);
-//   //     } finally {
-//   //       setIsLoading(false);
-//   //     }
-//   //   };
-
-//   //   fetchPlans();
-//   // }, []);
-
-//   const handleChange = (e:any) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({
-//       ...prev,
-//       [name]: name === "Price" || name === "PriceAfterDiscount" ? value === "" ? "" : Number(value) : value,
-//     }));
-//   };
-
-//   const handleCreatePlan = async () => {
-//     try {
-//       if (updateMode && selectedPlan) {
-//         // Update existing plan in Firebase
-//         // const planRef = doc(db, "plans", selectedPlan.id);
-//         // await updateDoc(planRef, {
-//         //   planName: formData.planName,
-//         //   Status: formData.Status,
-//         //   Description: formData.Description,
-//         //   Price: formData.Price,
-//         //   PriceAfterDiscount: formData.PriceAfterDiscount,
-//         //   instalments: formData.instalments,
-//         //   Features: formData.Features
-//         // });
-
-//         // Update local state
-//         setPlans(plans.map(plan => 
-//           plan.id === selectedPlan.id ? { ...formData, id: selectedPlan.id } : plan
-//         ));
-
-//         setUpdateMode(false);
-//       } else {
-//         // Add new plan to Firebase
-//         // const docRef = await addDoc(plansCollectionRef, {
-//         //   planName: formData.planName,
-//         //   Status: formData.Status,
-//         //   Description: formData.Description,
-//         //   Price: formData.Price,
-//         //   PriceAfterDiscount: formData.PriceAfterDiscount,
-//         //   instalments: formData.instalments,
-//         //   Features: formData.Features
-//         // });
-
-//         // Add to local state with the Firebase-generated ID
-//         // setPlans([...plans, { ...formData, id: docRef.id }]);
-//       }
-      
-//       // Close modal and reset form
-//       setShowUserCreatModal(false);
-//       resetForm();
-      
-//     } catch (error) {
-//       console.error("Error saving plan: ", error);
-//       alert("Failed to save plan. Please try again.");
-//     }
-//   };
-
-//   const resetForm = () => {
-//     setFormData({
-//       id: "",
-//       planName: "",
-//       Status: "",
-//       Description: "",
-//       Price: 0,
-//       PriceAfterDiscount: 0,
-//       instalments: "",
-//       Features: "",
-//     });
-//   };
-
-//   const handleViewPlan = (plan: PackageData) => {
-//     setSelectedPlan(plan);
-//     setShowUserDetailsModal(true);
-//   };
-
-//   const handleUpdatePlan = () => {
-//     if (selectedPlan) {
-//       // Populate form with selected plan data
-//       setFormData({
-//         ...selectedPlan
-//       });
-      
-//       // Close details modal and open create/edit modal
-//       setShowUserDetailsModal(false);
-//       setUpdateMode(true);
-//       setShowUserCreatModal(true);
-//     }
-//   };
-
-//   const handleDeletePlan = async (id : any) => {
-//     try {
-//       // Delete from Firebase
-//       // await deleteDoc(doc(db, "plans", id));
-      
-//       // Update local state
-//       const updatedPlans = plans.filter(plan => plan.id !== id);
-//       setPlans(updatedPlans);
-//       setShowUserDetailsModal(false);
-      
-//     } catch (error) {
-//       console.error("Error deleting plan: ", error);
-//       alert("Failed to delete plan. Please try again.");
-//     }
-//   };
-
-//   // Filter plans based on search term
-//   const filteredPlans = plans.filter(plan => 
-//     plan.planName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//     plan.id?.includes(searchTerm) ||
-//     plan.PriceAfterDiscount?.toString().includes(searchTerm)
-//   );
-
-//   return (
-//     <div className="p-4">
-//       {/* Top Section */}
-//       <div className="max-w-[1200px] w-full mx-auto bg-[#eafaf8] shadow-md p-4 min-w-[600px] rounded-lg flex flex-col md:flex-row justify-between items-center">
-//         <h1 className="text-xl font-semibold mr-4">plan id</h1>
-//         <h1 className="text-xl font-semibold mr-4">planName</h1>
-//         <h1 className="text-xl font-semibold mr-4">plan pri.</h1>
-//         <p className="text-xl font-semibold ml-4 mr-4">Total plan Number: {plans.length}</p>
-//         <form className="flex space-x-2 mt-2 md:mt-0" onSubmit={(e) => e.preventDefault()}>
-//           <input
-//             type="search"
-//             placeholder="Search"
-//             className="border border-gray-300 p-2 rounded-md focus:outline-none"
-//             aria-label="Search"
-//             value={searchTerm}
-//             onChange={(e) => setSearchTerm(e.target.value)}
-//           />
-//           <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
-//             Search
-//           </button>
-//         </form>
-//       </div>
-
-//       {/* Create New Plan Button */}
-//       <div className="max-w-[1200px] w-full mx-auto bg-white shadow-md p-4 rounded-lg mt-4 flex justify-between items-center">
-//         <div className="flex space-x-4 items-center">
-//           <p className="text-gray-700">Create New Plan</p>
-//         </div>
-//         <button
-//           className="border border-gray-400 bg-[#eafaf8] px-4 py-2 rounded-md hover:bg-yellow-400 hover:text-black transition"
-//           onClick={() => {
-//             setUpdateMode(false);
-//             resetForm();
-//             setShowUserCreatModal(!showUserCreatModal);
-//           }}
-//         >
-//           Create
-//         </button>
-//       </div>
-
-//       {/* Loading State */}
-//       {isLoading ? (
-//         <div className="max-w-[1200px] w-full mx-auto mt-8 text-center">
-//           <p className="text-xl">Loading plans...</p>
-//         </div>
-//       ) : (
-//         /* Plan Items List */
-//         filteredPlans.length > 0 ? (
-//           filteredPlans.map((plan) => (
-//             <div key={plan.id} className="max-w-[1200px] w-full mx-auto bg-white shadow-md p-4 rounded-lg mt-4 flex justify-between items-center">
-//               <div className="flex space-x-4 items-center">
-//                 <p className="text-gray-700">plan id: {plan.id}</p>
-//                 <p className="text-gray-700">planName: {plan.planName}</p>
-//                 <p className="text-gray-700">plan pri.: ₹{plan.PriceAfterDiscount}</p>
-//               </div>
-//               <button
-//                 className="border border-gray-400 bg-[#eafaf8] px-4 py-2 rounded-md hover:bg-yellow-400 hover:text-black transition"
-//                 onClick={() => handleViewPlan(plan)}
-//               >
-//                 View
-//               </button>
-//             </div>
-//           ))
-//         ) : (
-//           <div className="max-w-[1200px] w-full mx-auto mt-8 text-center">
-//             <p className="text-xl">No plans found. Create your first plan!</p>
-//           </div>
-//         )
-//       )}
-
-//       {/* View Plan Modal */}
-//       {showUserDetailsModal && selectedPlan && (
-//         <div className="fixed inset-0 bg-black/50 z-10 flex justify-center items-center animate-fade-in">
-//           <div className="bg-white p-8 rounded-lg shadow-lg transform transition-transform duration-300 ease-in-out scale-95 hover:scale-100 max-w-md w-full max-h-[80vh] overflow-y-auto">
-//             <h1 className="text-lg font-semibold mb-4">Plan Details</h1>
-//             <p className="text-lg font-semibold mb-4">Plan ID: {selectedPlan.id}</p>
-//             <p className="text-lg font-semibold mb-4">Plan Name: {selectedPlan.planName}</p>
-//             <p className="text-lg font-semibold mb-4">Status: {selectedPlan.Status}</p>
-//             <p className="text-lg font-semibold mb-4">Description: {selectedPlan.Description}</p>
-//             <p className="text-lg font-semibold mb-4">Original Price: ₹{selectedPlan.Price}</p>
-//             <p className="text-lg font-semibold mb-4">Price After Discount: ₹{selectedPlan.PriceAfterDiscount}</p>
-//             <p className="text-lg font-semibold mb-4">Instalments: {selectedPlan.instalments}</p>
-//             <p className="text-lg font-semibold mb-4">Features:</p>
-//             <ul className="list-disc list-inside text-gray-700">
-//               {selectedPlan.Features?.split(',').map((feature, index) => (
-//                 <li key={index}>{feature.trim()}</li>
-//               ))}
-//             </ul>
-//             <div className="flex justify-between items-center gap-4 mt-4">
-//               <button
-//                 className="py-2 px-4 bg-green-500 text-white rounded hover:bg-green-700 transition-colors duration-300"
-//                 onClick={handleUpdatePlan}
-//               >
-//                 Update
-//               </button>
-//               <button
-//                 className="py-2 px-4 bg-red-500 text-white rounded hover:bg-red-700 transition-colors duration-300"
-//                 onClick={() => handleDeletePlan(selectedPlan.id)}
-//               >
-//                 Delete
-//               </button>
-//               <button
-//                 className="border border-gray-300 py-2 px-4 text-gray-700 rounded hover:bg-gray-100 transition-colors duration-300"
-//                 onClick={() => setShowUserDetailsModal(false)}
-//               >
-//                 Close
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-
-//       {/* Create/Update Plan Modal */}
-//       {showUserCreatModal && (
-//         <div className="fixed inset-0 bg-black/50 z-10 flex justify-center items-center animate-fade-in">
-//           <div className="bg-white p-8 rounded-lg shadow-lg transform transition-transform duration-300 ease-in-out scale-95 hover:scale-100 max-w-md w-full max-h-[80vh] overflow-y-auto">
-//             <h1 className="text-lg font-semibold mb-4">{updateMode ? 'Update Plan Details' : 'Fill Plan Details'}</h1>
-//             <div className="space-y-4">
-//               <div>
-//                 <label className="block text-lg font-semibold">Plan Name:</label>
-//                 <input type="text" name="planName" value={formData.planName} onChange={handleChange} placeholder="Enter Plan Name" className="w-full border p-2 rounded" />
-//               </div>
-              
-//               <div>
-//                 <label className="block text-lg font-semibold">Status:</label>
-//                 <select name="Status" value={formData.Status} onChange={handleChange} className="w-full border p-2 rounded">
-//                   <option value="">Select Status</option>
-//                   <option value="Active">Active</option>
-//                   <option value="Inactive">Inactive</option>
-//                 </select>
-//               </div>
-              
-//               <div>
-//                 <label className="block text-lg font-semibold">Description:</label>
-//                 <input type="text" name="Description" value={formData.Description} onChange={handleChange} placeholder="Enter Description" className="w-full border p-2 rounded" />
-//               </div>
-//               <div>
-//   <label className="block text-lg font-semibold">Price:</label>
-//   <input 
-//     type="number" 
-//     name="Price" 
-//     value={formData.Price === 0 && document.activeElement === document.querySelector('input[name="Price"]') ? "" : formData.Price} 
-//     onChange={handleChange}
-//     onFocus={(e) => {
-//       if (formData.Price === 0) {
-//         setFormData(prev => ({...prev, Price: 0}));
-//       }
-//     }}
-//     placeholder="Enter Price" 
-//     className="w-full border p-2 rounded" 
-//   />
-// </div>
-
-// <div>
-//   <label className="block text-lg font-semibold">Price After Discount:</label>
-//   <input 
-//     type="number" 
-//     name="PriceAfterDiscount" 
-//     value={formData.PriceAfterDiscount === 0 && document.activeElement === document.querySelector('input[name="PriceAfterDiscount"]') ? "" : formData.PriceAfterDiscount} 
-//     onChange={handleChange}
-//     onFocus={(e) => {
-//       if (formData.PriceAfterDiscount === 0) {
-//         setFormData(prev => ({...prev, PriceAfterDiscount: 0}));
-//       }
-//     }}
-//     placeholder="Enter Price After Discount" 
-//     className="w-full border p-2 rounded" 
-//   />
-// </div>       
-              
-//               <div>
-//                 <label className="block text-lg font-semibold">Instalments:</label>
-//                 <input type="text" name="instalments" value={formData.instalments} onChange={handleChange} placeholder="Enter Instalments (e.g., '2 (₹499.50 each)')" className="w-full border p-2 rounded" />
-//               </div>
-              
-//               <div>
-//                 <label className="block text-lg font-semibold">Features:</label>
-//                 <textarea 
-//                   className="w-full p-2 border rounded" 
-//                   name="Features" 
-//                   value={formData.Features} 
-//                   onChange={handleChange} 
-//                   placeholder="Enter features separated by commas (e.g., Feature 1, Feature 2)"
-//                   rows={4}
-//                 ></textarea>
-//               </div>
-//             </div>
-            
-//             <div className="flex justify-between items-center gap-4 mt-6">
-//               <button
-//                 className="py-2 px-4 bg-green-500 text-white rounded hover:bg-green-700 transition-colors duration-300"
-//                 onClick={handleCreatePlan}
-//               >
-//                 Create New Plan
-//               </button>
-//               <button
-//                 className="border border-gray-300 py-2 px-4 text-gray-700 rounded hover:bg-gray-100 transition-colors duration-300"
-//                 onClick={() => setShowUserCreatModal(false)}
-//               >
-//                 Close
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
+// //  API configuration
+// const WC_API_CONFIG = {
+//   baseUrl: "https://edueye.co.in/ensurekar/wp-json/wc/v3",
+//   consumerKey: "ck_1a163a1d803b2ed9c2c501a232692bd5ee3c2619",
+//   consumerSecret: "cs_054aea9c8f7ddeef9b7ceb5fc45c56cd422ba4a2"
 // };
-
-// export default Page;
-
-
-// "use client";
-// import React, { useState, useEffect } from "react";
-
-// interface PackageData {
-//   id: string;
-//   planName: string;
-//   Status: string;
-//   Description: string;
-//   Price: number;
-//   PriceAfterDiscount: number;
-//   instalments: string;
-//   Features: string;
-// }
 
 // const Page = () => {
 //   const [showUserDetailsModal, setShowUserDetailsModal] = useState(false);
@@ -435,7 +39,204 @@
 //     PriceAfterDiscount: 0,
 //     instalments: "",
 //     Features: "",
+//     Page: "", 
 //   });
+
+//   useEffect(() => {
+//     fetchPlans();
+//   }, []);
+
+//   // Convert PackageData to  product format
+//   const mapToProduct = (planData: PackageData) => {
+//     const featuresArray = planData.Features ? planData.Features.split(',').map(f => f.trim()) : [];
+    
+//     return {
+//       name: planData.planName,
+//       type: "simple",
+//       regular_price: planData.Price.toString(),
+//       sale_price: planData.PriceAfterDiscount.toString(),
+//       description: planData.Description,
+//       short_description: `${planData.instalments} installment plan`,
+//       status: planData.Status.toLowerCase() === 'active' ? 'publish' : 'draft',
+//       catalog_visibility: 'visible',
+//       featured: false,
+//       categories: [
+//         {
+//           name: planData.Page || "General Plans"
+//         }
+//       ],
+//       attributes: [
+//         {
+//           name: "Features",
+//           options: featuresArray,
+//           visible: true,
+//           variation: false
+//         },
+//         {
+//           name: "Installments",
+//           options: [planData.instalments],
+//           visible: true,
+//           variation: false
+//         },
+//         {
+//           name: "Page Category",
+//           options: [planData.Page],
+//           visible: true,
+//           variation: false
+//         }
+//       ],
+//       meta_data: [
+//         {
+//           key: "_plan_features",
+//           value: planData.Features
+//         },
+//         {
+//           key: "_plan_installments",
+//           value: planData.instalments
+//         },
+//         {
+//           key: "_plan_page",
+//           value: planData.Page
+//         }
+//       ]
+//     };
+//   };
+
+//   // Convert  product to PackageData format
+//   const mapFromProduct = (product: any): PackageData => {
+//     const getMetaValue = (key: string) => {
+//       const meta = product.meta_data?.find((m: any) => m.key === key);
+//       return meta ? meta.value : '';
+//     };
+
+//     return {
+//       id: product.id.toString(),
+//       planName: product.name || '',
+//       Status: product.status === 'publish' ? 'Active' : 'Inactive',
+//       Description: product.description || product.short_description || '',
+//       Price: parseFloat(product.regular_price) || 0,
+//       PriceAfterDiscount: parseFloat(product.sale_price) || parseFloat(product.regular_price) || 0,
+//       instalments: getMetaValue('_plan_installments') || '',
+//       Features: getMetaValue('_plan_features') || '',
+//       Page: getMetaValue('_plan_page') || (product.categories?.[0]?.name || '')
+//     };
+//   };
+
+//   // Fetch plans from  API
+//   const fetchPlans = async () => {
+//     setIsLoading(true);
+//     try {
+//       const url = `${WC_API_CONFIG.baseUrl}/products?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}&per_page=100`;
+      
+//       const response = await fetch(url, {
+//         method: 'GET',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//       });
+
+//       if (!response.ok) {
+//         throw new Error(`Failed to fetch plans: ${response.status}`);
+//       }
+
+//       const products = await response.json();
+//       const mappedPlans = products.map(mapFromProduct);
+//       setPlans(mappedPlans);
+//       console.log("Fetched plans:", mappedPlans);
+//     } catch (error) {
+//       console.error("Failed to fetch plans:", error);
+//       alert("Failed to fetch plans. Please check your API credentials and try again.");
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   // Create new plan in 
+//   const postPlanToAPI = async (planData: PackageData) => {
+//     try {
+//       console.log("Creating plan:", planData);
+//       const Product = mapToProduct(planData);
+      
+//       const url = `${WC_API_CONFIG.baseUrl}/products?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}`;
+
+//       const response = await fetch(url, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(Product),
+//       });
+
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         console.error("API error response:", errorData);
+//         throw new Error(`API request failed with status ${response.status}: ${errorData.message || 'Unknown error'}`);
+//       }
+
+//       const result = await response.json();
+//       console.log("Plan created successfully:", result);
+//       return result;
+//     } catch (error) {
+//       console.error("Failed to create plan:", error);
+//       throw error;
+//     }
+//   };
+
+//   // Update plan 
+//   const updatePlanInAPI = async (planData: PackageData) => {
+//     try {
+//       console.log("Updating plan:", planData);
+//       const Product = mapToProduct(planData);
+      
+//       const url = `${WC_API_CONFIG.baseUrl}/products/${planData.id}?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}`;
+
+//       const response = await fetch(url, {
+//         method: 'PUT',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(Product),
+//       });
+
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         console.error("API error response:", errorData);
+//         throw new Error(`Failed to update plan: ${response.status}`);
+//       }
+
+//       const result = await response.json();
+//       console.log("Plan updated successfully:", result);
+//       return result;
+//     } catch (error) {
+//       console.error("Failed to update plan:", error);
+//       throw error;
+//     }
+//   };
+
+//   // Delete plan 
+//   const deletePlanFromAPI = async (id: string) => {
+//     try {
+//       const url = `${WC_API_CONFIG.baseUrl}/products/${id}?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}&force=true`;
+
+//       const response = await fetch(url, {
+//         method: 'DELETE',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//       });
+
+//       if (!response.ok) {
+//         throw new Error(`Failed to delete plan: ${response.status}`);
+//       }
+
+//       const result = await response.json();
+//       console.log("Plan deleted successfully:", result);
+//       return result;
+//     } catch (error) {
+//       console.error("Failed to delete plan:", error);
+//       throw error;
+//     }
+//   };
 
 //   const handleChange = (e: any) => {
 //     const { name, value } = e.target;
@@ -451,23 +252,42 @@
 //   };
 
 //   const handleCreatePlan = async () => {
+//     // Validation
+//     if (!formData.planName || !formData.Status || !formData.Price) {
+//       alert("Please fill in all required fields (Plan Name, Status, and Price).");
+//       return;
+//     }
+
+//     setIsLoading(true);
 //     try {
 //       if (updateMode && selectedPlan) {
+//         // Update existing plan
+//         const updatedPlan = { ...formData, id: selectedPlan.id };
+//         await updatePlanInAPI(updatedPlan);
+        
 //         setPlans(
 //           plans.map((plan) =>
-//             plan.id === selectedPlan.id
-//               ? { ...formData, id: selectedPlan.id }
-//               : plan
+//             plan.id === selectedPlan.id ? updatedPlan : plan
 //           )
 //         );
 //         setUpdateMode(false);
+//         alert("Plan updated successfully!");
 //       } else {
-//         setPlans([...plans, { ...formData, id: Date.now().toString() }]);
+//         // Create new plan
+//         const newPlan = { ...formData, id: Date.now().toString() };
+//         const createdProduct = await postPlanToAPI(newPlan);
+        
+//         // Update the plan with the actual product ID
+//         const createdPlan = mapFromProduct(createdProduct);
+//         setPlans([...plans, createdPlan]);
+//         alert("Plan created successfully!");
 //       }
 //       setShowUserCreatModal(false);
 //       resetForm();
 //     } catch (error) {
-//       alert("Failed to save plan.");
+//       alert(`Failed to save plan: ${error instanceof Error ? error.message : 'Unknown error'}`);
+//     } finally {
+//       setIsLoading(false);
 //     }
 //   };
 
@@ -481,6 +301,7 @@
 //       PriceAfterDiscount: 0,
 //       instalments: "",
 //       Features: "",
+//       Page: "", 
 //     });
 //   };
 
@@ -498,10 +319,23 @@
 //     }
 //   };
 
-//   const handleDeletePlan = (id: string) => {
-//     const updatedPlans = plans.filter((plan) => plan.id !== id);
-//     setPlans(updatedPlans);
-//     setShowUserDetailsModal(false);
+//   const handleDeletePlan = async (id: string) => {
+//     if (!confirm("Are you sure you want to delete this plan? This action cannot be undone.")) {
+//       return;
+//     }
+
+//     setIsLoading(true);
+//     try {
+//       await deletePlanFromAPI(id);
+//       const updatedPlans = plans.filter((plan) => plan.id !== id);
+//       setPlans(updatedPlans);
+//       setShowUserDetailsModal(false);
+//       alert("Plan deleted successfully!");
+//     } catch (error) {
+//       alert(`Failed to delete plan: ${error instanceof Error ? error.message : 'Unknown error'}`);
+//     } finally {
+//       setIsLoading(false);
+//     }
 //   };
 
 //   const filteredPlans = plans.filter(
@@ -512,114 +346,211 @@
 //   );
 
 //   return (
-//     <div className="p-4">
-//       {/* Top Section */}
-//       <div className="max-w-[1200px] w-full mx-auto bg-[#eafaf8] shadow-md p-4 rounded-lg flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
-//         <div className="flex flex-col md:flex-row md:items-center md:gap-4">
-//           <h1 className="text-lg md:text-xl font-semibold">Plan ID</h1>
-//           <h1 className="text-lg md:text-xl font-semibold">Plan Name</h1>
-//           <h1 className="text-lg md:text-xl font-semibold">Price</h1>
-//         </div>
-//         <p className="text-sm md:text-lg font-medium text-gray-800">
-//           Total Plans: {plans.length}
-//         </p>
-//         <form
-//           className="flex flex-col sm:flex-row sm:space-x-2 w-full sm:w-auto"
-//           onSubmit={(e) => e.preventDefault()}
-//         >
-//           <input
-//             type="search"
-//             placeholder="Search"
-//             className="border border-gray-300 p-2 rounded-md focus:outline-none w-full"
-//             value={searchTerm}
-//             onChange={(e) => setSearchTerm(e.target.value)}
-//           />
-//           <button className="mt-2 sm:mt-0 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
-//             Search
-//           </button>
-//         </form>
-//       </div>
-
-//       {/* Create New Plan */}
-//       <div className="max-w-[1200px] w-full mx-auto bg-white shadow-md p-4 rounded-lg mt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-//         <p className="text-gray-700">Create New Plan</p>
-//         <button
-//           className="bg-[#eafaf8] border border-gray-400 px-4 py-2 rounded-md hover:bg-yellow-400 hover:text-black"
-//           onClick={() => {
-//             setUpdateMode(false);
-//             resetForm();
-//             setShowUserCreatModal(true);
-//           }}
-//         >
-//           Create
-//         </button>
-//       </div>
-
-//       {/* Loading */}
-//       {isLoading ? (
-//         <div className="max-w-[1200px] w-full mx-auto mt-8 text-center">
-//           <p className="text-xl">Loading plans...</p>
-//         </div>
-//       ) : filteredPlans.length > 0 ? (
-//         filteredPlans.map((plan) => (
-//           <div
-//             key={plan.id}
-//             className="max-w-[1200px] w-full mx-auto bg-white shadow-md p-4 rounded-lg mt-4 flex flex-col md:flex-row md:justify-between md:items-center"
-//           >
-//             <div className="space-y-2 md:space-y-0 md:flex md:space-x-4">
-//               <p className="text-gray-700">ID: {plan.id}</p>
-//               <p className="text-gray-700">Name: {plan.planName}</p>
-//               <p className="text-gray-700">
-//                 Price: ₹{plan.PriceAfterDiscount}
-//               </p>
+//     <div className="min-h-screen  p-4">
+//       <div className="max-w-7xl mx-auto">
+//         <div className="bg-white shadow-lg rounded-xl p-6 mb-6">
+//           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+//             <div>
+//               <h1 className="text-3xl font-bold text-gray-800 mb-2"> Plan Management</h1>
+//               <p className="text-gray-600">Manage your  subscription plans efficiently</p>
 //             </div>
-//             <button
-//               className="mt-2 md:mt-0 border border-gray-400 bg-[#eafaf8] px-4 py-2 rounded-md hover:bg-yellow-400 hover:text-black"
-//               onClick={() => handleViewPlan(plan)}
-//             >
-//               View
-//             </button>
+            
+//             <div className="flex flex-col sm:flex-row gap-4 items-center">
+//               <div className="bg-blue-50 px-4 py-2 rounded-lg">
+//                 <span className="text-sm text-gray-600">Total Plans: </span>
+//                 <span className="font-semibold text-blue-600">{plans.length}</span>
+//               </div>
+              
+//               <div className="flex gap-2">
+//                 <input
+//                   type="search"
+//                   placeholder="Search plans..."
+//                   className="border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                   value={searchTerm}
+//                   onChange={(e) => setSearchTerm(e.target.value)}
+//                 />
+                
+//                 <button
+//                   className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-md hover:shadow-lg"
+//                   onClick={() => {
+//                     setUpdateMode(false);
+//                     resetForm();
+//                     setShowUserCreatModal(true);
+//                   }}
+//                 >
+//                   Create New Plan
+//                 </button>
+                
+//                 <button
+//                   className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
+//                   onClick={fetchPlans}
+//                   disabled={isLoading}
+//                 >
+//                   {isLoading ? "Refreshing..." : "Refresh"}
+//                 </button>
+//               </div>
+//             </div>
 //           </div>
-//         ))
-//       ) : (
-//         <div className="max-w-[1200px] w-full mx-auto mt-8 text-center">
-//           <p className="text-xl">No plans found.</p>
 //         </div>
-//       )}
 
-//       {/* View Modal */}
+//         <div className="bg-white shadow-lg rounded-xl overflow-hidden">
+//           {isLoading ? (
+//             <div className="flex justify-center items-center h-64">
+//               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+//               <span className="ml-3 text-lg text-gray-600">Loading plans...</span>
+//             </div>
+//           ) : filteredPlans.length > 0 ? (
+//             <div className="overflow-x-auto">
+//               <table className="w-full">
+//                 <thead className="bg-gradient-to-r from-blue-50 to-indigo-50">
+//                   <tr>
+//                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Plan ID</th>
+//                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Plan Name</th>
+//                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+//                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Original Price</th>
+//                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Sale Price</th>
+//                     <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Instalments</th>
+//                     <th className="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody className="divide-y divide-gray-200">
+//                   {filteredPlans.map((plan, index) => (
+//                     <tr key={plan.id} className={`hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-25'}`}>
+//                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">#{plan.id}</td>
+//                       <td className="px-6 py-4 whitespace-nowrap">
+//                         <div className="text-sm text-gray-500 truncate max-w-xs">{plan.Page}</div>
+//                         <div className="text-sm font-medium text-gray-900">{plan.planName}</div>
+//                         {/* <div className="text-sm text-gray-500 truncate max-w-xs">{plan.Description}</div> */}
+//                       </td>
+//                       <td className="px-6 py-4 whitespace-nowrap">
+//                         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+//                           plan.Status === 'Active' 
+//                             ? 'bg-green-100 text-green-800' 
+//                             : 'bg-red-100 text-red-800'
+//                         }`}>
+//                           {plan.Status}
+//                         </span>
+//                       </td>
+//                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+//                         <span className="line-through text-gray-500">₹{plan.Price}</span>
+//                       </td>
+//                       <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600">
+//                         ₹{plan.PriceAfterDiscount}
+//                       </td>
+//                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+//                         {plan.instalments}
+//                       </td>
+//                       <td className="px-6 py-4 whitespace-nowrap text-center">
+//                         <button
+//                           className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+//                           onClick={() => handleViewPlan(plan)}
+//                         >
+//                           View Details
+//                         </button>
+//                       </td>
+//                     </tr>
+//                   ))}
+//                 </tbody>
+//               </table>
+//             </div>
+//           ) : (
+//             <div className="text-center py-16">
+//               <div className="mx-auto h-24 w-24 text-gray-300 mb-4">
+//                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+//                 </svg>
+//               </div>
+//               <h3 className="text-lg font-medium text-gray-900 mb-2">No plans found</h3>
+//               <p className="text-gray-500">Get started by creating your first plan or check your API connection.</p>
+//             </div>
+//           )}
+//         </div>
+//       </div>
+
+//       {/* Plan Details Modal */}
 //       {showUserDetailsModal && selectedPlan && (
-//         <div className="fixed inset-0 bg-black/50 z-10 flex justify-center items-center">
-//           <div className="bg-white p-6 rounded-lg w-[90%] max-w-md">
-//             <h2 className="text-xl font-semibold mb-2">Plan Details</h2>
-//             <p><b>ID:</b> {selectedPlan.id}</p>
-//             <p><b>Name:</b> {selectedPlan.planName}</p>
-//             <p><b>Status:</b> {selectedPlan.Status}</p>
-//             <p><b>Description:</b> {selectedPlan.Description}</p>
-//             <p><b>Price:</b> ₹{selectedPlan.Price}</p>
-//             <p><b>Discounted:</b> ₹{selectedPlan.PriceAfterDiscount}</p>
-//             <p><b>Instalments:</b> {selectedPlan.instalments}</p>
-//             <p><b>Features:</b></p>
-//             <ul className="list-disc pl-4">
-//               {selectedPlan.Features?.split(",").map((f, i) => (
-//                 <li key={i}>{f.trim()}</li>
-//               ))}
-//             </ul>
-//             <div className="mt-4 flex justify-between">
+//         <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
+//           <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+//             <div className="p-6 border-b border-gray-200">
+//               <h2 className="text-2xl font-bold text-gray-800">Plan Details</h2>
+//             </div>
+            
+//             <div className="p-6 space-y-6">
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//                 <div className="space-y-4">
+//                   <div>
+//                     <label className="text-sm font-medium text-gray-500">Plan ID</label>
+//                     <p className="text-lg font-mono text-gray-900">#{selectedPlan.id}</p>
+//                   </div>
+                  
+//                   <div>
+//                     <label className="text-sm font-medium text-gray-500">Plan Name</label>
+//                     <p className="text-lg text-gray-900">{selectedPlan.planName}</p>
+//                   </div>
+                  
+//                   <div>
+//                     <label className="text-sm font-medium text-gray-500">Status</label>
+//                     <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
+//                       selectedPlan.Status === 'Active' 
+//                         ? 'bg-green-100 text-green-800' 
+//                         : 'bg-red-100 text-red-800'
+//                     }`}>
+//                       {selectedPlan.Status}
+//                     </span>
+//                   </div>
+//                 </div>
+                
+//                 <div className="space-y-4">
+//                   <div>
+//                     <label className="text-sm font-medium text-gray-500">Regular Price</label>
+//                     <p className="text-lg text-gray-500 line-through">₹{selectedPlan.Price}</p>
+//                   </div>
+                  
+//                   <div>
+//                     <label className="text-sm font-medium text-gray-500">Sale Price</label>
+//                     <p className="text-xl font-semibold text-green-600">₹{selectedPlan.PriceAfterDiscount}</p>
+//                   </div>
+                  
+//                   <div>
+//                     <label className="text-sm font-medium text-gray-500">Instalments</label>
+//                     <p className="text-lg text-gray-900">{selectedPlan.instalments}</p>
+//                   </div>
+//                 </div>
+//               </div>
+              
+//               <div>
+//                 <label className="text-sm font-medium text-gray-500">Description</label>
+//                 <p className="text-gray-900 mt-1">{selectedPlan.Description}</p>
+//               </div>
+              
+//               <div>
+//                 <label className="text-sm font-medium text-gray-500">Features</label>
+//                 <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+//                   {selectedPlan.Features?.split(",").map((feature, index) => (
+//                     <div key={index} className="flex items-center space-x-2">
+//                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+//                       <span className="text-gray-700">{feature.trim()}</span>
+//                     </div>
+//                   ))}
+//                 </div>
+//               </div>
+//             </div>
+            
+//             <div className="p-6 border-t border-gray-200 flex flex-wrap gap-3 justify-end">
 //               <button
-//                 className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+//                 className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200"
 //                 onClick={handleUpdatePlan}
 //               >
-//                 Update
+//                 Edit Plan
 //               </button>
 //               <button
-//                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+//                 className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
 //                 onClick={() => handleDeletePlan(selectedPlan.id)}
 //               >
-//                 Delete
+//                 Delete Plan
 //               </button>
 //               <button
-//                 className="border px-4 py-2 rounded"
+//                 className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
 //                 onClick={() => setShowUserDetailsModal(false)}
 //               >
 //                 Close
@@ -629,83 +560,133 @@
 //         </div>
 //       )}
 
-//       {/* Create/Update Modal */}
+//       {/* Create/Update Plan Modal */}
 //       {showUserCreatModal && (
-//         <div className="fixed inset-0 bg-black/50 z-10 flex justify-center items-center">
-//           <div className="bg-white p-6 rounded-lg w-[90%] max-w-md">
-//             <h2 className="text-xl font-semibold mb-4">
-//               {updateMode ? "Update Plan" : "Create Plan"}
-//             </h2>
-
-//             <div className="space-y-4">
-//               <input
-//                 name="planName"
-//                 value={formData.planName}
-//                 onChange={handleChange}
-//                 placeholder="Plan Name"
-//                 className="w-full p-2 border rounded"
-//               />
-//               <select
-//                 name="Status"
-//                 value={formData.Status}
-//                 onChange={handleChange}
-//                 className="w-full p-2 border rounded"
-//               >
-//                 <option value="">Select Status</option>
-//                 <option value="Active">Active</option>
-//                 <option value="Inactive">Inactive</option>
-//               </select>
-//               <input
-//                 name="Description"
-//                 value={formData.Description}
-//                 onChange={handleChange}
-//                 placeholder="Description"
-//                 className="w-full p-2 border rounded"
-//               />
-//               <input
-//                 name="Price"
-//                 type="number"
-//                 value={formData.Price}
-//                 onChange={handleChange}
-//                 placeholder="Price"
-//                 className="w-full p-2 border rounded"
-//               />
-//               <input
-//                 name="PriceAfterDiscount"
-//                 type="number"
-//                 value={formData.PriceAfterDiscount}
-//                 onChange={handleChange}
-//                 placeholder="Discounted Price"
-//                 className="w-full p-2 border rounded"
-//               />
-//               <input
-//                 name="instalments"
-//                 value={formData.instalments}
-//                 onChange={handleChange}
-//                 placeholder="Instalments"
-//                 className="w-full p-2 border rounded"
-//               />
-//               <textarea
-//                 name="Features"
-//                 value={formData.Features}
-//                 onChange={handleChange}
-//                 placeholder="Features (comma separated)"
-//                 className="w-full p-2 border rounded"
-//               ></textarea>
+//         <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
+//           <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+//             <div className="p-6 border-b border-gray-200">
+//               <h2 className="text-2xl font-bold text-gray-800">
+//                 {updateMode ? "Update Plan" : "Create New Plan"}
+//               </h2>
 //             </div>
 
-//             <div className="flex justify-between mt-4">
+//             <div className="p-6">
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//                 <div className="space-y-4">
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">Category/Page *</label>
+//                     <input
+//                       name="Page"
+//                       type="text"
+//                       value={formData.Page}
+//                       onChange={handleChange}
+//                       placeholder="e.g., Premium Plans, Basic Plans"
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                     />
+//                   </div>
+                  
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">Plan Name *</label>
+//                     <input
+//                       name="planName"
+//                       value={formData.planName}
+//                       onChange={handleChange}
+//                       placeholder="Enter plan name"
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                     />
+//                   </div>
+                  
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">Status *</label>
+//                     <select
+//                       name="Status"
+//                       value={formData.Status}
+//                       onChange={handleChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                     >
+//                       <option value="">Select Status</option>
+//                       <option value="Active">Active (Published)</option>
+//                       <option value="Inactive">Inactive (Draft)</option>
+//                     </select>
+//                   </div>
+                  
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">Regular Price *</label>
+//                     <input
+//                       name="Price"
+//                       type="number"
+//                       value={formData.Price}
+//                       onChange={handleChange}
+//                       placeholder="Enter regular price"
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                     />
+//                   </div>
+//                 </div>
+                
+//                 <div className="space-y-4">
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">Sale Price *</label>
+//                     <input
+//                       name="PriceAfterDiscount"
+//                       type="number"
+//                       value={formData.PriceAfterDiscount}
+//                       onChange={handleChange}
+//                       placeholder="Enter sale price"
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                     />
+//                   </div>
+                  
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">Instalments</label>
+//                     <input
+//                       name="instalments"
+//                       value={formData.instalments}
+//                       onChange={handleChange}
+//                       placeholder="e.g., 3 months, 6 months"
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                     />
+//                   </div>
+                  
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+//                     <textarea
+//                       name="Description"
+//                       value={formData.Description}
+//                       onChange={handleChange}
+//                       placeholder="Brief description of the plan"
+//                       rows={3}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                     />
+//                   </div>
+//                 </div>
+//               </div>
+              
+//               <div className="mt-6">
+//                 <label className="block text-sm font-medium text-gray-700 mb-2">Features</label>
+//                 <textarea
+//                   name="Features"
+//                   value={formData.Features}
+//                   onChange={handleChange}
+//                   placeholder="Enter features separated by commas (e.g., Feature 1, Feature 2, Feature 3)"
+//                   rows={4}
+//                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                 ></textarea>
+//               </div>
+//             </div>
+
+//             <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
 //               <button
-//                 className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+//                 className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50"
 //                 onClick={handleCreatePlan}
+//                 disabled={isLoading}
 //               >
-//                 {updateMode ? "Update" : "Create"}
+//                 {isLoading ? "Processing..." : (updateMode ? "Update Plan" : "Create Plan")}
 //               </button>
 //               <button
-//                 className="border px-4 py-2 rounded"
+//                 className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
 //                 onClick={() => setShowUserCreatModal(false)}
 //               >
-//                 Close
+//                 Cancel
 //               </button>
 //             </div>
 //           </div>
@@ -718,37 +699,50 @@
 // export default Page;
 
 
-
-"use client";
-import React, { useState, useEffect } from "react";
+"use client"
+import { useState, useEffect } from "react"
 
 interface PackageData {
-  id: string;
-  planName: string;
-  Status: string;
-  Description: string;
-  Price: number;
-  PriceAfterDiscount: number;
-  instalments: string;
-  Features: string;
-  Page: string;
+  id: string
+  planName: string
+  Status: string
+  Description: string
+  Price: number
+  PriceAfterDiscount: number
+  instalments: string
+  Features: string
+  Page: string
+  offers?: OfferData[]
+}
+
+interface OfferData {
+  id: string
+  planId: string
+  title: string
+  description: string
+  discountPercentage: number
+  validUntil: string
+  isActive: boolean
+  offerPrice?: number
 }
 
 //  API configuration
 const WC_API_CONFIG = {
   baseUrl: "https://edueye.co.in/ensurekar/wp-json/wc/v3",
   consumerKey: "ck_1a163a1d803b2ed9c2c501a232692bd5ee3c2619",
-  consumerSecret: "cs_054aea9c8f7ddeef9b7ceb5fc45c56cd422ba4a2"
-};
+  consumerSecret: "cs_054aea9c8f7ddeef9b7ceb5fc45c56cd422ba4a2",
+}
 
 const Page = () => {
-  const [showUserDetailsModal, setShowUserDetailsModal] = useState(false);
-  const [showUserCreatModal, setShowUserCreatModal] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<PackageData | null>(null);
-  const [plans, setPlans] = useState<PackageData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [updateMode, setUpdateMode] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [showUserDetailsModal, setShowUserDetailsModal] = useState(false)
+  const [showUserCreatModal, setShowUserCreatModal] = useState(false)
+  const [showOfferModal, setShowOfferModal] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState<PackageData | null>(null)
+  const [plans, setPlans] = useState<PackageData[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [updateMode, setUpdateMode] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [activeOfferTab, setActiveOfferTab] = useState<"details" | "offers">("details")
 
   const [formData, setFormData] = useState<PackageData>({
     id: "",
@@ -759,17 +753,55 @@ const Page = () => {
     PriceAfterDiscount: 0,
     instalments: "",
     Features: "",
-    Page: "", 
-  });
+    Page: "",
+    offers: [],
+  })
+
+  const [offerFormData, setOfferFormData] = useState<OfferData>({
+    id: "",
+    planId: "",
+    title: "",
+    description: "",
+    discountPercentage: 0,
+    validUntil: "",
+    isActive: true,
+    offerPrice: 0,
+  })
 
   useEffect(() => {
-    fetchPlans();
-  }, []);
+    fetchPlans()
+    // Initialize plans with sample offers
+    const samplePlans = [
+      {
+        id: "1",
+        planName: "Premium Plan",
+        Status: "Active",
+        Description: "Our premium subscription plan",
+        Price: 1000,
+        PriceAfterDiscount: 800,
+        instalments: "3 months",
+        Features: "Feature 1, Feature 2, Feature 3",
+        Page: "Premium",
+        offers: [
+          {
+            id: "offer1",
+            planId: "1",
+            title: "New Year Special",
+            description: "Get 30% off on premium plan",
+            discountPercentage: 30,
+            validUntil: "2024-01-31",
+            isActive: true,
+            offerPrice: 560,
+          },
+        ],
+      },
+    ]
+  }, [])
 
-  // Convert PackageData to  product format
+  // Convert PackageData to product format
   const mapToProduct = (planData: PackageData) => {
-    const featuresArray = planData.Features ? planData.Features.split(',').map(f => f.trim()) : [];
-    
+    const featuresArray = planData.Features ? planData.Features.split(",").map((f) => f.trim()) : []
+
     return {
       name: planData.planName,
       type: "simple",
@@ -777,107 +809,121 @@ const Page = () => {
       sale_price: planData.PriceAfterDiscount.toString(),
       description: planData.Description,
       short_description: `${planData.instalments} installment plan`,
-      status: planData.Status.toLowerCase() === 'active' ? 'publish' : 'draft',
-      catalog_visibility: 'visible',
+      status: planData.Status.toLowerCase() === "active" ? "publish" : "draft",
+      catalog_visibility: "visible",
       featured: false,
       categories: [
         {
-          name: planData.Page || "General Plans"
-        }
+          name: planData.Page || "General Plans",
+        },
       ],
       attributes: [
         {
           name: "Features",
           options: featuresArray,
           visible: true,
-          variation: false
+          variation: false,
         },
         {
           name: "Installments",
           options: [planData.instalments],
           visible: true,
-          variation: false
+          variation: false,
         },
         {
           name: "Page Category",
           options: [planData.Page],
           visible: true,
-          variation: false
-        }
+          variation: false,
+        },
       ],
       meta_data: [
         {
           key: "_plan_features",
-          value: planData.Features
+          value: planData.Features,
         },
         {
           key: "_plan_installments",
-          value: planData.instalments
+          value: planData.instalments,
         },
         {
           key: "_plan_page",
-          value: planData.Page
-        }
-      ]
-    };
-  };
+          value: planData.Page,
+        },
+        {
+          key: "_plan_offers",
+          value: JSON.stringify(planData.offers || []),
+        },
+      ],
+    }
+  }
 
-  // Convert  product to PackageData format
+  // Convert product to PackageData format
   const mapFromProduct = (product: any): PackageData => {
     const getMetaValue = (key: string) => {
-      const meta = product.meta_data?.find((m: any) => m.key === key);
-      return meta ? meta.value : '';
-    };
+      const meta = product.meta_data?.find((m: any) => m.key === key)
+      return meta ? meta.value : ""
+    }
+
+    let offers: OfferData[] = []
+    try {
+      const offersData = getMetaValue("_plan_offers")
+      offers = offersData ? JSON.parse(offersData) : []
+    } catch (error) {
+      console.error("Error parsing offers data:", error)
+      offers = []
+    }
 
     return {
       id: product.id.toString(),
-      planName: product.name || '',
-      Status: product.status === 'publish' ? 'Active' : 'Inactive',
-      Description: product.description || product.short_description || '',
-      Price: parseFloat(product.regular_price) || 0,
-      PriceAfterDiscount: parseFloat(product.sale_price) || parseFloat(product.regular_price) || 0,
-      instalments: getMetaValue('_plan_installments') || '',
-      Features: getMetaValue('_plan_features') || '',
-      Page: getMetaValue('_plan_page') || (product.categories?.[0]?.name || '')
-    };
-  };
+      planName: product.name || "",
+      Status: product.status === "publish" ? "Active" : "Inactive",
+      Description: product.description || product.short_description || "",
+      Price: Number.parseFloat(product.regular_price) || 0,
+      PriceAfterDiscount: Number.parseFloat(product.sale_price) || Number.parseFloat(product.regular_price) || 0,
+      instalments: getMetaValue("_plan_installments") || "",
+      Features: getMetaValue("_plan_features") || "",
+      Page: getMetaValue("_plan_page") || product.categories?.[0]?.name || "",
+      offers: offers,
+    }
+  }
 
-  // Fetch plans from  API
+  // Fetch plans from API
   const fetchPlans = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const url = `${WC_API_CONFIG.baseUrl}/products?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}&per_page=100`;
-      
+      const url = `${WC_API_CONFIG.baseUrl}/products?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}&per_page=100`
+
       const response = await fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-      });
+      })
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch plans: ${response.status}`);
+        throw new Error(`Failed to fetch plans: ${response.status}`)
       }
 
-      const products = await response.json();
-      const mappedPlans = products.map(mapFromProduct);
-      setPlans(mappedPlans);
-      console.log("Fetched plans:", mappedPlans);
+      const products = await response.json()
+      const mappedPlans = products.map(mapFromProduct)
+      setPlans(mappedPlans)
+      console.log("Fetched plans:", mappedPlans)
     } catch (error) {
-      console.error("Failed to fetch plans:", error);
-      alert("Failed to fetch plans. Please check your API credentials and try again.");
+      console.error("Failed to fetch plans:", error)
+      alert("Failed to fetch plans. Please check your API credentials and try again.")
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
-  // Create new plan in 
+  // Create new plan
   const postPlanToAPI = async (planData: PackageData) => {
     try {
-      console.log("Creating plan:", planData);
-      const Product = mapToProduct(planData);
-      
-      const url = `${WC_API_CONFIG.baseUrl}/products?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}`;
+      console.log("Creating plan:", planData)
+      const Product = mapToProduct(planData)
+
+      const url = `${WC_API_CONFIG.baseUrl}/products?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}`
 
       const response = await fetch(url, {
         method: "POST",
@@ -885,131 +931,174 @@ const Page = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(Product),
-      });
+      })
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error("API error response:", errorData);
-        throw new Error(`API request failed with status ${response.status}: ${errorData.message || 'Unknown error'}`);
+        const errorData = await response.json()
+        console.error("API error response:", errorData)
+        throw new Error(`API request failed with status ${response.status}: ${errorData.message || "Unknown error"}`)
       }
 
-      const result = await response.json();
-      console.log("Plan created successfully:", result);
-      return result;
+      const result = await response.json()
+      console.log("Plan created successfully:", result)
+      return result
     } catch (error) {
-      console.error("Failed to create plan:", error);
-      throw error;
+      console.error("Failed to create plan:", error)
+      throw error
     }
-  };
+  }
 
-  // Update plan 
+  // Update plan
   const updatePlanInAPI = async (planData: PackageData) => {
     try {
-      console.log("Updating plan:", planData);
-      const Product = mapToProduct(planData);
-      
-      const url = `${WC_API_CONFIG.baseUrl}/products/${planData.id}?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}`;
+      console.log("Updating plan:", planData)
+      const Product = mapToProduct(planData)
+
+      const url = `${WC_API_CONFIG.baseUrl}/products/${planData.id}?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}`
 
       const response = await fetch(url, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(Product),
-      });
+      })
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error("API error response:", errorData);
-        throw new Error(`Failed to update plan: ${response.status}`);
+        const errorData = await response.json()
+        console.error("API error response:", errorData)
+        throw new Error(`Failed to update plan: ${response.status}`)
       }
 
-      const result = await response.json();
-      console.log("Plan updated successfully:", result);
-      return result;
+      const result = await response.json()
+      console.log("Plan updated successfully:", result)
+      return result
     } catch (error) {
-      console.error("Failed to update plan:", error);
-      throw error;
+      console.error("Failed to update plan:", error)
+      throw error
     }
-  };
+  }
 
-  // Delete plan 
+  // Delete plan
   const deletePlanFromAPI = async (id: string) => {
     try {
-      const url = `${WC_API_CONFIG.baseUrl}/products/${id}?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}&force=true`;
+      const url = `${WC_API_CONFIG.baseUrl}/products/${id}?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}&force=true`
 
       const response = await fetch(url, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-      });
+      })
 
       if (!response.ok) {
-        throw new Error(`Failed to delete plan: ${response.status}`);
+        throw new Error(`Failed to delete plan: ${response.status}`)
       }
 
-      const result = await response.json();
-      console.log("Plan deleted successfully:", result);
-      return result;
+      const result = await response.json()
+      console.log("Plan deleted successfully:", result)
+      return result
     } catch (error) {
-      console.error("Failed to delete plan:", error);
-      throw error;
+      console.error("Failed to delete plan:", error)
+      throw error
     }
-  };
+  }
 
   const handleChange = (e: any) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
-      [name]:
-        name === "Price" || name === "PriceAfterDiscount"
-          ? value === ""
-            ? ""
-            : Number(value)
-          : value,
-    }));
-  };
+      [name]: name === "Price" || name === "PriceAfterDiscount" ? (value === "" ? "" : Number(value)) : value,
+    }))
+  }
+
+  const handleOfferChange = (e: any) => {
+    const { name, value, type, checked } = e.target
+    setOfferFormData((prev) => {
+      const updatedOffer = {
+        ...prev,
+        [name]: type === "checkbox" ? checked : name === "discountPercentage" ? Number(value) : value,
+      }
+
+      // Calculate offer price when discount percentage changes
+      if (name === "discountPercentage" && selectedPlan) {
+        const discountAmount = (selectedPlan.PriceAfterDiscount * Number(value)) / 100
+        updatedOffer.offerPrice = selectedPlan.PriceAfterDiscount - discountAmount
+      }
+
+      return updatedOffer
+    })
+  }
 
   const handleCreatePlan = async () => {
     // Validation
     if (!formData.planName || !formData.Status || !formData.Price) {
-      alert("Please fill in all required fields (Plan Name, Status, and Price).");
-      return;
+      alert("Please fill in all required fields (Plan Name, Status, and Price).")
+      return
     }
 
-    setIsLoading(true);
+    setIsLoading(true)
     try {
       if (updateMode && selectedPlan) {
         // Update existing plan
-        const updatedPlan = { ...formData, id: selectedPlan.id };
-        await updatePlanInAPI(updatedPlan);
-        
-        setPlans(
-          plans.map((plan) =>
-            plan.id === selectedPlan.id ? updatedPlan : plan
-          )
-        );
-        setUpdateMode(false);
-        alert("Plan updated successfully!");
+        const updatedPlan = { ...formData, id: selectedPlan.id }
+        await updatePlanInAPI(updatedPlan)
+
+        setPlans(plans.map((plan) => (plan.id === selectedPlan.id ? updatedPlan : plan)))
+        setUpdateMode(false)
+        alert("Plan updated successfully!")
       } else {
         // Create new plan
-        const newPlan = { ...formData, id: Date.now().toString() };
-        const createdProduct = await postPlanToAPI(newPlan);
-        
+        const newPlan = { ...formData, id: Date.now().toString(), offers: [] }
+        const createdProduct = await postPlanToAPI(newPlan)
+
         // Update the plan with the actual product ID
-        const createdPlan = mapFromProduct(createdProduct);
-        setPlans([...plans, createdPlan]);
-        alert("Plan created successfully!");
+        const createdPlan = mapFromProduct(createdProduct)
+        setPlans([...plans, createdPlan])
+        alert("Plan created successfully!")
       }
-      setShowUserCreatModal(false);
-      resetForm();
+      setShowUserCreatModal(false)
+      resetForm()
     } catch (error) {
-      alert(`Failed to save plan: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      alert(`Failed to save plan: ${error instanceof Error ? error.message : "Unknown error"}`)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
+
+  const handleCreateOffer = async () => {
+    if (!offerFormData.title || !offerFormData.description || !selectedPlan) {
+      alert("Please fill in all required fields.")
+      return
+    }
+
+    const newOffer = {
+      ...offerFormData,
+      id: Date.now().toString(),
+      planId: selectedPlan.id,
+    }
+
+    // Update the selected plan with the new offer
+    const updatedPlan = {
+      ...selectedPlan,
+      offers: [...(selectedPlan.offers || []), newOffer],
+    }
+
+    try {
+      // Update in API
+      await updatePlanInAPI(updatedPlan)
+
+      // Update local state
+      setPlans(plans.map((plan) => (plan.id === selectedPlan.id ? updatedPlan : plan)))
+      setSelectedPlan(updatedPlan)
+
+      setShowOfferModal(false)
+      resetOfferForm()
+      alert("Offer created successfully!")
+    } catch (error) {
+      alert(`Failed to create offer: ${error instanceof Error ? error.message : "Unknown error"}`)
+    }
+  }
 
   const resetForm = () => {
     setFormData({
@@ -1021,66 +1110,136 @@ const Page = () => {
       PriceAfterDiscount: 0,
       instalments: "",
       Features: "",
-      Page: "", 
-    });
-  };
+      Page: "",
+      offers: [],
+    })
+  }
+
+  const resetOfferForm = () => {
+    setOfferFormData({
+      id: "",
+      planId: "",
+      title: "",
+      description: "",
+      discountPercentage: 0,
+      validUntil: "",
+      isActive: true,
+      offerPrice: 0,
+    })
+  }
 
   const handleViewPlan = (plan: PackageData) => {
-    setSelectedPlan(plan);
-    setShowUserDetailsModal(true);
-  };
+    setSelectedPlan(plan)
+    setActiveOfferTab("details")
+    setShowUserDetailsModal(true)
+  }
 
   const handleUpdatePlan = () => {
     if (selectedPlan) {
-      setFormData({ ...selectedPlan });
-      setShowUserDetailsModal(false);
-      setUpdateMode(true);
-      setShowUserCreatModal(true);
+      setFormData({ ...selectedPlan })
+      setShowUserDetailsModal(false)
+      setUpdateMode(true)
+      setShowUserCreatModal(true)
     }
-  };
+  }
 
   const handleDeletePlan = async (id: string) => {
     if (!confirm("Are you sure you want to delete this plan? This action cannot be undone.")) {
-      return;
+      return
     }
 
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      await deletePlanFromAPI(id);
-      const updatedPlans = plans.filter((plan) => plan.id !== id);
-      setPlans(updatedPlans);
-      setShowUserDetailsModal(false);
-      alert("Plan deleted successfully!");
+      await deletePlanFromAPI(id)
+      const updatedPlans = plans.filter((plan) => plan.id !== id)
+      setPlans(updatedPlans)
+      setShowUserDetailsModal(false)
+      alert("Plan deleted successfully!")
     } catch (error) {
-      alert(`Failed to delete plan: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      alert(`Failed to delete plan: ${error instanceof Error ? error.message : "Unknown error"}`)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
+
+  const handleDeleteOffer = async (offerId: string) => {
+    if (!confirm("Are you sure you want to delete this offer?") || !selectedPlan) {
+      return
+    }
+
+    const updatedOffers = selectedPlan.offers?.filter((offer) => offer.id !== offerId) || []
+    const updatedPlan = { ...selectedPlan, offers: updatedOffers }
+
+    try {
+      await updatePlanInAPI(updatedPlan)
+      setPlans(plans.map((plan) => (plan.id === selectedPlan.id ? updatedPlan : plan)))
+      setSelectedPlan(updatedPlan)
+      alert("Offer deleted successfully!")
+    } catch (error) {
+      alert(`Failed to delete offer: ${error instanceof Error ? error.message : "Unknown error"}`)
+    }
+  }
+
+  const toggleOfferStatus = async (offerId: string) => {
+    if (!selectedPlan) return
+
+    const updatedOffers =
+      selectedPlan.offers?.map((offer) => (offer.id === offerId ? { ...offer, isActive: !offer.isActive } : offer)) ||
+      []
+    const updatedPlan = { ...selectedPlan, offers: updatedOffers }
+
+    try {
+      await updatePlanInAPI(updatedPlan)
+      setPlans(plans.map((plan) => (plan.id === selectedPlan.id ? updatedPlan : plan)))
+      setSelectedPlan(updatedPlan)
+    } catch (error) {
+      alert(`Failed to update offer: ${error instanceof Error ? error.message : "Unknown error"}`)
+    }
+  }
 
   const filteredPlans = plans.filter(
     (plan) =>
       plan.planName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       plan.id?.includes(searchTerm) ||
-      plan.PriceAfterDiscount?.toString().includes(searchTerm)
-  );
+      plan.PriceAfterDiscount?.toString().includes(searchTerm),
+  )
+
+  const getActiveOffers = (plan: PackageData) => {
+    return plan.offers?.filter((offer) => offer.isActive) || []
+  }
+
+  const getBestOffer = (plan: PackageData) => {
+    const activeOffers = getActiveOffers(plan)
+    if (activeOffers.length === 0) return null
+    return activeOffers.reduce((best, current) =>
+      current.discountPercentage > best.discountPercentage ? current : best,
+    )
+  }
 
   return (
-    <div className="min-h-screen  p-4">
+    <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
         <div className="bg-white shadow-lg rounded-xl p-6 mb-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-2"> Plan Management</h1>
-              <p className="text-gray-600">Manage your  subscription plans efficiently</p>
+              <h1 className="text-3xl font-bold text-gray-800 mb-2">Plan Management</h1>
+              <p className="text-gray-600">Manage your subscription plans and their exclusive offers</p>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 items-center">
               <div className="bg-blue-50 px-4 py-2 rounded-lg">
                 <span className="text-sm text-gray-600">Total Plans: </span>
                 <span className="font-semibold text-blue-600">{plans.length}</span>
               </div>
-              
+
+              <div className="bg-green-50 px-4 py-2 rounded-lg">
+                <span className="text-sm text-gray-600">Plans with Offers: </span>
+                <span className="font-semibold text-green-600">
+                  {plans.filter((plan) => getActiveOffers(plan).length > 0).length}
+                </span>
+              </div>
+
               <div className="flex gap-2">
                 <input
                   type="search"
@@ -1089,18 +1248,18 @@ const Page = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                
+
                 <button
                   className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-md hover:shadow-lg"
                   onClick={() => {
-                    setUpdateMode(false);
-                    resetForm();
-                    setShowUserCreatModal(true);
+                    setUpdateMode(false)
+                    resetForm()
+                    setShowUserCreatModal(true)
                   }}
                 >
                   Create New Plan
                 </button>
-                
+
                 <button
                   className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
                   onClick={fetchPlans}
@@ -1113,6 +1272,7 @@ const Page = () => {
           </div>
         </div>
 
+        {/* Plans Table */}
         <div className="bg-white shadow-lg rounded-xl overflow-hidden">
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
@@ -1124,52 +1284,88 @@ const Page = () => {
               <table className="w-full">
                 <thead className="bg-gradient-to-r from-blue-50 to-indigo-50">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Plan ID</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Plan Name</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Original Price</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Sale Price</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Instalments</th>
-                    <th className="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Plan ID
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Plan Name
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Pricing
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Offers
+                    </th>
+                    <th className="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {filteredPlans.map((plan, index) => (
-                    <tr key={plan.id} className={`hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-25'}`}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">#{plan.id}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500 truncate max-w-xs">{plan.Page}</div>
-                        <div className="text-sm font-medium text-gray-900">{plan.planName}</div>
-                        {/* <div className="text-sm text-gray-500 truncate max-w-xs">{plan.Description}</div> */}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          plan.Status === 'Active' 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-red-100 text-red-800'
-                        }`}>
-                          {plan.Status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <span className="line-through text-gray-500">₹{plan.Price}</span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600">
-                        ₹{plan.PriceAfterDiscount}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {plan.instalments}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-center">
-                        <button
-                          className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
-                          onClick={() => handleViewPlan(plan)}
-                        >
-                          View Details
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {filteredPlans.map((plan, index) => {
+                    const bestOffer = getBestOffer(plan)
+                    const activeOffers = getActiveOffers(plan)
+
+                    return (
+                      <tr
+                        key={plan.id}
+                        className={`hover:bg-gray-50 transition-colors ${index % 2 === 0 ? "bg-white" : "bg-gray-25"}`}
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">#{plan.id}</td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-500 truncate max-w-xs">{plan.Page}</div>
+                          <div className="text-sm font-medium text-gray-900">{plan.planName}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              plan.Status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {plan.Status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex flex-col">
+                            <span className="line-through text-gray-500 text-sm">₹{plan.Price}</span>
+                            <span className="text-sm font-semibold text-green-600">₹{plan.PriceAfterDiscount}</span>
+                            {bestOffer && (
+                              <span className="text-xs font-bold text-orange-600">
+                                Offer: ₹{bestOffer.offerPrice?.toFixed(0)} ({bestOffer.discountPercentage}% off)
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {activeOffers.length > 0 ? (
+                            <div className="flex items-center space-x-2">
+                              <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800">
+                                {activeOffers.length} Active
+                              </span>
+                              {bestOffer && (
+                                <span className="text-xs text-orange-600 font-medium">
+                                  Up to {bestOffer.discountPercentage}% OFF
+                                </span>
+                              )}
+                            </div>
+                          ) : (
+                            <span className="text-xs text-gray-400">No offers</span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                          <button
+                            className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                            onClick={() => handleViewPlan(plan)}
+                          >
+                            View Details
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             </div>
@@ -1177,7 +1373,12 @@ const Page = () => {
             <div className="text-center py-16">
               <div className="mx-auto h-24 w-24 text-gray-300 mb-4">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1}
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
                 </svg>
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">No plans found</h3>
@@ -1187,75 +1388,221 @@ const Page = () => {
         </div>
       </div>
 
-      {/* Plan Details Modal */}
+      {/* Plan Details Modal with Offers */}
       {showUserDetailsModal && selectedPlan && (
         <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800">Plan Details</h2>
+              <h2 className="text-2xl font-bold text-gray-800">Plan Management</h2>
+              <p className="text-gray-600">{selectedPlan.planName}</p>
             </div>
-            
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Plan ID</label>
-                    <p className="text-lg font-mono text-gray-900">#{selectedPlan.id}</p>
-                  </div>
-                  
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Plan Name</label>
-                    <p className="text-lg text-gray-900">{selectedPlan.planName}</p>
-                  </div>
-                  
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Status</label>
-                    <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
-                      selectedPlan.Status === 'Active' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
-                    }`}>
-                      {selectedPlan.Status}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Regular Price</label>
-                    <p className="text-lg text-gray-500 line-through">₹{selectedPlan.Price}</p>
-                  </div>
-                  
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Sale Price</label>
-                    <p className="text-xl font-semibold text-green-600">₹{selectedPlan.PriceAfterDiscount}</p>
-                  </div>
-                  
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Instalments</label>
-                    <p className="text-lg text-gray-900">{selectedPlan.instalments}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div>
-                <label className="text-sm font-medium text-gray-500">Description</label>
-                <p className="text-gray-900 mt-1">{selectedPlan.Description}</p>
-              </div>
-              
-              <div>
-                <label className="text-sm font-medium text-gray-500">Features</label>
-                <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {selectedPlan.Features?.split(",").map((feature, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-gray-700">{feature.trim()}</span>
+
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200">
+              <button
+                className={`px-6 py-4 text-sm font-medium ${
+                  activeOfferTab === "details"
+                    ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+                onClick={() => setActiveOfferTab("details")}
+              >
+                Plan Details
+              </button>
+              <button
+                className={`px-6 py-4 text-sm font-medium ${
+                  activeOfferTab === "offers"
+                    ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+                onClick={() => setActiveOfferTab("offers")}
+              >
+                Special Offers ({selectedPlan.offers?.length || 0})
+              </button>
+            </div>
+
+            <div className="p-6">
+              {/* Plan Details Tab */}
+              {activeOfferTab === "details" && (
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Plan ID</label>
+                        <p className="text-lg font-mono text-gray-900">#{selectedPlan.id}</p>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Plan Name</label>
+                        <p className="text-lg text-gray-900">{selectedPlan.planName}</p>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Status</label>
+                        <span
+                          className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
+                            selectedPlan.Status === "Active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {selectedPlan.Status}
+                        </span>
+                      </div>
                     </div>
-                  ))}
+
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Regular Price</label>
+                        <p className="text-lg text-gray-500 line-through">₹{selectedPlan.Price}</p>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Sale Price</label>
+                        <p className="text-xl font-semibold text-green-600">₹{selectedPlan.PriceAfterDiscount}</p>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Instalments</label>
+                        <p className="text-lg text-gray-900">{selectedPlan.instalments}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Description</label>
+                    <p className="text-gray-900 mt-1">{selectedPlan.Description}</p>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Features</label>
+                    <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {selectedPlan.Features?.split(",").map((feature, index) => (
+                        <div key={index} className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span className="text-gray-700">{feature.trim()}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* Offers Tab */}
+              {activeOfferTab === "offers" && (
+                <div className="space-y-6">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800">Special Offers</h3>
+                      <p className="text-gray-600">Create and manage exclusive offers for this plan</p>
+                    </div>
+                    <button
+                      className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-lg hover:from-orange-600 hover:to-red-600 transition-all duration-200 shadow-md hover:shadow-lg"
+                      onClick={() => {
+                        resetOfferForm()
+                        setOfferFormData((prev) => ({ ...prev, planId: selectedPlan.id }))
+                        setShowOfferModal(true)
+                      }}
+                    >
+                      Create New Offer
+                    </button>
+                  </div>
+
+                  {selectedPlan.offers && selectedPlan.offers.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {selectedPlan.offers.map((offer) => (
+                        <div
+                          key={offer.id}
+                          className={`bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-6 border-2 transition-all duration-200 ${
+                            offer.isActive
+                              ? "border-orange-200 hover:border-orange-300 shadow-md hover:shadow-lg"
+                              : "border-gray-200 opacity-75"
+                          }`}
+                        >
+                          <div className="flex justify-between items-start mb-4">
+                            <div className="flex-1">
+                              <h4 className="text-lg font-bold text-gray-800 mb-2">{offer.title}</h4>
+                              <p className="text-gray-600 text-sm mb-3">{offer.description}</p>
+                            </div>
+                            <span
+                              className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                offer.isActive ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
+                              }`}
+                            >
+                              {offer.isActive ? "Active" : "Inactive"}
+                            </span>
+                          </div>
+
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-gray-500">Discount:</span>
+                              <span className="text-xl font-bold text-orange-600">{offer.discountPercentage}% OFF</span>
+                            </div>
+
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-gray-500">Offer Price:</span>
+                              <span className="text-lg font-semibold text-green-600">
+                                ₹{offer.offerPrice?.toFixed(0)}
+                              </span>
+                            </div>
+
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-gray-500">Valid Until:</span>
+                              <span className="text-sm font-medium text-gray-800">
+                                {new Date(offer.validUntil).toLocaleDateString()}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="mt-6 flex gap-2">
+                            <button
+                              className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                offer.isActive
+                                  ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
+                                  : "bg-green-100 text-green-800 hover:bg-green-200"
+                              }`}
+                              onClick={() => toggleOfferStatus(offer.id)}
+                            >
+                              {offer.isActive ? "Deactivate" : "Activate"}
+                            </button>
+                            <button
+                              className="px-4 py-2 bg-red-100 text-red-800 rounded-lg text-sm font-medium hover:bg-red-200 transition-colors"
+                              onClick={() => handleDeleteOffer(offer.id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-12">
+                      <div className="mx-auto h-16 w-16 text-gray-300 mb-4">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1}
+                            d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
+                          />
+                        </svg>
+                      </div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">No offers yet</h3>
+                      <p className="text-gray-500 mb-4">Create your first special offer to attract more customers.</p>
+                      <button
+                        className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-lg hover:from-orange-600 hover:to-red-600 transition-all duration-200"
+                        onClick={() => {
+                          resetOfferForm()
+                          setOfferFormData((prev) => ({ ...prev, planId: selectedPlan.id }))
+                          setShowOfferModal(true)
+                        }}
+                      >
+                        Create First Offer
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-            
+
             <div className="p-6 border-t border-gray-200 flex flex-wrap gap-3 justify-end">
               <button
                 className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200"
@@ -1285,9 +1632,7 @@ const Page = () => {
         <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800">
-                {updateMode ? "Update Plan" : "Create New Plan"}
-              </h2>
+              <h2 className="text-2xl font-bold text-gray-800">{updateMode ? "Update Plan" : "Create New Plan"}</h2>
             </div>
 
             <div className="p-6">
@@ -1304,7 +1649,7 @@ const Page = () => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Plan Name *</label>
                     <input
@@ -1315,7 +1660,7 @@ const Page = () => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Status *</label>
                     <select
@@ -1329,7 +1674,7 @@ const Page = () => {
                       <option value="Inactive">Inactive (Draft)</option>
                     </select>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Regular Price *</label>
                     <input
@@ -1342,7 +1687,7 @@ const Page = () => {
                     />
                   </div>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Sale Price *</label>
@@ -1355,7 +1700,7 @@ const Page = () => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Instalments</label>
                     <input
@@ -1366,7 +1711,7 @@ const Page = () => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                     <textarea
@@ -1380,7 +1725,7 @@ const Page = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="mt-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Features</label>
                 <textarea
@@ -1400,7 +1745,7 @@ const Page = () => {
                 onClick={handleCreatePlan}
                 disabled={isLoading}
               >
-                {isLoading ? "Processing..." : (updateMode ? "Update Plan" : "Create Plan")}
+                {isLoading ? "Processing..." : updateMode ? "Update Plan" : "Create Plan"}
               </button>
               <button
                 className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
@@ -1412,8 +1757,115 @@ const Page = () => {
           </div>
         </div>
       )}
-    </div>
-  );
-};
 
-export default Page;
+      {/* Create Offer Modal */}
+      {showOfferModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-800">Create Special Offer</h2>
+              <p className="text-gray-600">For: {selectedPlan?.planName}</p>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Offer Title *</label>
+                <input
+                  name="title"
+                  value={offerFormData.title}
+                  onChange={handleOfferChange}
+                  placeholder="e.g., Summer Sale, Black Friday Deal"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Description *</label>
+                <textarea
+                  name="description"
+                  value={offerFormData.description}
+                  onChange={handleOfferChange}
+                  placeholder="Describe your offer..."
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Discount Percentage *</label>
+                <input
+                  name="discountPercentage"
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={offerFormData.discountPercentage}
+                  onChange={handleOfferChange}
+                  placeholder="e.g., 25"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+
+              {offerFormData.discountPercentage > 0 && selectedPlan && (
+                <div className="bg-orange-50 p-4 rounded-lg">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Original Price:</span>
+                    <span className="text-sm line-through text-gray-500">₹{selectedPlan.PriceAfterDiscount}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Offer Price:</span>
+                    <span className="text-lg font-bold text-orange-600">₹{offerFormData.offerPrice?.toFixed(0)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">You Save:</span>
+                    <span className="text-sm font-semibold text-green-600">
+                      ₹{(selectedPlan.PriceAfterDiscount - (offerFormData.offerPrice || 0)).toFixed(0)}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Valid Until</label>
+                <input
+                  name="validUntil"
+                  type="date"
+                  value={offerFormData.validUntil}
+                  onChange={handleOfferChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  name="isActive"
+                  type="checkbox"
+                  checked={offerFormData.isActive}
+                  onChange={handleOfferChange}
+                  className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                />
+                <label className="ml-2 block text-sm text-gray-700">Activate offer immediately</label>
+              </div>
+            </div>
+
+            <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
+              <button
+                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg hover:from-orange-600 hover:to-red-600 transition-colors duration-200"
+                onClick={handleCreateOffer}
+              >
+                Create Offer
+              </button>
+              <button
+                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                onClick={() => setShowOfferModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default Page

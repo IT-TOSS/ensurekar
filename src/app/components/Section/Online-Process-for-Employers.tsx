@@ -49,7 +49,7 @@ const OnlineProcessforEmployers = ({OnlineProcessData}:{OnlineProcessData:Online
                         <li className="md:max-w-[200px] mb-5  mr-2" key={index}>
                             <div className="flex justify-start  items-start gap-2">
                                 <span className="block bg-white rounded-full p-3 text-s1 text-2xl">
-                                    {/* <i className="ph-fill ph-device-mobile"></i> */}
+                                    <i className="ph-fill ph-device-mobile"></i>
                                     {process.icon}
                                 </span>
                                 {process.text}

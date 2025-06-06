@@ -2,13 +2,14 @@ import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services
 import WhoConsidered from "@/app/components/Section/Who-Considered";
 import React from "react";
 // import healthcare_section_img from "../../../../images/healthcare_section_img.png";
-import healthcare_section_img from "../../../../images/Shop Act License Introduced.npm.jpeg";
+import healthcare_section_img from "../../../../images/shop-and-establishment-registration/main Image1.png";
 import BenefitSection from "@/app/components/Section/Benefit-Section";
 import DocumentsRequired from "@/app/components/Section/Documents-Required";
 import OnlineProcessforEmployers from "@/app/components/Section/Online-Process-for-Employers";
 import WhyEnsurekarSection from "@/app/components/Section/Why-Ensurekar-All-Services";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
-import faq_illus from "../../../../images/faq_illus.png";
+// import faq_illus from "../../../../images/faq_illus.png";
+import faq_illus from "../../../../images/shop-and-establishment-registration/Any additional business licenses required for operation –.png";
 import TestimonialSectionAllServices from "@/app/components/Section/Testimonial-Section-All-Services";
 import testimonial10 from "../../../../images/testimonial10.png";
 import testimonial9 from "../../../../images/testimonial9.png";
@@ -24,6 +25,8 @@ import productImage from "../../../../images/recent_post_img1.png";
 import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
+
+import EmpowerStates from "../../../../images/shop-and-establishment-registration/Empower States.png";
 
 const ShopandEstablishmentRegistration = () => {
   const BreadcrumbData = {

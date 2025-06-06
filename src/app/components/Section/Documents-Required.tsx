@@ -1,7 +1,8 @@
 import Image from "next/image";
 import React from "react";
 // import manage_health_section_img from "../../images/manage_health_section_img.png"; 
-import manage_health_section_img from "../../images/Documents For Shop and Establishment Registration.png.jpeg";
+// import manage_health_section_img from "../../images/Documents For Shop and Establishment Registration.png.jpeg";
+import manage_health_section_img from "../../images/shop-and-establishment-registration/main2-removebg-preview.png";
 interface DocumentsRequiredData {
   title: string;
   heading: string;
