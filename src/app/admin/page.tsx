@@ -58,14 +58,14 @@ const Dashboard = () => {
       textColor: "text-white",
       url:"/admin/package"
     },
-    {
-      title: "User Registrations",
-      value: "44",
-      icon: ShoppingBag,
-      color: "bg-gradient-to-r from-yellow-500 to-orange-500",
-      textColor: "text-white",
-      url:"/admin/profile"
-    },
+    // {
+    //   title: "User Registrations",
+    //   value: "44",
+    //   icon: ShoppingBag,
+    //   color: "bg-gradient-to-r from-yellow-500 to-orange-500",
+    //   textColor: "text-white",
+    //   url:"/admin/profile"
+    // },
     {
       title: "All Admin",
       value: "65",

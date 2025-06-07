@@ -543,7 +543,7 @@ const PlansSection = ({ planData }: { planData: planData }) => {
     const {
         heading,
         description,
-        plansData,
+        // plansData,
         defaultState,
         defaultPlan,
     } = planData;
@@ -551,8 +551,8 @@ const PlansSection = ({ planData }: { planData: planData }) => {
     const [selectedState, setSelectedState] = useState(defaultState);
     const [selectPlan, setSelectPlane] = useState(defaultPlan);
 
-    const plan = plansData.find((plan) => plan.state === selectedState);
-    const plans = plan?.plans.filter((plan) => plan.isActive);
+    // const plan = plansData.find((plan) => plan.state === selectedState);
+    // const plans = plan?.plans.filter((plan) => plan.isActive);
 
     const WC_API_CONFIG = {
         baseUrl: "https://edueye.co.in/ensurekar/wp-json/wc/v3",
@@ -589,6 +589,7 @@ const PlansSection = ({ planData }: { planData: planData }) => {
             offers: offers,
         }
     }
+    const [gotPlansData, setGotPlansData] = useState<PackageData[]>([]);
 
 
     useEffect(() => {
@@ -614,6 +615,7 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                 const filterdata = mappedPlans.filter((product: any) => product.Page === "page1")
                 //   setPlans(mappedPlans)
                 console.log("Fetched plans:", filterdata)
+                setGotPlansData(filterdata);
             } catch (error) {
                 console.error("Failed to fetch plans:", error)
                 alert("Failed to fetch plans. Please check your API credentials and try again.")
@@ -624,7 +626,7 @@ const PlansSection = ({ planData }: { planData: planData }) => {
 
         fetchPlans();
     }, []);
-
+    console.log("plans", gotPlansData);
 
     const handleBuy = async (plan: any) => {
 
@@ -637,25 +639,27 @@ const PlansSection = ({ planData }: { planData: planData }) => {
         //       console.log(plan);
         //   }
     };
-    useEffect(() => {
-        const plan = plansData.find((plan) => plan.state === selectedState);
-        setPlansData(plan?.plans.filter((plan) => plan.isActive) || []);
-    }, [selectedState, plansData]);
-    const [gotPlansData, setPlansData] = useState(plans || []);
+    // useEffect(() => {
+    //     const plan = plansData.find((plan) => plan.state === selectedState);
+    //     setPlansData(plan?.plans.filter((plan) => plan.isActive) || []);
+    // }, [selectedState, plansData]);
+    // const [gotPlansData, setPlansData] = useState([] as PackageData[]);
+    // setPlansData(plans);
+    console.log("gotPlansData", gotPlansData);
 
-    const [splitPaymentStates, setSplitPaymentStates] = useState(
-        plansData.reduce((acc, plan) => {
-            acc[plan.id] = false;
-            return acc;
-        }, {} as { [key: number]: boolean })
-    );
+    // const [splitPaymentStates, setSplitPaymentStates] = useState(
+    //     plansData.reduce((acc, plan) => {
+    //         acc[plan.id] = false;
+    //         return acc;
+    //     }, {} as { [key: number]: boolean })
+    // );
 
-    const handleToggle = (id: number) => {
-        setSplitPaymentStates((prev) => ({
-            ...prev,
-            [id]: !prev[id],
-        }));
-    };
+    // const handleToggle = (id: number) => {
+    //     setSplitPaymentStates((prev) => ({
+    //         ...prev,
+    //         [id]: !prev[id],
+    //     }));
+    // };
 
     const handleStateChange = (selectedOption: any) => {
         setSelectedState(selectedOption.value);
@@ -682,13 +686,13 @@ const PlansSection = ({ planData }: { planData: planData }) => {
             {/* Plan Section */}
             <div className=" max-md:flex flex max-md:flex-col flex-wrap md:flex max-md:gap-[16px]  items-start justify-around">
                 <div className="flex md:hidden justify-between items-center mx-auto  ">
-                    {gotPlansData.map((plan, index: number) => (
+                    {gotPlansData.map((plan) => (
                         <p
                             className={`text-[16px] px-4 py-1 text-[#8095A7] font-medium ${plan.planName === selectPlan
                                 ? "border-b-2 border-[#022B50] font-semibold"
                                 : ""
                                 }`}
-                            key={index}
+                            key={plan.id}
                             onClick={() => handlePlanChange(`${plan.planName}`)}
                         >
                             {plan.planName}
@@ -706,27 +710,28 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                                 {plan.planName}
                             </p>
                             <p className="text-[16px]  md:h-[48px] font-normal group-hover:text-black duration-500 text-[#606162]">
-                                {plan.description}
+                                {plan.instalments}
                             </p>
-                            {plan.recommendation.recommended && (
+                            {plan.Description && (
                                 <div className="flex flex-col mb-1">
                                     <p className="text-[14px] text-[#606162]">
-                                        {plan.recommendation.text}
+                                        {/* {plan.Description} */}
                                     </p>
                                 </div>
                             )}
                             <div className="flex gap-3 items-center">
                                 <div className="relative w-fit">
                                     <p className="text-[12px] md:text-[16px] group-hover:text-gray-600 font-medium">
-                                        {plan.plan.price}
+                                        {plan.Price}
                                     </p>
                                     <div className="border-b-[1px] translate-y-[-40%] md:top-[11px] rotate-[-16deg] border-[#E83E3E] w-full absolute top-[9px]"></div>
                                 </div>
-                                {plan.plan.discount && (
+                                {plan.PriceAfterDiscount && (
                                     <div className="flex w-fit gap-[4px] bg-[#ECF8EB] rounded-lg px-[8px] p-2">
                                         <PiSealPercent size={14} color="#2cdb14" />
                                         <p className="text-[10px] text-[#3EB837]">
-                                            {plan.plan.discount}
+                                            {/* {plan.PriceAfterDiscount} */}
+                                              {(((plan.Price - plan.PriceAfterDiscount) / plan.Price) * 100).toFixed(2)} % off
                                         </p>
                                     </div>
                                 )}
@@ -736,16 +741,16 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                             <div className="md:min-h-[95px]">
                                 <div className="flex gap-4 items-end">
                                     <p className="text-[32px] md:text-[46px] font-semibold text-[#171717]">
-                                        {plan.plan.afterDiscount}
+                                        {plan.PriceAfterDiscount}
                                     </p>
                                 </div>
-                                {(plan.plan.laterPaid.amount || plan.plan.laterPaid.text) && (
+                                {(plan.Description || plan.Description) && (
                                     <div className="flex flex-row pb-[16px] items-center ">
                                         <p className="text-[18px] text-[#8095A7] group-hover:text-gray-700 duration-500 font-medium">
-                                            {plan.plan.laterPaid.amount} {plan.plan.laterPaid.text}
+                                            {plan.Description.replace(/<[^>]*>/g, '')}
                                         </p>
 
-                                        <div
+                                        {/* <div
                                             className="relative flex group"
                                             title={plan.plan.laterPaid.iconInfo.text}
                                         > {plan.plan.laterPaid.amount && (
@@ -755,13 +760,13 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                                                 className="mx-1 cursor-pointer"
                                             />
                                         )}
-                                        </div>
+                                        </div> */}
 
 
                                     </div>
                                 )}
 
-                                {plan.plan.splitPayment.enabled && (
+                                {/* {plan.plan.splitPayment.enabled && (
                                     <div className="flex gap-[6px]  items-center md:gap-[10px]">
                                         <div
                                             className="flex items-center cursor-pointer"
@@ -779,7 +784,7 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                                                 ></div>
                                             </div>
                                         </div>
-                                        <div className="flex items-center">
+                                        {/* <div className="flex items-center">
                                             <p className="text-[12px] md:text-[14px] text-[#606162] font-medium ">
                                                 {splitPaymentStates[Number(plan.plan.id)]
                                                     ? `₹${(
@@ -800,20 +805,20 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                                                     </a>
                                                 ) : null}
                                             </p>
-                                        </div>
+                                        </div> *}
                                     </div>
-                                )}
+                                )} */}
 
                                 <div className=" flex flex-col">
-                                    {plan.plan.offers.map((offer, index) => (
+                                    {plan.offers?.map((offer) => (
                                         <>
                                             {offer.isActive && (
                                                 <div className="flex flex-col rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105">
                                                     <div
-                                                        key={index}
+                                                        key={offer.id}
                                                         className="flex flex-col gap-2 border px-6 py-8 bg-gradient-to-r from-blue-500 to-blue-300 "
                                                     >
-                                                        {offer.imageUrl && (
+                                                        {/* {offer.imageUrl && (
                                                             <div>
                                                                 <Image
                                                                     src={offer.imageUrl}
@@ -821,24 +826,30 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                                                                     className="w-full h-[50px] rounded-full"
                                                                 />
                                                             </div>
-                                                        )}
+                                                        )} */}
 
                                                         <div>
                                                             <h3 className="text-xl text-start font-extrabold text-white">
-                                                                {offer.heading}
+                                                                {offer.title}
                                                             </h3>
                                                             <h3 className="text-start  font-extrabold text-white">
-                                                                {offer.subHeading}
-                                                            </h3>
-                                                            <p className="text-[14px] text-white group-hover:text-gray-700 duration-500">
                                                                 {offer.description}
+                                                            </h3>
+                                                            <p className="text-[16px] text-green group-hover:text-gray-700 duration-500">
+                                                                Discount: {offer.discountPercentage}%
+                                                            </p>
+                                                            <p>
+                                                                {offer.validUntil}
+                                                            </p>
+                                                            <p>
+                                                                {offer.offerPrice}
                                                             </p>
 
-                                                            {offer && offer.knowMore.text && (
+                                                            {/* {offer && offer.knowMore.text && (
                                                                 <Link href={offer.knowMore.link || "#"}>
                                                                     {offer.knowMore.text}
                                                                 </Link>
-                                                            )}
+                                                            )} */}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -863,15 +874,17 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                                 </div>
 
                                 <div className="flex flex-col gap-2">
-                                    {plan.features.heading.map((feature, index) => (
+                                    {plan.Features && ( (
                                         <p
-                                            key={index}
+                                            key={plan.Features}
                                             className="text-[16px] font-semibold mt-4 text-[#171717]"
                                         >
-                                            {feature}
+                                            {/* {plan.Features} */}
+                                            What you will get
                                         </p>
                                     ))}
-                                    {plan.features.feature.map((feature, index) => (
+
+                                    {/* {plan.features.feature.map((feature, index) => (
                                         <div
                                             key={index}
                                             className="flex gap-1 items-center justify-start"
@@ -885,10 +898,25 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                                                 {feature}
                                             </p>
                                         </div>
+                                    ))} */}
+                                    {plan.Features.split(',').map((feature, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex gap-1 items-center justify-start"
+                                        >
+                                            <div className="w-[25px] h-[25px] items-center flex">
+                                                {" "}
+                                                <Check color="#2cdb14" size={23} weight="bold" />
+                                            </div>
+
+                                            <p className="text-[14px] text-[#606162] group-hover:text-gray-700 duration-500">
+                                                {feature.trim()}
+                                            </p>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
-                            {plan.happyText && (
+                            {/* {plan.happyText && (
                                 <div className="my-5">
                                     <h5 className="heading-7 font-bold group-hover:text-black-800 text-bodyText">
                                         {plan.happyText}
@@ -902,7 +930,7 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                                     </h5>
                                     <p className="inline">{plan.note.description}</p>
                                 </div>
-                            )}
+                            )} */}
                         </div>
                     ))}
                 </div>

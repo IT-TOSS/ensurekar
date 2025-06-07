@@ -304,11 +304,11 @@ const LoggedNavbar = () => {
           <LogOut size={20} /> Logout
         </button>
         <div className="flex items-center justify-between text-sm text-gray-700 dark:text-white">
-          <Link href="/admind" className="flex items-center gap-1">
-            <Home size={16} /> Home
+          <Link href="/admin" className="flex items-center gap-1 text-black">
+            <Home size={16} className="text-black"  /> Home
           </Link>
-          <span>|</span>
-          <span>v1.0</span>
+          <span className="text-black">|</span>
+          <span className="text-black">v1.0</span>
         </div>
       </div>
     </div>
