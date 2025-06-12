@@ -1,3 +1,4 @@
+"use client";
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import PlansSection from "@/app/components/Section/Plans-Section";
 import ServiceOverview from "@/app/components/Section/Service-Overview";
@@ -28,6 +29,7 @@ import ReducedComplianceRequirements  from "../../../images/One Person Company/R
 import SimplifiedIntegration  from "../../../images/One Person Company/Simplified Integration.png";
 import EffortlessManagement  from "../../../images/One Person Company/Effortless Management.png";
 import PerpetualSuccession  from "../../../images/One Person Company/Perpetual Successio.png";
+import { useRef } from "react";
 
 
 
@@ -1062,10 +1064,21 @@ const OnePersonCompany = () => {
       },
     ],
   };
+    const plansRef = useRef<HTMLDivElement | null>(null); 
+    const scrollToPlans = () => {
+      if (plansRef.current) {
+        plansRef.current.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    };
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans} />
+      <div ref={plansRef} id="plans" className="plans-section">
       <PlansSection planData={planData} />
+      </div>
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
       <RegisterSteps RegisterSteps={RegisterStepsData} />
@@ -1077,3 +1090,4 @@ const OnePersonCompany = () => {
 };
 
 export default OnePersonCompany;
+

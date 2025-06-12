@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import faq_illus from "../../../images/faq_illus.png";
 import Rocket_With_Men from "../../../images/SGV-Types/Rocket-With-Men.svg";
@@ -1222,10 +1222,23 @@ const LimitedLiabilityPartnershipRegistration = () => {
       },
     ],
   };
+
+    const plansRef = useRef<HTMLDivElement | null>(null); 
+    const scrollToPlans = () => {
+      if (plansRef.current) {
+        plansRef.current.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    };
   return (
     <div>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans} />
+
+      <div ref={plansRef} id="plans" className="plans-section">
       <PlansSection planData={planData} />
+      </div>
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />

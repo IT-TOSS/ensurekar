@@ -7,7 +7,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { div } from "framer-motion/client";
 import axios from "axios";
-
+import { addToCart } from "@/store/store";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import productImage from "../../images/recent_post_img1.png";
 
 
 
@@ -539,6 +542,10 @@ const planData = {
 
 };
 
+
+
+
+
 const PlansSection = ({ planData }: { planData: planData }) => {
     const {
         heading,
@@ -548,8 +555,37 @@ const PlansSection = ({ planData }: { planData: planData }) => {
         defaultPlan,
     } = planData;
 
+
+    const dispatch = useDispatch();
+    const router = useRouter();
+
+
     const [selectedState, setSelectedState] = useState(defaultState);
     const [selectPlan, setSelectPlane] = useState(defaultPlan);
+
+    const handlePlanSelection = (planId: string, planName: string, price: string) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo') || 'null');
+    console.log("User Info:", userInfo); 
+    const numericPrice = parseFloat(price.replace(/[₹,]/g, ''));
+     const selectedPlan = {
+       id: `income-tax-plan-${planId}`,
+       name: `Income Tax Return Filing - ${planName}`,
+       price: numericPrice,
+       quantity: 1,
+       subtotal: numericPrice,
+       image: productImage
+     };
+     dispatch(addToCart(selectedPlan));
+    if (userInfo && userInfo.email) 
+    {
+      router.push("/cart");
+ 
+    } else {
+    console.log("User is not logged in. Redirecting to login page.");
+    localStorage.setItem("redirectAfterLogin", "/cart");
+    router.push("/Login");
+    }
+  };
 
     // const plan = plansData.find((plan) => plan.state === selectedState);
     // const plans = plan?.plans.filter((plan) => plan.isActive);
@@ -627,6 +663,8 @@ const PlansSection = ({ planData }: { planData: planData }) => {
         fetchPlans();
     }, []);
     console.log("plans", gotPlansData);
+
+    onSelect: () => handlePlanSelection("2", "Fastrack", "₹1,999")
 
     const handleBuy = async (plan: any) => {
 

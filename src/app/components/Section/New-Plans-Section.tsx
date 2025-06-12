@@ -2069,12 +2069,13 @@ const PricingPlans: React.FC<PricingPlansProps> = ({
     // If plan has onSelect function, call it
     if (plan.onSelect) {
       plan.onSelect();
-    } else {
+    } 
+    // else {
       // Navigate to plan's URL if available
-      if (plan.navigationUrl) {
-        window.location.href = plan.navigationUrl;
-      }
-    }
+    //   if (plan.navigationUrl) {
+    //     window.location.href = plan.navigationUrl;
+    //   }
+    // }
   };
 
   const toggleView = (id: number | null) => {

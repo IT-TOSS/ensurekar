@@ -51,26 +51,6 @@ const Page = () => {
 
   // Function to handle plan selection and add to cart
 
-  // const handlePlanSelection = (planId: string, planName: string, price: string) => {
-  //   const numericPrice = parseFloat(price.replace(/[₹,]/g, ''));
-    
-  //   const selectedPlan = {
-  //     id: `income-tax-plan-${planId}`,
-  //     name: `Income Tax Return Filing - ${planName}`,
-  //     price: numericPrice,
-  //     quantity: 1,
-  //     subtotal: numericPrice,
-  //     image: productImage
-  //   };
-    
-  //   // Add plan to cart
-  //   dispatch(addToCart(selectedPlan));
-
-
-    
-  //   // Redirect to cart page
-  //   router.push("/cart");
-  // };
 
   // reimplementing the handlePlanSelection function to include the planId in the cart item ID
 

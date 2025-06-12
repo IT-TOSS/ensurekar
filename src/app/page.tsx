@@ -43,9 +43,20 @@ const BlogSection = lazy(() => import("./components/Section/Blog-Section"));
 const GotQuestionsSection = lazy(
   () => import("./components/Section/Got-Questions-Section")
 );
-import logo1 from "./images/logo1.png";
-import logo2 from "./images/logo2.png";
-import logo3 from "./images/logo3.png";
+import logo1 from "./images/Compliances/1.png";///images/logo1.png";
+import logo2 from "./images/Compliances/2.png"//./images/logo2.png";
+import logo3 from "./images/Compliances/3.png"//"./images/logo3.png";
+import logo4 from "./images/Compliances/4.png";
+import logo5 from "./images/Compliances/5.png";
+import logo6 from "./images/Compliances/6.png";
+import logo7 from "./images/Compliances/7.png";
+import logo8 from "./images/Compliances/8.png";
+import logo9 from "./images/Compliances/9.png";
+import logo10 from "./images/Compliances/10.png";
+
+import logo11 from "./images/logo1.png";
+import logo12 from "./images/logo2.png";
+import logo13 from "./images/logo3.png";
 import { FileText, LightbulbFilament, RocketLaunch } from "phosphor-react";
 import { HandCoins } from "lucide-react";
 import CTASection from "./components/Section/CTA-Section";
@@ -65,31 +76,31 @@ export default function Home() {
       { src: logo1, alt: "logo1" },
       { src: logo2, alt: "logo2" },
       { src: logo3, alt: "logo3" },
+      { src: logo4, alt: "logo4" },
+      { src: logo5, alt: "logo5" },
+      { src: logo6, alt: "logo6" },
+      { src: logo7, alt: "logo7" },
+      { src: logo8, alt: "logo8" },
+      { src: logo9, alt: "logo9" },
+      { src: logo10, alt: "logo10" },
       { src: logo1, alt: "logo1" },
-      { src: logo2, alt: "logo2" },
-      { src: logo3, alt: "logo3" },
-      { src: logo1, alt: "logo1" },
-      { src: logo2, alt: "logo2" },
-      { src: logo3, alt: "logo3" },
-      { src: logo3, alt: "logo3" },
-      { src: logo2, alt: "logo2" },
     ],
   };
   const SliderData = {
     heading: "Business and customer with us",
     subHeading: "",
     images: [
-      { src: logo1, alt: "logo1" },
-      { src: logo2, alt: "logo2" },
-      { src: logo3, alt: "logo3" },
-      { src: logo1, alt: "logo1" },
-      { src: logo2, alt: "logo2" },
-      { src: logo3, alt: "logo3" },
-      { src: logo1, alt: "logo1" },
-      { src: logo2, alt: "logo2" },
-      { src: logo3, alt: "logo3" },
-      { src: logo3, alt: "logo3" },
-      { src: logo2, alt: "logo2" },
+      { src: logo11, alt: "logo1" },
+      { src: logo12, alt: "logo2" },
+      { src: logo13, alt: "logo3" },
+      { src: logo11, alt: "logo1" },
+      { src: logo12, alt: "logo2" },
+      { src: logo13, alt: "logo3" },
+      { src: logo11, alt: "logo1" },
+      { src: logo12, alt: "logo2" },
+      { src: logo13, alt: "logo3" },
+      { src: logo13, alt: "logo3" },
+      { src: logo12, alt: "logo2" },
     ],
   };
   const SolutionData = {
