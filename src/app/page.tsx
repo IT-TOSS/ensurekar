@@ -82,8 +82,7 @@ export default function Home() {
       { src: logo7, alt: "logo7" },
       { src: logo8, alt: "logo8" },
       { src: logo9, alt: "logo9" },
-      { src: logo10, alt: "logo10" },
-      { src: logo1, alt: "logo1" },
+      { src: logo10, alt: "logo10" }
     ],
   };
   const SliderData = {
