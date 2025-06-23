@@ -59,7 +59,7 @@ import fs from "fs";
 import crypto from "crypto";
 import axios from "axios";
 
-const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; // Replace with actual key
+const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; // Replace with your actual key
 
 function decrypt(encryptedText, key) {
   const decodedEncryptedText = Buffer.from(encryptedText, "base64");
@@ -71,29 +71,35 @@ function decrypt(encryptedText, key) {
 }
 
 export async function POST(request) {
-  const formData = await request.formData();
-  const encResponse = formData.get("encResp") || "";
-
-  fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
-
-  const rcvdString = decrypt(encResponse, workingKey);
-
-  const responseArray = {};
-  rcvdString.split("&").forEach((pair) => {
-    const [key, value] = pair.split("=");
-    responseArray[key] = decodeURIComponent(value);
-  });
-
-  fs.appendFileSync("log.txt", "DECRYPTED: " + JSON.stringify(responseArray) + "\n");
-
-  const pabblyURL =
-    "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
-
   try {
-    await axios.post(pabblyURL, responseArray);
+    const formData = await request.formData();
+    const encResponse = formData.get("encResp") || "";
+
+    fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
+
+    const rcvdString = decrypt(encResponse, workingKey);
+    fs.appendFileSync("log.txt", "DECRYPTED STRING RAW: " + rcvdString + "\n");
+
+    const responseArray = {};
+    rcvdString.split("&").forEach((pair) => {
+      const [key, value] = pair.split("=");
+      responseArray[key] = decodeURIComponent(value);
+    });
+
+    fs.appendFileSync("log.txt", "DECRYPTED OBJECT: " + JSON.stringify(responseArray) + "\n");
+
+    const pabblyURL =
+      "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
+
+    // Send as application/x-www-form-urlencoded
+    await axios.post(pabblyURL, new URLSearchParams(responseArray));
+
     return Response.json({ message: "Success", data: responseArray });
   } catch (error) {
-    console.error(error);
-    return Response.json({ message: "Error sending to Pabbly" }, { status: 500 });
+    console.error("Error occurred:", error?.response?.data || error.message || error);
+    return Response.json(
+      { message: "Error processing request", error: error?.message || "Unknown error" },
+      { status: 500 }
+    );
   }
 }
