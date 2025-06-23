@@ -1,4 +1,3 @@
-
 "use client"
 import { useState, useEffect } from "react"
 
@@ -13,6 +12,15 @@ interface PackageData {
   Features: string
   Page: string
   offers?: OfferData[]
+  navigationUrl?: string
+  onSelect?: () => void
+  // New fields for onSelect configuration
+  enableSelectButton?: boolean
+  selectButtonText?: string
+  customPlanId?: string
+  customPlanName?: string
+  customPrice?: string
+  actionType?: "navigate" | "function" | "both"
 }
 
 interface OfferData {
@@ -55,6 +63,14 @@ const Page = () => {
     Features: "",
     Page: "",
     offers: [],
+    navigationUrl: "/cart",
+    onSelect: undefined,
+    enableSelectButton: true,
+    selectButtonText: "Select Plan",
+    customPlanId: "",
+    customPlanName: "",
+    customPrice: "",
+    actionType: "both",
   })
 
   const [offerFormData, setOfferFormData] = useState<OfferData>({
@@ -94,6 +110,54 @@ const Page = () => {
             offerPrice: 560,
           },
         ],
+        navigationUrl: "/cart",
+        onSelect: () => handlePlanSelection("1", "Premium Plan", "₹800"),
+        enableSelectButton: true,
+        selectButtonText: "Choose Premium",
+        customPlanId: "1",
+        customPlanName: "Premium Plan",
+        customPrice: "₹800",
+        actionType: "both",
+      },
+      {
+        id: "2",
+        planName: "Multiple Employer Plan",
+        Status: "Active",
+        Description: "Perfect for multiple employers",
+        Price: 1200,
+        PriceAfterDiscount: 999,
+        instalments: "6 months",
+        Features: "Multi-employer support, Advanced features, Priority support",
+        Page: "Business",
+        offers: [],
+        navigationUrl: "/checkout",
+        onSelect: () => handlePlanSelection("2", "Multiple Employer Plan", "₹999"),
+        enableSelectButton: true,
+        selectButtonText: "Select Business Plan",
+        customPlanId: "2",
+        customPlanName: "Multiple Employer Plan",
+        customPrice: "₹999",
+        actionType: "both",
+      },
+      {
+        id: "3",
+        planName: "Basic Plan",
+        Status: "Active",
+        Description: "Great for getting started",
+        Price: 500,
+        PriceAfterDiscount: 399,
+        instalments: "1 month",
+        Features: "Basic features, Email support, Standard access",
+        Page: "Starter",
+        offers: [],
+        navigationUrl: "/payment",
+        onSelect: () => handlePlanSelection("3", "Basic Plan", "₹399"),
+        enableSelectButton: true,
+        selectButtonText: "Get Started",
+        customPlanId: "3",
+        customPlanName: "Basic Plan",
+        customPrice: "₹399",
+        actionType: "both",
       },
     ]
   }, [])
@@ -154,6 +218,34 @@ const Page = () => {
           key: "_plan_offers",
           value: JSON.stringify(planData.offers || []),
         },
+        {
+          key: "_plan_navigation_url",
+          value: planData.navigationUrl || "/cart",
+        },
+        {
+          key: "_plan_enable_select_button",
+          value: planData.enableSelectButton ? "true" : "false",
+        },
+        {
+          key: "_plan_select_button_text",
+          value: planData.selectButtonText || "Select Plan",
+        },
+        {
+          key: "_plan_custom_plan_id",
+          value: planData.customPlanId || planData.id,
+        },
+        {
+          key: "_plan_custom_plan_name",
+          value: planData.customPlanName || planData.planName,
+        },
+        {
+          key: "_plan_custom_price",
+          value: planData.customPrice || `₹${planData.PriceAfterDiscount}`,
+        },
+        {
+          key: "_plan_action_type",
+          value: planData.actionType || "both",
+        },
       ],
     }
   }
@@ -174,6 +266,21 @@ const Page = () => {
       offers = []
     }
 
+    // Add navigation URL and onSelect function
+    const navigationUrl = getMetaValue("_plan_navigation_url") || "/cart"
+    const enableSelectButton = getMetaValue("_plan_enable_select_button") === "true"
+    const selectButtonText = getMetaValue("_plan_select_button_text") || "Select Plan"
+    const customPlanId = getMetaValue("_plan_custom_plan_id") || product.id.toString()
+    const customPlanName = getMetaValue("_plan_custom_plan_name") || product.name || ""
+    const customPrice =
+      getMetaValue("_plan_custom_price") ||
+      `₹${Number.parseFloat(product.sale_price) || Number.parseFloat(product.regular_price) || 0}`
+    const actionType = getMetaValue("_plan_action_type") || "both"
+
+    const onSelect = enableSelectButton
+      ? () => handlePlanSelection(customPlanId, customPlanName, customPrice)
+      : undefined
+
     return {
       id: product.id.toString(),
       planName: product.name || "",
@@ -185,6 +292,14 @@ const Page = () => {
       Features: getMetaValue("_plan_features") || "",
       Page: getMetaValue("_plan_page") || product.categories?.[0]?.name || "",
       offers: offers,
+      navigationUrl: navigationUrl,
+      onSelect: onSelect,
+      enableSelectButton: enableSelectButton,
+      selectButtonText: selectButtonText,
+      customPlanId: customPlanId,
+      customPlanName: customPlanName,
+      customPrice: customPrice,
+      actionType: actionType,
     }
   }
 
@@ -412,6 +527,14 @@ const Page = () => {
       Features: "",
       Page: "",
       offers: [],
+      navigationUrl: "/cart",
+      onSelect: undefined,
+      enableSelectButton: true,
+      selectButtonText: "Select Plan",
+      customPlanId: "",
+      customPlanName: "",
+      customPrice: "",
+      actionType: "both",
     })
   }
 
@@ -476,7 +599,7 @@ const Page = () => {
       setSelectedPlan(updatedPlan)
       alert("Offer deleted successfully!")
     } catch (error) {
-      alert(`Failed to delete offer: ${error instanceof Error ? error.message : "Unknown error"}`)
+      alert(`Failed to create offer: ${error instanceof Error ? error.message : "Unknown error"}`)
     }
   }
 
@@ -514,6 +637,23 @@ const Page = () => {
     return activeOffers.reduce((best, current) =>
       current.discountPercentage > best.discountPercentage ? current : best,
     )
+  }
+
+  // ✅ NEW FUNCTION ADDED - This is the function you requested
+  const handlePlanSelection = (planId: string, planName: string, price: string) => {
+    console.log("Plan selected:", { planId, planName, price })
+    // You can add additional logic here such as:
+    // - Navigate to checkout
+    // - Update selected plan state
+    // - Show confirmation modal
+    // - Add to cart functionality
+
+    // Example: Update selected plan
+    const selectedPlan = plans.find((plan) => plan.id === planId)
+    if (selectedPlan) {
+      setSelectedPlan(selectedPlan)
+      // Additional actions can be added here
+    }
   }
 
   return (
@@ -656,12 +796,22 @@ const Page = () => {
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-center">
-                          <button
-                            className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
-                            onClick={() => handleViewPlan(plan)}
-                          >
-                            View Details
-                          </button>
+                          <div className="flex gap-2 justify-center">
+                            <button
+                              className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                              onClick={() => handleViewPlan(plan)}
+                            >
+                              View Details
+                            </button>
+                            {plan.onSelect && plan.enableSelectButton && (
+                              <button
+                                className="bg-green-100 hover:bg-green-200 text-green-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                                onClick={plan.onSelect}
+                              >
+                                {plan.selectButtonText || "Select Plan"}
+                              </button>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     )
@@ -761,7 +911,7 @@ const Page = () => {
                       </div>
 
                       <div>
-                        <label className="text-sm font-medium text-gray-500">Instalments</label>
+                        <label className="text-sm font-medium text-gray-500">Plan name dis.</label>
                         <p className="text-lg text-gray-900">{selectedPlan.instalments}</p>
                       </div>
                     </div>
@@ -1002,7 +1152,7 @@ const Page = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Instalments</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Plan name dis.</label>
                     <input
                       name="instalments"
                       value={formData.instalments}
@@ -1036,6 +1186,131 @@ const Page = () => {
                   rows={4}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 ></textarea>
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-6">
+              <div className="border-t border-gray-200 pt-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Plan Selection Configuration</h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Navigation URL</label>
+                      <input
+                        name="navigationUrl"
+                        value={formData.navigationUrl || ""}
+                        onChange={handleChange}
+                        placeholder="/cart, /checkout, /payment"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Select Button Text</label>
+                      <input
+                        name="selectButtonText"
+                        value={formData.selectButtonText || ""}
+                        onChange={handleChange}
+                        placeholder="Select Plan, Choose Premium, Get Started"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Action Type</label>
+                      <select
+                        name="actionType"
+                        value={formData.actionType || "both"}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="navigate">Navigate Only</option>
+                        <option value="function">Function Only</option>
+                        <option value="both">Both Navigate & Function</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Custom Plan ID (for onSelect)
+                      </label>
+                      <input
+                        name="customPlanId"
+                        value={formData.customPlanId || ""}
+                        onChange={handleChange}
+                        placeholder="Leave empty to use plan ID"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Custom Plan Name (for onSelect)
+                      </label>
+                      <input
+                        name="customPlanName"
+                        value={formData.customPlanName || ""}
+                        onChange={handleChange}
+                        placeholder="Leave empty to use plan name"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Custom Price (for onSelect)
+                      </label>
+                      <input
+                        name="customPrice"
+                        value={formData.customPrice || ""}
+                        onChange={handleChange}
+                        placeholder="₹999, Leave empty to use sale price"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <div className="flex items-center">
+                    <input
+                      name="enableSelectButton"
+                      type="checkbox"
+                      checked={formData.enableSelectButton || false}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, enableSelectButton: e.target.checked }))}
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <label className="ml-2 block text-sm text-gray-700">
+                      Enable "Select Plan" button for this plan
+                    </label>
+                  </div>
+                </div>
+
+                {formData.enableSelectButton && (
+                  <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                    <h4 className="text-sm font-semibold text-blue-800 mb-2">Preview Configuration:</h4>
+                    <div className="text-sm text-blue-700 space-y-1">
+                      <p>
+                        <strong>Button Text:</strong> {formData.selectButtonText || "Select Plan"}
+                      </p>
+                      <p>
+                        <strong>Navigation:</strong> {formData.navigationUrl || "/cart"}
+                      </p>
+                      <p>
+                        <strong>Function Call:</strong> handlePlanSelection("
+                        {formData.customPlanId || formData.id || "ID"}", "
+                        {formData.customPlanName || formData.planName || "Plan Name"}", "
+                        {formData.customPrice || `₹${formData.PriceAfterDiscount || 0}`}")
+                      </p>
+                      <p>
+                        <strong>Action Type:</strong> {formData.actionType || "both"}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

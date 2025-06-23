@@ -1,0 +1,99 @@
+// import fs from "fs";
+// import crypto from "crypto";
+// import axios from "axios";
+
+// const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; // Replace with actual key
+
+// function decrypt(encryptedText, key) {
+//   const decodedEncryptedText = Buffer.from(encryptedText, "base64");
+//   const initVector = Buffer.from([...Array(16).keys()]); // 0 to 15
+//   const decipher = crypto.createDecipheriv("aes-128-cbc", key, initVector);
+//   let decrypted = decipher.update(decodedEncryptedText);
+//   decrypted = Buffer.concat([decrypted, decipher.final()]);
+//   return decrypted.toString();
+// }
+
+// export default async function handler(req, res) {
+//   if (req.method !== "POST") {
+//     return res.status(405).json({ error: "Method Not Allowed  (post)" });
+//   }
+
+//   const rawBody = req.body;
+
+//   fs.appendFileSync("log.txt", "RAW POST: " + JSON.stringify(rawBody) + "\n");
+
+//   const encResponse = rawBody.encResp || "";
+//   const rcvdString = decrypt(encResponse, workingKey);
+
+//   const responseArray = {};
+//   rcvdString.split("&").forEach((pair) => {
+//     const [key, value] = pair.split("=");
+//     responseArray[key] = decodeURIComponent(value);
+//   });
+
+//   fs.appendFileSync("log.txt", "DECRYPTED: " + JSON.stringify(responseArray) + "\n");
+
+//   const pabblyURL =
+//     "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
+
+//   try {
+//     await axios.post(pabblyURL, responseArray);
+//     res.status(200).json({ message: "Success", data: responseArray });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Error sending to Pabbly" });
+//   }
+// }
+
+// export const config = {
+//   api: {
+//     bodyParser: {
+//       sizeLimit: "1mb",
+//       urlencoded: true,
+//     },
+//   },
+// };
+
+
+import fs from "fs";
+import crypto from "crypto";
+import axios from "axios";
+
+const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; // Replace with actual key
+
+function decrypt(encryptedText, key) {
+  const decodedEncryptedText = Buffer.from(encryptedText, "base64");
+  const initVector = Buffer.from([...Array(16).keys()]); // 0 to 15
+  const decipher = crypto.createDecipheriv("aes-128-cbc", key, initVector);
+  let decrypted = decipher.update(decodedEncryptedText);
+  decrypted = Buffer.concat([decrypted, decipher.final()]);
+  return decrypted.toString();
+}
+
+export async function POST(request) {
+  const formData = await request.formData();
+  const encResponse = formData.get("encResp") || "";
+
+  fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
+
+  const rcvdString = decrypt(encResponse, workingKey);
+
+  const responseArray = {};
+  rcvdString.split("&").forEach((pair) => {
+    const [key, value] = pair.split("=");
+    responseArray[key] = decodeURIComponent(value);
+  });
+
+  fs.appendFileSync("log.txt", "DECRYPTED: " + JSON.stringify(responseArray) + "\n");
+
+  const pabblyURL =
+    "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
+
+  try {
+    await axios.post(pabblyURL, responseArray);
+    return Response.json({ message: "Success", data: responseArray });
+  } catch (error) {
+    console.error(error);
+    return Response.json({ message: "Error sending to Pabbly" }, { status: 500 });
+  }
+}

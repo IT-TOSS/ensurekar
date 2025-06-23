@@ -1197,7 +1197,7 @@ const Page = () => {
       <div ref={plansRef} id="plans" className="plans-section">
         <NewPlansSection planData={planData} plansData={plansData} />
         {/* <PlansSection planData={planData} /> */}
-        {/* <Text planData={planData}/> */}
+        {/* <Text planData={planData} page={"page1"} /> */}
         
       </div>
 

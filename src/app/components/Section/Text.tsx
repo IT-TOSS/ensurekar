@@ -11,6 +11,7 @@ import { addToCart } from "@/store/store";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import productImage from "../../images/recent_post_img1.png";
+import PackageLoading from "./PackageLoading";
 
 
 
@@ -25,6 +26,8 @@ interface PackageData {
     Features: string
     Page: string
     offers?: OfferData[]
+    navigationUrl?: string
+   onSelect?: () => void
 }
 interface OfferData {
     id: string
@@ -117,426 +120,7 @@ const planData = {
     },
     description:
         "Ensurekar incorporation experts register over 1500 companies every month.",
-    plansData: [
-        {
-            id: 1,
-            state: "MP",
-            description: "",
-            plans: [
-                {
-                    planName: "Standard",
-                    description: "Perfect for initiating company registration",
-                    isActive: true,
-                    suggestionText: "",
-                    happyText: "",
-                    plan: {
-                        id: "1",
-                        price: "₹1499",
-                        discount: "₹500 off",
-                        afterDiscount: "₹999",
-                        laterPaid: {
-                            amount: "13,726",
-                            text: "+ Govt. Fee (to be paid later)",
-                            iconInfo: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-
-                        offers: [
-                            {
-                                imageUrl: "",
-                                isActive: true,
-                                heading: "offer",
-                                subHeading: "Unlock partner benefits Post",
-                                description: "Post company incorporation worth Rs 4 lakhs",
-                                knowMore: {
-                                    text: "visit here to grab the offer",
-                                    link: "",
-                                },
-                            },
-                        ],
-                        splitPayment: {
-                            enabled: false,
-                            instalments: 2,
-                            instalmentAmount: "₹499.50",
-                            text: "Split payment by 2 month with Zolvit Flex",
-                            knowMore: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-                    },
-                    features: {
-                        heading: ["What you'll get"],
-                        feature: [
-                            "Company Name Reserved in 2-4 Days",
-                            "Digital Signature Certificate (DSC) Issued in 4-7 Days",
-                            " SPICe+ Form Filing Completed in 14 Days",
-                            "Incorporation Certificate Issued in 14-21 Days",
-                            "Company PAN and TAN",
-                            "Director Identification Number (DIN) for Directors",
-                        ],
-                    },
-                    recommendation: {
-                        recommended: true,
-                        text: "",
-                    },
-                },
-                {
-                    planName: "Fastrack",
-                    isActive: true,
-                    description: "Quick company registration in 7 to 14 days",
-                    suggestionText: "",
-                    happyText: "",
-                    plan: {
-                        id: "2",
-                        price: "₹2999",
-                        discount: "50% off",
-                        afterDiscount: "₹1499",
-                        laterPaid: {
-                            amount: "13,726",
-                            text: "+ Govt. Fee (to be paid later)",
-                            iconInfo: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-                        offers: [
-                            {
-                                imageUrl: "",
-                                heading: "",
-                                isActive: false,
-                                subHeading: "Unlock partner benefits Post",
-                                description: "Post company incorporation worth Rs 4 lakhs",
-                                knowMore: {
-                                    text: "",
-                                    link: "",
-                                },
-                            },
-                        ],
-                        splitPayment: {
-                            enabled: true,
-                            instalments: 2,
-                            instalmentAmount: "749.50",
-                            text: "Split payment by 2 month with Zolvit Flex",
-                            knowMore: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-                    },
-                    features: {
-                        heading: ["What you'll get"],
-                        feature: [
-                            "Expert-Guided Process",
-                            "Company Name Reservation in Just 1-2 Days*",
-                            "Digital Signature Certificate (DSC) Issued in 3-4 Days",
-                            "SPICe+ Form Filing Completed in 5-7 Days*",
-                            "Incorporation Certificate Delivered in 7-14 Days",
-                            "Company PAN and TAN",
-                            "Director Identification Number (DIN)",
-                            "Digital Welcome Kit with a Post-Incorporation Compliance Checklist",
-                        ],
-                    },
-                    recommendation: {
-                        recommended: true,
-                        text: "",
-                    },
-                },
-                {
-                    planName: "Premium",
-                    isActive: true,
-                    description:
-                        "Top priority service + annual compliance to keep your business on track",
-                    suggestionText: "",
-                    happyText: "",
-                    plan: {
-                        id: "3",
-                        price: "₹29,999",
-                        discount: "17% off",
-                        afterDiscount: "₹24,999",
-                        laterPaid: {
-                            amount: "13,726",
-                            text: "+ Govt. Fee (to be paid later)",
-                            iconInfo: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-                        offers: [
-                            {
-                                imageUrl: "",
-                                heading: "",
-                                isActive: false,
-                                subHeading: "Unlock partner benefits Post",
-                                description: "Post company incorporation worth Rs 4 lakhs",
-                                knowMore: {
-                                    text: "",
-                                    link: "",
-                                },
-                            },
-                        ],
-                        splitPayment: {
-                            enabled: true,
-                            instalments: 3,
-                            instalmentAmount: "749.50",
-                            text: "Split payment by 3 with Zolvit Flex",
-                            knowMore: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-                    },
-                    features: {
-                        heading: ["What you'll get"],
-                        feature: [
-                            "Expert assisted process",
-                            "Your company name is reserved in just 1 - 2 days*",
-                            "DSC in just 3 - 4 days",
-                            "SPICe+ form filing in 5 - 7 days*",
-                            "Incorporation Certificate in 7 - 14 days",
-                            "Company PAN+TAN",
-                            "DIN for directors",
-                            "Digital welcome kit that includes a checklist of all post-incorporation compliances",
-                            "Appointment of Auditor - ADT 01",
-                            "Issuance of share certificate",
-                            "INC 20 A form filing",
-                            "DIR 3 KYC (For 2 directors)",
-                            "Accounting & Bookkeeping (Up to 100 transactions)",
-                            "Financial statement preparation",
-                            "Accounting software (1-year license)",
-                            "AOC 4, MGT 7 & ADT filing",
-                            "Annual filing (Up to turnover of 20 lakhs)",
-                            "Facilitation of Annual General Meeting",
-                            "Statutory regulations PF, ESI",
-                            "One Year Income Tax filing (Up to turnover of 20 lakhs)",
-                            "30-minute call with a senior CA/CS for your business planning",
-                        ],
-                    },
-                    recommendation: {
-                        recommended: true,
-                        text: "",
-                    },
-                },
-            ],
-        },
-        {
-            id: 2,
-            state: "DL",
-            description: "",
-            plans: [
-                {
-                    planName: "Standard",
-                    description: "Perfect for initiating company registration",
-                    isActive: true,
-                    suggestionText: "",
-                    happyText: "",
-                    plan: {
-                        id: "4",
-                        price: "₹1999",
-                        discount: "₹500 off",
-                        afterDiscount: "₹1499",
-                        laterPaid: {
-                            amount: "13,726",
-                            text: "+ Govt. Fee (to be paid later)",
-                            iconInfo: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-                        offers: [
-                            {
-                                imageUrl: "",
-                                heading: "",
-                                isActive: false,
-                                subHeading: "Unlock partner benefits Post",
-                                description: "Post company incorporation worth Rs 4 lakhs",
-                                knowMore: {
-                                    text: "",
-                                    link: "",
-                                },
-                            },
-                        ],
-                        splitPayment: {
-                            enabled: false,
-                            instalments: 2,
-                            instalmentAmount: "₹499.50",
-                            text: "Split payment by 3 with Zolvit Flex",
-                            knowMore: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-                    },
-                    features: {
-                        heading: ["What you'll get"],
-                        feature: [
-                            "Expert assisted process",
-                            "Your company name is reserved in just 2 - 4 days",
-                            "DSC in just 4 - 7 days",
-                            "SPICe+ form filing in 14 days*",
-                            "Incorporation Certificate in 14 - 21 days",
-                            "Company PAN+TAN",
-                            "DIN for directors",
-                        ],
-                    },
-                    recommendation: {
-                        recommended: true,
-                        text: "",
-                    },
-                },
-                {
-                    planName: "Fastrack",
-                    isActive: true,
-                    description: "Quick company registration in 7 to 14 days",
-                    suggestionText: "",
-                    happyText: "",
-                    plan: {
-                        id: "5",
-                        price: "₹3999",
-                        discount: "50% off",
-                        afterDiscount: "₹1999",
-                        laterPaid: {
-                            amount: "13,726",
-                            text: "+ Govt. Fee (to be paid later)",
-                            iconInfo: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-                        offers: [
-                            {
-                                imageUrl: "",
-                                heading: "",
-                                isActive: false,
-                                subHeading: "Unlock partner benefits Post",
-                                description: "Post company incorporation worth Rs 4 lakhs",
-                                knowMore: {
-                                    text: "",
-                                    link: "",
-                                },
-                            },
-                        ],
-                        splitPayment: {
-                            enabled: false,
-                            instalments: 2,
-                            instalmentAmount: "₹749.50",
-                            text: "Split payment by 3 with Zolvit Flex",
-                            knowMore: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-                    },
-                    features: {
-                        heading: ["What you'll get"],
-                        feature: [
-                            "Expert-Assisted Process",
-                            "Company Name Reservation in 1-2 Days*",
-                            "Digital Signature Certificate (DSC) in 3-4 Days",
-                            "SPICe+ Form Filing in 5-7 Days*",
-                            "Incorporation Certificate Issued in 7-14 Days",
-                            "Company PAN and TAN",
-                            "Director Identification Number (DIN)",
-                            "Appointment of Auditor",
-                            "Issuance of Share Certificates",
-                            "INC 20A Form Filing",
-                            "DIR 3 KYC for 2 Directors",
-                            "Accounting & Bookkeeping (Up to 100 Transactions)",
-                            "Financial Statement Preparation",
-                            "1-Year License for Accounting Software",
-                            "Filing of AOC 4, MGT 7 & ADT 1",
-                            "Annual Filing (For Turnover Up to 20 Lakhs)",
-                            "Facilitation of Annual General Meeting",
-                            "Compliance with PF and ESI Statutory Regulations",
-                            "One-Year Income Tax Filing (For Turnover Up to 20 Lakhs)",
-                            "30-Minute Consultation Call with a Senior CA/CS for Business Planning",
-                        ],
-                    },
-                    recommendation: {
-                        recommended: true,
-                        text: "",
-                    },
-                },
-                {
-                    planName: "Premium",
-                    isActive: true,
-                    description:
-                        "Top priority service + annual compliance to keep your business on track",
-                    suggestionText: "",
-                    happyText: "",
-                    plan: {
-                        id: "6",
-                        price: "₹39,999",
-                        discount: "17% off",
-                        afterDiscount: "₹32,999",
-                        laterPaid: {
-                            amount: "13,726",
-                            text: "+ Govt. Fee (to be paid later)",
-                            iconInfo: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-                        offers: [
-                            {
-                                imageUrl: "",
-                                heading: "",
-                                isActive: false,
-                                subHeading: "Unlock partner benefits Post",
-                                description: "Post company incorporation worth Rs 4 lakhs",
-                                knowMore: {
-                                    text: "",
-                                    link: "",
-                                },
-                            },
-                        ],
-                        splitPayment: {
-                            enabled: true,
-                            instalments: 3,
-                            instalmentAmount: "749.50",
-                            text: "Split payment by 3 with Zolvit Flex",
-                            knowMore: {
-                                text: "",
-                                link: "",
-                            },
-                        },
-                    },
-                    features: {
-                        heading: ["What you'll get"],
-                        feature: [
-                            "Expert assisted process",
-                            "Your company name is reserved in just 1 - 2 days*",
-                            " DSC in just 3 - 4 days",
-                            "SPICe+ form filing in 5 - 7 days*",
-                            "Incorporation Certificate in 7 - 14 days",
-                            "Company PAN+TAN",
-                            "DIN for directors",
-                            "Digital welcome kit that includes a checklist of all post-incorporation compliances",
-                            "Appointment of Auditor - ADT 01",
-                            "Issuance of share certificate",
-                            "INC 20 A form filing",
-                            "DIR 3 KYC (For 2 directors)",
-                            "Accounting & Bookkeeping (Up to 100 transactions)",
-                            "Financial statement preparation",
-                            "Accounting software (1-year license)",
-                            "AOC 4, MGT 7 & ADT filing",
-                            "Annual filing (Up to turnover of 20 lakhs)",
-                            "Facilitation of Annual General Meeting",
-                            "Statutory regulations PF, ESI",
-                            "One Year Income Tax filing (Up to turnover of 20 lakhs)",
-                            "30-minute call with a senior CA/CS for your business planning",
-                        ],
-                    },
-                    recommendation: {
-                        recommended: true,
-                        text: "Yes, this is the best plan for you",
-                    },
-                },
-            ],
-        },
-    ],
+    
     defaultState: "MP",
     defaultPlan: "Standard",
 
@@ -558,7 +142,7 @@ const PlansSection = ({ planData }: { planData: planData }) => {
 
     const dispatch = useDispatch();
     const router = useRouter();
-
+    const [isLoading, setIsLoading] = useState(true) // Add loading state
 
     const [selectedState, setSelectedState] = useState(defaultState);
     const [selectPlan, setSelectPlane] = useState(defaultPlan);
@@ -612,25 +196,43 @@ const PlansSection = ({ planData }: { planData: planData }) => {
             offers = []
         }
 
-        return {
-            id: product.id.toString(),
-            planName: product.name || "",
-            Status: product.status === "publish" ? "Active" : "Inactive",
-            Description: product.description || product.short_description || "",
-            Price: Number.parseFloat(product.regular_price) || 0,
-            PriceAfterDiscount: Number.parseFloat(product.sale_price) || Number.parseFloat(product.regular_price) || 0,
-            instalments: getMetaValue("_plan_installments") || "",
-            Features: getMetaValue("_plan_features") || "",
-            Page: getMetaValue("_plan_page") || product.categories?.[0]?.name || "",
-            offers: offers,
-        }
+        // return {
+        //     id: product.id.toString(),
+        //     planName: product.name || "",
+        //     Status: product.status === "publish" ? "Active" : "Inactive",
+        //     Description: product.description || product.short_description || "",
+        //     Price: Number.parseFloat(product.regular_price) || 0,
+        //     PriceAfterDiscount: Number.parseFloat(product.sale_price) || Number.parseFloat(product.regular_price) || 0,
+        //     instalments: getMetaValue("_plan_installments") || "",
+        //     Features: getMetaValue("_plan_features") || "",
+        //     Page: getMetaValue("_plan_page") || product.categories?.[0]?.name || "",
+        //     offers: offers,
+        // }
+
+        const packageData: PackageData = {
+          id: product.id.toString(),
+          planName: product.name || "",
+          Status: product.status === "publish" ? "Active" : "Inactive",
+          Description: product.description || product.short_description || "",
+          Price: Number.parseFloat(product.regular_price) || 0,
+          PriceAfterDiscount: Number.parseFloat(product.sale_price) || Number.parseFloat(product.regular_price) || 0,
+          instalments: getMetaValue("_plan_installments") || "",
+          Features: getMetaValue("_plan_features") || "",
+          Page: getMetaValue("_plan_page") || product.categories?.[0]?.name || "",
+          offers: offers,
+          navigationUrl: "/cart",
+          }
+
+          packageData.onSelect = () =>
+           handlePlanSelection(packageData.id, packageData.planName, `₹${packageData.PriceAfterDiscount}`)
+        return packageData
     }
     const [gotPlansData, setGotPlansData] = useState<PackageData[]>([]);
 
 
     useEffect(() => {
         const fetchPlans = async () => {
-            // setIsLoading(true)
+            setIsLoading(true) // Set loading to true when starting fetch
             try {
                 const url = `${WC_API_CONFIG.baseUrl}/products?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}&per_page=100`
 
@@ -656,7 +258,7 @@ const PlansSection = ({ planData }: { planData: planData }) => {
                 console.error("Failed to fetch plans:", error)
                 alert("Failed to fetch plans. Please check your API credentials and try again.")
             } finally {
-                //   setIsLoading(false)
+                setIsLoading(false) // Set loading to false when fetch completes
             }
         }
 
@@ -664,18 +266,17 @@ const PlansSection = ({ planData }: { planData: planData }) => {
     }, []);
     console.log("plans", gotPlansData);
 
-    onSelect: () => handlePlanSelection("2", "Fastrack", "₹1,999")
+    // onSelect: () => handlePlanSelection("2", "Fastrack", "₹1,999")
 
     const handleBuy = async (plan: any) => {
 
-       
-        // console.log(plan);
+        console.log("Selected Plan:", plan);
 
-        //  if (plan.onSelect) {
-        //    plan.onSelect();
-        //   } else {
-        //       console.log(plan);
-        //   }
+         if (plan.onSelect) {
+           plan.onSelect();
+          } else {
+              console.log(plan);
+          }
     };
     // useEffect(() => {
     //     const plan = plansData.find((plan) => plan.state === selectedState);
@@ -705,6 +306,11 @@ const PlansSection = ({ planData }: { planData: planData }) => {
     const handlePlanChange = (planName: string) => {
         setSelectPlane(planName);
     };
+
+      // Show loading component while data is being fetched
+  if (isLoading) {
+    return <PackageLoading />;
+  }
 
     return (
         <section className="bg-[#F8FBFF] ">
