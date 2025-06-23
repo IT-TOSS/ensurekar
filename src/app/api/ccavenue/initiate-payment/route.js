@@ -142,7 +142,7 @@ import crypto from 'crypto';
 // CCAvenue credentials - ideally store in .env
 const MERCHANT_ID = '2064927';
 const ACCESS_CODE = 'AVTB18KB63AS79BTSA';
-const WORKING_KEY = '0187BDEA47CA90A12EEFACDFA5D3D900';
+const WORKING_KEY = 'B3ACAE21142FBB1FA2E53B0C1C184486';
 
 const REDIRECT_URL = 'https://ensurekar.com/api/ccavenue/payment-response';
 const CANCEL_URL = 'https://ensurekar.com/api/ccavenue/payment-response';

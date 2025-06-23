@@ -54,17 +54,16 @@
 //   },
 // };
 
-
 import fs from "fs";
 import crypto from "crypto";
 import axios from "axios";
 
-const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; // Replace with your actual key
+const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; // 32-char = AES-256
 
 function decrypt(encryptedText, key) {
   const decodedEncryptedText = Buffer.from(encryptedText, "base64");
-  const initVector = Buffer.from([...Array(16).keys()]); // 0 to 15
-  const decipher = crypto.createDecipheriv("aes-128-cbc", key, initVector);
+  const initVector = Buffer.from([...Array(16).keys()]); // 0–15
+  const decipher = crypto.createDecipheriv("aes-256-cbc", key, initVector);
   let decrypted = decipher.update(decodedEncryptedText);
   decrypted = Buffer.concat([decrypted, decipher.final()]);
   return decrypted.toString();
@@ -91,11 +90,14 @@ export async function POST(request) {
     const pabblyURL =
       "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
 
-    // Send as application/x-www-form-urlencoded
+    // Send as form-urlencoded
     await axios.post(pabblyURL, new URLSearchParams(responseArray));
+    console.log("Data sent to Pabbly successfully");
 
+    console.log("Response Array:", responseArray);
     return Response.json({ message: "Success", data: responseArray });
   } catch (error) {
+    console.log("Error occurred:", error);
     console.error("Error occurred:", error?.response?.data || error.message || error);
     return Response.json(
       { message: "Error processing request", error: error?.message || "Unknown error" },
