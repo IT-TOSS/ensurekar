@@ -117,21 +117,23 @@ import axios from "axios";
 const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; 
 
 function decrypt(encryptedText, workingKey) {
-  // Generate 16-byte key using MD5 hash of workingKey
   const key = crypto.createHash("md5").update(workingKey).digest();
-  
-  // Fixed IV: 0 to 15
   const iv = Buffer.from([...Array(16).keys()]);
+  let encryptedBuffer;
 
-  // Convert base64-encoded encryptedText to hex
-  const encryptedHex = Buffer.from(encryptedText, "base64").toString("hex");
+  // Agar hex format hai (sirf 0-9 aur a-f ke characters hain)
+  if (/^[0-9a-fA-F]+$/.test(encryptedText)) {
+    encryptedBuffer = Buffer.from(encryptedText, "hex");
+  } else {
+    // Base64 samjho
+    encryptedBuffer = Buffer.from(encryptedText, "base64");
+  }
 
-  // Decrypt using AES-128-CBC
   const decipher = crypto.createDecipheriv("aes-128-cbc", key, iv);
-  let decrypted = decipher.update(encryptedHex, "hex", "utf8");
-  decrypted += decipher.final("utf8");
+  let decrypted = decipher.update(encryptedBuffer);
+  decrypted = Buffer.concat([decrypted, decipher.final()]);
 
-  return decrypted;
+  return decrypted.toString("utf8");
 }
 
 export async function POST(request) {
@@ -140,7 +142,7 @@ export async function POST(request) {
     const encResponse = formData.get("encResp") || "";
 
     // Log raw encrypted response
-    // fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
+    fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
 
     // Decrypt the response
     const rcvdString = decrypt(encResponse, workingKey);
