@@ -136,13 +136,58 @@ function decrypt(encryptedText, workingKey) {
   return decrypted.toString("utf8");
 }
 
+// export async function POST(request) {
+//   try {
+//     const formData = await request.formData();
+//     const encResponse = formData.get("encResp") || "";
+
+//     // Log raw encrypted response
+//     fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
+
+//     // Decrypt the response
+//     const rcvdString = decrypt(encResponse, workingKey);
+//     console.log("Decrypted String:", rcvdString);
+//     fs.appendFileSync("log.txt", "DECRYPTED STRING RAW: " + rcvdString + "\n");
+
+//     // Convert decrypted string to object
+//     const responseArray = {};
+//     rcvdString.split("&").forEach((pair) => {
+//       const [key, value] = pair.split("=");
+//       responseArray[key] = decodeURIComponent(value);
+//     });
+
+//     // Log final object
+//     fs.appendFileSync("log.txt", "DECRYPTED OBJECT: " + JSON.stringify(responseArray) + "\n");
+
+//     // Send to Pabbly
+//     const pabblyURL =
+//       "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
+
+//     console.log("Sending data to Pabbly:", responseArray);
+//     await axios.post(pabblyURL, new URLSearchParams(responseArray));
+//     console.log("Data sent to Pabbly successfully");
+
+//     // Success Response
+//     return Response.json({ message: "Success", data: responseArray });
+
+//   } catch (error) {
+//     console.error("Error occurred:", error?.response?.data || error.message || error);
+//     return Response.json(
+//       { message: "Error processing request", error: error?.message || "Unknown error" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
+
+
 export async function POST(request) {
   try {
     const formData = await request.formData();
     const encResponse = formData.get("encResp") || "";
 
     // Log raw encrypted response
-    fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
+    fs.appendFileSync("log.txt", `\n--- NEW REQUEST ---\nRAW POST: ${encResponse}\n`);
 
     // Decrypt the response
     const rcvdString = decrypt(encResponse, workingKey);
@@ -153,25 +198,40 @@ export async function POST(request) {
     const responseArray = {};
     rcvdString.split("&").forEach((pair) => {
       const [key, value] = pair.split("=");
-      responseArray[key] = decodeURIComponent(value);
+      responseArray[key] = decodeURIComponent(value || "");
     });
 
-    // Log final object
+    console.log("Decrypted Object:", responseArray);
     fs.appendFileSync("log.txt", "DECRYPTED OBJECT: " + JSON.stringify(responseArray) + "\n");
 
-    // Send to Pabbly
-    const pabblyURL =
-      "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
+    // Sanitize data
+    const sanitizedData = {};
+    Object.keys(responseArray).forEach((key) => {
+      sanitizedData[key] = String(responseArray[key] || "");
+    });
 
-    console.log("Sending data to Pabbly:", responseArray);
-    await axios.post(pabblyURL, new URLSearchParams(responseArray));
-    console.log("Data sent to Pabbly successfully");
+    // Send to Pabbly only if payment is successful
+    if (sanitizedData.order_status === "Success") {
+      const pabblyURL =
+        "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
 
-    // Success Response
-    return Response.json({ message: "Success", data: responseArray });
+      const pabblyResponse = await axios.post(
+        pabblyURL,
+        new URLSearchParams(sanitizedData)
+      );
 
+      console.log("Data sent to Pabbly successfully. Pabbly Response:", pabblyResponse.data);
+      fs.appendFileSync("log.txt", "PABBBLY RESPONSE: " + JSON.stringify(pabblyResponse.data) + "\n");
+    } else {
+      console.log("Payment not successful. Data not sent to Pabbly.");
+      fs.appendFileSync("log.txt", "PAYMENT NOT SUCCESSFUL. Data not sent to Pabbly.\n");
+    }
+
+    return Response.json({ message: "Success", data: sanitizedData });
   } catch (error) {
     console.error("Error occurred:", error?.response?.data || error.message || error);
+    fs.appendFileSync("log.txt", "ERROR: " + (error?.response?.data || error.message || error) + "\n");
+
     return Response.json(
       { message: "Error processing request", error: error?.message || "Unknown error" },
       { status: 500 }
