@@ -178,7 +178,7 @@ export async function POST(request) {
         watiPayload,
         {
           headers: {
-            Authorization: `Bearer ${watiApiKey}`,
+            "X-ACCESS-TOKEN": watiApiKey,
             "Content-Type": "application/json"
           }
         }
