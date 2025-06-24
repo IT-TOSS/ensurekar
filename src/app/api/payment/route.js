@@ -186,15 +186,12 @@ export async function POST(request) {
     const formData = await request.formData();
     const encResponse = formData.get("encResp") || "";
 
-    // Log raw encrypted response
     fs.appendFileSync("log.txt", `\n--- NEW REQUEST ---\nRAW POST: ${encResponse}\n`);
 
-    // Decrypt the response
     const rcvdString = decrypt(encResponse, workingKey);
     console.log("Decrypted String:", rcvdString);
     fs.appendFileSync("log.txt", "DECRYPTED STRING RAW: " + rcvdString + "\n");
 
-    // Convert decrypted string to object
     const responseArray = {};
     rcvdString.split("&").forEach((pair) => {
       const [key, value] = pair.split("=");
@@ -204,30 +201,36 @@ export async function POST(request) {
     console.log("Decrypted Object:", responseArray);
     fs.appendFileSync("log.txt", "DECRYPTED OBJECT: " + JSON.stringify(responseArray) + "\n");
 
-    // Sanitize data
     const sanitizedData = {};
     Object.keys(responseArray).forEach((key) => {
       sanitizedData[key] = String(responseArray[key] || "");
     });
 
-    // Send to Pabbly only if payment is successful
-    if (sanitizedData.order_status === "Success") {
-      const pabblyURL =
-        "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
+    // Send to Pabbly (Always, irrespective of payment status)
+    const pabblyURL =
+      "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
 
+    try {
       const pabblyResponse = await axios.post(
         pabblyURL,
         new URLSearchParams(sanitizedData)
       );
-
       console.log("Data sent to Pabbly successfully. Pabbly Response:", pabblyResponse.data);
       fs.appendFileSync("log.txt", "PABBBLY RESPONSE: " + JSON.stringify(pabblyResponse.data) + "\n");
-    } else {
-      console.log("Payment not successful. Data not sent to Pabbly.");
-      fs.appendFileSync("log.txt", "PAYMENT NOT SUCCESSFUL. Data not sent to Pabbly.\n");
+    } catch (pabblyError) {
+      console.error("Error sending to Pabbly:", pabblyError?.response?.data || pabblyError.message);
+      fs.appendFileSync("log.txt", "PABBBLY ERROR: " + (pabblyError?.response?.data || pabblyError.message) + "\n");
     }
 
-    return Response.json({ message: "Success", data: sanitizedData });
+    // Redirect with data to ensurekar.com
+    const redirectURL = new URL("https://ensurekar.com/api/payment");
+    Object.keys(sanitizedData).forEach((key) => {
+      redirectURL.searchParams.append(key, sanitizedData[key]);
+    });
+
+    console.log("Redirecting to:", redirectURL.toString());
+
+    return Response.redirect(redirectURL.toString(), 302);
   } catch (error) {
     console.error("Error occurred:", error?.response?.data || error.message || error);
     fs.appendFileSync("log.txt", "ERROR: " + (error?.response?.data || error.message || error) + "\n");
