@@ -222,15 +222,28 @@ export async function POST(request) {
       fs.appendFileSync("log.txt", "PABBBLY ERROR: " + (pabblyError?.response?.data || pabblyError.message) + "\n");
     }
 
-    // Redirect with data to ensurekar.com
-    const redirectURL = new URL("https://ensurekar.com/api/payment");
-    Object.keys(sanitizedData).forEach((key) => {
-      redirectURL.searchParams.append(key, sanitizedData[key]);
-    });
+    // // Redirect with data to ensurekar.com
+    // const redirectURL = new URL("https://ensurekar.com/api/payment");
+    // Object.keys(sanitizedData).forEach((key) => {
+    //   redirectURL.searchParams.append(key, sanitizedData[key]);
+    // });
 
-    console.log("Redirecting to:", redirectURL.toString());
+    // console.log("Redirecting to:", redirectURL.toString());
 
-    return Response.redirect(redirectURL.toString(), 302);
+    // return Response.redirect(redirectURL.toString(), 302);
+
+    
+    // WhatsApp Redirect
+    const orderId = sanitizedData.order_id || "N/A";
+    const whatsappNumber = "917470756060";
+    const message = `Hi 8959176446 Bot, payment done for OrderID: ${orderId}`;
+    const encodedMessage = encodeURIComponent(message);
+
+    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+    console.log("Redirecting to WhatsApp:", whatsappURL);
+
+    return Response.redirect(whatsappURL, 302);
   } catch (error) {
     console.error("Error occurred:", error?.response?.data || error.message || error);
     fs.appendFileSync("log.txt", "ERROR: " + (error?.response?.data || error.message || error) + "\n");
