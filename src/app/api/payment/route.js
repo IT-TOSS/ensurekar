@@ -1,106 +1,62 @@
-// import fs from "fs";
-// import crypto from "crypto";
-// import axios from "axios";
 
-// const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; // Replace with actual key
-
-// function decrypt(encryptedText, key) {
-//   const decodedEncryptedText = Buffer.from(encryptedText, "base64");
-//   const initVector = Buffer.from([...Array(16).keys()]); // 0 to 15
-//   const decipher = crypto.createDecipheriv("aes-128-cbc", key, initVector);
-//   let decrypted = decipher.update(decodedEncryptedText);
-//   decrypted = Buffer.concat([decrypted, decipher.final()]);
-//   return decrypted.toString();
-// }
-
-// export default async function handler(req, res) {
-//   if (req.method !== "POST") {
-//     return res.status(405).json({ error: "Method Not Allowed  (post)" });
-//   }
-
-//   const rawBody = req.body;
-
-//   fs.appendFileSync("log.txt", "RAW POST: " + JSON.stringify(rawBody) + "\n");
-
-//   const encResponse = rawBody.encResp || "";
-//   const rcvdString = decrypt(encResponse, workingKey);
-
-//   const responseArray = {};
-//   rcvdString.split("&").forEach((pair) => {
-//     const [key, value] = pair.split("=");
-//     responseArray[key] = decodeURIComponent(value);
-//   });
-
-//   fs.appendFileSync("log.txt", "DECRYPTED: " + JSON.stringify(responseArray) + "\n");
-
-//   const pabblyURL =
-//     "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
-
-//   try {
-//     await axios.post(pabblyURL, responseArray);
-//     res.status(200).json({ message: "Success", data: responseArray });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Error sending to Pabbly" });
-//   }
-// }
-
-// export const config = {
-//   api: {
-//     bodyParser: {
-//       sizeLimit: "1mb",
-//       urlencoded: true,
-//     },
-//   },
-// };
-
-// import fs from "fs";
-// import crypto from "crypto";
-// import axios from "axios";
-
-// const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; // 32-char = AES-256
-
-// function decrypt(encryptedText, key) {
-//   const decodedEncryptedText = Buffer.from(encryptedText, "base64");
-//   const initVector = Buffer.from([...Array(16).keys()]); // 0–15
-//   const decipher = crypto.createDecipheriv("aes-256-cbc", key, initVector);
-//   let decrypted = decipher.update(decodedEncryptedText);
-//   decrypted = Buffer.concat([decrypted, decipher.final()]);
-//   return decrypted.toString();
-// }
 
 // export async function POST(request) {
 //   try {
 //     const formData = await request.formData();
 //     const encResponse = formData.get("encResp") || "";
 
-//     fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
+//     fs.appendFileSync("log.txt", `\n--- NEW REQUEST ---\nRAW POST: ${encResponse}\n`);
 
 //     const rcvdString = decrypt(encResponse, workingKey);
+//     console.log("Decrypted String:", rcvdString);
 //     fs.appendFileSync("log.txt", "DECRYPTED STRING RAW: " + rcvdString + "\n");
 
 //     const responseArray = {};
 //     rcvdString.split("&").forEach((pair) => {
 //       const [key, value] = pair.split("=");
-//       responseArray[key] = decodeURIComponent(value);
+//       responseArray[key] = decodeURIComponent(value || "");
 //     });
 
+//     console.log("Decrypted Object:", responseArray);
 //     fs.appendFileSync("log.txt", "DECRYPTED OBJECT: " + JSON.stringify(responseArray) + "\n");
 
+//     const sanitizedData = {};
+//     Object.keys(responseArray).forEach((key) => {
+//       sanitizedData[key] = String(responseArray[key] || "");
+//     });
+
+//     // Send to Pabbly (Always, irrespective of payment status)
 //     const pabblyURL =
 //       "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
 
-//     // Send as form-urlencoded
+//     try {
+//       const pabblyResponse = await axios.post(
+//         pabblyURL,
+//         new URLSearchParams(sanitizedData)
+//       );
+//       console.log("Data sent to Pabbly successfully. Pabbly Response:", pabblyResponse.data);
+//       fs.appendFileSync("log.txt", "PABBBLY RESPONSE: " + JSON.stringify(pabblyResponse.data) + "\n");
+//     } catch (pabblyError) {
+//       console.error("Error sending to Pabbly:", pabblyError?.response?.data || pabblyError.message);
+//       fs.appendFileSync("log.txt", "PABBBLY ERROR: " + (pabblyError?.response?.data || pabblyError.message) + "\n");
+//     }
 
-//     console.log("Sending data to Pabbly:", responseArray);
-//     await axios.post(pabblyURL, new URLSearchParams(responseArray));
-//     console.log("Data sent to Pabbly successfully");
 
-//     console.log("Response Array:", responseArray);
-//     return Response.json({ message: "Success", data: responseArray });
+//     // WhatsApp Redirect
+//     const orderId = sanitizedData.order_id || "N/A";
+//     const whatsappNumber = "917470756060";
+//     const message = `Hi 8959176446 Bot, payment done for OrderID: ${orderId}`;
+//     const encodedMessage = encodeURIComponent(message);
+
+//     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+//     console.log("Redirecting to WhatsApp:", whatsappURL);
+
+//     return Response.redirect(whatsappURL, 302);
 //   } catch (error) {
-//     console.log("Error occurred:", error);
 //     console.error("Error occurred:", error?.response?.data || error.message || error);
+//     fs.appendFileSync("log.txt", "ERROR: " + (error?.response?.data || error.message || error) + "\n");
+
 //     return Response.json(
 //       { message: "Error processing request", error: error?.message || "Unknown error" },
 //       { status: 500 }
@@ -110,11 +66,15 @@
 
 
 
+
 import fs from "fs";
 import crypto from "crypto";
 import axios from "axios";
 
 const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; 
+const watiApiKey = "1191307.cciF3DwUUb8TCVV1yfYTS0L1onucTKm1oPd";
+
+const phoneNumber = "917470756060"; 
 
 function decrypt(encryptedText, workingKey) {
   const key = crypto.createHash("md5").update(workingKey).digest();
@@ -135,51 +95,6 @@ function decrypt(encryptedText, workingKey) {
 
   return decrypted.toString("utf8");
 }
-
-// export async function POST(request) {
-//   try {
-//     const formData = await request.formData();
-//     const encResponse = formData.get("encResp") || "";
-
-//     // Log raw encrypted response
-//     fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
-
-//     // Decrypt the response
-//     const rcvdString = decrypt(encResponse, workingKey);
-//     console.log("Decrypted String:", rcvdString);
-//     fs.appendFileSync("log.txt", "DECRYPTED STRING RAW: " + rcvdString + "\n");
-
-//     // Convert decrypted string to object
-//     const responseArray = {};
-//     rcvdString.split("&").forEach((pair) => {
-//       const [key, value] = pair.split("=");
-//       responseArray[key] = decodeURIComponent(value);
-//     });
-
-//     // Log final object
-//     fs.appendFileSync("log.txt", "DECRYPTED OBJECT: " + JSON.stringify(responseArray) + "\n");
-
-//     // Send to Pabbly
-//     const pabblyURL =
-//       "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
-
-//     console.log("Sending data to Pabbly:", responseArray);
-//     await axios.post(pabblyURL, new URLSearchParams(responseArray));
-//     console.log("Data sent to Pabbly successfully");
-
-//     // Success Response
-//     return Response.json({ message: "Success", data: responseArray });
-
-//   } catch (error) {
-//     console.error("Error occurred:", error?.response?.data || error.message || error);
-//     return Response.json(
-//       { message: "Error processing request", error: error?.message || "Unknown error" },
-//       { status: 500 }
-//     );
-//   }
-// }
-
-
 
 export async function POST(request) {
   try {
@@ -222,28 +137,60 @@ export async function POST(request) {
       fs.appendFileSync("log.txt", "PABBBLY ERROR: " + (pabblyError?.response?.data || pabblyError.message) + "\n");
     }
 
-    // // Redirect with data to ensurekar.com
-    // const redirectURL = new URL("https://ensurekar.com/api/payment");
-    // Object.keys(sanitizedData).forEach((key) => {
-    //   redirectURL.searchParams.append(key, sanitizedData[key]);
-    // });
+    // // WhatsApp Redirect
+    // const orderId = sanitizedData.order_id || "N/A";
+    // const whatsappNumber = "917470756060";
+    // const message = `Hi 8959176446 Bot, payment done for OrderID: ${orderId}`;
+    // const encodedMessage = encodeURIComponent(message);
 
-    // console.log("Redirecting to:", redirectURL.toString());
+    // const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
-    // return Response.redirect(redirectURL.toString(), 302);
+    // console.log("Redirecting to WhatsApp:", whatsappURL);
 
-    
-    // WhatsApp Redirect
-    const orderId = sanitizedData.order_id || "N/A";
-    const whatsappNumber = "917470756060";
-    const message = `Hi 8959176446 Bot, payment done for OrderID: ${orderId}`;
-    const encodedMessage = encodeURIComponent(message);
+    // return Response.redirect(whatsappURL, 302);
 
-    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    //--------------------------
 
-    console.log("Redirecting to WhatsApp:", whatsappURL);
+     // Send WhatsApp Message via WATI
+    const orderId = sanitizedData.order_id ;
+    const orderStatus = sanitizedData.order_status?.toLowerCase() || "";
 
-    return Response.redirect(whatsappURL, 302);
+    let templateName = "";
+    if (orderStatus === "success") {
+      templateName = "payment_success";
+    } else {
+      templateName = "payment_cancel";
+    }
+
+
+    const watiPayload = {
+      template_name: templateName,
+      broadcast_name: "Payment Status",
+      parameters: [
+        { name: "order_id", value: orderId }
+      ],
+      phone_number: phoneNumber
+    };
+
+    try {
+      const watiResponse = await axios.post(
+        "https://app.mbgcart.com/api/v1/sendTemplateMessage",
+        watiPayload,
+        {
+          headers: {
+            Authorization: `Bearer ${watiApiKey}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+      console.log("WhatsApp message sent via WATI:", watiResponse.data);
+    } catch (watiError) {
+      console.error("Error sending WhatsApp message:", watiError?.response?.data || watiError.message);
+    }
+
+    // Final success response
+    return Response.json({ message: "Success", data: sanitizedData });
   } catch (error) {
     console.error("Error occurred:", error?.response?.data || error.message || error);
     fs.appendFileSync("log.txt", "ERROR: " + (error?.response?.data || error.message || error) + "\n");
@@ -254,3 +201,4 @@ export async function POST(request) {
     );
   }
 }
+
