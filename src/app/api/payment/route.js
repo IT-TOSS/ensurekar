@@ -140,10 +140,11 @@ export async function POST(request) {
     const encResponse = formData.get("encResp") || "";
 
     // Log raw encrypted response
-    fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
+    // fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
 
     // Decrypt the response
     const rcvdString = decrypt(encResponse, workingKey);
+    console.log("Decrypted String:", rcvdString);
     fs.appendFileSync("log.txt", "DECRYPTED STRING RAW: " + rcvdString + "\n");
 
     // Convert decrypted string to object
