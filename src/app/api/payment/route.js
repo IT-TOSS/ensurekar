@@ -54,19 +54,84 @@
 //   },
 // };
 
+// import fs from "fs";
+// import crypto from "crypto";
+// import axios from "axios";
+
+// const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; // 32-char = AES-256
+
+// function decrypt(encryptedText, key) {
+//   const decodedEncryptedText = Buffer.from(encryptedText, "base64");
+//   const initVector = Buffer.from([...Array(16).keys()]); // 0–15
+//   const decipher = crypto.createDecipheriv("aes-256-cbc", key, initVector);
+//   let decrypted = decipher.update(decodedEncryptedText);
+//   decrypted = Buffer.concat([decrypted, decipher.final()]);
+//   return decrypted.toString();
+// }
+
+// export async function POST(request) {
+//   try {
+//     const formData = await request.formData();
+//     const encResponse = formData.get("encResp") || "";
+
+//     fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
+
+//     const rcvdString = decrypt(encResponse, workingKey);
+//     fs.appendFileSync("log.txt", "DECRYPTED STRING RAW: " + rcvdString + "\n");
+
+//     const responseArray = {};
+//     rcvdString.split("&").forEach((pair) => {
+//       const [key, value] = pair.split("=");
+//       responseArray[key] = decodeURIComponent(value);
+//     });
+
+//     fs.appendFileSync("log.txt", "DECRYPTED OBJECT: " + JSON.stringify(responseArray) + "\n");
+
+//     const pabblyURL =
+//       "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
+
+//     // Send as form-urlencoded
+
+//     console.log("Sending data to Pabbly:", responseArray);
+//     await axios.post(pabblyURL, new URLSearchParams(responseArray));
+//     console.log("Data sent to Pabbly successfully");
+
+//     console.log("Response Array:", responseArray);
+//     return Response.json({ message: "Success", data: responseArray });
+//   } catch (error) {
+//     console.log("Error occurred:", error);
+//     console.error("Error occurred:", error?.response?.data || error.message || error);
+//     return Response.json(
+//       { message: "Error processing request", error: error?.message || "Unknown error" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
+
+
 import fs from "fs";
 import crypto from "crypto";
 import axios from "axios";
 
-const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; // 32-char = AES-256
+const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"; 
 
-function decrypt(encryptedText, key) {
-  const decodedEncryptedText = Buffer.from(encryptedText, "base64");
-  const initVector = Buffer.from([...Array(16).keys()]); // 0–15
-  const decipher = crypto.createDecipheriv("aes-256-cbc", key, initVector);
-  let decrypted = decipher.update(decodedEncryptedText);
-  decrypted = Buffer.concat([decrypted, decipher.final()]);
-  return decrypted.toString();
+function decrypt(encryptedText, workingKey) {
+  // Generate 16-byte key using MD5 hash of workingKey
+  const key = crypto.createHash("md5").update(workingKey).digest();
+  
+  // Fixed IV: 0 to 15
+  const iv = Buffer.from([...Array(16).keys()]);
+
+  // Convert base64-encoded encryptedText to hex
+  const encryptedHex = Buffer.from(encryptedText, "base64").toString("hex");
+
+  // Decrypt using AES-128-CBC
+  const decipher = crypto.createDecipheriv("aes-128-cbc", key, iv);
+  let decrypted = decipher.update(encryptedHex, "hex", "utf8");
+  decrypted += decipher.final("utf8");
+
+  return decrypted;
 }
 
 export async function POST(request) {
@@ -74,30 +139,35 @@ export async function POST(request) {
     const formData = await request.formData();
     const encResponse = formData.get("encResp") || "";
 
+    // Log raw encrypted response
     fs.appendFileSync("log.txt", "RAW POST: " + encResponse + "\n");
 
+    // Decrypt the response
     const rcvdString = decrypt(encResponse, workingKey);
     fs.appendFileSync("log.txt", "DECRYPTED STRING RAW: " + rcvdString + "\n");
 
+    // Convert decrypted string to object
     const responseArray = {};
     rcvdString.split("&").forEach((pair) => {
       const [key, value] = pair.split("=");
       responseArray[key] = decodeURIComponent(value);
     });
 
+    // Log final object
     fs.appendFileSync("log.txt", "DECRYPTED OBJECT: " + JSON.stringify(responseArray) + "\n");
 
+    // Send to Pabbly
     const pabblyURL =
       "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
 
-    // Send as form-urlencoded
+    console.log("Sending data to Pabbly:", responseArray);
     await axios.post(pabblyURL, new URLSearchParams(responseArray));
     console.log("Data sent to Pabbly successfully");
 
-    console.log("Response Array:", responseArray);
+    // Success Response
     return Response.json({ message: "Success", data: responseArray });
+
   } catch (error) {
-    console.log("Error occurred:", error);
     console.error("Error occurred:", error?.response?.data || error.message || error);
     return Response.json(
       { message: "Error processing request", error: error?.message || "Unknown error" },
