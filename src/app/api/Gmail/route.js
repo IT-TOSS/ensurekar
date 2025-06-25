@@ -39,7 +39,7 @@ Regards,
 
 ${firstName} ${lastName}`;
 
-        const companyName = "Krishna.vish9329@gmail.com";
+        const companyName = "info@ensurekar.com";
 
         const mailOptions = {
             from: "info@ensurekar.com",
