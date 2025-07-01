@@ -138,56 +138,71 @@ export async function POST(request) {
     }
 
     // // WhatsApp Redirect
-    // const orderId = sanitizedData.order_id || "N/A";
-    // const whatsappNumber = "917470756060";
-    // const message = `Hi 8959176446 Bot, payment done for OrderID: ${orderId}`;
-    // const encodedMessage = encodeURIComponent(message);
+   const orderId = sanitizedData.order_id;
+   const customerName = sanitizedData.name || "N/A";
+   const amountPaid = sanitizedData.amount || "N/A";
+   const paymentDate = sanitizedData.payment_date || "N/A";
+   const paymentMode = sanitizedData.payment_mode || "N/A";
+   const transactionId = sanitizedData.transaction_id;
+     
+   const whatsappNumber = "917470756060";
+   const message = `Hi, I have already completed the payment. Please confirm the payment from your end. Here are the details for your reference:
+   Name: ${customerName}
+   Order ID: ${orderId}
+   Amount Paid: ₹${amountPaid}
+   Payment Date: ${paymentDate}
+   Payment Mode: ${paymentMode}
+   Transaction ID: ${transactionId}
+     
+   Kindly confirm and proceed with the next steps.`;
+     
+   const encodedMessage = encodeURIComponent(message);
+   const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+     
+   console.log("Redirecting to WhatsApp:", whatsappURL);
+     
+   return Response.redirect(whatsappURL, 302);
 
-    // const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-
-    // console.log("Redirecting to WhatsApp:", whatsappURL);
-
-    // return Response.redirect(whatsappURL, 302);
 
     //--------------------------
 
      // Send WhatsApp Message via WATI
-    const orderId = sanitizedData.order_id ;
-    const orderStatus = sanitizedData.order_status?.toLowerCase() || "";
+    // const orderId = sanitizedData.order_id ;
+    // const orderStatus = sanitizedData.order_status?.toLowerCase() || "";
 
-    let templateName = "";
-    if (orderStatus === "success") {
-      templateName = "payment_success";
-    } else {
-      templateName = "payment_cancel";
-    }
+    // let templateName = "";
+    // if (orderStatus === "success") {
+    //   templateName = "payment_success";
+    // } else {
+    //   templateName = "payment_cancel";
+    // }
 
 
-    const watiPayload = {
-      template_name: templateName,
-      broadcast_name: "Payment Status",
-      parameters: [
-        { name: "order_id", value: orderId }
-      ],
-      phone_number: phoneNumber
-    };
+    // const watiPayload = {
+    //   template_name: templateName,
+    //   broadcast_name: "Payment Status",
+    //   parameters: [
+    //     { name: "order_id", value: orderId }
+    //   ],
+    //   phone_number: phoneNumber
+    // };
 
-    try {
-      const watiResponse = await axios.post(
-        "https://app.mbgcart.com/api/v1/sendTemplateMessage",
-        watiPayload,
-        {
-          headers: {
-            "X-ACCESS-TOKEN": watiApiKey,
-            "Content-Type": "application/json"
-          }
-        }
-      );
+    // try {
+    //   const watiResponse = await axios.post(
+    //     "https://app.mbgcart.com/api/v1/sendTemplateMessage",
+    //     watiPayload,
+    //     {
+    //       headers: {
+    //         "X-ACCESS-TOKEN": watiApiKey,
+    //         "Content-Type": "application/json"
+    //       }
+    //     }
+    //   );
 
-      console.log("WhatsApp message sent via WATI:", watiResponse.data);
-    } catch (watiError) {
-      console.error("Error sending WhatsApp message:", watiError?.response?.data || watiError.message);
-    }
+    //   console.log("WhatsApp message sent via WATI:", watiResponse.data);
+    // } catch (watiError) {
+    //   console.error("Error sending WhatsApp message:", watiError?.response?.data || watiError.message);
+    // }
 
     // Final success response
     return Response.json({ message: "Success", data: sanitizedData });
