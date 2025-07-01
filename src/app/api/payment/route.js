@@ -220,7 +220,6 @@
 
 
 
-
 import fs from "fs";
 import crypto from "crypto";
 import { NextResponse } from "next/server";
@@ -254,7 +253,6 @@ export async function POST(request) {
     fs.appendFileSync("log.txt", `\n--- NEW REQUEST ---\nRAW POST: ${encResponse}\n`);
 
     const rcvdString = decrypt(encResponse, workingKey);
-    console.log("Decrypted String:", rcvdString);
     fs.appendFileSync("log.txt", "DECRYPTED STRING RAW: " + rcvdString + "\n");
 
     const responseArray = {};
@@ -263,7 +261,6 @@ export async function POST(request) {
       responseArray[key] = decodeURIComponent(value || "");
     });
 
-    console.log("Decrypted Object:", responseArray);
     fs.appendFileSync("log.txt", "DECRYPTED OBJECT: " + JSON.stringify(responseArray) + "\n");
 
     const sanitizedData = {};
@@ -289,20 +286,37 @@ Transaction ID: ${transactionId}
 
 Kindly confirm and proceed with the next steps.`;
 
+    // STEP 1: Save payment data via your internal API
+    const saveResponse = await fetch("https://tossconsultancyservices.com/ensurekar-dashboard/paymentsave.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(sanitizedData)
+    });
+
+    const saveResult = await saveResponse.json();
+
+    if (!saveResponse.ok || !saveResult.success) {
+      throw new Error(saveResult.message || "Failed to save payment data");
+    }
+
+    fs.appendFileSync("log.txt", "DATA SAVED SUCCESSFULLY: " + saveResult.message + "\n");
+
+    // STEP 2: Redirect to WhatsApp
     const encodedMessage = encodeURIComponent(message);
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
-    console.log("Redirecting to WhatsApp:", whatsappURL);
     fs.appendFileSync("log.txt", "REDIRECT URL: " + whatsappURL + "\n");
-
     return NextResponse.redirect(whatsappURL, 302);
 
   } catch (error) {
-    console.error("Error occurred:", error?.response?.data || error.message || error);
-    fs.appendFileSync("log.txt", "ERROR: " + (error?.response?.data || error.message || error) + "\n");
+    const errorMessage = error?.response?.data || error.message || "Unknown error";
+    console.error("Error occurred:", errorMessage);
+    fs.appendFileSync("log.txt", "ERROR: " + errorMessage + "\n");
 
     return NextResponse.json(
-      { message: "Error processing request", error: error?.message || "Unknown error" },
+      { message: "Error processing request", error: errorMessage },
       { status: 500 }
     );
   }
