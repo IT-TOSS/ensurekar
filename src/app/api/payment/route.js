@@ -122,20 +122,20 @@ export async function POST(request) {
     });
 
     // Send to Pabbly (Always, irrespective of payment status)
-    const pabblyURL =
-      "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
+    // const pabblyURL =
+    //   "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZiMDYzMzA0MzI1MjZiNTUzYzUxMzIi_pc";
 
-    try {
-      const pabblyResponse = await axios.post(
-        pabblyURL,
-        new URLSearchParams(sanitizedData)
-      );
-      console.log("Data sent to Pabbly successfully. Pabbly Response:", pabblyResponse.data);
-      fs.appendFileSync("log.txt", "PABBBLY RESPONSE: " + JSON.stringify(pabblyResponse.data) + "\n");
-    } catch (pabblyError) {
-      console.error("Error sending to Pabbly:", pabblyError?.response?.data || pabblyError.message);
-      fs.appendFileSync("log.txt", "PABBBLY ERROR: " + (pabblyError?.response?.data || pabblyError.message) + "\n");
-    }
+    // try {
+    //   const pabblyResponse = await axios.post(
+    //     pabblyURL,
+    //     new URLSearchParams(sanitizedData)
+    //   );
+    //   console.log("Data sent to Pabbly successfully. Pabbly Response:", pabblyResponse.data);
+    //   fs.appendFileSync("log.txt", "PABBBLY RESPONSE: " + JSON.stringify(pabblyResponse.data) + "\n");
+    // } catch (pabblyError) {
+    //   console.error("Error sending to Pabbly:", pabblyError?.response?.data || pabblyError.message);
+    //   fs.appendFileSync("log.txt", "PABBBLY ERROR: " + (pabblyError?.response?.data || pabblyError.message) + "\n");
+    // }
 
     // // WhatsApp Redirect
    const orderId = sanitizedData.order_id;
