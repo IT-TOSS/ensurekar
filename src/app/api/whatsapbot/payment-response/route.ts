@@ -1,491 +1,108 @@
-// import { type NextRequest, NextResponse } from "next/server"
+
 // import crypto from "crypto"
+// import type { NextRequest } from "next/server"
+
+// const WORKING_KEY = "B3ACAE21142FBB1FA2E53B0C1C184486"
+
+// function decrypt(encryptedText: string, workingKey: string) {
+//   const m = crypto.createHash("md5")
+//   m.update(workingKey)
+//   const key = m.digest()
+//   const iv = Buffer.from(Array.from(Array(16).keys()))
+
+//   const decipher = crypto.createDecipheriv("aes-128-cbc", key, iv)
+//   let decoded = decipher.update(encryptedText, "hex", "utf8")
+//   decoded += decipher.final("utf8")
+
+//   return decoded
+// }
 
 // export async function POST(request: NextRequest) {
 //   try {
-//     console.log("🔄 Payment response handler called")
-//     console.log("Request headers:", Object.fromEntries(request.headers.entries()))
+//     console.log("🔄 Payment Response Handler Called")
 
-//     // Try to get form data first, then fallback to text parsing
-//     let encResponse: string | null = null
+//     const formData = await request.formData()
+//     const encResp = formData.get("encResp")?.toString()
 
-//     try {
-//       // Method 1: Try form data (multipart/form-data)
-//       const formData = await request.formData()
-//       encResponse = formData.get("encResp") as string
-//       console.log("✅ Got encrypted response from form data")
-//     } catch (formError) {
-//       console.log("⚠️ Form data parsing failed, trying text parsing...")
-
-//       try {
-//         // Method 2: Try URL encoded data (application/x-www-form-urlencoded)
-//         const body = await request.text()
-//         const params = new URLSearchParams(body)
-//         encResponse = params.get("encResp")
-//         console.log("✅ Got encrypted response from URL params")
-//       } catch (textError) {
-//         console.error("❌ Both parsing methods failed:", { formError, textError })
-//       }
+//     if (!encResp) {
+//       throw new Error("No encResp received")
 //     }
 
-//     console.log("Received payment response")
-
-//     if (!encResponse) {
-//       console.error("❌ No encrypted response received")
-//       return NextResponse.redirect(new URL("/whatsapbot/PaymentFailed?error=No response received", request.url))
-//     }
-
-//     console.log("📦 Encrypted response received:", {
-//       length: encResponse.length,
-//       preview: encResponse.substring(0, 50) + "...",
-//     })
-
-//     const workingKey = process.env.CCAVENUE_WORKING_KEY || "B3ACAE21142FBB1FA2E53B0C1C184486"
-
-//     if (!workingKey) {
-//       console.error("❌ CCAvenue working key not configured")
-//       return NextResponse.redirect(new URL("/whatsapbot/PaymentFailed?error=Configuration error", request.url))
-//     }
+//     console.log("📦 Encrypted response received")
 
 //     // Decrypt the response
-//     console.log("🔓 Starting decryption...")
-//     const decryptedResponse = decrypt(encResponse, workingKey)
-//     console.log("✅ Response decrypted successfully")
+//     const decrypted = decrypt(encResp, WORKING_KEY)
 
-//     const responseData = parseResponseData(decryptedResponse)
-//     console.log("📊 Payment response parsed for order:", responseData.order_id)
-//     console.log("💳 Payment status:", responseData.order_status)
+//     // Parse decrypted data into an object
+//     const data = Object.fromEntries(new URLSearchParams(decrypted))
 
-//     // Log the full response for debugging (remove sensitive data)
-//     const logData = { ...responseData }
-//     delete logData.card_number // Remove sensitive data from logs
-//     console.log("🔍 Full payment response:", logData)
+//     console.log("✅ Decrypted CCAvenue Response:", data)
+//     console.log("📊 Payment Status:", data.order_status)
+//     console.log("📊 Order ID:", data.order_id)
 
-//     // Update payment status in database
-//     await updatePaymentStatus(responseData)
+//     // Encode all response data into base64
+//     const encodedData = Buffer.from(JSON.stringify(data)).toString("base64")
 
-//     // Redirect based on payment status
-//     if (responseData.order_status === "Success") {
-//       const successUrl = new URL("/whatsapbot/PaymentSuccessful", request.url)
-//       successUrl.searchParams.set("orderId", responseData.order_id || "")
-//       successUrl.searchParams.set("amount", responseData.amount || "")
-//       successUrl.searchParams.set("trackingId", responseData.tracking_id || "")
-//       successUrl.searchParams.set("paymentMethod", "CCAvenue")
+//     const redirectUrl =
+//       data.order_status === "Success"
+//         ? `https://ensurekar.com/whatsapbot/PaymentSuccessful?data=${encodeURIComponent(encodedData)}`
+//         : `https://ensurekar.com/whatsapbot/PaymentFailed?data=${encodeURIComponent(encodedData)}`
 
-//       console.log("✅ Payment successful, redirecting to success page:", successUrl.toString())
-//       return NextResponse.redirect(successUrl)
-//     } else {
-//       const failureUrl = new URL("/whatsapbot/PaymentFailed", request.url)
-//       failureUrl.searchParams.set("orderId", responseData.order_id || "")
-//       failureUrl.searchParams.set("amount", responseData.amount || "")
-//       failureUrl.searchParams.set(
-//         "error",
-//         responseData.failure_message || responseData.status_message || "Payment failed",
-//       )
-//       failureUrl.searchParams.set("paymentMethod", "CCAvenue")
+//     console.log("🔄 Redirecting to:", redirectUrl)
 
-//       console.log("❌ Payment failed, redirecting to failure page:", failureUrl.toString())
-//       return NextResponse.redirect(failureUrl)
-//     }
+//     // Use HTTP 302 redirect
+//     return Response.redirect(redirectUrl, 302)
 //   } catch (error : any) {
-//     console.error("❌ Error processing payment response:", error)
-//     console.error("Error stack:", error.stack)
-
-//     const errorUrl = new URL("/whatsapbot/PaymentFailed", request.url)
-//     errorUrl.searchParams.set("error", `Payment processing error: ${error.message}`)
-//     return NextResponse.redirect(errorUrl)
+//     console.error("❌ Payment Response Error:", error)
+//     return Response.redirect(
+//       `https://ensurekar.com/whatsapbot/PaymentFailed?reason=${encodeURIComponent(error.message || "processing_failed")}`,
+//       302,
+//     )
 //   }
 // }
 
-// // Handle GET requests (in case CCAvenue sends GET instead of POST)
+// // Handle GET requests too (some payment gateways use GET)
 // export async function GET(request: NextRequest) {
 //   try {
-//     console.log("🔄 Payment response GET handler called")
+//     console.log("🔄 Payment Response Handler GET Called")
 
 //     const url = new URL(request.url)
-//     const encResponse = url.searchParams.get("encResp")
+//     const encResp = url.searchParams.get("encResp")
 
-//     if (!encResponse) {
-//       console.error("❌ No encrypted response in GET parameters")
-//       return NextResponse.redirect(new URL("/whatsapbot/PaymentFailed?error=No response received", request.url))
+//     if (!encResp) {
+//       throw new Error("No encResp received in GET")
 //     }
 
-//     console.log("📦 Encrypted response from GET:", {
-//       length: encResponse.length,
-//       preview: encResponse.substring(0, 50) + "...",
-//     })
-
-//     const workingKey = process.env.CCAVENUE_WORKING_KEY || "B3ACAE21142FBB1FA2E53B0C1C184486"
+//     console.log("📦 Encrypted response received via GET")
 
 //     // Decrypt the response
-//     const decryptedResponse = decrypt(encResponse, workingKey)
-//     console.log("✅ GET Response decrypted successfully")
+//     const decrypted = decrypt(encResp, WORKING_KEY)
 
-//     const responseData = parseResponseData(decryptedResponse)
-//     console.log("📊 GET Payment response parsed for order:", responseData.order_id)
+//     // Parse decrypted data into an object
+//     const data = Object.fromEntries(new URLSearchParams(decrypted))
 
-//     // Update payment status in database
-//     await updatePaymentStatus(responseData)
+//     console.log("✅ Decrypted CCAvenue Response (GET):", data)
 
-//     // Redirect based on payment status
-//     if (responseData.order_status === "Success") {
-//       const successUrl = new URL("/whatsapbot/PaymentSuccessful", request.url)
-//       successUrl.searchParams.set("orderId", responseData.order_id || "")
-//       successUrl.searchParams.set("amount", responseData.amount || "")
-//       successUrl.searchParams.set("trackingId", responseData.tracking_id || "")
-//       successUrl.searchParams.set("paymentMethod", "CCAvenue")
+//     // Encode all response data into base64
+//     const encodedData = Buffer.from(JSON.stringify(data)).toString("base64")
 
-//       console.log("✅ GET Payment successful, redirecting to success page")
-//       return NextResponse.redirect(successUrl)
-//     } else {
-//       const failureUrl = new URL("/whatsapbot/PaymentFailed", request.url)
-//       failureUrl.searchParams.set("orderId", responseData.order_id || "")
-//       failureUrl.searchParams.set("amount", responseData.amount || "")
-//       failureUrl.searchParams.set(
-//         "error",
-//         responseData.failure_message || responseData.status_message || "Payment failed",
-//       )
-//       failureUrl.searchParams.set("paymentMethod", "CCAvenue")
+//     const redirectUrl =
+//       data.order_status === "Success"
+//         ? `https://ensurekar.com/whatsapbot/PaymentSuccessful?data=${encodeURIComponent(encodedData)}`
+//         : `https://ensurekar.com/whatsapbot/PaymentFailed?data=${encodeURIComponent(encodedData)}`
 
-//       console.log("❌ GET Payment failed, redirecting to failure page")
-//       return NextResponse.redirect(failureUrl)
-//     }
+//     console.log("🔄 GET Redirecting to:", redirectUrl)
+
+//     // Use HTTP 302 redirect
+//     return Response.redirect(redirectUrl, 302)
 //   } catch (error : any) {
-//     console.error("❌ Error processing GET payment response:", error)
-
-//     const errorUrl = new URL("/whatsapbot/PaymentFailed", request.url)
-//     errorUrl.searchParams.set("error", `Payment processing error: ${error.message}`)
-//     return NextResponse.redirect(errorUrl)
+//     console.error("❌ Payment Response GET Error:", error)
+//     return Response.redirect(
+//       `https://ensurekar.com/whatsapbot/PaymentFailed?reason=${encodeURIComponent(error.message || "processing_failed")}`,
+//       302,
+//     )
 //   }
 // }
-
-// function decrypt(encryptedText: string, key: string): string {
-//   try {
-//     console.log("🔓 Starting decryption process...")
-//     console.log("Encrypted text length:", encryptedText.length)
-//     console.log("Working key length:", key.length)
-
-//     // Create MD5 hash of working key (CCAvenue standard)
-//     const m = crypto.createHash("md5")
-//     m.update(key)
-//     const keyBuffer = m.digest() // 128-bit key (16 bytes)
-
-//     // Create IV as Buffer with values [0,1,2,...,15] (CCAvenue standard)
-//     const iv = Buffer.from(Array.from({ length: 16 }, (_, i) => i))
-
-//     console.log("Decryption details:", {
-//       keyLength: keyBuffer.length,
-//       ivLength: iv.length,
-//       keyHex: keyBuffer.toString("hex").substring(0, 8) + "...",
-//     })
-
-//     // Use createDecipheriv instead of deprecated createDecipher
-//     const decipher = crypto.createDecipheriv("aes-128-cbc", keyBuffer, iv)
-//     decipher.setAutoPadding(true)
-
-//     let decrypted = decipher.update(encryptedText, "hex", "utf8")
-//     decrypted += decipher.final("utf8")
-
-//     console.log("✅ Decryption successful:", {
-//       decryptedLength: decrypted.length,
-//       preview: decrypted.substring(0, 100) + "...",
-//     })
-
-//     return decrypted
-//   } catch (error :any) {
-//     console.error("❌ Decryption error:", {
-//       error: error.message,
-//       keyLength: key.length,
-//       encryptedTextLength: encryptedText.length,
-//     })
-//     throw new Error(`Failed to decrypt payment response: ${error.message}`)
-//   }
-// }
-
-// function parseResponseData(responseString: string): Record<string, string> {
-//   const data: Record<string, string> = {}
-//   const pairs = responseString.split("&")
-
-//   console.log("🔍 Parsing response data:", {
-//     totalPairs: pairs.length,
-//     firstFewPairs: pairs.slice(0, 5),
-//   })
-
-//   pairs.forEach((pair) => {
-//     const [key, value] = pair.split("=")
-//     if (key && value !== undefined) {
-//       data[key] = decodeURIComponent(value)
-//     }
-//   })
-
-//   console.log("📋 Parsed data keys:", Object.keys(data))
-//   return data
-// }
-
-// async function updatePaymentStatus(responseData: Record<string, string>) {
-//   try {
-//     const logData = {
-//       orderId: responseData.order_id,
-//       status: responseData.order_status,
-//       trackingId: responseData.tracking_id,
-//       bankRefNo: responseData.bank_ref_no,
-//       amount: responseData.amount,
-//       currency: responseData.currency,
-//       paymentMode: responseData.payment_mode,
-//       cardName: responseData.card_name,
-//       statusMessage: responseData.status_message,
-//       failureMessage: responseData.failure_message,
-//       timestamp: new Date().toISOString(),
-//     }
-
-//     console.log("📊 Updating payment status:", logData)
-
-//     // TODO: Implement actual database update
-//     // Example with Prisma:
-//     // await prisma.paymentRequest.update({
-//     //   where: { orderId: responseData.order_id },
-//     //   data: {
-//     //     status: responseData.order_status,
-//     //     trackingId: responseData.tracking_id,
-//     //     bankRefNo: responseData.bank_ref_no,
-//     //     paymentMode: responseData.payment_mode,
-//     //     cardName: responseData.card_name,
-//     //     statusMessage: responseData.status_message,
-//     //     failureMessage: responseData.failure_message,
-//     //     responseData: JSON.stringify(responseData),
-//     //     updatedAt: new Date()
-//     //   }
-//     // })
-
-//     console.log("✅ Payment status logged successfully")
-//   } catch (error) {
-//     console.error("❌ Error updating payment status:", error)
-//     // Don't throw error here to avoid breaking the response flow
-//   }
-// }
-
-
-
-
-// // import { type NextRequest, NextResponse } from "next/server"
-// // import crypto from "crypto"
-
-// // // This is a pure API route handler - NOT a Server Action
-// // export async function POST(request: NextRequest) {
-// //   try {
-// //     console.log("🔄 CCAvenue Payment Response Handler Called")
-// //     console.log("Request method:", request.method)
-// //     console.log("Request URL:", request.url)
-// //     console.log("Request headers:", Object.fromEntries(request.headers.entries()))
-
-// //     // Get the raw body as text first
-// //     const body = await request.text()
-// //     console.log("Raw body received:", body.substring(0, 200) + "...")
-
-// //     // Parse the form data
-// //     const params = new URLSearchParams(body)
-// //     const encResponse = params.get("encResp")
-
-// //     if (!encResponse) {
-// //       console.error("❌ No encrypted response received")
-// //       const failureUrl = `https://ensurekar.com/whatsapbot/PaymentFailed?error=${encodeURIComponent("No response received")}`
-// //       return NextResponse.redirect(failureUrl)
-// //     }
-
-// //     console.log("📦 Encrypted response received:", {
-// //       length: encResponse.length,
-// //       preview: encResponse.substring(0, 50) + "...",
-// //     })
-
-// //     const workingKey = process.env.CCAVENUE_WORKING_KEY || "B3ACAE21142FBB1FA2E53B0C1C184486"
-
-// //     // Decrypt the response
-// //     console.log("🔓 Starting decryption...")
-// //     const decryptedResponse = decrypt(encResponse, workingKey)
-// //     console.log("✅ Response decrypted successfully")
-
-// //     const responseData = parseResponseData(decryptedResponse)
-// //     console.log("📊 Payment response parsed:")
-// //     console.log("Order ID:", responseData.order_id)
-// //     console.log("Status:", responseData.order_status)
-// //     console.log("Amount:", responseData.amount)
-
-// //     // Log the full response for debugging
-// //     console.log("🔍 Full payment response:", responseData)
-
-// //     // Update payment status in database
-// //     await updatePaymentStatus(responseData)
-
-// //     // Create redirect URLs with full domain
-// //     const baseUrl = "https://ensurekar.com"
-
-// //     // Redirect based on payment status
-// //     if (responseData.order_status === "Success") {
-// //       const successUrl = new URL("/whatsapbot/PaymentSuccessful", baseUrl)
-// //       successUrl.searchParams.set("orderId", responseData.order_id || "")
-// //       successUrl.searchParams.set("amount", responseData.amount || "")
-// //       successUrl.searchParams.set("trackingId", responseData.tracking_id || "")
-// //       successUrl.searchParams.set("paymentMethod", "CCAvenue")
-
-// //       console.log("✅ Payment successful, redirecting to:", successUrl.toString())
-// //       return NextResponse.redirect(successUrl.toString())
-// //     } else {
-// //       const failureUrl = new URL("/whatsapbot/PaymentFailed", baseUrl)
-// //       failureUrl.searchParams.set("orderId", responseData.order_id || "")
-// //       failureUrl.searchParams.set("amount", responseData.amount || "")
-// //       failureUrl.searchParams.set(
-// //         "error",
-// //         responseData.failure_message || responseData.status_message || "Payment failed",
-// //       )
-// //       failureUrl.searchParams.set("paymentMethod", "CCAvenue")
-
-// //       console.log("❌ Payment failed, redirecting to:", failureUrl.toString())
-// //       return NextResponse.redirect(failureUrl.toString())
-// //     }
-// //   } catch (error : any ) {
-// //     console.error("❌ Error processing payment response:", error)
-// //     console.error("Error stack:", error.stack)
-
-// //     const errorUrl = `https://ensurekar.com/whatsapbot/PaymentFailed?error=${encodeURIComponent(`Payment processing error: ${error.message}`)}`
-// //     return NextResponse.redirect(errorUrl)
-// //   }
-// // }
-
-// // // Handle GET requests as well
-// // export async function GET(request: NextRequest) {
-// //   try {
-// //     console.log("🔄 CCAvenue GET Response Handler Called")
-
-// //     const url = new URL(request.url)
-// //     const encResponse = url.searchParams.get("encResp")
-
-// //     if (!encResponse) {
-// //       console.error("❌ No encrypted response in GET parameters")
-// //       const failureUrl = `https://ensurekar.com/whatsapbot/PaymentFailed?error=${encodeURIComponent("No response received")}`
-// //       return NextResponse.redirect(failureUrl)
-// //     }
-
-// //     console.log("📦 Encrypted response from GET:", {
-// //       length: encResponse.length,
-// //       preview: encResponse.substring(0, 50) + "...",
-// //     })
-
-// //     const workingKey = process.env.CCAVENUE_WORKING_KEY || "B3ACAE21142FBB1FA2E53B0C1C184486"
-
-// //     // Decrypt the response
-// //     const decryptedResponse = decrypt(encResponse, workingKey)
-// //     console.log("✅ GET Response decrypted successfully")
-
-// //     const responseData = parseResponseData(decryptedResponse)
-// //     console.log("📊 GET Payment response parsed for order:", responseData.order_id)
-
-// //     // Update payment status in database
-// //     await updatePaymentStatus(responseData)
-
-// //     const baseUrl = "https://ensurekar.com"
-
-// //     // Redirect based on payment status
-// //     if (responseData.order_status === "Success") {
-// //       const successUrl = new URL("/whatsapbot/PaymentSuccessful", baseUrl)
-// //       successUrl.searchParams.set("orderId", responseData.order_id || "")
-// //       successUrl.searchParams.set("amount", responseData.amount || "")
-// //       successUrl.searchParams.set("trackingId", responseData.tracking_id || "")
-// //       successUrl.searchParams.set("paymentMethod", "CCAvenue")
-
-// //       console.log("✅ GET Payment successful, redirecting to success page")
-// //       return NextResponse.redirect(successUrl.toString())
-// //     } else {
-// //       const failureUrl = new URL("/whatsapbot/PaymentFailed", baseUrl)
-// //       failureUrl.searchParams.set("orderId", responseData.order_id || "")
-// //       failureUrl.searchParams.set("amount", responseData.amount || "")
-// //       failureUrl.searchParams.set(
-// //         "error",
-// //         responseData.failure_message || responseData.status_message || "Payment failed",
-// //       )
-// //       failureUrl.searchParams.set("paymentMethod", "CCAvenue")
-
-// //       console.log("❌ GET Payment failed, redirecting to failure page")
-// //       return NextResponse.redirect(failureUrl.toString())
-// //     }
-// //   } catch (error : any) {
-// //     console.error("❌ Error processing GET payment response:", error)
-
-// //     const errorUrl = `https://ensurekar.com/whatsapbot/PaymentFailed?error=${encodeURIComponent(`Payment processing error: ${error.message}`)}`
-// //     return NextResponse.redirect(errorUrl)
-// //   }
-// // }
-
-// // function decrypt(encryptedText: string, key: string): string {
-// //   try {
-// //     console.log("🔓 Starting decryption process...")
-
-// //     // Create MD5 hash of working key (CCAvenue standard)
-// //     const m = crypto.createHash("md5")
-// //     m.update(key)
-// //     const keyBuffer = m.digest() // 128-bit key (16 bytes)
-
-// //     // Create IV as Buffer with values [0,1,2,...,15] (CCAvenue standard)
-// //     const iv = Buffer.from(Array.from(Array(16).keys()))
-
-// //     // Use createDecipheriv instead of deprecated createDecipher
-// //     const decipher = crypto.createDecipheriv("aes-128-cbc", keyBuffer, iv)
-// //     decipher.setAutoPadding(true)
-
-// //     let decrypted = decipher.update(encryptedText, "hex", "utf8")
-// //     decrypted += decipher.final("utf8")
-
-// //     console.log("✅ Decryption successful")
-// //     return decrypted
-// //   } catch (error : any) {
-// //     console.error("❌ Decryption error:", error.message)
-// //     throw new Error(`Failed to decrypt payment response: ${error.message}`)
-// //   }
-// // }
-
-// // function parseResponseData(responseString: string): Record<string, string> {
-// //   const data: Record<string, string> = {}
-// //   const pairs = responseString.split("&")
-
-// //   console.log("🔍 Parsing response data:", {
-// //     totalPairs: pairs.length,
-// //   })
-
-// //   pairs.forEach((pair) => {
-// //     const [key, value] = pair.split("=")
-// //     if (key && value !== undefined) {
-// //       data[key] = decodeURIComponent(value)
-// //     }
-// //   })
-
-// //   console.log("📋 Parsed data keys:", Object.keys(data))
-// //   return data
-// // }
-
-// // async function updatePaymentStatus(responseData: Record<string, string>) {
-// //   try {
-// //     const logData = {
-// //       orderId: responseData.order_id,
-// //       status: responseData.order_status,
-// //       trackingId: responseData.tracking_id,
-// //       bankRefNo: responseData.bank_ref_no,
-// //       amount: responseData.amount,
-// //       currency: responseData.currency,
-// //       paymentMode: responseData.payment_mode,
-// //       cardName: responseData.card_name,
-// //       statusMessage: responseData.status_message,
-// //       failureMessage: responseData.failure_message,
-// //       timestamp: new Date().toISOString(),
-// //     }
-
-// //     console.log("📊 Payment status logged:", logData)
-
-// //     // TODO: Implement actual database update
-// //     console.log("✅ Payment status logged successfully")
-// //   } catch (error) {
-// //     console.error("❌ Error updating payment status:", error)
-// //     // Don't throw error here to avoid breaking the response flow
-// //   }
-// // }
 
 
 import crypto from "crypto"
@@ -509,43 +126,98 @@ function decrypt(encryptedText: string, workingKey: string) {
 export async function POST(request: NextRequest) {
   try {
     console.log("🔄 Payment Response Handler Called")
+    console.log("Request headers:", Object.fromEntries(request.headers.entries()))
 
-    const formData = await request.formData()
-    const encResp = formData.get("encResp")?.toString()
+    let encResp: string | null = null
 
-    if (!encResp) {
-      throw new Error("No encResp received")
+    // Try multiple ways to get the encrypted response
+    try {
+      // Method 1: Try form data
+      const formData = await request.formData()
+      encResp = formData.get("encResp")?.toString() || null
+      console.log("✅ Got encrypted response from form data")
+    } catch (formError) {
+      console.log("⚠️ Form data parsing failed, trying text parsing...")
+      
+      try {
+        // Method 2: Try URL encoded data
+        const body = await request.text()
+        const params = new URLSearchParams(body)
+        encResp = params.get("encResp")
+        console.log("✅ Got encrypted response from URL params")
+      } catch (textError) {
+        console.error("❌ Both parsing methods failed:", { formError, textError })
+      }
     }
 
-    console.log("📦 Encrypted response received")
+    if (!encResp) {
+      console.error("❌ No encrypted response received")
+      return Response.redirect(
+        `https://ensurekar.com/whatsapbot/PaymentFailed?error=${encodeURIComponent("No response received")}`,
+        302
+      )
+    }
+
+    console.log("📦 Encrypted response received:", {
+      length: encResp.length,
+      preview: encResp.substring(0, 50) + "..."
+    })
 
     // Decrypt the response
     const decrypted = decrypt(encResp, WORKING_KEY)
+    console.log("✅ Response decrypted successfully")
 
     // Parse decrypted data into an object
     const data = Object.fromEntries(new URLSearchParams(decrypted))
 
-    console.log("✅ Decrypted CCAvenue Response:", data)
-    console.log("📊 Payment Status:", data.order_status)
-    console.log("📊 Order ID:", data.order_id)
+    console.log("📊 Payment Details:")
+    console.log("- Order ID:", data.order_id)
+    console.log("- Status:", data.order_status)
+    console.log("- Amount:", data.amount)
+    console.log("- Tracking ID:", data.tracking_id)
+    console.log("- Payment Mode:", data.payment_mode)
 
-    // Encode all response data into base64
-    const encodedData = Buffer.from(JSON.stringify(data)).toString("base64")
+    // Log full response for debugging (remove sensitive data)
+    const logData = { ...data }
+    delete logData.card_number // Remove sensitive card info
+    console.log("🔍 Full payment response:", logData)
 
-    const redirectUrl =
-      data.order_status === "Success"
-        ? `https://ensurekar.com/whatsapbot/PaymentSuccessful?data=${encodeURIComponent(encodedData)}`
-        : `https://ensurekar.com/whatsapbot/PaymentFailed?data=${encodeURIComponent(encodedData)}`
+    // TODO: Update payment status in database
+    await updatePaymentStatus(data)
 
-    console.log("🔄 Redirecting to:", redirectUrl)
+    // Create redirect URLs with individual parameters instead of encoded data
+    if (data.order_status === "Success") {
+      const successUrl = new URL("/whatsapbot/PaymentSuccessful", "https://ensurekar.com")
+      successUrl.searchParams.set("orderId", data.order_id || "")
+      successUrl.searchParams.set("amount", data.amount || "")
+      successUrl.searchParams.set("trackingId", data.tracking_id || "")
+      successUrl.searchParams.set("bankRefNo", data.bank_ref_no || "")
+      successUrl.searchParams.set("paymentMode", data.payment_mode || "")
+      successUrl.searchParams.set("currency", data.currency || "INR")
+      successUrl.searchParams.set("statusMessage", data.status_message || "")
+      successUrl.searchParams.set("paymentMethod", "CCAvenue")
 
-    // Use HTTP 302 redirect
-    return Response.redirect(redirectUrl, 302)
-  } catch (error : any) {
+      console.log("✅ Payment successful, redirecting to:", successUrl.toString())
+      return Response.redirect(successUrl.toString(), 302)
+    } else {
+      const failureUrl = new URL("/whatsapbot/PaymentFailed", "https://ensurekar.com")
+      failureUrl.searchParams.set("orderId", data.order_id || "")
+      failureUrl.searchParams.set("amount", data.amount || "")
+      failureUrl.searchParams.set("trackingId", data.tracking_id || "")
+      failureUrl.searchParams.set("error", data.failure_message || data.status_message || "Payment failed")
+      failureUrl.searchParams.set("statusCode", data.status_code || "")
+      failureUrl.searchParams.set("paymentMethod", "CCAvenue")
+
+      console.log("❌ Payment failed, redirecting to:", failureUrl.toString())
+      return Response.redirect(failureUrl.toString(), 302)
+    }
+  } catch (error: any) {
     console.error("❌ Payment Response Error:", error)
+    console.error("Error stack:", error.stack)
+    
     return Response.redirect(
-      `https://ensurekar.com/whatsapbot/PaymentFailed?reason=${encodeURIComponent(error.message || "processing_failed")}`,
-      302,
+      `https://ensurekar.com/whatsapbot/PaymentFailed?error=${encodeURIComponent(`Processing error: ${error.message}`)}`,
+      302
     )
   }
 }
@@ -559,36 +231,125 @@ export async function GET(request: NextRequest) {
     const encResp = url.searchParams.get("encResp")
 
     if (!encResp) {
-      throw new Error("No encResp received in GET")
+      console.error("❌ No encrypted response received in GET")
+      return Response.redirect(
+        `https://ensurekar.com/whatsapbot/PaymentFailed?error=${encodeURIComponent("No response received")}`,
+        302
+      )
     }
 
-    console.log("📦 Encrypted response received via GET")
+    console.log("📦 Encrypted response received via GET:", {
+      length: encResp.length,
+      preview: encResp.substring(0, 50) + "..."
+    })
 
     // Decrypt the response
     const decrypted = decrypt(encResp, WORKING_KEY)
+    console.log("✅ GET Response decrypted successfully")
 
     // Parse decrypted data into an object
     const data = Object.fromEntries(new URLSearchParams(decrypted))
 
-    console.log("✅ Decrypted CCAvenue Response (GET):", data)
+    console.log("📊 GET Payment Details:")
+    console.log("- Order ID:", data.order_id)
+    console.log("- Status:", data.order_status)
 
-    // Encode all response data into base64
-    const encodedData = Buffer.from(JSON.stringify(data)).toString("base64")
+    // TODO: Update payment status in database
+    await updatePaymentStatus(data)
 
-    const redirectUrl =
-      data.order_status === "Success"
-        ? `https://ensurekar.com/whatsapbot/PaymentSuccessful?data=${encodeURIComponent(encodedData)}`
-        : `https://ensurekar.com/whatsapbot/PaymentFailed?data=${encodeURIComponent(encodedData)}`
+    // Create redirect URLs with individual parameters
+    if (data.order_status === "Success") {
+      const successUrl = new URL("/whatsapbot/PaymentSuccessful", "https://ensurekar.com")
+      successUrl.searchParams.set("orderId", data.order_id || "")
+      successUrl.searchParams.set("amount", data.amount || "")
+      successUrl.searchParams.set("trackingId", data.tracking_id || "")
+      successUrl.searchParams.set("bankRefNo", data.bank_ref_no || "")
+      successUrl.searchParams.set("paymentMode", data.payment_mode || "")
+      successUrl.searchParams.set("currency", data.currency || "INR")
+      successUrl.searchParams.set("statusMessage", data.status_message || "")
+      successUrl.searchParams.set("paymentMethod", "CCAvenue")
 
-    console.log("🔄 GET Redirecting to:", redirectUrl)
+      console.log("✅ GET Payment successful, redirecting to success page")
+      return Response.redirect(successUrl.toString(), 302)
+    } else {
+      const failureUrl = new URL("/whatsapbot/PaymentFailed", "https://ensurekar.com")
+      failureUrl.searchParams.set("orderId", data.order_id || "")
+      failureUrl.searchParams.set("amount", data.amount || "")
+      failureUrl.searchParams.set("trackingId", data.tracking_id || "")
+      failureUrl.searchParams.set("error", data.failure_message || data.status_message || "Payment failed")
+      failureUrl.searchParams.set("statusCode", data.status_code || "")
+      failureUrl.searchParams.set("paymentMethod", "CCAvenue")
 
-    // Use HTTP 302 redirect
-    return Response.redirect(redirectUrl, 302)
-  } catch (error : any) {
+      console.log("❌ GET Payment failed, redirecting to failure page")
+      return Response.redirect(failureUrl.toString(), 302)
+    }
+  } catch (error: any) {
     console.error("❌ Payment Response GET Error:", error)
+    
     return Response.redirect(
-      `https://ensurekar.com/whatsapbot/PaymentFailed?reason=${encodeURIComponent(error.message || "processing_failed")}`,
-      302,
+      `https://ensurekar.com/whatsapbot/PaymentFailed?error=${encodeURIComponent(`Processing error: ${error.message}`)}`,
+      302
     )
+  }
+}
+
+// Function to update payment status in database
+async function updatePaymentStatus(responseData: Record<string, string>) {
+  try {
+    const logData = {
+      orderId: responseData.order_id,
+      status: responseData.order_status,
+      trackingId: responseData.tracking_id,
+      bankRefNo: responseData.bank_ref_no,
+      amount: responseData.amount,
+      currency: responseData.currency,
+      paymentMode: responseData.payment_mode,
+      cardName: responseData.card_name,
+      statusMessage: responseData.status_message,
+      failureMessage: responseData.failure_message,
+      statusCode: responseData.status_code,
+      timestamp: new Date().toISOString(),
+    }
+
+    console.log("📊 Updating payment status:", logData)
+
+    // TODO: Implement actual database update
+    // Example with Prisma:
+    // await prisma.paymentTransaction.upsert({
+    //   where: { orderId: responseData.order_id },
+    //   update: {
+    //     status: responseData.order_status,
+    //     trackingId: responseData.tracking_id,
+    //     bankRefNo: responseData.bank_ref_no,
+    //     paymentMode: responseData.payment_mode,
+    //     cardName: responseData.card_name,
+    //     statusMessage: responseData.status_message,
+    //     failureMessage: responseData.failure_message,
+    //     statusCode: responseData.status_code,
+    //     responseData: JSON.stringify(responseData),
+    //     updatedAt: new Date()
+    //   },
+    //   create: {
+    //     orderId: responseData.order_id,
+    //     status: responseData.order_status,
+    //     amount: parseFloat(responseData.amount || "0"),
+    //     currency: responseData.currency || "INR",
+    //     trackingId: responseData.tracking_id,
+    //     bankRefNo: responseData.bank_ref_no,
+    //     paymentMode: responseData.payment_mode,
+    //     cardName: responseData.card_name,
+    //     statusMessage: responseData.status_message,
+    //     failureMessage: responseData.failure_message,
+    //     statusCode: responseData.status_code,
+    //     responseData: JSON.stringify(responseData),
+    //     createdAt: new Date(),
+    //     updatedAt: new Date()
+    //   }
+    // })
+
+    console.log("✅ Payment status updated successfully")
+  } catch (error) {
+    console.error("❌ Error updating payment status:", error)
+    // Don't throw error here to avoid breaking the response
   }
 }
