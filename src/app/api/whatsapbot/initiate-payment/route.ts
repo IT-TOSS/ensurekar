@@ -149,8 +149,9 @@ export async function POST(request: NextRequest) {
     // Encrypt the data
     const encryptedData = encrypt(merchantParamStr, WORKING_KEY)
 
-    // Determine the correct CCAvenue URL
-    const formUrl = "https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"
+    // 🎯 IMPORTANT: Use PRODUCTION URL since you have production credentials
+    const formUrl = "https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction"
+
 
     console.log("🌐 CCAvenue details:", {
       formUrl,
