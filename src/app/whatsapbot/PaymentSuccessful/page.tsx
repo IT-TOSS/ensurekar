@@ -102,7 +102,7 @@ export default function PaymentSuccessful({ searchParams }: PaymentSuccessProps)
     hour: "2-digit",
     minute: "2-digit",
   })
-
+console.log("Downloading receipt for order:", orderId)
   const handleDownloadReceipt = () => {
     // Implement receipt download functionality
     console.log("Downloading receipt for order:", orderId)
