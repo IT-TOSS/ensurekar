@@ -2,18 +2,14 @@ import { type NextRequest, NextResponse } from "next/server"
 import crypto from "crypto"
 
 // CCAvenue credentials - UPDATE THESE WITH YOUR ACTUAL CREDENTIALS
-const MERCHANT_ID = process.env.CCAVENUE_MERCHANT_ID || "2064927"
-const ACCESS_CODE = process.env.CCAVENUE_ACCESS_CODE || "AVTB18KB63AS79BTSA"
-const WORKING_KEY = process.env.CCAVENUE_WORKING_KEY || "B3ACAE21142FBB1FA2E53B0C1C184486"
+const MERCHANT_ID = "2064927"
+const ACCESS_CODE = "AVTB18KB63AS79BTSA"
+const WORKING_KEY = "B3ACAE21142FBB1FA2E53B0C1C184486"
 
 // URLs for redirect after payment completion
-const REDIRECT_URL = process.env.NEXT_PUBLIC_BASE_URL
-  ? `https://ensurekar.com/api/whatsapbot/payment-response`
-  : "http://localhost:3000/api/whatsapbot/payment-response"
+const REDIRECT_URL = `https://ensurekar.com/api/whatsapbot/payment-response`
 
-const CANCEL_URL = process.env.NEXT_PUBLIC_BASE_URL
-  ? `https://ensurekar.com/whatsapbot/PaymentFailed`
-  : "http://localhost:3000/whatsapbot/PaymentFailed"
+const CANCEL_URL = `https://ensurekar.com/whatsapbot/PaymentFailed`
 
 // Encrypt function for CCAvenue parameters
 function encrypt(plainText: string, workingKey: string): string {

@@ -10,24 +10,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.redirect(new URL("/payment-failed", request.url))
     }
 
-    const workingKey = process.env.CCAVENUE_WORKING_KEY || "your_working_key"
+    const workingKey = "B3ACAE21142FBB1FA2E53B0C1C184486"
 
     // Decrypt the response
     const decryptedResponse = decrypt(encResponse, workingKey)
     const responseData = parseResponseData(decryptedResponse)
+
+    console.log("Decrypted response data:", responseData)
 
     // Update payment status in database
     await updatePaymentStatus(responseData)
 
     // Redirect based on payment status
     if (responseData.order_status === "Success") {
-      return NextResponse.redirect(new URL(`/payment-success?orderId=${responseData.order_id}`, request.url))
+      return NextResponse.redirect(new URL(`https://ensurekar.com/PaymentSuccessful?orderId=${responseData.order_id}`, request.url))
     } else {
-      return NextResponse.redirect(new URL(`/payment-failed?orderId=${responseData.order_id}`, request.url))
+      return NextResponse.redirect(new URL(`https://ensurekar.com/PaymentFailed?orderId=${responseData.order_id}`, request.url))
     }
   } catch (error) {
     console.error("Error processing payment response:", error)
-    return NextResponse.redirect(new URL("/payment-failed", request.url))
+    return NextResponse.redirect(new URL("https://ensurekar.com/PaymentFailed", request.url))
   }
 }
 
