@@ -732,10 +732,10 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       className={`${sizeClasses} rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-        disabled
-          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-          : "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500"
-      } ${className}`}
+      disabled
+        ? "bg-blue-600 text-gray-500 cursor-not-allowed"
+        : "bg-blue-600 hover:bg-blue-700 text-blue-500 focus:ring-blue-500"
+    } ${className}`}
       {...props}
     >
       {children}
