@@ -21,7 +21,7 @@ export default function ClientLayoutWrapper({
 }: ClientLayoutWrapperProps) {
   const pathname = usePathname();
   // const isAdminDashboard = pathname === '/Adman' || pathname?.startsWith('/Adman/');
-  const isAdminDashboard =  pathname === '/Adman' ||  pathname?.startsWith('/Adman/') ||  pathname === '/admin' ||  pathname?.startsWith('/admin/');
+  const isAdminDashboard =  pathname === '/Adman' ||  pathname?.startsWith('/Adman/') ||  pathname === '/admin' ||  pathname?.startsWith('/admin/') || pathname === '/whatsapbot' || pathname?.startsWith('/whatsapbot/');
 
   return (
     <>

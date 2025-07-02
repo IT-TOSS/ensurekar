@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "lint": "next lint",
-  "start": "node server.js"
-}
-,
+    "dev": "next dev",
+    "build": "next build",
+    "lint": "next lint",
+    "start": "node server.js"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.0",
     "@types/jsonwebtoken": "^9.0.7",
