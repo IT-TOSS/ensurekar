@@ -486,6 +486,8 @@
 // //     // Don't throw error here to avoid breaking the response flow
 // //   }
 // // }
+
+
 import crypto from "crypto"
 import type { NextRequest } from "next/server"
 
@@ -495,7 +497,7 @@ function decrypt(encryptedText: string, workingKey: string) {
   const m = crypto.createHash("md5")
   m.update(workingKey)
   const key = m.digest()
-  const iv = Buffer.from([...Array(16).keys()])
+  const iv = Buffer.from(Array.from(Array(16).keys()))
 
   const decipher = crypto.createDecipheriv("aes-128-cbc", key, iv)
   let decoded = decipher.update(encryptedText, "hex", "utf8")
@@ -539,7 +541,7 @@ export async function POST(request: NextRequest) {
 
     // Use HTTP 302 redirect
     return Response.redirect(redirectUrl, 302)
-  } catch (error) {
+  } catch (error : any) {
     console.error("❌ Payment Response Error:", error)
     return Response.redirect(
       `https://ensurekar.com/whatsapbot/PaymentFailed?reason=${encodeURIComponent(error.message || "processing_failed")}`,
@@ -582,7 +584,7 @@ export async function GET(request: NextRequest) {
 
     // Use HTTP 302 redirect
     return Response.redirect(redirectUrl, 302)
-  } catch (error) {
+  } catch (error : any) {
     console.error("❌ Payment Response GET Error:", error)
     return Response.redirect(
       `https://ensurekar.com/whatsapbot/PaymentFailed?reason=${encodeURIComponent(error.message || "processing_failed")}`,
