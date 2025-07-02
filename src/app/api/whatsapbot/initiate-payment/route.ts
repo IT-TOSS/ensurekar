@@ -8,11 +8,11 @@ const WORKING_KEY = process.env.CCAVENUE_WORKING_KEY || "B3ACAE21142FBB1FA2E53B0
 
 // URLs for redirect after payment completion
 const REDIRECT_URL = process.env.NEXT_PUBLIC_BASE_URL
-  ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/whatsapbot/payment-response`
+  ? `https://ensurekar.com/api/whatsapbot/payment-response`
   : "http://localhost:3000/api/whatsapbot/payment-response"
 
 const CANCEL_URL = process.env.NEXT_PUBLIC_BASE_URL
-  ? `${process.env.NEXT_PUBLIC_BASE_URL}/whatsapbot/PaymentFailed`
+  ? `https://ensurekar.com/whatsapbot/PaymentFailed`
   : "http://localhost:3000/whatsapbot/PaymentFailed"
 
 // Encrypt function for CCAvenue parameters
