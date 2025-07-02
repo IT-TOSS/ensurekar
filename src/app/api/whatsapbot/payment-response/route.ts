@@ -486,133 +486,107 @@
 // //     // Don't throw error here to avoid breaking the response flow
 // //   }
 // // }
-
-
-import { type NextRequest, NextResponse } from "next/server"
 import crypto from "crypto"
+import type { NextRequest } from "next/server"
 
-// This is a completely separate API route that won't conflict with Server Actions
+const WORKING_KEY = "B3ACAE21142FBB1FA2E53B0C1C184486"
+
+function decrypt(encryptedText: string, workingKey: string) {
+  const m = crypto.createHash("md5")
+  m.update(workingKey)
+  const key = m.digest()
+  const iv = Buffer.from([...Array(16).keys()])
+
+  const decipher = crypto.createDecipheriv("aes-128-cbc", key, iv)
+  let decoded = decipher.update(encryptedText, "hex", "utf8")
+  decoded += decipher.final("utf8")
+
+  return decoded
+}
+
 export async function POST(request: NextRequest) {
   try {
-    console.log("🔄 Payment Callback Handler - POST")
-    console.log("Headers:", Object.fromEntries(request.headers.entries()))
+    console.log("🔄 Payment Response Handler Called")
 
-    // Get the raw body
-    const body = await request.text()
-    console.log("Raw body length:", body.length)
+    const formData = await request.formData()
+    const encResp = formData.get("encResp")?.toString()
 
-    // Parse form data
-    const params = new URLSearchParams(body)
-    const encResponse = params.get("encResp")
-
-    if (!encResponse) {
-      console.error("❌ No encrypted response")
-      return NextResponse.redirect("https://ensurekar.com/whatsapbot/PaymentFailed?error=No%20response%20received")
+    if (!encResp) {
+      throw new Error("No encResp received")
     }
 
     console.log("📦 Encrypted response received")
 
-    const workingKey = process.env.CCAVENUE_WORKING_KEY || "B3ACAE21142FBB1FA2E53B0C1C184486"
+    // Decrypt the response
+    const decrypted = decrypt(encResp, WORKING_KEY)
 
-    // Decrypt response
-    const decryptedResponse = decrypt(encResponse, workingKey)
-    const responseData = parseResponseData(decryptedResponse)
+    // Parse decrypted data into an object
+    const data = Object.fromEntries(new URLSearchParams(decrypted))
 
-    console.log("📊 Payment Status:", responseData.order_status)
-    console.log("📊 Order ID:", responseData.order_id)
+    console.log("✅ Decrypted CCAvenue Response:", data)
+    console.log("📊 Payment Status:", data.order_status)
+    console.log("📊 Order ID:", data.order_id)
 
-    // Redirect based on status
-    if (responseData.order_status === "Success") {
-      const successUrl = `https://ensurekar.com/whatsapbot/PaymentSuccessful?orderId=${encodeURIComponent(responseData.order_id || "")}&amount=${encodeURIComponent(responseData.amount || "")}&trackingId=${encodeURIComponent(responseData.tracking_id || "")}&paymentMethod=CCAvenue`
+    // Encode all response data into base64
+    const encodedData = Buffer.from(JSON.stringify(data)).toString("base64")
 
-      console.log("✅ Redirecting to success:", successUrl)
-      return NextResponse.redirect(successUrl)
-    } else {
-      const failureUrl = `https://ensurekar.com/whatsapbot/PaymentFailed?orderId=${encodeURIComponent(responseData.order_id || "")}&amount=${encodeURIComponent(responseData.amount || "")}&error=${encodeURIComponent(responseData.failure_message || responseData.status_message || "Payment failed")}&paymentMethod=CCAvenue`
+    const redirectUrl =
+      data.order_status === "Success"
+        ? `https://ensurekar.com/whatsapbot/PaymentSuccessful?data=${encodeURIComponent(encodedData)}`
+        : `https://ensurekar.com/whatsapbot/PaymentFailed?data=${encodeURIComponent(encodedData)}`
 
-      console.log("❌ Redirecting to failure:", failureUrl)
-      return NextResponse.redirect(failureUrl)
-    }
+    console.log("🔄 Redirecting to:", redirectUrl)
+
+    // Use HTTP 302 redirect
+    return Response.redirect(redirectUrl, 302)
   } catch (error) {
-    console.error("❌ Payment callback error:", error)
-    return NextResponse.redirect(
-      `https://ensurekar.com/whatsapbot/PaymentFailed?error=${encodeURIComponent("Payment processing error")}`,
+    console.error("❌ Payment Response Error:", error)
+    return Response.redirect(
+      `https://ensurekar.com/whatsapbot/PaymentFailed?reason=${encodeURIComponent(error.message || "processing_failed")}`,
+      302,
     )
   }
 }
 
-// Handle GET requests too
+// Handle GET requests too (some payment gateways use GET)
 export async function GET(request: NextRequest) {
   try {
-    console.log("🔄 Payment Callback Handler - GET")
+    console.log("🔄 Payment Response Handler GET Called")
 
     const url = new URL(request.url)
-    const encResponse = url.searchParams.get("encResp")
+    const encResp = url.searchParams.get("encResp")
 
-    if (!encResponse) {
-      console.error("❌ No encrypted response in GET")
-      return NextResponse.redirect("https://ensurekar.com/whatsapbot/PaymentFailed?error=No%20response%20received")
+    if (!encResp) {
+      throw new Error("No encResp received in GET")
     }
 
-    const workingKey = process.env.CCAVENUE_WORKING_KEY || "B3ACAE21142FBB1FA2E53B0C1C184486"
+    console.log("📦 Encrypted response received via GET")
 
-    // Decrypt response
-    const decryptedResponse = decrypt(encResponse, workingKey)
-    const responseData = parseResponseData(decryptedResponse)
+    // Decrypt the response
+    const decrypted = decrypt(encResp, WORKING_KEY)
 
-    console.log("📊 GET Payment Status:", responseData.order_status)
+    // Parse decrypted data into an object
+    const data = Object.fromEntries(new URLSearchParams(decrypted))
 
-    // Redirect based on status
-    if (responseData.order_status === "Success") {
-      const successUrl = `https://ensurekar.com/whatsapbot/PaymentSuccessful?orderId=${encodeURIComponent(responseData.order_id || "")}&amount=${encodeURIComponent(responseData.amount || "")}&trackingId=${encodeURIComponent(responseData.tracking_id || "")}&paymentMethod=CCAvenue`
+    console.log("✅ Decrypted CCAvenue Response (GET):", data)
 
-      return NextResponse.redirect(successUrl)
-    } else {
-      const failureUrl = `https://ensurekar.com/whatsapbot/PaymentFailed?orderId=${encodeURIComponent(responseData.order_id || "")}&amount=${encodeURIComponent(responseData.amount || "")}&error=${encodeURIComponent(responseData.failure_message || responseData.status_message || "Payment failed")}&paymentMethod=CCAvenue`
+    // Encode all response data into base64
+    const encodedData = Buffer.from(JSON.stringify(data)).toString("base64")
 
-      return NextResponse.redirect(failureUrl)
-    }
+    const redirectUrl =
+      data.order_status === "Success"
+        ? `https://ensurekar.com/whatsapbot/PaymentSuccessful?data=${encodeURIComponent(encodedData)}`
+        : `https://ensurekar.com/whatsapbot/PaymentFailed?data=${encodeURIComponent(encodedData)}`
+
+    console.log("🔄 GET Redirecting to:", redirectUrl)
+
+    // Use HTTP 302 redirect
+    return Response.redirect(redirectUrl, 302)
   } catch (error) {
-    console.error("❌ GET Payment callback error:", error)
-    return NextResponse.redirect(
-      `https://ensurekar.com/whatsapbot/PaymentFailed?error=${encodeURIComponent("Payment processing error")}`,
+    console.error("❌ Payment Response GET Error:", error)
+    return Response.redirect(
+      `https://ensurekar.com/whatsapbot/PaymentFailed?reason=${encodeURIComponent(error.message || "processing_failed")}`,
+      302,
     )
   }
-}
-
-function decrypt(encryptedText: string, key: string): string {
-  try {
-    // Create MD5 hash of working key
-    const m = crypto.createHash("md5")
-    m.update(key)
-    const keyBuffer = m.digest()
-
-    // Create IV
-    const iv = Buffer.from(Array.from(Array(16).keys()))
-
-    // Decrypt
-    const decipher = crypto.createDecipheriv("aes-128-cbc", keyBuffer, iv)
-    decipher.setAutoPadding(true)
-
-    let decrypted = decipher.update(encryptedText, "hex", "utf8")
-    decrypted += decipher.final("utf8")
-
-    return decrypted
-  } catch (error : any) {
-    throw new Error(`Decryption failed: ${error.message}`)
-  }
-}
-
-function parseResponseData(responseString: string): Record<string, string> {
-  const data: Record<string, string> = {}
-  const pairs = responseString.split("&")
-
-  pairs.forEach((pair) => {
-    const [key, value] = pair.split("=")
-    if (key && value !== undefined) {
-      data[key] = decodeURIComponent(value)
-    }
-  })
-
-  return data
 }

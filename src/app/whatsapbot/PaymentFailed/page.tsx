@@ -99,11 +99,33 @@ const Separator = ({ className = "" }: { className?: string }) => {
 function PaymentFailedContent() {
   const searchParams = useSearchParams()
 
-  const orderId = searchParams.get("orderId") || "N/A"
-  const amount = searchParams.get("amount") || "1.00"
-  const error = searchParams.get("error") || "Payment was cancelled or could not be processed"
-  const paymentMethod = searchParams.get("paymentMethod") || "Online Payment"
-  const trackingId = searchParams.get("trackingId")
+  // Try to get data from encoded parameter first, then fallback to individual params
+  const encodedData = searchParams.get("data")
+  const reason = searchParams.get("reason")
+  let paymentData: any = {}
+
+  if (encodedData) {
+    try {
+      const decodedData = Buffer.from(decodeURIComponent(encodedData), "base64").toString("utf8")
+      paymentData = JSON.parse(decodedData)
+      console.log("📊 Decoded payment data:", paymentData)
+    } catch (error) {
+      console.error("Error decoding payment data:", error)
+    }
+  }
+
+  // Use decoded data or fallback to URL params
+  const orderId = paymentData.order_id || searchParams.get("orderId") || "N/A"
+  const amount = paymentData.amount || searchParams.get("amount") || "1.00"
+  const error =
+    paymentData.failure_message ||
+    paymentData.status_message ||
+    searchParams.get("error") ||
+    reason ||
+    "Payment was cancelled or could not be processed"
+  const paymentMethod = paymentData.payment_mode || searchParams.get("paymentMethod") || "CCAvenue"
+  const trackingId = paymentData.tracking_id || searchParams.get("trackingId")
+  const bankRefNo = paymentData.bank_ref_no
 
   const currentDate = new Date().toLocaleDateString("en-IN", {
     year: "numeric",
