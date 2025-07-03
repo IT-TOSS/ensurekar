@@ -1,110 +1,4 @@
 
-// import crypto from "crypto"
-// import type { NextRequest } from "next/server"
-
-// const WORKING_KEY = "B3ACAE21142FBB1FA2E53B0C1C184486"
-
-// function decrypt(encryptedText: string, workingKey: string) {
-//   const m = crypto.createHash("md5")
-//   m.update(workingKey)
-//   const key = m.digest()
-//   const iv = Buffer.from(Array.from(Array(16).keys()))
-
-//   const decipher = crypto.createDecipheriv("aes-128-cbc", key, iv)
-//   let decoded = decipher.update(encryptedText, "hex", "utf8")
-//   decoded += decipher.final("utf8")
-
-//   return decoded
-// }
-
-// export async function POST(request: NextRequest) {
-//   try {
-//     console.log("🔄 Payment Response Handler Called")
-
-//     const formData = await request.formData()
-//     const encResp = formData.get("encResp")?.toString()
-
-//     if (!encResp) {
-//       throw new Error("No encResp received")
-//     }
-
-//     console.log("📦 Encrypted response received")
-
-//     // Decrypt the response
-//     const decrypted = decrypt(encResp, WORKING_KEY)
-
-//     // Parse decrypted data into an object
-//     const data = Object.fromEntries(new URLSearchParams(decrypted))
-
-//     console.log("✅ Decrypted CCAvenue Response:", data)
-//     console.log("📊 Payment Status:", data.order_status)
-//     console.log("📊 Order ID:", data.order_id)
-
-//     // Encode all response data into base64
-//     const encodedData = Buffer.from(JSON.stringify(data)).toString("base64")
-
-//     const redirectUrl =
-//       data.order_status === "Success"
-//         ? `https://ensurekar.com/whatsapbot/PaymentSuccessful?data=${encodeURIComponent(encodedData)}`
-//         : `https://ensurekar.com/whatsapbot/PaymentFailed?data=${encodeURIComponent(encodedData)}`
-
-//     console.log("🔄 Redirecting to:", redirectUrl)
-
-//     // Use HTTP 302 redirect
-//     return Response.redirect(redirectUrl, 302)
-//   } catch (error : any) {
-//     console.error("❌ Payment Response Error:", error)
-//     return Response.redirect(
-//       `https://ensurekar.com/whatsapbot/PaymentFailed?reason=${encodeURIComponent(error.message || "processing_failed")}`,
-//       302,
-//     )
-//   }
-// }
-
-// // Handle GET requests too (some payment gateways use GET)
-// export async function GET(request: NextRequest) {
-//   try {
-//     console.log("🔄 Payment Response Handler GET Called")
-
-//     const url = new URL(request.url)
-//     const encResp = url.searchParams.get("encResp")
-
-//     if (!encResp) {
-//       throw new Error("No encResp received in GET")
-//     }
-
-//     console.log("📦 Encrypted response received via GET")
-
-//     // Decrypt the response
-//     const decrypted = decrypt(encResp, WORKING_KEY)
-
-//     // Parse decrypted data into an object
-//     const data = Object.fromEntries(new URLSearchParams(decrypted))
-
-//     console.log("✅ Decrypted CCAvenue Response (GET):", data)
-
-//     // Encode all response data into base64
-//     const encodedData = Buffer.from(JSON.stringify(data)).toString("base64")
-
-//     const redirectUrl =
-//       data.order_status === "Success"
-//         ? `https://ensurekar.com/whatsapbot/PaymentSuccessful?data=${encodeURIComponent(encodedData)}`
-//         : `https://ensurekar.com/whatsapbot/PaymentFailed?data=${encodeURIComponent(encodedData)}`
-
-//     console.log("🔄 GET Redirecting to:", redirectUrl)
-
-//     // Use HTTP 302 redirect
-//     return Response.redirect(redirectUrl, 302)
-//   } catch (error : any) {
-//     console.error("❌ Payment Response GET Error:", error)
-//     return Response.redirect(
-//       `https://ensurekar.com/whatsapbot/PaymentFailed?reason=${encodeURIComponent(error.message || "processing_failed")}`,
-//       302,
-//     )
-//   }
-// }
-
-
 import crypto from "crypto"
 import type { NextRequest } from "next/server"
 
@@ -292,64 +186,79 @@ export async function GET(request: NextRequest) {
     )
   }
 }
-
-// Function to update payment status in database
 async function updatePaymentStatus(responseData: Record<string, string>) {
   try {
-    const logData = {
-      orderId: responseData.order_id,
-      status: responseData.order_status,
-      trackingId: responseData.tracking_id,
-      bankRefNo: responseData.bank_ref_no,
-      amount: responseData.amount,
-      currency: responseData.currency,
-      paymentMode: responseData.payment_mode,
-      cardName: responseData.card_name,
-      statusMessage: responseData.status_message,
-      failureMessage: responseData.failure_message,
-      statusCode: responseData.status_code,
-      timestamp: new Date().toISOString(),
+    const sanitizedData = {
+      orderId: responseData.order_id || "",
+      trackingId: responseData.tracking_id || "",
+      bankRefNo: responseData.bank_ref_no || "",
+      orderStatus: responseData.order_status || "",
+      failureMessage: responseData.failure_message || "",
+      paymentMode: responseData.payment_mode || "",
+      cardName: responseData.card_name || "",
+      statusCode: responseData.status_code || "",
+      statusMessage: responseData.status_message || "",
+      currency: responseData.currency || "INR",
+      amount: responseData.amount || "",
+      billingName: responseData.billing_name || "",
+      billingAddress: responseData.billing_address || "",
+      billingCity: responseData.billing_city || "",
+      billingState: responseData.billing_state || "",
+      billingZip: responseData.billing_zip || "",
+      billingCountry: responseData.billing_country || "",
+      billingTel: responseData.billing_tel || "",
+      billingEmail: responseData.billing_email || "",
+      deliveryName: responseData.delivery_name || "",
+      deliveryAddress: responseData.delivery_address || "",
+      deliveryCity: responseData.delivery_city || "",
+      deliveryState: responseData.delivery_state || "",
+      deliveryZip: responseData.delivery_zip || "",
+      deliveryCountry: responseData.delivery_country || "",
+      deliveryTel: responseData.delivery_tel || "",
+      merchantParam1: responseData.merchant_param1 || "",
+      merchantParam2: responseData.merchant_param2 || "",
+      merchantParam3: responseData.merchant_param3 || "",
+      merchantParam4: responseData.merchant_param4 || "",
+      merchantParam5: responseData.merchant_param5 || "",
+      vault: responseData.vault || "",
+      offerType: responseData.offer_type || "",
+      offerCode: responseData.offer_code || "",
+      discountValue: responseData.discount_value || "",
+      merAmount: responseData.mer_amount || "",
+      eciValue: responseData.eci_value || "",
+      retry: responseData.retry || "",
+      responseCode: responseData.response_code || "",
+      billingNotes: responseData.billing_notes || "",
+      transDate: responseData.trans_date || "",
+      binCountry: responseData.bin_country || "",
+      authRefNum: responseData.auth_ref_num || "",
+      paymentMethod: "CCAvenue",
+      timestamp: new Date().toISOString()
+    };
+
+    console.log("📊 Sending full payment data to external API:", sanitizedData);
+
+    const saveResponse = await fetch("https://tossconsultancyservices.com/ensurekar-dashboard/paymentsave.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(sanitizedData)
+    });
+
+    if (!saveResponse.ok) {
+      console.error(`❌ Failed to save payment status. HTTP Status: ${saveResponse.status}`);
+      return;
     }
 
-    console.log("📊 Updating payment status:", logData)
+    const resJson = await saveResponse.json();
 
-    // TODO: Implement actual database update
-    // Example with Prisma:
-    // await prisma.paymentTransaction.upsert({
-    //   where: { orderId: responseData.order_id },
-    //   update: {
-    //     status: responseData.order_status,
-    //     trackingId: responseData.tracking_id,
-    //     bankRefNo: responseData.bank_ref_no,
-    //     paymentMode: responseData.payment_mode,
-    //     cardName: responseData.card_name,
-    //     statusMessage: responseData.status_message,
-    //     failureMessage: responseData.failure_message,
-    //     statusCode: responseData.status_code,
-    //     responseData: JSON.stringify(responseData),
-    //     updatedAt: new Date()
-    //   },
-    //   create: {
-    //     orderId: responseData.order_id,
-    //     status: responseData.order_status,
-    //     amount: parseFloat(responseData.amount || "0"),
-    //     currency: responseData.currency || "INR",
-    //     trackingId: responseData.tracking_id,
-    //     bankRefNo: responseData.bank_ref_no,
-    //     paymentMode: responseData.payment_mode,
-    //     cardName: responseData.card_name,
-    //     statusMessage: responseData.status_message,
-    //     failureMessage: responseData.failure_message,
-    //     statusCode: responseData.status_code,
-    //     responseData: JSON.stringify(responseData),
-    //     createdAt: new Date(),
-    //     updatedAt: new Date()
-    //   }
-    // })
-
-    console.log("✅ Payment status updated successfully")
+    if (resJson.success) {
+      console.log("✅ Payment status saved successfully:", resJson.message);
+    } else {
+      console.error("⚠️ API responded with failure:", resJson.message);
+    }
   } catch (error) {
-    console.error("❌ Error updating payment status:", error)
-    // Don't throw error here to avoid breaking the response
+    console.error("❌ Error updating payment status to external API:", error);
   }
 }
