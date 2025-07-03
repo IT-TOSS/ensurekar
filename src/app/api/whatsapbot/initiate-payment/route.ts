@@ -8,8 +8,7 @@ const WORKING_KEY = "B3ACAE21142FBB1FA2E53B0C1C184486"
 
 // URLs for redirect after payment completion
 const REDIRECT_URL = `https://ensurekar.com/api/whatsapbot/payment-response`
-
-const CANCEL_URL = `https://ensurekar.com/whatsapbot/PaymentFailed`
+const CANCEL_URL = `https://ensurekar.com/api/whatsapbot/payment-response`
 
 // Encrypt function for CCAvenue parameters
 function encrypt(plainText: string, workingKey: string): string {
