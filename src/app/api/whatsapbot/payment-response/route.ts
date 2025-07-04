@@ -188,54 +188,6 @@ export async function GET(request: NextRequest) {
 }
 async function updatePaymentStatus(responseData: Record<string, string>) {
   try {
-    // const sanitizedData = {
-    //   orderId: responseData.order_id || "",
-    //   trackingId: responseData.tracking_id || "",
-    //   bankRefNo: responseData.bank_ref_no || "",
-    //   orderStatus: responseData.order_status || "",
-    //   failureMessage: responseData.failure_message || "",
-    //   paymentMode: responseData.payment_mode || "",
-    //   cardName: responseData.card_name || "",
-    //   statusCode: responseData.status_code || "",
-    //   statusMessage: responseData.status_message || "",
-    //   currency: responseData.currency || "INR",
-    //   amount: responseData.amount || "",
-    //   billingName: responseData.billing_name || "",
-    //   billingAddress: responseData.billing_address || "",
-    //   billingCity: responseData.billing_city || "",
-    //   billingState: responseData.billing_state || "",
-    //   billingZip: responseData.billing_zip || "",
-    //   billingCountry: responseData.billing_country || "",
-    //   billingTel: responseData.billing_tel || "",
-    //   billingEmail: responseData.billing_email || "",
-    //   deliveryName: responseData.delivery_name || "",
-    //   deliveryAddress: responseData.delivery_address || "",
-    //   deliveryCity: responseData.delivery_city || "",
-    //   deliveryState: responseData.delivery_state || "",
-    //   deliveryZip: responseData.delivery_zip || "",
-    //   deliveryCountry: responseData.delivery_country || "",
-    //   deliveryTel: responseData.delivery_tel || "",
-    //   merchantParam1: responseData.merchant_param1 || "",
-    //   merchantParam2: responseData.merchant_param2 || "",
-    //   merchantParam3: responseData.merchant_param3 || "",
-    //   merchantParam4: responseData.merchant_param4 || "",
-    //   merchantParam5: responseData.merchant_param5 || "",
-    //   vault: responseData.vault || "",
-    //   offerType: responseData.offer_type || "",
-    //   offerCode: responseData.offer_code || "",
-    //   discountValue: responseData.discount_value || "",
-    //   merAmount: responseData.mer_amount || "",
-    //   eciValue: responseData.eci_value || "",
-    //   retry: responseData.retry || "",
-    //   responseCode: responseData.response_code || "",
-    //   billingNotes: responseData.billing_notes || "",
-    //   transDate: responseData.trans_date || "",
-    //   binCountry: responseData.bin_country || "",
-    //   authRefNum: responseData.auth_ref_num || "",
-    //   paymentMethod: "CCAvenue",
-    //   timestamp: new Date().toISOString()
-    // };
-
     console.log("📊 Sending full payment data to external API:", responseData);
 
     const saveResponse = await fetch("https://tossconsultancyservices.com/ensurekar-dashboard/paymentsave.php", {

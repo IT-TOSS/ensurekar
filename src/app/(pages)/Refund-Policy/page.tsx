@@ -36,7 +36,7 @@ const page = () => {
 
             <h1 className="display-3 pt-4">Refund Policy</h1>
 
-            <p className="text-bodyText pt-6">Effective Date: [Insert Date]</p>
+            <p className="text-bodyText pt-6">Effective Date: 04/07/2024</p>
             <p className="text-bodyText pt-6">
               By using our services, you acknowledge that you have read,
               understood, and agreed to our Refund Policy
@@ -52,7 +52,88 @@ const page = () => {
         </div>
       </section>
       <section className="container stp-30 sbp-30 flex flex-col gap-2">
-        <div className="">
+
+
+        <div className="text-bodyText dark:text-[#ddf3f0]">
+          <h3 className="heading-1 py-6">Ensurekar Refund Policy</h3>
+          <p>
+            At Ensurekar, we are committed to providing high-quality, efficient, and reliable tax, financial, legal, and startup support services through our technology-driven platform. Your satisfaction is our priority, and we strive to resolve any concerns quickly and fairly.
+          </p>
+
+          <h3 className="heading-2 py-6">30-Day Refund Policy</h3>
+          <ul className="list-disc pl-6">
+            <li>You may request a refund within 30 days of your payment. However, please note:</li>
+            <ul className="list-disc pl-6">
+              <li>Once access to the Ensurekar platform or services is provided, we consider our core service obligation as fulfilled.</li>
+              <li>Any refund request after this point is evaluated on a case-by-case basis, depending on the service stage and actual work completed.</li>
+              <li>All approved refunds are subject to a 20% cancellation fee to cover administrative, processing, and third-party charges.</li>
+            </ul>
+          </ul>
+
+          <h3 className="heading-2 py-6">Change of Service</h3>
+          <p>
+            If you wish to change your selected service to another available service, you may do so within 7 days of payment. Requests beyond this window will be subject to management approval.
+          </p>
+
+          <h3 className="heading-2 py-6">How to Request a Refund</h3>
+          <p>To initiate a refund request:</p>
+          <ul className="list-decimal pl-6">
+            <li>Log in to your Ensurekar dashboard and click on “Get Help” or “Not Satisfied.”</li>
+            <li>Send an email to <a href="mailto:connect@ensurekar.in" className="text-p1">connect@ensurekar.in</a> with:
+              <ul className="list-disc pl-6">
+                <li>Payment details</li>
+                <li>Service type</li>
+                <li>Reason for refund</li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Our team will review your request and respond within 3–5 business days. Refunds, if approved, are typically processed within 3–5 weeks.
+          </p>
+
+          <h3 className="heading-2 py-6">Important Disclaimers</h3>
+          <p className="mt-4 font-bold">Government Fees, Penalties & Outcomes</p>
+          <p>
+            Ensurekar is not liable for any:
+          </p>
+          <ul className="list-disc pl-6">
+            <li>Government-imposed penalties</li>
+            <li>Tax dues</li>
+            <li>Legal obligations</li>
+          </ul>
+          <p>
+            The client is solely responsible for accuracy in the data submitted. We do not guarantee service outcomes where third-party agencies or government departments are involved.
+          </p>
+
+          <p className="mt-4 font-bold">Third-Party Delays & Rejections</p>
+          <p>
+            Delays caused by external platforms such as MCA, GSTN, Income Tax, FSSAI, IP India, etc., or rejection due to government policy or legal issues, are outside our control and cannot be used as grounds for refund claims.
+          </p>
+
+          <p className="mt-4 font-bold">Associates & External Consultants</p>
+          <p>
+            In some cases, services may be delivered by verified independent professionals through the Ensurekar network. We are not responsible for service delays caused by independent consultants unless they are contracted directly by Ensurekar.
+          </p>
+
+          <h3 className="heading-2 py-6">Force Majeure</h3>
+          <p>
+            Ensurekar shall not be liable for delays or non-performance due to events beyond its control, including but not limited to natural disasters, government actions, pandemics, war, labor disputes, internet outages, or other force majeure events.
+          </p>
+
+          <h3 className="heading-2 py-6">Need Assistance?</h3>
+          <p>
+            Contact our support team at:
+          </p>
+          <ul className="pl-6">
+            <li>Email: <a href="mailto:connect@ensurekar.in" className="text-p1">connect@ensurekar.in</a></li>
+            <li>Phone: +91 74707 56060</li>
+            <li>Website: <a href="https://www.ensurekar.com" className="text-p1">www.ensurekar.com</a></li>
+          </ul>
+          <p className="mt-4">
+            We are here to support you at every step and value your trust in Ensurekar.
+          </p>
+        </div>
+        {/* <div className="">
           <h3 className="heading-1 py-6 dark:text-[#ddf3f0]">
             We don't share personal information.
           </h3>
@@ -1201,7 +1282,10 @@ const page = () => {
             <p className="mt-3">We would like you to keep cookies active on your computer during your visits to our website because parts of the site rely on them to work properly. For example, you would not be able to view a location map without them.</p>
             
           </div>
-        </div>
+        </div> */}
+
+
+        {/**------------------------------------------ */}
 
         {/* <div className="">
           <h3 className="heading-3 py-6">Limitation of Liability</h3>
