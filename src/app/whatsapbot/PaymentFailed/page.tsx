@@ -43,7 +43,7 @@ function PaymentFailedContent() {
 
   const handleRetry = () => window.history.back()
   const handleSupport = () => window.open("mailto:support@ensurekar.com", "_blank")
-  const handleHelp = () => window.open("/support", "_blank")
+  const handleHelp = () => window.open("/Contact", "_blank")
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 flex items-center justify-center p-4">
@@ -88,12 +88,12 @@ function PaymentFailedContent() {
                 <MessageCircle className="h-4 w-4" />
                 Support
               </button>
-              <Link href="/">
+              <Link href="#">
                 <button
                   className="border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 py-2 rounded-md flex items-center justify-center gap-2 w-full"
                 >
-                  <ArrowLeft className="h-4 w-4" />
-                  Home
+                  {/* <ArrowLeft className="h-4 w-4" /> */}
+                  Go Back
                 </button>
               </Link>
             </div>
