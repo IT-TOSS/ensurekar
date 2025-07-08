@@ -56,7 +56,7 @@ const BreadcrumbSection = ({
             <p className="text-bodyText">{description}</p>
           </div>
         </div>
-        <div
+        {/* <div
           className={`stp-30 sbp-30 w-[80%] h-[300px] bg-cover md:h-[400px] lg:h-[500px] xl:h-[600px] xxl:h-[800px] flex justify-center items-center z-10 relative after:absolute after:inset-0 after:bg-black/20`}
           style={{ backgroundImage: `url(${image})` }}
         >
@@ -122,7 +122,7 @@ const BreadcrumbSection = ({
           >
             <Play weight="fill" />
           </button>
-        </div>
+        </div> */}
       </div>
     </section>
   );

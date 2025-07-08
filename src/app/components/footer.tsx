@@ -23,22 +23,22 @@ const footer = () => {
     socialMedia: [
       {
         title: "Facebook",
-        link: "/Facebook",
+        link: "https://www.facebook.com/ensurekar?mibextid=rS40aB7S9Ucbxw6v",
         icon: <FacebookLogo className="leading-[0] text-2xl" />,
       },
-      {
-        title: "Reddit",
-        link: "/Reddit",
-        icon: <RedditLogo className="leading-[0] text-2xl" />,
-      },
+      // {
+      //   title: "Reddit",
+      //   link: "/Reddit",
+      //   icon: <RedditLogo className="leading-[0] text-2xl" />,
+      // },
       {
         title: "Youtube",
-        link: "/Youtube",
+        link: "https://www.youtube.com/@ensurekar",
         icon: <YoutubeLogo className="leading-[0] text-2xl" />,
       },
       {
         title: "Pinterest",
-        link: "/Pinterest",
+        link: "https://www.linkedin.com/company/ensurekar/posts/?feedView=all",
         icon: <PinterestLogo className="leading-[0] text-2xl" />,
       },
     ],
@@ -53,11 +53,11 @@ const footer = () => {
       },
       {
         title: "Partner with us",
-        link: "/Contact",
+        link: "/partner-with-us",
       },
       {
         title: "Career with us",
-        link: "/Contact",
+        link: "/career-in-ensurekar",
       },
       {
         title: "About Us",

@@ -39,10 +39,10 @@ Regards,
 
 ${firstName} ${lastName}`;
 
-        const companyName = "info@ensurekar.com";
+        const companyName = "Infoensurekar@gmail.com";
 
         const mailOptions = {
-            from: "info@ensurekar.com",
+            from: "Infoensurekar@gmail.com",
             to: companyName,
             subject: subject,
             text: emailText,

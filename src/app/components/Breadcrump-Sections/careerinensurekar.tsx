@@ -30,11 +30,11 @@ const BreadcrumbSection = () => {
 
             <li className="flex justify-start items-center gap-1">
               <CaretRight />
-              Contact
+              Career In Ensurekar
             </li>
           </ul>
 
-          <h1 className="display-3 pt-4">Connect With Us</h1>
+          <h1 className="display-3 pt-4">Career In Ensurekar</h1>
 <div className="flex flex-col justify-start items-start">
           <p className="text-bodyText pt-6">
             Connect with us for experts in Finance, Legal, and Tax. Reach out to
