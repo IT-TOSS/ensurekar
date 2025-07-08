@@ -51,14 +51,14 @@ const footer = () => {
         title: "Talk to Expert",
         link: "/talk-to-expert",
       },
-      {
-        title: "Partner with us",
-        link: "/partner-with-us",
-      },
-      {
-        title: "Career with us",
-        link: "/career-in-ensurekar",
-      },
+      // {
+      //   title: "Partner with us",
+      //   link: "/partner-with-us",
+      // },
+      // {
+      //   title: "Career with us",
+      //   link: "/career-in-ensurekar",
+      // },
       {
         title: "About Us",
         link: "/About",

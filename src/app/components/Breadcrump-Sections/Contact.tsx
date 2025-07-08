@@ -40,10 +40,10 @@ const BreadcrumbSection = () => {
             Connect with us for experts in Finance, Legal, and Tax. Reach out to
             us via the form or contact information below.
           </p>
-          <div className="mt-5 w-full flex flex-col md:flex-row  gap-x-5">
+          {/* <div className="mt-5 w-full flex flex-col md:flex-row  gap-x-5">
             <Link href={"/partner-with-us"} className="bg-transparent hover:bg-s2  font-semibold duration-300 text-bodyText hover:text-black  py-2 px-4 border  hover:border-transparent rounded">Partner with us</Link>
             <Link href={"/career-in-ensurekar"} className="bg-transparent bg-s2  font-semibold duration-300 text-black  py-2 px-4 border  hover:border-transparent rounded">  Career with us</Link>
-          </div>
+          </div> */}
           </div>
         </div>
         <div className="col-span-12 md:col-span-6 flex justify-center items-center">
