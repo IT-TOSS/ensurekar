@@ -31,15 +31,19 @@ import CorporateBosy from "./../../../images/Corporate Body.png.jpeg"
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 
 import CorporateBody from "./../../../images/LLP Page icons/Corporate Body.png";
-import PerpetualSuccession  from "./../../../images/LLP Page icons/Perpetual Succession.png";
-import SeparateLegalEntity   from "./../../../images/LLP Page icons/Separate Legal Entity.png";
-import CustomisedLLPAgreement   from "./../../../images/LLP Page icons/Customised LLP Agreement.png";
-import ArtificialLegalPerson   from "./../../../images/LLP Page icons/Artificial Legal Person.png";
-import LimitedLiability   from "./../../../images/LLP Page icons/Limited Liability.png";
-import FlexiblePartnerStructure   from "./../../../images/LLP Page icons/Flexible Partner Structure.png";
-import BusinessControl   from "./../../../images/LLP Page icons/Business Control.png";
-import ProfitOriented   from "./../../../images/LLP Page icons/Profit-Oriented.png";
-import MutualAgencyProtection  from "./../../../images/LLP Page icons/Mutual Agency Protection.png";
+import PerpetualSuccession from "./../../../images/LLP Page icons/Perpetual Succession.png";
+import SeparateLegalEntity from "./../../../images/LLP Page icons/Separate Legal Entity.png";
+import CustomisedLLPAgreement from "./../../../images/LLP Page icons/Customised LLP Agreement.png";
+import ArtificialLegalPerson from "./../../../images/LLP Page icons/Artificial Legal Person.png";
+import LimitedLiability from "./../../../images/LLP Page icons/Limited Liability.png";
+import FlexiblePartnerStructure from "./../../../images/LLP Page icons/Flexible Partner Structure.png";
+import BusinessControl from "./../../../images/LLP Page icons/Business Control.png";
+import ProfitOriented from "./../../../images/LLP Page icons/Profit-Oriented.png";
+import MutualAgencyProtection from "./../../../images/LLP Page icons/Mutual Agency Protection.png";
+
+
+
+import Text from "@/app/components/Section/Text";
 
 const LimitedLiabilityPartnershipRegistration = () => {
   const BreadcrumbData = {
@@ -52,14 +56,14 @@ const LimitedLiabilityPartnershipRegistration = () => {
 
     bottomHeading:
       '<a href="http://" target="_blank" rel="noopener noreferrer" class="underline">View Sample</a>',
-      cartDetails:{
-        id:2,
-        name: "Limited Liability Partnership",
-        price: 15000,
-        quantity: 1,
-        subtotal: 15000,
-        image: productImage,
-      }
+    cartDetails: {
+      id: 2,
+      name: "Limited Liability Partnership",
+      price: 15000,
+      quantity: 1,
+      subtotal: 15000,
+      image: productImage,
+    }
   };
   // const AdvantagesData = {
   //   title: "Limited Liability Partnership Registration",
@@ -448,7 +452,7 @@ const LimitedLiabilityPartnershipRegistration = () => {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl:TalkExpert ,
+        imageUrl: TalkExpert,
       },
       {
         heading: "Hassle-Free & Fast Service",
@@ -1223,21 +1227,22 @@ const LimitedLiabilityPartnershipRegistration = () => {
     ],
   };
 
-    const plansRef = useRef<HTMLDivElement | null>(null); 
-    const scrollToPlans = () => {
-      if (plansRef.current) {
-        plansRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    };
+  const plansRef = useRef<HTMLDivElement | null>(null);
+  const scrollToPlans = () => {
+    if (plansRef.current) {
+      plansRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
   return (
     <div>
       <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans} />
 
       <div ref={plansRef} id="plans" className="plans-section">
-      <PlansSection planData={planData} />
+        {/* <Text planData={planData} page={"limited-liability-partnership-registration"} /> */}
+        <PlansSection planData={planData} />
       </div>
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />

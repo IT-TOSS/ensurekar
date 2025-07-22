@@ -36,6 +36,8 @@ import { HandCoins } from "lucide-react";
 
 import DynamicPlansSection from "../../../components/Section/DynamicPlansSection";
 
+import Text from "@/app/components/Section/Text";
+
 import axios from "axios";
 
 
@@ -1105,7 +1107,7 @@ const Pvt_Ltd_Incorporation_Registration = () => {
 
       <div ref={plansRef} id="plans" className="plans-section">
         {/* <NewPlansSection planData={planData} plansData={plansData} />  //  this data is not preresnt in this page*/}
-        {/* <Testpackage planData={planData} /> */}
+        {/* <Text planData={planData} page={"pvt-ltd-incorporation"} /> */}
         <PlansSection planData={planData} />
       </div>
 

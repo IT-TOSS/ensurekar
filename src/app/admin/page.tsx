@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from 'react';
-import { 
-  ShoppingBag, 
-  TrendingUp, 
-  Users, 
+import {
+  ShoppingBag,
+  TrendingUp,
+  Users,
   Eye,
   Mail,
   Phone,
@@ -48,7 +48,7 @@ const Dashboard = () => {
       icon: Users,
       color: "bg-gradient-to-r from-cyan-500 to-blue-500",
       textColor: "text-white",
-      url:"/admin/profile"
+      url: "/admin/profile"
     },
     {
       title: "All Packages",
@@ -56,7 +56,7 @@ const Dashboard = () => {
       icon: TrendingUp,
       color: "bg-gradient-to-r from-green-500 to-emerald-500",
       textColor: "text-white",
-      url:"/admin/package"
+      url: "/admin/package"
     },
     // {
     //   title: "User Registrations",
@@ -72,7 +72,7 @@ const Dashboard = () => {
       icon: Eye,
       color: "bg-gradient-to-r from-red-500 to-pink-500",
       textColor: "text-white",
-      url:"/admin/All-Admin"
+      url: "/admin/All-Admin"
     }
   ];
 
@@ -112,7 +112,7 @@ const Dashboard = () => {
             {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
           </button>
         </div>
-        
+
         <div className="flex items-center gap-4">
           <nav className={`text-sm ${textSecondaryClass}`}>
             <span className="text-blue-500">Home</span> / Admin v1
@@ -127,10 +127,10 @@ const Dashboard = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {statsCards.map((stat, index) => (
-          <div key={index} 
-               className={`${stat.color} rounded-xl p-6 shadow-lg transform hover:scale-105 transition-all duration-300`} 
-               onClick={() => window.location.href = `${stat.url}`}
-               >
+          <div key={index}
+            className={`${stat.color} rounded-xl p-6 shadow-lg transform hover:scale-105 transition-all duration-300`}
+            onClick={() => window.location.href = `${stat.url}`}
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className={`${stat.textColor} text-sm opacity-90 mb-1`}>
@@ -160,29 +160,27 @@ const Dashboard = () => {
                 Sales
               </h2>
               <div className="flex gap-2">
-                <button 
+                <button
                   onClick={() => setActiveTab('Area')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    activeTab === 'Area' 
-                      ? 'bg-blue-500 text-white shadow-md' 
-                      : `${isDarkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === 'Area'
+                    ? 'bg-blue-500 text-white shadow-md'
+                    : `${isDarkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`
+                    }`}
                 >
                   Area
                 </button>
-                <button 
+                <button
                   onClick={() => setActiveTab('Donut')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    activeTab === 'Donut' 
-                      ? 'bg-blue-500 text-white shadow-md' 
-                      : `${isDarkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === 'Donut'
+                    ? 'bg-blue-500 text-white shadow-md'
+                    : `${isDarkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`
+                    }`}
                 >
                   Donut
                 </button>
               </div>
             </div>
-            
+
             {/* Mock Chart Area */}
             <div className={`h-64 ${chartBgClass} rounded-lg flex items-center justify-center`}>
               <div className="text-center">
@@ -194,19 +192,25 @@ const Dashboard = () => {
           </div>
 
           {/* Visitors Map */}
-          <div className={`${cardBgClass} rounded-xl p-6 shadow-lg transition-colors duration-300`}>
-            <h2 className={`text-xl font-semibold ${textClass} flex items-center gap-2 mb-6`}>
+          
+          <div className={`${cardBgClass} rounded-xl p-4 sm:p-6 shadow-lg transition-colors duration-300`}>
+            <h2 className={`text-lg sm:text-xl font-semibold ${textClass} flex items-center gap-2 mb-4 sm:mb-6`}>
               <MapPin size={20} />
               Visitors
             </h2>
-            <div className={`h-64 ${mapBgClass} rounded-lg flex items-center justify-center`}>
-              <div className="text-center text-white">
-                <MapPin size={48} className="mx-auto mb-4 opacity-80" />
-                <p className="text-lg font-medium">World Map</p>
-                <p className="text-sm opacity-80 mt-2">Visitor locations visualization</p>
+            <div className={`w-full ${mapBgClass} rounded-lg flex items-center justify-center`}>
+              <div className="relative w-full h-0 pb-[56.25%] sm:pb-[50.25%]"> {/* 16:9 on larger, 9:16 on small */}
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3668.1872076984246!2d79.9189809743064!3d23.163366511061255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3981af39ce977003%3A0xec01b518cc9bc2d6!2sEnsurekar!5e0!3m2!1sen!2sin!4v1746511287857!5m2!1sen!2sin"
+                  className="absolute top-0 left-0 w-full h-full border-0 hover:scale-105 duration-500 ease-in-out rounded-lg"
+                  allowFullScreen={true}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
               </div>
             </div>
           </div>
+
         </div>
 
         {/* User Profile Section */}
@@ -258,7 +262,7 @@ const Dashboard = () => {
                   <span className={`text-sm font-medium ${textClass}`}>{user.status}</span>
                 </span>
               </div>
-              
+
               <div className={`flex items-center justify-between py-2 border-b ${borderClass}`}>
                 <span className={`${textSecondaryClass} text-sm`}>Location</span>
                 <span className={`text-sm font-medium ${textClass} flex items-center gap-1`}>
@@ -266,7 +270,7 @@ const Dashboard = () => {
                   {user.location}
                 </span>
               </div>
-              
+
               <div className={`flex items-center justify-between py-2 border-b ${borderClass}`}>
                 <span className={`${textSecondaryClass} text-sm`}>Joined</span>
                 <span className={`text-sm font-medium ${textClass} flex items-center gap-1`}>
@@ -274,12 +278,11 @@ const Dashboard = () => {
                   {user.joinDate}
                 </span>
               </div>
-              
+
               <div className="flex items-center justify-between py-2">
                 <span className={`${textSecondaryClass} text-sm`}>Verified Email</span>
-                <span className={`text-sm font-medium flex items-center gap-1 ${
-                  themeConfig.isAuthenticated ? 'text-green-600' : 'text-red-600'
-                }`}>
+                <span className={`text-sm font-medium flex items-center gap-1 ${themeConfig.isAuthenticated ? 'text-green-600' : 'text-red-600'
+                  }`}>
                   <Award size={14} />
                   {themeConfig.isAuthenticated ? "Verified" : "Not Verified"}
                 </span>

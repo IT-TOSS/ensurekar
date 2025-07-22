@@ -252,10 +252,10 @@ const LoggedNavbar = () => {
 
   const routes = [
     { name: "Profile", link: "/", icon: <User size={20} /> },
-    { name: "User Details", link: "/profile", icon: <User size={20} /> },
+    // { name: "User Details", link: "/profile", icon: <User size={20} /> },
     { name: "Package", link: "/package", icon: <ShoppingCart size={20} /> },
-    { name: "Order", link: "/order", icon: <ListPlus size={20} /> },
-    { name: "Help", link: "/help", icon: <Question size={20} /> },
+    // { name: "Order", link: "/order", icon: <ListPlus size={20} /> },
+    // { name: "Help", link: "/help", icon: <Question size={20} /> },
   ];
 
   const handleLogout = () => {

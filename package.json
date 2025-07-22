@@ -31,6 +31,7 @@
     "nodemailer": "^6.10.0",
     "odometer": "^0.4.8",
     "phosphor-react": "^1.4.1",
+    "razorpay": "^2.9.6",
     "react": "^18",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^18",
