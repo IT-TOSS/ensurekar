@@ -33,8 +33,8 @@ Email: ${email}
 Phone: ${phone}
 Origin: ${origin}
 Subject: ${subject}
-Message: They are very confused on the Income Tax Return Filing page.
-Please help them choose the right package.
+Message: ${message}
+Please help them
 Regards,
 
 ${firstName} ${lastName}`;

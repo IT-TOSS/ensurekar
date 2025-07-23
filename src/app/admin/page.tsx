@@ -27,12 +27,12 @@ const Dashboard = () => {
 
   // Mock user data
   const user = {
-    Fname: "John",
-    Lname: "Doe",
-    email: "john.doe@example.com",
-    picture: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    phone: "+1 (555) 123-4567",
-    location: "New York, USA",
+    Fname: "Toss",
+    Lname: "training",
+    email: "toss125training@gmail.com",
+    picture: "https://lh3.googleusercontent.com/a/ACg8ocKw1pXA7V8kUpZA2_7jrqAPcbMbN4-21AZbi4-MaYBQdPw9Pbgt=s96-c-rg-br100",
+    phone: "+91 1234567890",
+    location: "Javapur, India",
     joinDate: "Jan 2023",
     status: "Active"
   };
@@ -44,7 +44,7 @@ const Dashboard = () => {
   const statsCards = [
     {
       title: "Register User",
-      value: "150",
+      value: "",
       icon: Users,
       color: "bg-gradient-to-r from-cyan-500 to-blue-500",
       textColor: "text-white",
@@ -52,7 +52,7 @@ const Dashboard = () => {
     },
     {
       title: "All Packages",
-      value: "12",
+      value: "",
       icon: TrendingUp,
       color: "bg-gradient-to-r from-green-500 to-emerald-500",
       textColor: "text-white",
@@ -68,7 +68,7 @@ const Dashboard = () => {
     // },
     {
       title: "All Admin",
-      value: "65",
+      value: "",
       icon: Eye,
       color: "bg-gradient-to-r from-red-500 to-pink-500",
       textColor: "text-white",
@@ -241,7 +241,7 @@ const Dashboard = () => {
             </div>
 
             {/* Contact Buttons */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
+            {/* <div className="grid grid-cols-2 gap-3 mb-6">
               {contactButtons.map((button, index) => (
                 <button
                   key={index}
@@ -251,7 +251,7 @@ const Dashboard = () => {
                   <span className="text-sm font-medium">{button.label}</span>
                 </button>
               ))}
-            </div>
+            </div> */}
 
             {/* User Info */}
             <div className="space-y-4">

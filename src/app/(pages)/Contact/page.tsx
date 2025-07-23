@@ -3,7 +3,7 @@ import BreadcrumbSection from "@/app/components/Breadcrump-Sections/Contact";
 import { Envelope, MapPin, PencilSimple, PhoneCall } from "phosphor-react";
 import React, { FormEvent } from "react";
 import Image from "next/image";
-import contact_page_img from "../../images/contact_page_img.png";
+import contact_page_img from "../../images/Office.png";
 import { ContactUs } from "@/api/SEOSetup/contact";
 import { motion } from "framer-motion";
 
@@ -35,7 +35,8 @@ const Contact = () => {
       origin: "contact",
     };
     const response = await ContactUs(contactForm);
-    if (response.status === 'success') {
+    console.log(response);
+    if (response.message ===  'Email sent successfully') {
       setMessage(response.message);
       setTimeout(() => {
         setMessage(null);

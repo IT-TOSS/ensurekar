@@ -23,7 +23,7 @@ import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
 
-import SeparateLegalEntity  from "../../../images/One Person Company/Separate Legal Entity –.png";
+import SeparateLegalEntity  from "../../../images/One Person Company/SeparateLegal Entity.png";
 import EasierAccesstoFunding  from "../../../images/One Person Company/Easier Access to Funding.png";
 import ReducedComplianceRequirements  from "../../../images/One Person Company/Reduced Compliance Requirements.png";
 import SimplifiedIntegration  from "../../../images/One Person Company/Simplified Integration.png";

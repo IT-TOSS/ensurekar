@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "../../../../firebase/firebase.config";
+// import { collection, getDocs, query } from "firebase/firestore";
+// import { db } from "../../../../firebase/firebase.config";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Logo from "../../../images/ensure_logo.png";

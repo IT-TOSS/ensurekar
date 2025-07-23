@@ -7,8 +7,7 @@ import {
    House,
 } from "phosphor-react";
 import breadcrump_icon from "../../images/breadcrump_icon.png";
-import breadcrumb_img_21 from "../../images/breadcrumb_img_21.png";
-import breadcrumb_img_24 from "../../images/breadcrumb_img_24.png";
+import breadcrumb_img_24 from "../../images/Connect with us.png";
 import Link from "next/link";
 const BreadcrumbSection = () => {
   return (
