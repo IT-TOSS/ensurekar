@@ -14,7 +14,7 @@ export const metadata = async (): Promise<Metadata> => {
   return {
     // name: seoData?.name,
     title: `Ensurekar ${"| " + seoData?.title}`,
-    description: seoData?.description,
+    description: "checkout",
   };
 };
 const page = () => {

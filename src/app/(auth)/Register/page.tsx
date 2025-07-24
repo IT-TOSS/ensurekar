@@ -247,7 +247,7 @@ const Register = () => {
         confirmPassword: "",
         acceptTerms: false,
       });
-    } catch (error : any) {
+    } catch (error: any) {
       console.error("Registration Error:", error.code, error.message);
       let errorMessage = "User Registration Failed";
       switch (error.code) {
@@ -277,7 +277,7 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = async (e : any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
 
@@ -290,6 +290,9 @@ const Register = () => {
       if (formData.password !== formData.confirmPassword) {
         throw new Error("Password and Confirm Password should be same");
       }
+      if(formData.whatsappNumber.length < 10) {
+        throw new Error("Please enter a valid number");
+      }
 
       const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
       console.log(newOtp + " : ooo");
@@ -298,7 +301,7 @@ const Register = () => {
       setUserCredential(null);
       setShowOtpModal(true);
       await sendOtpEmail(formData.email, newOtp);
-    } catch (error : any) {
+    } catch (error: any) {
       console.error("Validation Error:", error.message);
       setMessage({
         message: error.message || "Validation Failed",
@@ -311,42 +314,59 @@ const Register = () => {
     }
   };
 
-    const handleGoogleSignIn = async () => {
-      try {
-        setLoading(true);
-        console.log("Trying Google Sign-In...");
-        
-        // Try to sign in with Google
-        // Define the signInWithGoogle function
-                const signInWithGoogle = async () => {
-                  const provider = new GoogleAuthProvider();
-                  const result = await signInWithPopup(auth, provider);
-                  return result.user;
-                };
-        
-                const user = await signInWithGoogle();
-        // console.log(user, "user Created by Krishna coming from firebase");
-        
-        if (user && user.uid) {
-          const displayName = user.displayName;
-          const email = user.email;
-          const phoneNumber = user.phoneNumber || '';
-          
-          const payload = {
-            userId: user.uid,
-            firstName: user.displayName?.split(" ")[0] || "Unknown",
-            lastName: user.displayName?.split(" ")[1] || "User",
-            email: user.email,
-            phoneNumber: user.phoneNumber || "",        
-            whatsappNumber: "",                         
-            photoURL: user.photoURL,
-            password: user.uid.slice(0, 8)         
-          };
-          
-          console.log(payload, "I am result by Google Sign In by Krishna");
-          
-          // First check if the user exists in the database
-          const response = await fetch('https://edueye.co.in/ensurekar/existing-site/register.php', {
+  const handleGoogleSignIn = async () => {
+    try {
+      setLoading(true);
+      console.log("Trying Google Sign-In...");
+
+      // Try to sign in with Google
+      // Define the signInWithGoogle function
+      const signInWithGoogle = async () => {
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        return result.user;
+      };
+
+      const user = await signInWithGoogle();
+      // console.log(user, "user Created by Krishna coming from firebase");
+
+      if (user && user.uid) {
+        const displayName = user.displayName;
+        const email = user.email;
+        const phoneNumber = user.phoneNumber || '';
+
+        const payload = {
+          userId: user.uid,
+          firstName: user.displayName?.split(" ")[0] || "Unknown",
+          lastName: user.displayName?.split(" ")[1] || "User",
+          email: user.email,
+          phoneNumber: user.phoneNumber || "",
+          whatsappNumber: "",
+          photoURL: user.photoURL,
+          password: user.uid.slice(0, 8)
+        };
+
+        console.log(payload, "I am result by Google Sign In by Krishna");
+
+        // First check if the user exists in the database
+        const response = await fetch('https://edueye.co.in/ensurekar/existing-site/register.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        console.log(response, "response by Google Sign In by Krishna from backend");
+
+        const userData = await response.json();
+        console.log(userData, "user and result by Google Sign In by Krishna from backend");
+        console.log(userData.exists);
+
+        // If user doesn't exist, redirect to registration
+        if (!userData.exists) {
+          // First register the user in the database
+          const registerResponse = await fetch('https://edueye.co.in/ensurekar/existing-site/register.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -354,85 +374,68 @@ const Register = () => {
             body: JSON.stringify(payload),
           });
 
-          console.log(response, "response by Google Sign In by Krishna from backend");
-          
-          const userData = await response.json();
-          console.log(userData, "user and result by Google Sign In by Krishna from backend");
-          console.log(userData.exists);
-          
-          // If user doesn't exist, redirect to registration
-          if (!userData.exists) {
-            // First register the user in the database
-            const registerResponse = await fetch('https://edueye.co.in/ensurekar/existing-site/register.php', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(payload),
-            });
-            
-            const registeredUser = await registerResponse.json();
-            console.log(registeredUser);
-            
-            setMessage({
-              message: "Registration Successful! You can now proceed to dashboard.",
-              showModel: true,
-              success: true,
-              userId: user.uid,
-            });
-            
-            setUserCredential({ user });
-          }
-          
-          // Get the token safely
-          const token = await user.getIdToken?.() || "";
-          
-          // Set authentication state
-          dispatch(
-            setAuth({
-              isAuthenticated: true,
-              userInfo: {
-                username: displayName || (email?.split('@')[0] ?? "Unknown"),
-                email: email,
-                Fname: displayName ? displayName.split(' ')[0] : '', 
-                Lname: displayName ? displayName.split(' ').slice(1).join(' ') : '',
-                contact: phoneNumber || "N/A",
-                role: "user", // Default role
-                picture: user.photoURL || "N/A",
-                uid: user.uid,
-              },
-              Token: token,
-            })
-          );
-          
-          localStorage.setItem('authToken', token);
-          navigate.push("/dashboard");
-          
-        } else {
-          console.log("Google login failed. Please try again.");
+          const registeredUser = await registerResponse.json();
+          console.log(registeredUser);
+
+          setMessage({
+            message: "Registration Successful! You can now proceed to dashboard.",
+            showModel: true,
+            success: true,
+            userId: user.uid,
+          });
+
+          setUserCredential({ user });
         }
-      } catch (err) {
-        console.error("Google login error:", err);
-        let errorMessage = "An error occurred during Google login. Please try again.";
-        
-        if (err && typeof err === 'object' && 'code' in err) {
-          const errorCode = err.code;
-          if (errorCode === 'auth/popup-closed-by-user') errorMessage = "Login popup was closed before completion.";
-          if (errorCode === 'auth/cancelled-popup-request') errorMessage = "The login operation was cancelled.";
-          if (errorCode === "auth/operation-not-allowed") errorMessage = "Google authentication is not enabled in Firebase";
-        }
-        
-        // setError(errorMessage);
-        setMessage({
-          message: errorMessage,
-          showModel: true,
-          success: false,
-          userId: "",
-        });
-      } finally {
-        setLoading(false);
+
+        // Get the token safely
+        const token = await user.getIdToken?.() || "";
+
+        // Set authentication state
+        dispatch(
+          setAuth({
+            isAuthenticated: true,
+            userInfo: {
+              username: displayName || (email?.split('@')[0] ?? "Unknown"),
+              email: email,
+              Fname: displayName ? displayName.split(' ')[0] : '',
+              Lname: displayName ? displayName.split(' ').slice(1).join(' ') : '',
+              contact: phoneNumber || "N/A",
+              role: "user", // Default role
+              picture: user.photoURL || "N/A",
+              uid: user.uid,
+            },
+            Token: token,
+          })
+        );
+
+        localStorage.setItem('authToken', token);
+        navigate.push("/dashboard");
+
+      } else {
+        console.log("Google login failed. Please try again.");
       }
-    };
+    } catch (err) {
+      console.error("Google login error:", err);
+      let errorMessage = "An error occurred during Google login. Please try again.";
+
+      if (err && typeof err === 'object' && 'code' in err) {
+        const errorCode = err.code;
+        if (errorCode === 'auth/popup-closed-by-user') errorMessage = "Login popup was closed before completion.";
+        if (errorCode === 'auth/cancelled-popup-request') errorMessage = "The login operation was cancelled.";
+        if (errorCode === "auth/operation-not-allowed") errorMessage = "Google authentication is not enabled in Firebase";
+      }
+
+      // setError(errorMessage);
+      setMessage({
+        message: errorMessage,
+        showModel: true,
+        success: false,
+        userId: "",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   //--------------------
@@ -565,6 +568,7 @@ const Register = () => {
               maxLength={10}
               required
             />
+           
           </div>
           <div className="sm:col-span-1 col-span-2 py-4 px-8 border flex justify-start items-center gap-2 bg-white">
             <span className="text-xl text-bodyText">
