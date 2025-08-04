@@ -39,7 +39,7 @@ const Login = () => {
       let matched = false;
       console.log("Email:", email, "Password:", password);
 
-     if ("toss125training@gmail.com" === email && "1234" === password) {
+     if ("toss125training@gmail.com" === email && "Ensure@2020" === password) {
         matched = true;
       }
 
