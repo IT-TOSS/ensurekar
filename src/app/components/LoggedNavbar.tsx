@@ -239,7 +239,7 @@ import {
   ShoppingCart,
   ListPlus,
 } from "phosphor-react";
-import { LogOut, Home, Menu, User } from "lucide-react";
+import { LogOut, Home, Menu, User, Users } from "lucide-react";
 import React, { useState } from "react";
 import { logout } from "@/store/themeConfigSlice";
 import { useDispatch } from "react-redux";
@@ -252,11 +252,12 @@ const LoggedNavbar = () => {
 
   const routes = [
     { name: "Profile", link: "/", icon: <User size={20} /> },
-    // { name: "User Details", link: "/profile", icon: <User size={20} /> },
+    // { name: "Register User", link: "/profile", icon: <Users size={20} /> },
     { name: "Package", link: "/package", icon: <ShoppingCart size={20} /> },
-    // { name: "Order", link: "/order", icon: <ListPlus size={20} /> },
-    // { name: "Help", link: "/help", icon: <Question size={20} /> },
+    // { name: "Company Slider", link: "/logoSystem", icon: <ListPlus size={20} /> },
+    // { name: "Admin", link: "/admin/All-Admin", icon: <ListPlus size={20} /> },
   ];
+  // { name: "Help", link: "/help", icon: <Question size={20} /> },
 
   const handleLogout = () => {
     dispatch(logout());

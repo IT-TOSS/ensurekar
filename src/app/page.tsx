@@ -1,6 +1,7 @@
 "use client"
 
 import React, { lazy } from "react";
+import axios from 'axios';
 import OurServices from "./components/Section/Our-Services-Section";
 
 
@@ -69,39 +70,138 @@ export default function Home() {
     { number: 2000, text: "Startup Guidance and Support" },
     { number: 50, text: "Cities at Present" },
   ];
-  const CompliancesData = {
-    heading: "Upcoming Compliances",
+
+  //----------krishna------
+  const [CompliancesData, setCompliancesData] = React.useState({
+    heading: "",
     subHeading: "",
-    images: [
-      { src: logo1, alt: "logo1" },
-      { src: logo2, alt: "logo2" },
-      { src: logo3, alt: "logo3" },
-      { src: logo4, alt: "logo4" },
-      { src: logo5, alt: "logo5" },
-      { src: logo6, alt: "logo6" },
-      { src: logo7, alt: "logo7" },
-      { src: logo8, alt: "logo8" },
-      { src: logo9, alt: "logo9" },
-      { src: logo10, alt: "logo10" }
-    ],
-  };
-  const SliderData = {
-    heading: "Business and customer with us",
+    images: [] as { src: string; alt: string }[],
+  });
+
+  React.useEffect(() => {
+    const fetchCompliancesData = async () => {
+      const apiUrl =
+        "https://edueye.co.in/ensurekar/existing-site/get_compan_slider_sections.php?header=Upcoming_Compliances";
+
+      try {
+        const response = await axios.get(apiUrl);
+        // console.log("Response from API:", response);
+        console.log("Compliances Data:", response.data);
+
+        const activeSection = response.data.find(
+          (section: any) => section.isActive === "1"
+        );
+
+        console.log("Active Section:", activeSection);
+
+        if (activeSection) {
+          setCompliancesData({
+            heading: activeSection.header,
+            subHeading: activeSection.description || "",
+            images: activeSection.images.map((img: any) => ({
+              // Ensure the path starts with / for public folder access
+              src: img.src,
+              alt: img.alt,
+            })),
+          });
+        }
+        console.log("Compliances Data after setting state:", CompliancesData);
+      } catch (error) {
+        console.error("Error fetching Compliances data:", error);
+        // Axios provides more detailed error information
+        if (axios.isAxiosError(error)) {
+          console.error("Axios error details:", {
+          });
+        }
+      }
+    };
+
+    fetchCompliancesData();
+  }, []);
+  // Privious code
+
+  //   const CompliancesData = {
+  //   heading: "Upcoming Compliances",
+  //   subHeading: "",
+  //   images: [
+  //     { src: logo1, alt: "logo1" },
+  //     { src: logo2, alt: "logo2" },
+  //     { src: logo3, alt: "logo3" },
+  //     { src: logo4, alt: "logo4" },
+  //     { src: logo5, alt: "logo5" },
+  //     { src: logo6, alt: "logo6" },
+  //     { src: logo7, alt: "logo7" },
+  //     { src: logo8, alt: "logo8" },
+  //     { src: logo9, alt: "logo9" },
+  //     { src: logo10, alt: "logo10" }
+  //   ],
+  // };
+
+  //-- Krishna ------
+  const [SliderData, setSliderData] = React.useState({
+    heading: "",
     subHeading: "",
-    images: [
-      { src: logo11, alt: "logo1" },
-      { src: logo12, alt: "logo2" },
-      { src: logo13, alt: "logo3" },
-      { src: logo11, alt: "logo1" },
-      { src: logo12, alt: "logo2" },
-      { src: logo13, alt: "logo3" },
-      { src: logo11, alt: "logo1" },
-      { src: logo12, alt: "logo2" },
-      { src: logo13, alt: "logo3" },
-      { src: logo13, alt: "logo3" },
-      { src: logo12, alt: "logo2" },
-    ],
-  };
+    images: [] as { src: string; alt: string }[],
+  });
+
+  React.useEffect(() => {
+    const fetchCompliancesData = async () => {
+      const apiUrl =
+        "https://edueye.co.in/ensurekar/existing-site/get_compan_slider_sections.php?header=Business_and_customer_with_us";
+
+      try {
+        const response = await axios.get(apiUrl);
+        // console.log("Response from API:", response);
+        console.log("Compliances Data:", response.data);
+
+        const activeSection = response.data.find(
+          (section: any) => section.isActive === "1"
+        );
+
+        console.log("Active Section:", activeSection);
+
+        if (activeSection) {
+          setSliderData({
+            heading: activeSection.header,
+            subHeading: activeSection.description || "",
+            images: activeSection.images.map((img: any) => ({
+              // Ensure the path starts with / for public folder access
+              src: img.src,
+              alt: img.alt,
+            })),
+          });
+        }
+        console.log("Compliances Data after setting state:", CompliancesData);
+      } catch (error) {
+        console.error("Error fetching Compliances data:", error);
+        // Axios provides more detailed error information
+        if (axios.isAxiosError(error)) {
+          console.error("Axios error details:", {
+          });
+        }
+      }
+    };
+
+    fetchCompliancesData();
+  }, []);
+
+  // const SliderData = {
+  //   heading: "Business and customer with us",
+  //   subHeading: "",
+  //   images: [
+  //     { src: logo11, alt: "logo1" },
+  //     { src: logo12, alt: "logo2" },
+  //     { src: logo13, alt: "logo3" },
+  //     { src: logo11, alt: "logo1" },
+  //     { src: logo12, alt: "logo2" },
+  //     { src: logo13, alt: "logo3" },
+  //     { src: logo11, alt: "logo1" },
+  //     { src: logo12, alt: "logo2" },
+  //     { src: logo13, alt: "logo3" },
+  //     { src: logo13, alt: "logo3" },
+  //     { src: logo12, alt: "logo2" },
+  //   ],
+  // };
   const SolutionData = {
     heading: "Talk To Experts",
     subHeading: "50+ Trusted CA, CS & Legal Experts are here To Grow Your Business ",
@@ -127,7 +227,7 @@ export default function Home() {
   return (
     <>
 
-    {/* Google tag (gtag.js) */}
+      {/* Google tag (gtag.js) */}
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-DELN23M1SD"
         strategy="afterInteractive"
@@ -145,7 +245,7 @@ export default function Home() {
         }}
       />
 
-      
+
 
 
       {/* <Header /> */}

@@ -1107,8 +1107,8 @@ const Pvt_Ltd_Incorporation_Registration = () => {
 
       <div ref={plansRef} id="plans" className="plans-section">
         {/* <NewPlansSection planData={planData} plansData={plansData} />  //  this data is not preresnt in this page*/}
-        {/* <Text planData={planData} page={"pvt-ltd-incorporation"} /> */}
-        <PlansSection planData={planData} />
+        <Text planData={planData} page={"pvt-ltd-incorporation"} />
+        {/* <PlansSection planData={planData} /> */}
       </div>
 
       {/* Dynamic data */}
