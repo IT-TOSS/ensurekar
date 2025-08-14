@@ -31,6 +31,8 @@ import EffortlessManagement  from "../../../images/One Person Company/Effortless
 import PerpetualSuccession  from "../../../images/One Person Company/Perpetual Successio.png";
 import { useRef } from "react";
 
+import Text from "@/app/components/Section/Text";
+
 
 
 const OnePersonCompany = () => {
@@ -1077,7 +1079,8 @@ const OnePersonCompany = () => {
     <>
       <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans} />
       <div ref={plansRef} id="plans" className="plans-section">
-      <PlansSection planData={planData} />
+      {/* <PlansSection planData={planData} /> */}
+         <Text planData={planData} page={"one-person-company"} />
       </div>
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />

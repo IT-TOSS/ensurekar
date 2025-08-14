@@ -43,14 +43,14 @@ const Dashboard = () => {
   };
 
   const statsCards = [
-    // {
-    //   title: "Register User",
-    //   value: "",
-    //   icon: Users,
-    //   color: "bg-gradient-to-r from-cyan-500 to-blue-500",
-    //   textColor: "text-white",
-    //   url: "/admin/profile"
-    // },
+    {
+      title: "Register User",
+      value: "",
+      icon: Users,
+      color: "bg-gradient-to-r from-cyan-500 to-blue-500",
+      textColor: "text-white",
+      url: "/admin/profile"
+    },
     {
       title: "All Packages",
       value: "",
@@ -59,14 +59,14 @@ const Dashboard = () => {
       textColor: "text-white",
       url: "/admin/package"
     },
-    // {
-    //   title: "All Admin",
-    //   value: "",
-    //   icon: Eye,
-    //   color: "bg-gradient-to-r from-red-500 to-pink-500",
-    //   textColor: "text-white",
-    //   url: "/admin/All-Admin"
-    // },
+    {
+      title: "All Admin",
+      value: "",
+      icon: Eye,
+      color: "bg-gradient-to-r from-red-500 to-pink-500",
+      textColor: "text-white",
+      url: "/admin/all-Admin"
+    },
     //  {
     //   title: "Company Slider",
     //   value: "",

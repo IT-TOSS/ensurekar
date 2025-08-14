@@ -34,6 +34,7 @@ import TaxBenefits from "../../../images/sole prop/Tax Benefits.png";
 import LowStartupCosts from "../../../images/sole prop/Low Startup Costs.png";
 import DirectProfitRetention from "../../../images/sole prop/Direct Profit Retention.png";
 import MinimalRegulatoryRequirements from "../../../images/sole prop/Minimal Regulatory Requirements.png";
+import Text from "@/app/components/Section/Text";
 const ProprietorshipRegistration = () => {
   const BreadcrumbData = {
     title: "Sole Proprietorship Registration",
@@ -842,14 +843,14 @@ const ProprietorshipRegistration = () => {
     description: [
       "Sole Proprietorship Registration offers legal recognition, tax compliance, and a separate business identity. It limits personal liability and simplifies opening a business bank account and accessing loans. This cost-effective process provides tax benefits and minimal legal requirements, ideal for small businesses.",
       "1. Legal Recognition and Business Identity",
-"2. Tax Benefits and Simplified Filing",
-"3. Access to Business Bank Account and Loans",
+      "2. Tax Benefits and Simplified Filing",
+      "3. Access to Business Bank Account and Loans",
     ],
   };
   const OverviewData = {
     heading: "",
     meta: "",
-   
+
     advantagesInfo: {
       heading: "Benefits of",
       meta: " Sole Proprietorship  ",
@@ -1083,7 +1084,7 @@ const ProprietorshipRegistration = () => {
       { question: "Can OPC have directors?", answer: "NA" },
       { question: "How to register an OPC company in India?", answer: "NA" },
     ],
-  
+
   };
   const WhyEnsurekar = {
     heading: "Why Choose Ensurekar for Sole Proprietorship Registration ",
@@ -1093,7 +1094,7 @@ const ProprietorshipRegistration = () => {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl:TalkExpert ,
+        imageUrl: TalkExpert,
       },
       {
         heading: "Hassle-Free & Fast Service",
@@ -1332,23 +1333,24 @@ const ProprietorshipRegistration = () => {
       },
     ],
   };
-  
-    const plansRef = useRef<HTMLDivElement | null>(null); 
-    const scrollToPlans = () => {
-      if (plansRef.current) {
-        plansRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    };
+
+  const plansRef = useRef<HTMLDivElement | null>(null);
+  const scrollToPlans = () => {
+    if (plansRef.current) {
+      plansRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
 
   return (
     <>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans}/>
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       <div ref={plansRef} id="plans" className="plans-section">
-      <PlansSection planData={planData} />
+        {/* <PlansSection planData={planData} /> */}
+        <Text planData={planData} page={"sole-proprietorship-registration"} />
       </div>
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />

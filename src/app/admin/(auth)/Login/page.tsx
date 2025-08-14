@@ -35,23 +35,53 @@ const Login = () => {
     }));
   };
 
-  const loginAdmin = async (email: string, password: string) => {
-      let matched = false;
-      console.log("Email:", email, "Password:", password);
+  // const loginAdmin = async (email: string, password: string) => {
+  //     let matched = false;
+  //     console.log("Email:", email, "Password:", password);
+  //    if ("toss125training@gmail.com" === email && "Ensure@2020" === password) {
+  //       matched = true;
+  //     }
+  //   return matched;
+  // };
 
-     if ("toss125training@gmail.com" === email && "Ensure@2020" === password) {
-        matched = true;
+  const loginAdmin = async (email: string, password: string) => {
+    try {
+      // console.log("Logging in with email:", email);
+      // console.log("Logging in with password:", password);
+      const response = await fetch(
+        "https://edueye.co.in/ensurekar/existing-site/admin-login.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, password })
+        }
+      );
+
+      if (!response.ok) {
+        console.error("HTTP error:", response.status);
+        return false;
       }
 
-    return matched;
+      const data = await response.json();
+      console.log("API Response:", data);
+
+      // Adjust this according to your PHP API's actual success field
+      return data.message === "Login successful.";
+    } catch (error) {
+      console.error("Login request failed:", error);
+      return false;
+    }
   };
 
-  const setAuthLocalStorage = (email: string) => {
-  const encodedEmail = encodeURIComponent(email); // safe for storage
-  const value = `admin_auth${encodedEmail}`;
 
-  localStorage.setItem('adminAuth', value);
-};
+  const setAuthLocalStorage = (email: string) => {
+    const encodedEmail = encodeURIComponent(email); // safe for storage
+    const value = `admin_auth${encodedEmail}`;
+
+    localStorage.setItem('adminAuth', value);
+  };
 
   const handleLogin = async () => {
     setLoading(true);

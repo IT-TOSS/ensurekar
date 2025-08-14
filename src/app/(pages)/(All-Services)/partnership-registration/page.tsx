@@ -35,6 +35,8 @@ import EmotionalSupport    from "../../../images/Partnership/Emotional Support.p
 import AccesstoNewIdeas    from "../../../images/Partnership/Access to New Ideas.png";
 import BalancedLifestyle     from "../../../images/Partnership/Balanced Lifestyle.png";
 
+import Text from "@/app/components/Section/Text";
+
 const PartnershipRegistration = () => {
   const BreadcrumbData = {
     title: "Partnership Registration  ",
@@ -1451,7 +1453,8 @@ const PartnershipRegistration = () => {
       <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       <div ref={plansRef} id="plans" className="plans-section">
-      <PlansSection planData={planData} />
+      {/* <PlansSection planData={planData} /> */}
+      <Text planData={planData} page={"partnership-registration"} />
       </div>
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />
