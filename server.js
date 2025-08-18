@@ -12,7 +12,7 @@ const app = next({ dev: false });
 const handle = app.getRequestHandler();
 
 const httpsOptions = {
-  pfx: fs.readFileSync(path.join(__dirname, 'certificate.pfx')),
+  pfx: fs.readFileSync(path.join(__dirname, 'certificate.crt')),
   passphrase: 'ensurekar',
 };
 
