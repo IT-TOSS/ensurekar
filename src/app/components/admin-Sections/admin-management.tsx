@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { RefreshCw, Plus, Edit, Trash2, Eye, Search, X } from "lucide-react"
 
 interface Admin {
@@ -50,7 +50,7 @@ export default function AdminManagement() {
     variant = "default",
     size = "default",
     disabled = false,
-    className = "",
+    className = "bf-",
     type = "button",
   }: {
     children: React.ReactNode
@@ -62,11 +62,11 @@ export default function AdminManagement() {
     type?: "button" | "submit"
   }) => {
     const baseClasses =
-      "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"
+      "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none !opacity-100 !visible"
     const variantClasses = {
-      default: "bg-blue-600 text-white hover:bg-blue-700",
-      outline: "border border-gray-300 bg-white hover:bg-gray-50 text-gray-900",
-      destructive: "bg-red-600 text-white hover:bg-red-700",
+      default: "bg-blue-600 text-white hover:bg-blue-700 !opacity-100 !visible",
+      outline: "border border-gray-300 bg-white hover:bg-gray-50 text-gray-900 !opacity-100 !visible",
+      destructive: "bg-red-600 text-white hover:bg-red-700 !opacity-100 !visible",
     }
     const sizeClasses = {
       default: "h-10 py-2 px-4",
@@ -79,6 +79,16 @@ export default function AdminManagement() {
         onClick={onClick}
         disabled={disabled}
         className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+        style={{
+          visibility: "visible",
+          opacity: 1,
+          display: "inline-flex",
+          position: "relative",
+          zIndex: 10,
+          backgroundColor: variant === "default" ? "#2563eb" : variant === "destructive" ? "#dc2626" : "#ffffff",
+          color: variant === "default" || variant === "destructive" ? "#ffffff" : "#111827",
+          border: variant === "outline" ? "1px solid #d1d5db" : "none",
+        }}
       >
         {children}
       </button>
@@ -86,29 +96,16 @@ export default function AdminManagement() {
   }
 
   const Input = ({
-    placeholder,
-    value,
-    onChange,
     className = "",
-    type = "text",
-    id,
-  }: {
-    placeholder?: string
-    value: string
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-    className?: string
-    type?: string
-    id?: string
-  }) => (
+    ...props
+  }: React.InputHTMLAttributes<HTMLInputElement> & { className?: string }) => (
     <input
-      id={id}
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
       className={`flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+      {...props}
     />
   )
+
+  Input.displayName = "Input"
 
   const Card = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
     <div className={`rounded-lg border border-gray-200 bg-white text-gray-950 shadow-sm ${className}`}>{children}</div>
@@ -145,11 +142,11 @@ export default function AdminManagement() {
     }
 
     return (
-      <div
+      <span
         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors ${variantClasses[variant]}`}
       >
         {children}
-      </div>
+      </span>
     )
   }
 
@@ -329,41 +326,127 @@ export default function AdminManagement() {
   })
 
   // Handle modal operations
-  const handleEdit = (admin: Admin) => {
+  const handleEdit = useCallback((admin: Admin) => {
     setSelectedAdmin(admin)
     setFormData({ name: admin.name, email: admin.email, password: admin.password })
     setIsEditModalOpen(true)
-  }
+  }, [])
 
-  const handleView = (admin: Admin) => {
+  const handleView = useCallback((admin: Admin) => {
     setSelectedAdmin(admin)
     setIsViewModalOpen(true)
-  }
+  }, [])
 
-  const handleDeleteClick = (admin: Admin) => {
+  const handleDeleteClick = useCallback((admin: Admin) => {
     setAdminToDelete(admin)
     setIsDeleteModalOpen(true)
-  }
+  }, [])
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setFormData({ name: "", email: "", password: "" })
     setSelectedAdmin(null)
-  }
+  }, [])
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
-    console.log("Search input changed:", newValue) // Debug log
-    setSearchTerm(newValue)
-  }
+    setSearchTerm((prev) => {
+      // Only update if the value actually changed
+      if (prev === newValue) {
+        return prev
+      }
+      return newValue
+    })
+  }, [])
 
-  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Prevent any interference with typing
-    e.stopPropagation()
-  }
+  const handleInputBlur = useCallback((field: keyof typeof formData) => {
+    return (e: React.FocusEvent<HTMLInputElement>) => {
+      const newValue = e.target.value
+      setFormData((prev) => ({ ...prev, [field]: newValue }))
+    }
+  }, [])
 
   useEffect(() => {
     fetchAdmins()
   }, [])
+
+  const createForm = (
+    <div className="space-y-4">
+      <div>
+        <Label htmlFor="name">Name</Label>
+        <Input id="name" defaultValue={formData.name} onBlur={handleInputBlur("name")} placeholder="Enter admin name" />
+      </div>
+      <div>
+        <Label htmlFor="email">Email</Label>
+        <Input
+          id="email"
+          type="email"
+          defaultValue={formData.email}
+          onBlur={handleInputBlur("email")}
+          placeholder="Enter admin email"
+        />
+      </div>
+      <div>
+        <Label htmlFor="password">Password</Label>
+        <Input
+          id="password"
+          type="password"
+          defaultValue={formData.password}
+          onBlur={handleInputBlur("password")}
+          placeholder="Enter admin password"
+        />
+      </div>
+      <div className="flex gap-2 pt-4">
+        <Button onClick={createAdmin} className="flex-1 !visible !opacity-100">
+          Create Admin
+        </Button>
+        <Button variant="outline" onClick={() => setIsCreateModalOpen(false)} className="flex-1 !visible !opacity-100">
+          Cancel
+        </Button>
+      </div>
+    </div>
+  )
+
+  const editForm = (
+    <div className="space-y-4">
+      <div>
+        <Label htmlFor="edit-name">Name</Label>
+        <Input
+          id="edit-name"
+          defaultValue={formData.name}
+          onBlur={handleInputBlur("name")}
+          placeholder="Enter admin name"
+        />
+      </div>
+      <div>
+        <Label htmlFor="edit-email">Email</Label>
+        <Input
+          id="edit-email"
+          type="email"
+          defaultValue={formData.email}
+          onBlur={handleInputBlur("email")}
+          placeholder="Enter admin email"
+        />
+      </div>
+      <div>
+        <Label htmlFor="edit-password">Password</Label>
+        <Input
+          id="edit-password"
+          type="password"
+          defaultValue={formData.password}
+          onBlur={handleInputBlur("password")}
+          placeholder="Enter admin password"
+        />
+      </div>
+      <div className="flex gap-2 pt-4">
+        <Button onClick={updateAdmin} className="flex-1 !visible !opacity-100">
+          Update Admin
+        </Button>
+        <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="flex-1 !visible !opacity-100">
+          Cancel
+        </Button>
+      </div>
+    </div>
+  )
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -401,7 +484,6 @@ export default function AdminManagement() {
               placeholder="Search by name, email, or ID..."
               value={searchTerm}
               onChange={handleSearchChange}
-              onKeyDown={handleSearchKeyDown}
               className="flex h-10 w-full rounded-md border border-gray-300 bg-white pl-10 pr-10 py-2 text-sm ring-offset-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               autoComplete="off"
               spellCheck="false"
@@ -425,8 +507,9 @@ export default function AdminManagement() {
               resetForm()
               setIsCreateModalOpen(true)
             }}
+            className="!opacity-100 !visible !bg-blue-600 !text-white"
           >
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-4 w-4 mr-2 " />
             Add Admin
           </Button>
         </div>
@@ -516,88 +599,12 @@ export default function AdminManagement() {
 
       {/* Create Modal */}
       <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} title="Create New Admin">
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="name">Name</Label>
-            <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Enter admin name"
-            />
-          </div>
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="Enter admin email"
-            />
-          </div>
-          <div>
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              placeholder="Enter admin password"
-            />
-          </div>
-          <div className="flex gap-2 pt-4">
-            <Button onClick={createAdmin} className="flex-1">
-              Create Admin
-            </Button>
-            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)} className="flex-1">
-              Cancel
-            </Button>
-          </div>
-        </div>
+        {createForm}
       </Modal>
 
       {/* Edit Modal */}
       <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Edit Admin">
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="edit-name">Name</Label>
-            <Input
-              id="edit-name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Enter admin name"
-            />
-          </div>
-          <div>
-            <Label htmlFor="edit-email">Email</Label>
-            <Input
-              id="edit-email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              placeholder="Enter admin email"
-            />
-          </div>
-          <div>
-            <Label htmlFor="edit-password">Password</Label>
-            <Input
-              id="edit-password"
-              type="password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              placeholder="Enter admin password"
-            />
-          </div>
-          <div className="flex gap-2 pt-4">
-            <Button onClick={updateAdmin} className="flex-1">
-              Update Admin
-            </Button>
-            <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="flex-1">
-              Cancel
-            </Button>
-          </div>
-        </div>
+        {editForm}
       </Modal>
 
       {/* View Modal */}
@@ -620,7 +627,7 @@ export default function AdminManagement() {
               <Label>Password</Label>
               <p className="text-sm text-gray-600 mt-1">••••••••</p>
             </div>
-            <Button onClick={() => setIsViewModalOpen(false)} className="w-full">
+            <Button onClick={() => setIsViewModalOpen(false)} className="w-full !visible !opacity-100">
               Close
             </Button>
           </div>
@@ -636,10 +643,18 @@ export default function AdminManagement() {
               <strong>{adminToDelete.name}</strong>.
             </p>
             <div className="flex gap-2 pt-4">
-              <Button variant="destructive" onClick={() => deleteAdmin(adminToDelete.id)} className="flex-1">
+              <Button
+                variant="destructive"
+                onClick={() => deleteAdmin(adminToDelete.id)}
+                className="flex-1 !visible !opacity-100"
+              >
                 Delete
               </Button>
-              <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)} className="flex-1">
+              <Button
+                variant="outline"
+                onClick={() => setIsDeleteModalOpen(false)}
+                className="flex-1 !visible !opacity-100"
+              >
                 Cancel
               </Button>
             </div>

@@ -82,10 +82,10 @@ const Login = () => {
             }
 
             const payload = {
-                uid: uid,
+                userId: uid,
                 password: input.password,
-                confirmPassword: input.confirmPassword
             };
+            console.log(payload.userId, "payload coming from user");
 
             const response = await axios.put('/api/forget-Password', payload);
             

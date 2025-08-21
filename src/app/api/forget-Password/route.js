@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false,
     auth: {
-         user: "toss125training@gmail.com",
+        user: "toss125training@gmail.com",
         pass: "limzksqufgsenfls"
     }
 });
@@ -35,21 +35,35 @@ export async function POST(req) {
             }, { status: 400 });
         }
 
-        const db = await CreateConnection();
+        const apiUrl = "https://edueye.co.in/ensurekar/existing-site/forgot_page.php"; 
 
-        // 1. Check if email exists
-        const selectSQL = 'SELECT * FROM users WHERE email = ?';
-        const [rows] = await db.query(selectSQL, [emailWithTrim]);
-        console.log(selectSQL,"i am SQL QUERY");
+        const apiResponse = await fetch(apiUrl, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
 
-        if (!rows || rows.length === 0) {
+        if (!apiResponse) {
+            return Response.json({ error: "Failed to fetch user data from API" }, { status: 500 });
+        }
+
+        const apiData = await apiResponse.json();
+        // console.log("API Data:", apiData);
+
+        // Assuming apiData is an array of users
+        const userData = apiData.find(user => user.email?.toLowerCase().trim() === emailWithTrim);
+
+        if (!userData) {
             return Response.json({
-                error: 'No user found with this email.'
+                error: 'No user found with this email from API.'
             }, { status: 404 });
         }
 
-        console.log(rows[0], "i am rows");
-        const user = rows[0].userId;
+        console.log(userData, "✅ Found user from API");
+
+        //-------------------------------userId
+        const user = userData.userId;
 
         console.log(user, "i am UID");
 
@@ -57,7 +71,7 @@ export async function POST(req) {
             from: "toss125training@gmail.com",
             to: email,
             subject: 'Password reset request in ensurekar',
-            text: `Hi ${ rows[0].firstName  || rows[0].gmail },
+            text: `Hi ${userData.firstName || userData.gmail},
 We received a request to reset your password for your ensurekar account.
 To reset your password, please click the link below:
 
@@ -122,7 +136,7 @@ The ensurekar Team`,
 //         console.log(rows[0], "i am rows");
 //         const user = rows[0].userId;
 
-        
+
 //         return Response.json({
 //             message: 'Forget-Password gmail sucessfully find.',
 //             user
@@ -151,20 +165,55 @@ export async function PUT(req) {
             return Response.json({ error: 'Password and confirmPassword are not matched.' }, { status: 400 });
         }
 
-        const db = await CreateConnection();
+        //-----------------------------------------------
+        // const db = await CreateConnection();
 
-        // 🔐 Hash password using bcrypt
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // // 🔐 Hash password using bcrypt
+        // const hashedPassword = await bcrypt.hash(password, 10);
 
-        console.log(uid, hashedPassword, "i am uid and password");
+        // console.log(uid, hashedPassword, "i am uid and password");
 
-        const updateSQL = 'UPDATE users SET password = ? WHERE userId = ?';
-        const [result] = await db.query(updateSQL, [hashedPassword, uid]);
+        // const updateSQL = 'UPDATE users SET password = ? WHERE userId = ?';
+        // const [result] = await db.query(updateSQL, [hashedPassword, uid]);
 
-        if (result.affectedRows === 0) {
-            return Response.json({ error: 'No user found with this uid.' }, { status: 404 });
-        }
+        // if (result.affectedRows === 0) {
+        //     return Response.json({ error: 'No user found with this uid.' }, { status: 404 });
+        // }
 
+        // ---hear we are chnage the password in the API not in the database
+
+        // const apiUrl = "https://edueye.co.in/ensurekar/existing-site/forgot_page.php"; 
+
+        // const apiResponse = await fetch(apiUrl, {
+        //     method: "Post",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         uid,
+        //         password
+        //     })
+        // });
+
+        // if (!apiResponse) {
+        //     return Response.json({ error: "Failed to fetch user data from API" }, { status: 500 });
+        // }
+
+        // const apiData = await apiResponse.json();
+        // // console.log("API Data:", apiData);
+
+        // // Assuming apiData is an array of users
+        // const userData = apiData.find(user => user.email?.toLowerCase().trim() === emailWithTrim);
+
+        // if (!userData) {
+        //     return Response.json({
+        //         error: 'No user found with this email from API.'
+        //     }, { status: 404 });
+        // }
+
+        // console.log(apiResponse, "✅ Found user from API");
+
+        //---------------------------
         return Response.json({
             message: 'Password updated successfully.',
             uid

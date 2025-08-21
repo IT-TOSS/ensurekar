@@ -40,16 +40,35 @@ const HeroSection = () => {
           </p> */}
 
           <div className="max-w-3xl w-full">
-           <SearchbarHome/>
+            <SearchbarHome />
           </div>
 
           <div className="display-2">
-          India's Most
-            <div className="text-s3 inline-flex"> Preferred Platform</div>
-            <br />for Startups  
+            File Your Income Tax
+            {/* India's Most */}
+            <div className="text-s3 inline-flex">Return Starting</div>
+            {/* <div className="text-s3 inline-flex"> Preferred Platform</div> */}
+            {/* <br />for Startups   */}
+            <br />at Just ₹499/-
           </div>
           <p className="max-w-[550px] ">
-          One-Stop Solution for all your Legal, Tax, and Finance Needs.
+            {/* One-Stop Solution for all your Legal, Tax, and Finance Needs. */}
+            {/* <Link href="/accounting/income-tax-return-filing">
+              <button
+                className="mt-4 max-w-[550px] text-white font-semibold py-3 px-6 rounded-full transition duration-300 hover:bg-yellow-400"
+                style={{ backgroundColor: "rgb(51, 147, 140)" }}
+              >
+                File Now
+              </button>
+            </Link> */}
+            <Link
+              href="/accounting/income-tax-return-filing"
+              className="mt-4 max-w-[550px] text-white font-semibold py-3 px-6 rounded-full transition duration-300 hover:bg-yellow-400"
+                style={{ backgroundColor: "rgb(51, 147, 140)" }}
+            >
+             File Now
+            </Link>
+
           </p>
           {/* <div className="flex justify-start items-center gap-4 pt-6 lg:pt-8 pb-15">
             <Link

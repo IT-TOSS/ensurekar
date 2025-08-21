@@ -48,8 +48,8 @@ import DynamicPlansSection from "../../../components/Section/DynamicPlansSection
 const Pvt_Ltd_Incorporation_Registration = () => {
 
   const BreadcrumbData = {
-    title: "Payroll Processing",
-    heading: "Payroll Processing",
+    title: "Startup India Registration.",
+    heading: "Startup India Registration.",
     description:
       "Unlock the Advantages of Startup India Registration: Tax Exemptions, Funding Access, and More.",
     image: "",
