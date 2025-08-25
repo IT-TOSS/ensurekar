@@ -417,8 +417,8 @@ const OurServices = () => {
                         {/* KNOW MORE button */}
                         <Link
                           href={service.know_more || "#"}
-                          className="mt-2 text-center text-white font-semibold py-3 px-12 rounded-full transition duration-300 bg-teal-600 hover:bg-yellow-400 hover:text-black"
-                        >
+                          className="text-blue-700 hover:underline flex justify-center">
+                          </Link>
                           Know More
                         </Link>
                       </div>
