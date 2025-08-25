@@ -417,8 +417,7 @@ const OurServices = () => {
                         {/* KNOW MORE button */}
                         <Link
                           href={service.know_more || "#"}
-                          className="text-blue-700 hover:underline flex justify-center"> /* change here */
-                          </Link>
+                          className="text-blue-700 hover:underline flex justify-center">
                           Know More
                         </Link>
                       </div>
