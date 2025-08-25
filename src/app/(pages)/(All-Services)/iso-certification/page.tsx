@@ -19,6 +19,17 @@ import TalkExpert from "./../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
 
+// ISO Certification Images
+import Quality_Management_Systems from "./../../../images/ISO_Certification/Quality_Management_Systems_(QMS).png";
+import Environmental_Management_Systems from "./../../../images/ISO_Certification/Environmental_Management_Systems_(EMS).png";
+import Occupational_Health_Safety from "./../../../images/ISO_Certification/Occupational_Health_and_Safety_Management_Systems_(OHSMS).png";
+import Information_Security_Management from "./../../../images/ISO_Certification/InformationSecurity_Management_Systems_(ISMS).png";
+import Energy_Management_Systems from "./../../../images/ISO_Certification/Energy_Management_Systems_(EMS).png";
+import Food_Safety_Management from "./../../../images/ISO_Certification/Food_Safety_Management_Systems_(FSMS).png";
+import Social_Responsibility from "./../../../images/ISO_Certification/Social_Responsibility.png";
+import Risk_Management from "./../../../images/ISO_Certification/Risk_Management.png";
+import Medical_Devices from "./../../../images/ISO_Certification/Medical_Devices.png";
+
 interface WhyEnsurekar {
   heading: string;
   description: string;
@@ -51,7 +62,7 @@ const isoCertification = () => {
       "Obtain ISO Certification Online in India",
     description:
       "Experience hassle-free ISO certification online with dedicated support from our expert consultants.",
-    image: "",
+    image: Quality_Management_Systems.src,
     bottomHeading: "Get your ISO certification online in 3 simple steps",
     cartDetails:{
       id:210,
@@ -125,49 +136,49 @@ const isoCertification = () => {
       description: "",
       advantages: [
         {
-          imageUrl: "",
+          imageUrl: Quality_Management_Systems.src,
           heading: "Quality Management Systems (QMS)",
           details: "ISO 9001:2015 - Quality Management Systems",
         },
         {
-          imageUrl: "",
+          imageUrl: Environmental_Management_Systems.src,
           heading: "Environmental Management Systems (EMS)",
           details: "ISO 14001:2015 - Environmental Management Systems",
         },
         {
-          imageUrl: "",
+          imageUrl: Occupational_Health_Safety.src,
           heading: "Occupational Health and Safety Management Systems (OHSMS)",
           details:
             "ISO 45001:2018 - Occupational Health and Safety Management Systems",
         },
         {
-          imageUrl: "",
+          imageUrl: Information_Security_Management.src,
           heading: "Information Security Management Systems (ISMS)",
           details:
             "ISO/IEC 27001:2013 - Information Security Management Systems",
         },
         {
-          imageUrl: "",
+          imageUrl: Energy_Management_Systems.src,
           heading: "Energy Management Systems (EnMS)",
           details: "ISO 50001:2018 - Energy Management Systems",
         },
         {
-          imageUrl: "",
+          imageUrl: Food_Safety_Management.src,
           heading: "Food Safety Management Systems (FSMS)",
           details: "ISO 22000:2018 - Food Safety Management Systems",
         },
         {
-          imageUrl: "",
+          imageUrl: Social_Responsibility.src,
           heading: "Social Responsibility",
           details: "ISO 26000:2010 - Social Responsibility",
         },
         {
-          imageUrl: "",
+          imageUrl: Risk_Management.src,
           heading: "Risk Management",
           details: "ISO 31000:2018 - Risk Management",
         },
         {
-          imageUrl: "",
+          imageUrl: Medical_Devices.src,
           heading: "Medical Devices",
           details: "ISO 13485:2016 - Medical Devices",
         },

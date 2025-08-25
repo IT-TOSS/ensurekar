@@ -22,6 +22,17 @@ import TalkExpert from "./../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
 
+// Import Export Code Images
+import Global_Market_Expansion from "./../../../images/Import_Export_code/Global_Market_Expansion.png";
+import Access_to_Government_Schemes from "./../../../images/Import_Export_code/Access_to_Government_Schemes.png";
+import No_Return_Filing from "./../../../images/Import_Export_code/No_Return_Filing.png";
+import Simple_and_Quick_Process from "./../../../images/Import_Export_code/Simple_and_Quick_Process.png";
+import No_Renewal_Required from "./../../../images/Import_Export_code/No_Renewal_Required.png";
+import Simplified_Compliance from "./../../../images/Import_Export_code/Simplified_Compliance.png";
+import Unlocks_Export_Import_Opportunities from "./../../../images/Import_Export_code/Unlocks_Export_Import_Opportunities.png";
+import Government_Incentives_and_Subsidies from "./../../../images/Import_Export_code/Government_Incentives_and_Subsidies.png";
+import Ease_of_Business_Operations from "./../../../images/Import_Export_code/Ease_of_Business_Operations.png";
+
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 const ImportExportCode = () => {
   const BreadcrumbData = {
@@ -102,55 +113,55 @@ const ImportExportCode = () => {
       description: "",
       advantages: [
         {
-          imageUrl: "",
+          imageUrl: Global_Market_Expansion.src,
           heading: "Global Market Expansion",
           details:
             "IEC helps businesses take their products or services to international markets, fostering global growth and opportunities.",
         },
         {
-          imageUrl: "",
+          imageUrl: Access_to_Government_Schemes.src,
           heading: "Access to Government Schemes",
           details:
             "With IEC registration, companies can avail numerous benefits and incentives from DGFT, Export Promotion Councils, and Customs under various export schemes like MEIS and SEIS.",
         },
         {
-          imageUrl: "",
+          imageUrl: No_Return_Filing.src,
           heading: "No Return Filing",
           details:
             "Once an IEC is issued, there is no requirement to file any returns or follow-up procedures to maintain its validity, making it hassle-free for businesses.",
         },
         {
-          imageUrl: "",
+          imageUrl: Simple_and_Quick_Process.src,
           heading: "Simple and Quick Process",
           details:
             "Obtaining an IEC code from DGFT is straightforward, usually taking 10 to 15 days. The application process is smooth and does not require proof of any export or import to apply.",
         },
         {
-          imageUrl: "",
+          imageUrl: No_Renewal_Required.src,
           heading: "No Renewal Required",
           details:
             "IEC is valid for the lifetime of the entity, with no renewal needed. Once issued, the code can be used for all import/export transactions.",
         },
         {
-          imageUrl: "",
+          imageUrl: Simplified_Compliance.src,
           heading: "Simplified Compliance",
           details:
             "IEC registration comes with no ongoing compliance obligations, making business operations easier to manage and focus on growth.",
         },
         {
-          imageUrl: "",
+          imageUrl: Unlocks_Export_Import_Opportunities.src,
           heading: "Unlocks Export/Import Opportunities",
           details:
             "With an IEC, businesses can clear customs, make international payments, and expand their operations into global markets effortlessly.",
         },
         {
-          imageUrl: "",
+          imageUrl: Government_Incentives_and_Subsidies.src,
           heading: "Government Incentives and Subsidies",
           details:
             "IEC holders are eligible to receive various government subsidies and promotions aimed at boosting international trade.",
         },
         {
-          imageUrl: "",
+          imageUrl: Ease_of_Business_Operations.src,
           heading: "Ease of Business Operations",
           details:
             "By having an IEC, businesses can quickly and legally start exporting and importing without complex legal hurdles.",

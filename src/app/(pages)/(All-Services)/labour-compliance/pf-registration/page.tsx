@@ -8,7 +8,7 @@ import BenefitSection from "@/app/components/Section/Benefit-Section";
 import DocumentsRequired from "@/app/components/Section/Documents-Required";
 import OnlineProcessforEmployers from "@/app/components/Section/Online-Process-for-Employers";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
-import faq_illus from "../../../../images/faq_illus.png";
+import FAQ from "../../../../images/FAQ.png";
 import WhyEnsurekarSection from "@/app/components/Section/Why-Ensurekar-All-Services";
 import TestimonialSectionAllServices from "@/app/components/Section/Testimonial-Section-All-Services";
 import testimonial10 from "../../../../images/testimonial10.png";
@@ -198,7 +198,7 @@ const pfRegistration = () => {
       },
       { question: "Where can I get a PF account registration?", answer: "NA" },
     ],
-    imageUrl: faq_illus,
+    imageUrl: FAQ,
   };
   const WhyEnsurekar = {
     heading: "Why to choose Ensurekar for EPF Registration ",

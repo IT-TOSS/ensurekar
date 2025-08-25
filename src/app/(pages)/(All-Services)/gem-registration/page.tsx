@@ -20,12 +20,18 @@ import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 import { title } from "process";
 import productImage from "../../../images/recent_post_img1.png";
 
-
-
 //Krishna
 import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
+
+// GEM Registration Certificate Images
+import Access_to_Government_Buyers from "./../../../images/GEM_Registration_Certificate/Access_to_Government_Buyers.png";
+import Wider_Market_Reach from "./../../../images/GEM_Registration_Certificate/Wider_Market_Reach.png";
+import Transparency from "./../../../images/GEM_Registration_Certificate/Transparency.png";
+import Ease_of_Doing_Business from "./../../../images/GEM_Registration_Certificate/Ease_of_Doing_Business.png";
+import Cost_Efficiency from "./../../../images/GEM_Registration_Certificate/Cost_Efficiency.png";
+import Growth_Opportunities from "./../../../images/GEM_Registration_Certificate/Growth_Opportunities.png";
 
 interface AdvantagesData {
   title: string;
@@ -79,7 +85,7 @@ const UdyamRegistration = () => {
     heading: "GEM Registration Certificate ",
     description:
       "Hassle Free GEM Registration with Ensurekar. Our Experts Assist you to get Certififcate in time.",
-    image: "",
+         image: Access_to_Government_Buyers.src,
     subHeading: "",
     cartDetails:{
       id:39,
@@ -190,38 +196,38 @@ const UdyamRegistration = () => {
       meta: "GEM Registration",
       description:
         "GEM Registration is an online process for businesses to register on the Government e-Marketplace, enabling them to supply goods and services to government departments efficiently and transparently.",
-      advantages: [
-        {
-          imageUrl: "",
-          heading: "Access to Government Buyers",
-          details: "Directly connect with government departments and public sector units.",
-        },
-        {
-          imageUrl: "",
-          heading: "Wider Market Reach",
-          details: "Showcase your products and services to a vast network of buyers.",
-        },
-        {
-          imageUrl: "",
-          heading: "Transparency",
-          details: "Ensures fair procurement with a transparent bidding process.",
-        },
-        {
-          imageUrl: "",
-          heading: "Ease of Doing Business",
-          details: "Simplifies transactions with an easy-to-use online platform.",
-        },
-        {
-          imageUrl: "",
-          heading: "Cost Efficiency",
-          details: "Reduces marketing and operational costs with direct access to buyers.",
-        },
-        {
-          imageUrl: "",
-          heading: "Growth Opportunities",
-          details: "Boosts revenue by securing lucrative government contracts.",
-        },
-      ],
+             advantages: [
+         {
+           imageUrl: Access_to_Government_Buyers.src,
+           heading: "Access to Government Buyers",
+           details: "Directly connect with government departments and public sector units.",
+         },
+         {
+           imageUrl: Wider_Market_Reach.src,
+           heading: "Wider Market Reach",
+           details: "Showcase your products and services to a vast network of buyers.",
+         },
+         {
+           imageUrl: Transparency.src,
+           heading: "Transparency",
+           details: "Ensures fair procurement with a transparent bidding process.",
+         },
+         {
+           imageUrl: Ease_of_Doing_Business.src,
+           heading: "Ease of Doing Business",
+           details: "Simplifies transactions with an easy-to-use online platform.",
+         },
+         {
+           imageUrl: Cost_Efficiency.src,
+           heading: "Cost Efficiency",
+           details: "Reduces marketing and operational costs with direct access to buyers.",
+         },
+         {
+           imageUrl: Growth_Opportunities.src,
+           heading: "Growth Opportunities",
+           details: "Boosts revenue by securing lucrative government contracts.",
+         },
+       ],
     },
     eligibilityCriteria: [
       {

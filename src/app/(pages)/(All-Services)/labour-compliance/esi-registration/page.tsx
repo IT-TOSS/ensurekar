@@ -9,7 +9,7 @@ import DocumentsRequired from "@/app/components/Section/Documents-Required";
 import OnlineProcessforEmployers from "@/app/components/Section/Online-Process-for-Employers";
 import WhyEnsurekarSection from "@/app/components/Section/Why-Ensurekar-All-Services";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
-import faq_illus from "../../../../images/faq_illus.png";
+import FAQ from "../../../../images/FAQ.png";
 import TestimonialSectionAllServices from "@/app/components/Section/Testimonial-Section-All-Services";
 import testimonial10 from "../../../../images/testimonial10.png";
 import testimonial9 from "../../../../images/testimonial9.png";
@@ -183,7 +183,7 @@ const ESIRegistration = () => {
       { question: "Who mandatorily requires ESI registration?", answer: "NA" },
       { question: "How much does an employee contribute towards ESI?", answer: "NA" },
     ],
-    imageUrl: faq_illus,
+    imageUrl: FAQ,
   };
   const WhyEnsurekar = {
     heading: "Why to choose Ensurekar for ESI Registration ",

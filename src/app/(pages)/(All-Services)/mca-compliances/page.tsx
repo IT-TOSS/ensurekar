@@ -4,7 +4,7 @@ import ServiceOverview from "@/app/components/Section/Service-Overview";
 import Rocket_With_Men from "../../../images/SGV-Types/Rocket-With-Men.svg";
 import WhyEnsurekarSection from "@/app/components/Section/Why-Ensurekar-All-Services";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
-import faq_illus from "../../../images/faq_illus.png";
+import FAQ from "../../../images/FAQ.png";
 import TestimonialSectionAllServices from "@/app/components/Section/Testimonial-Section-All-Services";
 import testimonial10 from "../../../images/testimonial10.png";
 import testimonial9 from "../../../images/testimonial9.png";
@@ -751,7 +751,7 @@ const MCA_Compliances = () => {
       {question: "What is annual compliance?",answer:"NA",},
      
     ],
-    imageUrl: faq_illus,
+    imageUrl: FAQ,
   };
   const TestimonialData = {
     title: "Testimonials",

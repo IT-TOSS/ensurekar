@@ -152,7 +152,7 @@ const OurServices = () => {
             plan_type: undefined,
             know_more: "/trade-mark-name-search",
             description: [
-              "Trademark Watch ensures that no one tries to register a mark similar to your registered trademark. With our team of experts and sophisticated tools, we will watch out for businesses trying to register a mark similar to yours and send you timely reports on the same",
+              "Trademark Watch ensures that no one tries to register a mark similar to your registered trademark. With our team of experts and sophisticated tools, we will watch out for businesses trying to register a mark similar to yours and send you timely reports on the same",
             ],
           },
           {
@@ -163,7 +163,7 @@ const OurServices = () => {
             plan_type: undefined,
             know_more: "/trade-mark-ip/copyright-registration",
             description: [
-              "Your work is your pride, but today it is easier than ever for people to steal your work and use it without your permission. Many creators don't copyright their work because of the hassle. With Vakilsearch you get the protection without the hassle as we take care of the entire process for you.",
+              "Your work is your pride, but today it is easier than ever for people to steal your work and use it without your permission. Many creators don't copyright their work because of the hassle. With Vakilsearch you get the protection without the hassle as we take care of the entire process for you.",
             ],
           },
           {
@@ -174,7 +174,7 @@ const OurServices = () => {
             plan_type: undefined,
             know_more: "",
             description: [
-              "Inventing something is hard, but protecting your invention can be harder! Registering and getting a patent is difficult, but not with Vakilsearch. From patent search and listing the different uses of your invention to filing for patent protection, our experts take care of the complicated processes so that you get the due credit for your invention.",
+              "Inventing something is hard, but protecting your invention can be harder! Registering and getting a patent is difficult, but not with Vakilsearch. From patent search and listing the different uses of your invention to filing for patent protection, our experts take care of the complicated processes so that you get the due credit for your invention.",
             ],
           },
         ],
@@ -214,7 +214,7 @@ const OurServices = () => {
             plan_type: undefined,
             know_more: "/income-tax-fillings",
             description: [
-              "Understanding the latest rules and available exemptions every year to file your tax returns can be nerve- wracking. Or you can get it done effortlessly through Vakilsearch!",
+              "Understanding the latest rules and available exemptions every year to file your tax returns can be nerve- wracking. Or you can get it done effortlessly through Vakilsearch!",
             ],
           },
           {
@@ -318,53 +318,56 @@ const OurServices = () => {
 
   useEffect(() => {
     setServicesData(Data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <section className="bg-softBg1 stp-30  sbp-30 overflow-hidden">
-      <div className="w-full ">
+    <section className="bg-softBg1 stp-30 sbp-30 overflow-hidden">
+      <div className="w-full">
         <div className="flex justify-center items-center">
           <div className="text-center flex justify-center items-center flex-col">
             <div className="flex justify-center items-center">
-              <div className="flex justify-center  flex-col">
-                <div className=" flex justify-center items-center flex-col">
-                  {/* <p className="bg-p1 py-2 sm:py-3 px-5 rounded-full text-white wow animate__animated animate__fadeInUp">
-                    Services
-                  </p> */}
-                  <h4 className="display-4  text-start py-5 lg:pb-6 wow animate__animated animate__fadeInDown">
+              <div className="flex justify-center flex-col">
+                <div className="flex justify-center items-center flex-col">
+                  <h4 className="display-4 text-start py-5 lg:pb-6">
                     Our Services at a Glance
                   </h4>
-                  <div className="flex flex-wrap flex-row my-5 font-bold justify-center items-center">
-                    {servicesData?.Service_options?.map(
-                      (service: any, index: number) => (
-                        <button
-                          key={index}
-                          onClick={() =>
-                            toggleTabs(
-                              service.name_of_service,
-                              service?.subServices
-                            )
-                          }
-                          className={`text-lg font-semibold mr-5 mb-2 hover:underline underline-offset-[8px] decoration-2  ${
-                            tabs === service.name_of_service
-                              ? "underline text-blue-600"
-                              : ""
-                          }`}
-                        >
-                          {service.name_of_service}
-                        </button>
-                      )
-                    )}
+
+                  {/* TAB BUTTONS - Navigation bar with light green background */}
+                  <div className="bg-[#a7d8d3] rounded-full px-4 py-2 my-5">
+                    <div className="flex flex-nowrap flex-row font-bold justify-center items-center gap-1 overflow-x-auto">
+                      {servicesData?.Service_options?.map(
+                        (service: any, index: number) => (
+                          <button
+                            key={index}
+                            onClick={() =>
+                              toggleTabs(
+                                service.name_of_service,
+                                service?.subServices
+                              )
+                            }
+                            className={`px-6 py-3 rounded-full font-semibold transition duration-300 text-black whitespace-nowrap text-sm
+                              ${
+                                tabs === service.name_of_service
+                                  ? "bg-yellow-400 shadow-sm"
+                                  : "hover:bg-yellow-400"
+                              }`}
+                          >
+                            {service.name_of_service}
+                          </button>
+                        )
+                      )}
+                    </div>
                   </div>
                 </div>
-                <div className=" my-5 pb-10  w-full bg-white rounded-xl">
-                  <h1 className="heading-3 text-center my-14 ">{tabs}</h1>
-                  <div className="my-5 flex flex-wrap justify-center items-center  gap-5  ">
+
+                {/* SUBSERVICES */}
+                <div className="my-5 pb-10 w-full bg-white rounded-xl">
+                  <h1 className="heading-3 text-center my-14">{tabs}</h1>
+                  <div className="my-5 flex flex-wrap justify-center items-center gap-5">
                     {subServices.map((service: any, index: number) => (
                       <div
                         key={index}
-                        className="max-w-[290px] flex flex-col gap-5 min-h-[550px] bg-white justify-between p-5 rounded-lg shadow-lg border border-white group hover:border-mainTextColor duration-700 hover:bg-s2 wow animate__animated animate__fadeInUp"
+                        className="max-w-[290px] flex flex-col gap-5 min-h-[550px] bg-white justify-between p-5 rounded-lg shadow-lg border border-white group hover:border-mainTextColor duration-700 hover:bg-s2"
                       >
                         <div className="flex flex-col justify-between">
                           <h5 className="text-lg font-semibold min-h-[50px]">
@@ -375,7 +378,6 @@ const OurServices = () => {
                               <div className="bg-zinc-100 flex p-3 flex-col max-w-[220px] font-medium rounded-lg text-slate-950 text-center">
                                 {service.price ? (
                                   <>
-                                    {" "}
                                     <p className="text-sm">Starting from</p>
                                     <div className="text-5xl flex justify-center leading-none font-semibold">
                                       <span className="text-3xl mr-[3px]">
@@ -393,15 +395,13 @@ const OurServices = () => {
                                 <p className="text-sm">{service.tax}</p>
                               </div>
                             </div>
-                            {service.description &&
-                              service.description.length === 1}
                             <ul
                               className={`${
                                 service.description &&
                                 service.description.length != 1
                                   ? "list-disc"
                                   : ""
-                              } flex flex-col p-3 flex-wrap content-center items-cente`}
+                              } flex flex-col p-3 flex-wrap content-center items-center`}
                             >
                               {service.description.map(
                                 (desc: string, index: number) => (
@@ -414,9 +414,10 @@ const OurServices = () => {
                           </div>
                         </div>
 
+                        {/* KNOW MORE button */}
                         <Link
-                          href={service.know_more}
-                          className="text-blue-700 hover:underline flex justify-center"
+                          href={service.know_more || "#"}
+                          className="mt-2 text-center text-white font-semibold py-3 px-12 rounded-full transition duration-300 bg-teal-600 hover:bg-yellow-400 hover:text-black"
                         >
                           Know More
                         </Link>

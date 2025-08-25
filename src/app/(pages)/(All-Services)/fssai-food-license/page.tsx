@@ -22,6 +22,12 @@ import TalkExpert from "./../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
 
+// FSSAI Food License Images
+import FSSAI_Basic_Registration from "./../../../images/FSSAi_Food_License/FSSAI_Basic_Registration.png";
+import FSSAI_State_License from "./../../../images/FSSAi_Food_License/FSSAI_State_License.png";
+import FSSAI_Central_License from "./../../../images/FSSAi_Food_License/FSSAI_Central_License.png";
+
+
 const FSSAI_Food_Licence = () => {
   const Component = (
     <div className="col-span-12 md:col-span-6 mt-5 md:mt-10 flex justify-center items-center">
@@ -125,19 +131,19 @@ const FSSAI_Food_Licence = () => {
       description: "",
       advantages: [
         {
-          imageUrl: "",
+          imageUrl: FSSAI_Basic_Registration.src,
           heading: "FSSAI Basic Registration",
           details:
             "If the food business owner generates an annual turnover that is less than ₹12 lakhs, they shall get registered through basic registration.",
         },
         {
-          imageUrl: "",
+          imageUrl: FSSAI_State_License.src,
           heading: "FSSAI State License",
           details:
             "If the food business has an annual turnover between ₹12 lakhs and ₹20 crores, then the food business operator should apply for a state license.",
         },
         {
-          imageUrl: "",
+          imageUrl: FSSAI_Central_License.src,
           heading: "FSSAI Central License",
           details:
             "If the annual revenue of the food business is above ₹20 crore, then the food business owner should apply for a central license using Form B. This license is also required for food businesses with branches across India.",

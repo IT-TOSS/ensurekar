@@ -23,7 +23,7 @@ import StepByStep from "../../../../images/SGV-Types/Step-By-Step.svg";
 
 import EnsurekarFeature from "@/app/components/Section/features";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
-import faq_illus from "../../../../images/faq_illus.png";
+import FAQ from "../../../../images/FAQ.png";
 import { link } from "fs";
 import PlansSection from "@/app/components/Section/Plans-Section";
 import { desc } from "framer-motion/client";
@@ -703,7 +703,7 @@ const TrademarkRegistration = () => {
     title: "FAQs",
     heading: "What services does Ensurekar offer?",
     description: "",
-    imageUrl: faq_illus,
+    imageUrl: FAQ,
     FAQs: [
       { question: "What is the official website for trademark registration in India?", answer: "The official platform for trademark registration in India is the Intellectual Property India portal, managed by the Controller General of Patents, Designs, and Trademarks." },
       { question: "What is the process for trademark registration in India?", answer: "The process includes conducting a trademark search, filing an application, and awaiting approval after its publication in the Trademark Journal. The registration is valid for 10 years." },
