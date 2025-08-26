@@ -3,10 +3,9 @@
 import React, { useEffect, useRef } from "react";
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import HelpSection from "@/app/components/Section/help-section";
-// import we_help from "../../../../images/we_help.png";
 import we_help from "../../../images/Startup India Registration/1.png";
 import ServiceOverview from "@/app/components/Section/Service-Overview";
-import productImage from "../../../images/payrollEnsurekar.png"; // IT's NOT working
+import productImage from "../../../images/payrollEnsurekar.png";
 import IndiaRegistration from "../../../images/Startup India Registration/3.png";
 import India_Registration from "../../../images/Startup India Registration/4.png";
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
@@ -38,53 +37,93 @@ import SeparateLegalIdentity from "../../../images/SGV-Types/Separate-Legal-Iden
 import TaxBenefitsforPrivateLimitedCompanies from "../../../images/SGV-Types/Tax-Benefits-for-Private-Limited-Companies.svg";
 import ProvideDocument from "../../../images/SGV-Types/Provide-Document-and-Get-Incorporated.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
-// import StepByStep from "../../../images/SGV-Types/Step-By-Step.svg";
-import { HandCoins } from "lucide-react";
-
 import DynamicPlansSection from "../../../components/Section/DynamicPlansSection";
 
 
+// add by geetanjali
+import { HandCoins, Phone, DollarSign, FileCheck } from "lucide-react";
+import { Startup_India_scheme } from "@/app/components/Startup_India_scheme";
+import { IndianRupee, CreditCard, Shield } from "lucide-react";
+import { s } from "framer-motion/client";
 
-const Pvt_Ltd_Incorporation_Registration = () => {
+// What is the Startup India Scheme?
+type Feature = {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  description: string;
+};
 
-  const BreadcrumbData = {
-    title: "Startup India Registration.",
-    heading: "Startup India Registration.",
-    description:
-      "Unlock the Advantages of Startup India Registration: Tax Exemptions, Funding Access, and More.",
-    image: "",
-    subHeading: "Startup India Registration: Your Gateway to Government Benefits and Growth Opportunities.",
-    cartDetails:{
-      id:1,
-      name: "	Private Limited Incorporation",
-      price: 18000,
-      quantity: 1,
-      subtotal: 18000,
-      image: productImage,
+
+export default function StartupIndiaRegistrationPage() {
+
+  const features: Feature[] = [
+    {
+      icon: DollarSign,
+      title: "Tax Exemptions:",
+      description: "Startups enjoy a 3-year tax holiday and exemptions on capital gains, reducing financial burdens."
+    },
+    {
+      icon: HandCoins,
+      title: "Funding Support:",
+      description: "Access to government-backed funds and seed funding to accelerate growth and innovation."
+    },
+    {
+      icon: FileCheck,
+      title: "Simplified Compliance:",
+      description: "Self-certification for labor and environmental laws, along with single-window clearance for approvals."
+    },
+    {
+      icon: Phone,
+      title: "Faster IP Processing:",
+      description: "Up to 80% rebate on patent costs and expedited intellectual property rights processing."
     }
-  };
+  ];
+
+  // What is the Startup India Scheme?
+  const features2: Feature[] = [
+    {
+      icon: CreditCard,
+      title: "Base Fee:",
+      description: "A nominal fee is typically charged for registering your startup under the Startup India Scheme."
+    },
+    {
+      icon: IndianRupee,
+      title: "Additional Costs:",
+      description: "Professional Fees: You may incur charges for consulting services, legal fees, and documentation costs."
+    },
+    {
+      icon: Shield,
+      title: "Government Support:",
+      description: "•	The government offers subsidies and waivers to reduce the financial burden on startups	•You may be eligible for discounts on patent and trademark filings."
+    }
+  ];
+
+  
+  // other components
   const HelpSectionData = {
     heading: "Startup India Registration – Empowering Innovation",
     subHeading: "",
-    description: "Startup India Registration, launched in 2016, supports startups with tax benefits, funding, and simplified compliance. Eligible startups (under 10 years old, turnover below ₹100 crore) gain reduced IP filing costs, fast patent approvals, and tender access.",
+    description:
+      "Startup India Registration, launched in 2016, supports startups with tax benefits, funding, and simplified compliance. Eligible startups (under 10 years old, turnover below ₹100 crore) gain reduced IP filing costs, fast patent approvals, and tender access.",
     image: we_help,
     bottomHeading: "Key Objectives",
     bottomDescription: "",
     bottomList: [
       {
         heading: "Funding Support : ",
-        description:"Financial aid for growth."
+        description: "Financial aid for growth.",
       },
       {
         heading: "Industry Partnerships : ",
-        description:"Collaboration and incubation support."
+        description: "Collaboration and incubation support.",
       },
       {
         heading: "Simplified Processes : ",
-        description:"Guidance for seamless scaling."
+        description: "Guidance for seamless scaling.",
       },
     ],
   };
+
   const OverviewData = {
     heading: "",
     meta: "",
@@ -95,8 +134,7 @@ const Pvt_Ltd_Incorporation_Registration = () => {
     advantagesInfo: {
       heading: "",
       meta: "",
-      description:
-        "",
+      description: "",
       advantages: [],
     },
     eligibilityCriteria: [
@@ -155,11 +193,13 @@ const Pvt_Ltd_Incorporation_Registration = () => {
         },
         subHeading: "",
         startingDescription: "",
-        endingDescription: "",
+        endingDescription:
+          "Ensure your startup meets eligibility criteria to avail of benefits.",
         requiredSteps: [
           {
             heading: "",
-            description: "To register your startup under the Startup India Initiative, you'll need:",
+            description:
+              "To register your startup under the Startup India Initiative, you'll need:",
             steps: [
               {
                 heading: "",
@@ -173,9 +213,7 @@ const Pvt_Ltd_Incorporation_Registration = () => {
                 heading: "",
                 description: "Authorization Letter",
               },
-              { heading: "",
-                description: "Business Plan or Pitch Deck" 
-              },
+              { heading: "", description: "Business Plan or Pitch Deck" },
               {
                 heading: "",
                 description:
@@ -190,14 +228,13 @@ const Pvt_Ltd_Incorporation_Registration = () => {
           },
         ],
       },
-     
     ],
   };
+
   const RegistrationGuideData = {
     title: "",
     heading: "Effortlessly Register Your Startup with Startup India ",
-    description:
-      "Streamline your Startup India registration with this 4-step guide! ",
+    description: "Streamline your Startup India registration with this 4-step guide! ",
     image: StepByStep,
     guideList: [
       {
@@ -222,7 +259,7 @@ const Pvt_Ltd_Incorporation_Registration = () => {
       },
     ],
   };
-  
+
   const AdvantagesData = {
     title: "",
     heading: "DPIIT Recognition: Key Benefits for Your Startup ",
@@ -256,15 +293,16 @@ const Pvt_Ltd_Incorporation_Registration = () => {
       },
     ],
   };
+
   const WhyEnsurekar = {
     heading: "How Ensurekar Can Help After Startup India Registration ",
-    description: "Ensurekar provides ongoing support to ensure your compliance with all Startup India requirements. We'll assist with",
+    description:
+      "Ensurekar provides ongoing support to ensure your compliance with all Startup India requirements. We'll assist with",
     elements: [
       {
         heading: "Annual Filings",
-        description:
-          "Timely submission of all necessary annual filings",
-        imageUrl:TalkExpert ,
+        description: "Timely submission of all necessary annual filings",
+        imageUrl: TalkExpert,
       },
       {
         heading: "Tax Exemptions",
@@ -293,91 +331,98 @@ const Pvt_Ltd_Incorporation_Registration = () => {
     description: "",
     FAQs: [
       {
-        question:
-          "How does Startup India differ from other startup schemes?",
-        answer:
-          "",
-      },
-      {
-        question: "Can a foreign-owned company register under Startup India?",
-        answer:
-          "",
-      },
-      {
-        question: "What is the role of incubators in the Startup India Scheme?",
-        answer:
-          "",
-      },
-      {
-        question: "Is there a time limit for applying for Startup India registration?",
-        answer:
-          "",
+        question: "How does Startup India differ from other startup schemes?",
+        answer: "",
       },
       {
         question:
-          "How does Startup India support startups in funding?",
-        answer:
-          "",
+          "Can a foreign-owned company register under Startup India?",
+        answer: "",
       },
       {
-        question: "What types of businesses are excluded from the Startup India Scheme?",
-        answer:
-          "",
+        question:
+          "What is the role of incubators in the Startup India Scheme?",
+        answer: "",
       },
       {
-        question: "How does DPIIT recognition help in international expansion?",
-        answer:
-          "",
+        question:
+          "Is there a time limit for applying for Startup India registration?",
+        answer: "",
       },
       {
-        question: "What are the benefits of the Startup India scheme for women entrepreneurs?",
-        answer:
-          "",
+        question: "How does Startup India support startups in funding?",
+        answer: "",
+      },
+      {
+        question:
+          "What types of businesses are excluded from the Startup India Scheme?",
+        answer: "",
+      },
+      {
+        question:
+          "How does DPIIT recognition help in international expansion?",
+        answer: "",
+      },
+      {
+        question:
+          "What are the benefits of the Startup India scheme for women entrepreneurs?",
+        answer: "",
       },
       {
         question: "What are the tax exemptions under Startup India?",
-        answer:
-          "",
+        answer: "",
       },
     ],
     imageUrl: "",
   };
 
-  
-  
+  const plansRef = useRef<HTMLDivElement | null>(null);
+  const scrollToPlans = () => {
+    if (plansRef.current) {
+      plansRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
 
-
-
-  const plansRef = useRef<HTMLDivElement | null>(null); 
-    const scrollToPlans = () => {
-      if (plansRef.current) {
-        plansRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    };
-
+  // Define breadcrumb data
+  const BreadcrumbData = {
+    title: "Startup India Registration",
+    heading: "Startup India Registration",
+    subHeading: "Empower Your Innovation Journey",
+    description: "Get recognized under the Startup India Initiative and unlock exclusive benefits for your startup's growth and success.",
+    image: we_help
+  };
 
   return (
     <div>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  scrollToPlans={scrollToPlans}/>
+      <BreadcrumbSection
+        BreadcrumbData={BreadcrumbData}
+        scrollToPlans={scrollToPlans}
+      />
       <HelpSection HelpSectionData={HelpSectionData} />
-      {/*  */}
+
+      {/* First Block - What is the Startup India Scheme? */}
+      <Startup_India_scheme features={features} />
+
       <ServiceOverview OverviewData={OverviewData} />
 
-      {/* */}
+      {/* Second Block - Startup Registration Fees */}
+      <Startup_India_scheme
+        features={features2}
+        title="Startup India Registration Fees: A Breakdown"
+        imageUrl="/../images/startup_India_Registration/5.png"
+      />
 
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
+
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
 
-      <div ref={plansRef} id="plans" className="plans-section">
-      </div>
+      <div ref={plansRef} id="plans" className="plans-section"></div>
 
       <FAQsServicesSection FAQsData={FAQsData} />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
     </div>
   );
-};
-
-export default Pvt_Ltd_Incorporation_Registration;
+}
