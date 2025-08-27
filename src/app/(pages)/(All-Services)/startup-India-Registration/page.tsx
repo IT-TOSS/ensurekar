@@ -6,7 +6,7 @@ import HelpSection from "@/app/components/Section/help-section";
 import we_help from "../../../images/Startup India Registration/1.png";
 import ServiceOverview from "@/app/components/Section/Service-Overview";
 import productImage from "../../../images/payrollEnsurekar.png";
-import img6 from "../../../images/Startup India Registration/6.png";
+import img6 from "../../../images/Startup India Registration/6.png"; // edit
 import IndiaRegistration from "../../../images/Startup India Registration/3.png";
 import India_Registration from "../../../images/Startup India Registration/4.png";
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
