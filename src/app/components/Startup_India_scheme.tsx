@@ -7,9 +7,9 @@ type Feature = {
 
 export function Startup_India_scheme({
   features,
-  title = "What is the Startup India Scheme?",
-  description = "Launched on January 16, 2016, the Startup India Scheme aims to make India a global hub for innovation and entrepreneurship. Managed by DPIIT, it supports startups with funding, mentorship, and business-friendly regulations.",
-  imageUrl = "/../images/startup_India_Registration/3.png",
+  title = "",
+  description = "",
+  imageUrl = "",
 }: {
   features: Feature[];
   title?: string;
@@ -21,11 +21,11 @@ export function Startup_India_scheme({
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         {/* Image Section */}
         <div className="relative">
-          <div className="bg-gradient-to-br from-blue-50 to-teal-50 rounded-2xl p-8 lg:p-12">
+          <div className="bg-white rounded-2xl p-8 lg:p-12">
             <img
               src={imageUrl}
               alt={title}
-              className="w-full h-auto rounded-lg shadow-lg"
+              className="w-full h-auto rounded-lg"
             />
           </div>
         </div>
