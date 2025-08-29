@@ -10,6 +10,9 @@ import WhoShouldBuy from "@/app/components/Section/Service/Who-Should-Buy";
 import ServiceOverview from "@/app/components/Section/Service-Overview";
 import RegisterSteps from "@/app/components/Section/Register-Steps";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
+
+// import by geetanjali
+// import Self-Assessment (Section 140A) from "../../../../images/"
 import { list } from "postcss";
 
 const IncomeTaxAssessment = () => {
