@@ -152,7 +152,7 @@ const OurServices = () => {
             plan_type: undefined,
             know_more: "/trade-mark-name-search",
             description: [
-              "Trademark Watch ensures that no one tries to register a mark similar to your registered trademark. With our team of experts and sophisticated tools, we will watch out for businesses trying to register a mark similar to yours and send you timely reports on the same",
+              "Trademark Watch ensures that no one tries to register a mark similar to your registered trademark. With our team of experts and sophisticated tools, we will watch out for businesses trying to register a mark similar to yours and send you timely reports on the same",
             ],
           },
           {
@@ -163,7 +163,7 @@ const OurServices = () => {
             plan_type: undefined,
             know_more: "/trade-mark-ip/copyright-registration",
             description: [
-              "Your work is your pride, but today it is easier than ever for people to steal your work and use it without your permission. Many creators don't copyright their work because of the hassle. With Vakilsearch you get the protection without the hassle as we take care of the entire process for you.",
+              "Your work is your pride, but today it is easier than ever for people to steal your work and use it without your permission. Many creators don't copyright their work because of the hassle. With Vakilsearch you get the protection without the hassle as we take care of the entire process for you.",
             ],
           },
           {
@@ -174,7 +174,7 @@ const OurServices = () => {
             plan_type: undefined,
             know_more: "",
             description: [
-              "Inventing something is hard, but protecting your invention can be harder! Registering and getting a patent is difficult, but not with Vakilsearch. From patent search and listing the different uses of your invention to filing for patent protection, our experts take care of the complicated processes so that you get the due credit for your invention.",
+              "Inventing something is hard, but protecting your invention can be harder! Registering and getting a patent is difficult, but not with Vakilsearch. From patent search and listing the different uses of your invention to filing for patent protection, our experts take care of the complicated processes so that you get the due credit for your invention.",
             ],
           },
         ],
@@ -214,7 +214,7 @@ const OurServices = () => {
             plan_type: undefined,
             know_more: "/income-tax-fillings",
             description: [
-              "Understanding the latest rules and available exemptions every year to file your tax returns can be nerve- wracking. Or you can get it done effortlessly through Vakilsearch!",
+              "Understanding the latest rules and available exemptions every year to file your tax returns can be nerve- wracking. Or you can get it done effortlessly through Vakilsearch!",
             ],
           },
           {
@@ -318,47 +318,38 @@ const OurServices = () => {
 
   useEffect(() => {
     setServicesData(Data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <section className="bg-softBg1 stp-30  sbp-30 overflow-hidden">
-      <div className="w-full ">
+    <section className="bg-softBg1 stp-30 sbp-30 overflow-hidden">
+      <div className="w-full">
         <div className="flex justify-center items-center">
           <div className="text-center flex justify-center items-center flex-col">
             <div className="flex justify-center items-center">
-              <div className="flex justify-center  flex-col">
-                <div className=" flex justify-center items-center flex-col">
-                  {/* <p className="bg-p1 py-2 sm:py-3 px-5 rounded-full text-white wow animate__animated animate__fadeInUp">
-                    Services
-                  </p> */}
-                  <h4 className="display-4  text-start py-5 lg:pb-6 wow animate__animated animate__fadeInDown">
+              <div className="flex justify-center flex-col">
+                <div className="flex justify-center items-center flex-col">
+                  <h4 className="display-4 text-start py-5 lg:pb-6">
                     Our Services at a Glance
                   </h4>
-                  <div className="flex flex-wrap flex-row my-5 font-bold justify-center items-center">
-                    {servicesData?.Service_options?.map(
-                      (service: any, index: number) => (
+
+                  {/* TAB BUTTONS - Navigation bar with light green background */}
+                  <div className="flex justify-center my-5">
+                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 bg-[#a7d8d3] rounded-2xl sm:rounded-full px-3 sm:px-4 py-2 sm:py-3 w-full max-w-[90%] sm:max-w-fit">
+                      {servicesData?.Service_options?.map((service: any, index: number) => (
                         <button
                           key={index}
-                          onClick={() =>
-                            toggleTabs(
-                              service.name_of_service,
-                              service?.subServices
-                            )
-                          }
-                          className={`text-lg font-semibold mr-5 mb-2 hover:underline underline-offset-[8px] decoration-2  ${
-                            tabs === service.name_of_service
-                              ? "underline text-blue-600"
-                              : ""
-                          }`}
+                          onClick={() => toggleTabs(service.name_of_service, service?.subServices)}
+                          className={`px-3 sm:px-4 py-2 rounded-full font-semibold transition duration-300 text-black text-xs sm:text-sm text-center ${tabs === service.name_of_service ? "bg-yellow-400 shadow-sm" : "hover:bg-yellow-400"
+                            }`}
                         >
                           {service.name_of_service}
                         </button>
-                      )
-                    )}
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className=" my-5 pb-10  w-full bg-white rounded-xl">
+                  
+                  {/* SUBSERVICES CARDS */}
+                  <div className=" my-5 pb-10  w-full bg-white rounded-xl">
                   <h1 className="heading-3 text-center my-14 ">{tabs}</h1>
                   <div className="my-5 flex flex-wrap justify-center items-center  gap-5  ">
                     {subServices.map((service: any, index: number) => (
@@ -424,6 +415,7 @@ const OurServices = () => {
                     ))}
                   </div>
                 </div>
+                </div>
               </div>
             </div>
           </div>
@@ -434,3 +426,4 @@ const OurServices = () => {
 };
 
 export default OurServices;
+
