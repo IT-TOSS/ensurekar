@@ -14,6 +14,12 @@ import faq_illus from "../../../../images/faq_illus.png";
 import Rocket_With_Men from "../../../../images/SGV-Types/Rocket-With-Men.svg";
 import ServiceAdvantages from "@/app/components/Section/Advantages-All-Services";
 
+import GST_Compliances from "@/app/images/pages icons/Accounting and Bookkeeping/10-removebg-preview.png";
+import Tax_Authority from "@/app/images/pages icons/Accounting and Bookkeeping/11-removebg-preview.png";
+import Banking from "@/app/images/pages icons/Accounting and Bookkeeping/12-removebg-preview.png";
+import Export_Import from "@/app/images/pages icons/Accounting and Bookkeeping/13-removebg-preview.png";
+
+
 const accountingAndBookkeeping = () => {
   const BreadcrumbData = {
     title: "Accounting & tax Bookkeeping",
@@ -74,22 +80,22 @@ const accountingAndBookkeeping = () => {
         "",
       roles: [
         {
-          icon: "",
+          icon: GST_Compliances.src,
           title: "GST Compliances",
           description: "",
         },
         {
-          icon: "",
+          icon: Tax_Authority.src,
           title: "Tax Authority",
           description: "",
         },
         {
-          icon: "",
+          icon: Banking.src,
           title: "Banking",
           description: "",
         },
         {
-          icon: "",
+          icon: Export_Import.src,
           title: "Export Import",
           description: "",
         },
