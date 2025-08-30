@@ -36,8 +36,10 @@ import { Calculator } from "phosphor-react";
 import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";//"./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
-
-
+import Brand_Name from "@/app/images/pages icons/Trade Mark/14-removebg-preview.png";
+import Logo from "@/app/images/pages icons/Trade Mark/15-removebg-preview.png";
+import Tagline from "@/app/images/pages icons/Trade Mark/17-removebg-preview.png";
+import Sound from "@/app/images/pages icons/Trade Mark/18-removebg-preview.png";
 const TrademarkRegistration = () => {
   const BreadcrumbData = {
     title: "Trademark Registration",
@@ -66,25 +68,25 @@ const TrademarkRegistration = () => {
       description: "",
       roles: [
         {
-          icon: "",
+          icon: Brand_Name.src,
           title: "Brand Name",
           description: "",
           link: "#",
         },
         {
-          icon: "",
+          icon: Logo.src,
           title: "Logo",
           description: "",
           link: "#",
         },
         {
-          icon: "",
+          icon: Tagline.src,
           title: "Tagline",
           description: "",
           link: "#",
         },
         {
-          icon: "",
+          icon: Sound.src,
           title: "Sound",
           description: "",
           link: "#",
