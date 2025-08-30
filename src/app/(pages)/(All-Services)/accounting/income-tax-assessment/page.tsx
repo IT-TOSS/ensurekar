@@ -12,8 +12,13 @@ import RegisterSteps from "@/app/components/Section/Register-Steps";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 
 // import by geetanjali
-// import Self-Assessment (Section 140A) from "../../../../images/"
-import { list } from "postcss";
+import Self_Assessment from "../../../../images/pages icons/Incoem tax Assesment/8-removebg-preview.png"
+import Summary_Assessment from "../../../../images/pages icons/Incoem tax Assesment/5-removebg-preview.png"
+import Regular_Assessment_Section1433 from "../../../../images/pages icons/Incoem tax Assesment/6-removebg-preview.png"
+import Scrutiny_Assessment from "../../../../images/pages icons/Incoem tax Assesment/7-removebg-preview.png"
+import Best_Judgment_Assessment from "../../../../images/pages icons/Incoem tax Assesment/ENSUREKAR-removebg-preview.png"
+import Income_Escaping_Assessment from "../../../../images/pages icons/Incoem tax Assesment/9-removebg-preview.png"
+// import { list } from "postcss";
 
 const IncomeTaxAssessment = () => {
   const BreadcrumbData = {
@@ -88,32 +93,32 @@ const IncomeTaxAssessment = () => {
       description: "",
       roles: [
         {
-          icon: "",
+          icon: Self_Assessment.src,
           title: "Self-Assessment (Section 140A) ",
           description: "",
         },
         {
-          icon: "",
+          icon: Summary_Assessment.src,
           title: "Summary Assessment (Section 143(1)) ",
           description: "",
         },
         {
-          icon: "",
+          icon: Regular_Assessment_Section1433.src,
           title: "Regular Assessment (Section 143(3)) ",
           description: "",
         },
         {
-          icon: "",
+          icon: Scrutiny_Assessment.src,
           title: "Scrutiny Assessment (Section 143(3)) ",
           description: "",
         },
         {
-          icon: "",
+          icon: Best_Judgment_Assessment.src,
           title: "Best Judgment Assessment (Section 144) ",
           description: "",
         },
         {
-          icon: "",
+          icon: Income_Escaping_Assessment.src,
           title: "Income Escaping Assessment (Section 147)",
           description: "",
         },
