@@ -20,9 +20,15 @@ import productImage from "../../../../images/recent_post_img1.png";
 
 
 
+
 import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";//"./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
+import Form_1 from "@/app/images/pages icons/Patent Registartion/19-removebg-preview.png";
+import Form_2 from "@/app/images/pages icons/Patent Registartion/20-removebg-preview.png";
+import Form_3 from "@/app/images/pages icons/Patent Registartion/21-removebg-preview.png";
+import Form_4 from "@/app/images/pages icons/Patent Registartion/22-removebg-preview.png";
+
 
 
 const Patentregistration = () => {
@@ -159,25 +165,25 @@ const Patentregistration = () => {
       description: "",
       roles: [
         {
-          icon: "",
+          icon: Form_1.src,
           title: "Form 1",
           description:
             "The primary application form containing details about the applicant, invention, and claims.",
         },
         {
-          icon: "",
+          icon: Form_2.src,
           title: "Form 2",
           description:
             "Used to declare priority applications filed in other countries (if applicable).",
           imageUrl: "",
         },
         {
-          icon: "",
+          icon: Form_3.src,
           title: "Form 3",
           description: "Specifies the inventors of the patent.",
         },
         {
-          icon: "",
+          icon: Form_4.src,
           title: "Form 4",
           description: "Required for government undertakings.",
         },

@@ -3,14 +3,14 @@
 import React, { useEffect, useRef } from "react";
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import HelpSection from "@/app/components/Section/help-section";
-import we_help from "../../../images/Startup India Registration/1.png";
+import we_help from "@/app/images/Startup_India_Registration/1.png"
 import ServiceOverview from "@/app/components/Section/Service-Overview";
 import productImage from "../../../images/payrollEnsurekar.png";
-import img6 from "../../../images/Startup India Registration/6.png"; // edit
-import IndiaRegistration from "../../../images/Startup India Registration/3.png";
-import India_Registration from "../../../images/Startup India Registration/4.png";
+import img6 from "@/app/images/Startup_India_Registration/6.png";
+import IndiaRegistration from "@/app/images/Startup_India_Registration/3.png";
+import India_Registration from "@/app/images/Startup_India_Registration/4.png";
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
-import Rocket_With_Men from "../../../images/Startup India Registration/6.png";
+import Rocket_With_Men from "@/app/images/Startup_India_Registration/5.png";
 import axios from "axios";
 
 import faq_illus from "../../../images/faq_illus.png";
@@ -393,7 +393,7 @@ export default function StartupIndiaRegistrationPage() {
     heading: "Startup India Registration",
     subHeading: "Empower Your Innovation Journey",
     description: "Get recognized under the Startup India Initiative and unlock exclusive benefits for your startup's growth and success.",
-    image: we_help
+    image: we_help.src
   };
 
   return (
@@ -422,12 +422,12 @@ export default function StartupIndiaRegistrationPage() {
 
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
 
+      <div ref={plansRef} id="plans" className="plans-section"></div>
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
 
-      <div ref={plansRef} id="plans" className="plans-section"></div>
 
-      <FAQsServicesSection FAQsData={FAQsData} />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
+      <FAQsServicesSection FAQsData={FAQsData} />
     </div>
   );
 }

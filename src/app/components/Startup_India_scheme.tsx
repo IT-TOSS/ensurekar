@@ -21,7 +21,7 @@ export function Startup_India_scheme({
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         {/* Image Section */}
         <div className="relative">
-          <div className="bg-white rounded-2xl p-8 lg:p-12">
+          <div className="bg-transparent rounded-2xl p-8 lg:p-12">
             <img
               src={imageUrl}
               alt={title}
@@ -33,10 +33,10 @@ export function Startup_India_scheme({
         {/* Content Section */}
         <div className="space-y-8">
           <div className="space-y-4">
-            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight dark:text-white">
               {title}
             </h1>
-            <p className="text-lg text-gray-600 leading-relaxed">
+            <p className="text-lg text-gray-600 leading-relaxed dark:text-white">
               {description}
             </p>
           </div>
@@ -51,8 +51,8 @@ export function Startup_India_scheme({
                     <Icon className="w-6 h-6 text-blue-600" />
                   </div>
                   <div className="space-y-1">
-                    <h3 className="font-semibold text-gray-900">{f.title}</h3>
-                    <p className="text-gray-600">{f.description}</p>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">{f.title}</h3>
+                    <p className="text-gray-600 dark:text-white">{f.description}</p>
                   </div>
                 </div>
               );
