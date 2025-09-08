@@ -6,11 +6,11 @@ import WhyEnsurekarSection from "@/app/components/Section/Why-Ensurekar-All-Serv
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import FAQ from "../../../images/FAQ.png";
 import TestimonialSectionAllServices from "@/app/components/Section/Testimonial-Section-All-Services";
-import testimonial10 from "../../../images/testimonial10.png";
-import testimonial9 from "../../../images/testimonial9.png";
-import testimonial7 from "../../../images/testimonial7.png";
-import testimonial8 from "../../../images/testimonial8.png";
-import testimonial6 from "../../../images/testimonial6.png";
+import testimonial10 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial9 from "@/app/images/pages icons/Incoem tax Assesment/Female.png";
+import testimonial7 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial8 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial6 from "@/app/images/pages icons/Incoem tax Assesment/Female.png";
 import productImage from "../../../images/recent_post_img1.png";
 
 
@@ -18,6 +18,14 @@ import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
 
+import Business_Commencement_Certificate from "@/app/images/pages icons/MCA Compliances/41-removebg-preview.png"
+import Appointment_of_Auditor from "@/app/images/pages icons/MCA Compliances/42-removebg-preview.png"
+import Filing_Income_Tax_Returns from "@/app/images/pages icons/MCA Compliances/43-removebg-preview.png"
+import Filing_MCA_Form from "@/app/images/pages icons/MCA Compliances/44-removebg-preview.png"
+import Filing_MCA_Form_MGT_7 from "@/app/images/pages icons/MCA Compliances/45-removebg-preview.png"
+import Filing_DIN_eKYC from "@/app/images/pages icons/MCA Compliances/46-removebg-preview.png"
+import Holding_Annual_General_Meeting from "@/app/images/pages icons/MCA Compliances/47-removebg-preview.png"
+import Directors_Report from "@/app/images/pages icons/MCA Compliances/48-removebg-preview.png"
 
 const MCA_Compliances = () => {
   const BreadcrumbData = {
@@ -554,7 +562,7 @@ const MCA_Compliances = () => {
         "Keeping up with annual compliance is important for private limited companies. These filings need to be done on time each year to avoid penalties. Below are some key compliance tasks that should be taken seriously:",
       advantages: [
         {
-          imageUrl: "",
+          imageUrl: Business_Commencement_Certificate.src,
           heading: "Business Commencement Certificate",
           details:
             "Companies registered after November 2019 must obtain a business commencement certificate within 180 days of incorporation.\n  ",
@@ -565,7 +573,7 @@ const MCA_Compliances = () => {
           },
         },
         {
-          imageUrl: "",
+          imageUrl: Appointment_of_Auditor.src,
           heading: "Appointment of Auditor",
           details:
             "An auditor must be appointed within 30 days of incorporation. ₹300 per month, and the company cannot conduct business without an auditor.",
@@ -576,13 +584,13 @@ const MCA_Compliances = () => {
           },
         },
         {
-          imageUrl: "",
+          imageUrl: Filing_Income_Tax_Returns.src,
           heading: "Filing Income Tax Returns (ITR)",
           details:
             "Income tax returns for private limited companies must be filed annually before the due date.",
         },
         {
-          imageUrl: "",
+          imageUrl: Filing_MCA_Form.src,
           heading: "Filing MCA Form AOC-4",
           details:
             "Companies must file form AOC-4 with the Ministry of Corporate Affairs (MCA) by November 13 each year.",
@@ -592,7 +600,7 @@ const MCA_Compliances = () => {
           },
         },
         {
-          imageUrl: "",
+          imageUrl: Filing_MCA_Form_MGT_7.src,
           heading: "Filing MCA Form MGT-7",
           details:
             "Similar to AOC-4, form MGT-7 must also be filed with the MCA by November 13.",
@@ -602,18 +610,18 @@ const MCA_Compliances = () => {
           },
         },
         {
-          imageUrl: "",
+          imageUrl: Filing_DIN_eKYC.src,
           heading: "Filing DIN eKYC",
           details:
             "Every director of a private limited company must file DIN eKYC annually to maintain an active Director Identification Number (DIN).",
         },
         {
-          imageUrl: "",
+          imageUrl: Holding_Annual_General_Meeting.src ,
           heading: "Holding Annual General Meeting (AGM)",
           details: "An AGM must be held within six months of the end of the financial year. Information about the AGM must be submitted during the annual filing.",
         },
         {
-          imageUrl: "",
+          imageUrl: Directors_Report.src,
           heading: "Directors' Report",
           details: "A directors' report must be submitted along with other filings to the ROC and MCA as per Section 134 of the Companies Act.",
           note: {

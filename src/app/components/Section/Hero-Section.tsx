@@ -61,11 +61,11 @@ const HeroSection = () => {
                 File Now
               </button>
             </Link> */}
-            <div className="flex flex-col items-start justify-start pt-6">
-              <h1 className="text-2xl font-bold mb-4">Tax Filing Service</h1>
+            <div className="flex flex-col items-start justify-start ">
+              {/* <h1 className="text-2xl font-bold mb-4">Tax Filing Service</h1> */}
               <Link
                 href="/accounting/income-tax-return-filing"
-                className="mt-2 max-w-[550px] text-white font-semibold py-3 px-12 rounded-full transition duration-300 bg-teal-600 hover:bg-s2 hover:text-black"
+                className=" max-w-[550px] text-white font-semibold py-2 px-12 rounded-full transition duration-300 bg-teal-600 hover:bg-s2 hover:text-black"
               >
                 File Now
               </Link>

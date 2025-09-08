@@ -22,7 +22,7 @@ const CopyrightEducation = ({CopyrightEducationData}:{CopyrightEducationData:Cop
   return (
     <section className="bg-softBg1 stp-30 sbp-30 max-xxl:overflow-hidden">
       <div className="container grid grid-cols-12 gap-6">
-        {/* <div
+        <div
           className="col-span-12 lg:col-span-6 xl:col-span-5 flex justify-center items-center max-lg:order-2 max-lg:stp-15 overflow-hidden"
         >
           <Image
@@ -30,7 +30,7 @@ const CopyrightEducation = ({CopyrightEducationData}:{CopyrightEducationData:Cop
             alt="image"
             className="hover:scale-110 duration-500 w-full h-full"
           />
-        </div> */}
+        </div>
 
         <div className="xxl:col-start-7 col-span-12 lg:col-span-6">
           <h1 className="display-4">{heading}</h1>
@@ -58,12 +58,12 @@ const CopyrightEducation = ({CopyrightEducationData}:{CopyrightEducationData:Cop
            
             
           </div>
-          {/* <Link
+          <Link
             href="/contact"
             className="bg-s2 rounded-full py-3 px-6 font-medium"
           >
             Contact Us
-          </Link> */}
+          </Link>
         </div>
       </div>
     </section>

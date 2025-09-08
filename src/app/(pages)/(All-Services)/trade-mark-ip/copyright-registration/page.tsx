@@ -11,7 +11,7 @@ import {
   NotePencil,
 } from "phosphor-react";
 // import never_worry_img from "../../../../images/never_worry_img.png";
-import never_worry_img from "../../../../images/never_worry_img.png";
+import never_worry_img from "@/app/images/pages icons/other Required images/5-removebg-preview.png";
 import faq_illus from "../../../../images/faq_illus.png";
 import we_help from "../../../../images/Trade Mark Objection.jpeg";
 import React from "react";

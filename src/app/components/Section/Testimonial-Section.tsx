@@ -2,11 +2,11 @@
 
 import React from "react";
 import sliceIcon from "../../images/sliceIcon.png";
-import testimonial10 from "../../images/testimonial10.png";
-import testimonial9 from "../../images/testimonial9.png";
-import testimonial7 from "../../images/testimonial7.png";
-import testimonial8 from "../../images/testimonial8.png";
-import testimonial6 from "../../images/testimonial6.png";
+import testimonial10 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial9 from "@/app/images/pages icons/Incoem tax Assesment/Female.png";
+import testimonial7 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial8 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial6 from "@/app/images/pages icons/Incoem tax Assesment/Female.png";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";

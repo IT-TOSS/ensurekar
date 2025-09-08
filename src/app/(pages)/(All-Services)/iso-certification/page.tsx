@@ -39,11 +39,11 @@ interface WhyEnsurekar {
 import All_In_One_ServiceSection from "@/app/components/Section/All-in-One-All-Services";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import TestimonialSectionAllServices from "@/app/components/Section/Testimonial-Section-All-Services";
-import testimonial10 from "../../../images/testimonial10.png";
-import testimonial9 from "../../../images/testimonial9.png";
-import testimonial7 from "../../../images/testimonial7.png";
-import testimonial8 from "../../../images/testimonial8.png";
-import testimonial6 from "../../../images/testimonial6.png";
+import testimonial10 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial9 from "@/app/images/pages icons/Incoem tax Assesment/Female.png";
+import testimonial7 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial8 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial6 from "@/app/images/pages icons/Incoem tax Assesment/Female.png";
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 
 interface AdvantagesData {
@@ -64,8 +64,8 @@ const isoCertification = () => {
       "Experience hassle-free ISO certification online with dedicated support from our expert consultants.",
     image: Quality_Management_Systems.src,
     bottomHeading: "Get your ISO certification online in 3 simple steps",
-    cartDetails:{
-      id:210,
+    cartDetails: {
+      id: 210,
       name: "ISO Certificate",
       price: 10000,
       quantity: 1,
@@ -100,14 +100,14 @@ const isoCertification = () => {
           "Implement the recommended corrective actions to address identified gaps.Train your employees on the new processes and procedures.",
       },
       {
-        heading:'Formal Certification Audit',
-        description:"Undergo a rigorous on-site audit by our certified auditors.Address any non-conformances identified during the audit.",
+        heading: 'Formal Certification Audit',
+        description: "Undergo a rigorous on-site audit by our certified auditors.Address any non-conformances identified during the audit.",
       },
       {
-        heading:'Certification Issuance',
-        description:"Upon successful completion of the audit and closure of all non-conformities, you will receive your ISO certificate."
+        heading: 'Certification Issuance',
+        description: "Upon successful completion of the audit and closure of all non-conformities, you will receive your ISO certificate."
       },
-     
+
     ],
   };
   const RegisterStepsData = {
@@ -298,7 +298,7 @@ const isoCertification = () => {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl:TalkExpert ,
+        imageUrl: TalkExpert,
       },
       {
         heading: "Hassle-Free & Fast Service",
@@ -360,43 +360,64 @@ const isoCertification = () => {
     title: "FAQs",
     description: "",
     FAQs: [
-      { question: "What is ISO certification?", answer: "NA" },
+      {
+        question: "What is ISO certification?",
+        answer:
+          "ISO certification is an official recognition awarded to businesses or organizations that meet international standards set by the International Organization for Standardization (ISO). It demonstrates a commitment to quality, safety, efficiency, or other specific benchmarks.",
+      },
       {
         question: "What is the validity period of ISO certification?",
-        answer: "NA",
+        answer:
+          "ISO certificates are typically valid for three years, subject to annual surveillance audits. After three years, the certificate must be renewed through a re-certification process.",
       },
-      { question: "Is ISO certification available in my area?", answer: "NA" },
+      {
+        question: "Is ISO certification available in my area?",
+        answer:
+          "Yes, ISO certification can be obtained globally. Accredited certification bodies operate in most regions and can arrange assessments and audits regardless of your location.",
+      },
       {
         question: "How does international standardization benefit businesses?",
-        answer: "NA",
+        answer:
+          "International standardization boosts business credibility, improves process efficiency, opens access to global markets, ensures product consistency and safety, and enhances customer confidence.",
       },
       {
         question: "What distinguishes ISO certification from accreditation?",
-        answer: "NA",
+        answer:
+          "ISO certification is given to organizations for meeting specific ISO standards. Accreditation, on the other hand, is the formal recognition of a certification body’s competence to issue ISO certificates.",
       },
       {
         question: "Is renewal necessary for my ISO certificate?",
-        answer: "NA",
+        answer:
+          "Yes, you must renew your ISO certification every three years. Annual surveillance audits are needed to maintain its validity throughout the certificate period.",
       },
       {
         question:
           "How do the various accreditation bodies for ISO certification differ?",
-        answer: "NA",
+        answer:
+          "Accreditation bodies are organizations that evaluate and approve certification agencies. Different bodies may be recognized in different countries or industries, but all ensure impartiality and that proper standards are upheld.",
       },
       {
         question: "Who is responsible for issuing ISO certification?",
-        answer: "NA",
+        answer:
+          "ISO certificates are issued by accredited certification bodies (also called registrars), not by ISO itself. These bodies independently verify that organizations meet the required standards.",
       },
       {
         question: "What does our ISO Registration Package include?",
-        answer: "NA",
+        answer:
+          "An ISO registration package usually covers consultation, documentation, implementation support, internal audits, the official certification audit, and ongoing assistance for maintaining and renewing the certificate.",
       },
       {
         question: "Will I receive a certificate during the pre-audit phase?",
-        answer: "NA",
+        answer:
+          "No, official ISO certificates are only awarded after a successful certification audit. The pre-audit phase is for preparation and internal assessment.",
       },
-      { question: "Can I select any ISO accreditation?", answer: "NA" },
+      {
+        question: "Can I select any ISO accreditation?",
+        answer:
+          "You should select an accreditation body that is recognized and respected in your industry and by your clients. Choosing a reputable and internationally recognized body ensures wider acceptance of your ISO certificate.",
+      },
     ],
+
   };
 
   const TestimonialData = {
@@ -604,13 +625,13 @@ const isoCertification = () => {
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
       <div className="container stp-30 sbp-10 py-16">
         <p className="display-3 text-center  !leading-[130%]  text-bodyText mb-14 dark:text-sky-400">
-     
+
           Start a Free Trial with Our Experts Today!
         </p>
-        
+
       </div>
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-     
+
       <FAQsServicesSection FAQsData={FAQsData} />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />

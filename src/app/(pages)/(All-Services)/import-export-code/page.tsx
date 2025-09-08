@@ -9,11 +9,11 @@ import ServiceOverview from "@/app/components/Section/Service-Overview";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import WhyEnsurekarSection from "@/app/components/Section/Why-Ensurekar-All-Services";
 import TestimonialSectionAllServices from "@/app/components/Section/Testimonial-Section-All-Services";
-import testimonial10 from "../../../images/testimonial10.png";
-import testimonial9 from "../../../images/testimonial9.png";
-import testimonial7 from "../../../images/testimonial7.png";
-import testimonial8 from "../../../images/testimonial8.png";
-import testimonial6 from "../../../images/testimonial6.png";
+import testimonial10 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial9 from "@/app/images/pages icons/Incoem tax Assesment/Female.png";
+import testimonial7 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial8 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial6 from "@/app/images/pages icons/Incoem tax Assesment/Female.png";
 import StepByStep from "../../../images/SGV-Types/Step-By-Step.svg";
 import productImage from "../../../images/recent_post_img1.png";
 

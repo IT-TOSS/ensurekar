@@ -11,11 +11,11 @@ import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 // import faq_illus from "../../../../images/faq_illus.png";
 import faq_illus from "../../../../images/shop-and-establishment-registration/Any additional business licenses required for operation –.png";
 import TestimonialSectionAllServices from "@/app/components/Section/Testimonial-Section-All-Services";
-import testimonial10 from "../../../../images/testimonial10.png";
-import testimonial9 from "../../../../images/testimonial9.png";
-import testimonial7 from "../../../../images/testimonial7.png";
-import testimonial8 from "../../../../images/testimonial8.png";
-import testimonial6 from "../../../../images/testimonial6.png";
+import testimonial10 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial9 from "@/app/images/pages icons/Incoem tax Assesment/Female.png";
+import testimonial7 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial8 from "@/app/images/pages icons/Incoem tax Assesment/Male.png";
+import testimonial6 from "@/app/images/pages icons/Incoem tax Assesment/Female.png";
 import ServiceOverview from "@/app/components/Section/Service-Overview";
 import productImage from "../../../../images/recent_post_img1.png";
 
@@ -37,8 +37,8 @@ const ShopandEstablishmentRegistration = () => {
       "Unlock Business Growth with a Gumasta License Get Compliant Effortlessly with Ensurekar Online Registration",
     image: "",
     bottomHeading: "",
-    cartDetails:{
-      id:401,
+    cartDetails: {
+      id: 401,
       name: "Professional Tax Registration",
       price: 12000,
       quantity: 1,
@@ -153,7 +153,7 @@ const ShopandEstablishmentRegistration = () => {
         icon: "",
         text: "Any additional business licenses required for operation",
       },
-      
+
     ].map((doc) => ({ ...doc, map: () => null })),
   };
   const OnlineProcessData = {
@@ -192,29 +192,72 @@ const ShopandEstablishmentRegistration = () => {
     heading: "What service does ENSUREKAR offer",
     description: "",
     FAQs: [
- 
-    { question: "What is the Tamil Nadu Shops and Establishments Act?", answer: "NA" },
-    { question: "What is the validity of a shop act license?", answer: "NA" },
-    { question: "Which entities are required to obtain the shop act license?", answer: "NA" },
-    { question: "Is the shop act registration applicable for the establishments of the central and state government?", answer: "NA" },
-    { question: "Are the shop act registrations valid in all states/UTs across India?", answer: "NA" },
-    { question: "Does a factory owner need to register under the Shops and Establishments Registration Act?", answer: "NA" },
-    { question: "What details are to be filled in the Shop Act Registration form?", answer: "NA" },
-    { question: "Is it necessary for the establishment to get self-registered under the Shops and Establishments Registration Act?", answer: "NA" },
-    { question: "What is the fundamental objective of the Shops and Establishments Act?", answer: "NA" },
-    { question: "Is it necessary to take approval from the labor department?", answer: "NA" }
-      ],
+      {
+        question: "What is the Tamil Nadu Shops and Establishments Act?",
+        answer:
+          "The Tamil Nadu Shops and Establishments Act is a state law that regulates the working conditions, rights of employees, hours of work, holidays, payment of wages, and other conditions in shops, commercial establishments, and related workplaces within Tamil Nadu.",
+      },
+      {
+        question: "What is the validity of a shop act license?",
+        answer:
+          "The validity of a Shop Act license differs by state but is typically issued for 1 to 5 years. After this period, it must be renewed to remain valid.",
+      },
+      {
+        question: "Which entities are required to obtain the shop act license?",
+        answer:
+          "All shops, commercial establishments, offices, hotels, restaurants, theaters, and other places of public amusement or entertainment must obtain the Shop Act license, except certain exempted government and local authority offices.",
+      },
+      {
+        question:
+          "Is the shop act registration applicable for the establishments of the central and state government?",
+        answer:
+          "No, establishments of the central and state government are generally exempt from Shop Act registration. The Act mainly applies to private commercial establishments.",
+      },
+      {
+        question: "Are the shop act registrations valid in all states/UTs across India?",
+        answer:
+          "No, Shop Act registration is regulated by individual states/UTs, and registration obtained in one state is not automatically valid in another. Each state/UT has its own rules, and separate registration is needed if operating in multiple states.",
+      },
+      {
+        question:
+          "Does a factory owner need to register under the Shops and Establishments Registration Act?",
+        answer:
+          "No, factory owners do not need to register under the Shops and Establishments Act if the premises are covered under the Factories Act, 1948. The Shop Act applies to commercial establishments that are not classified as factories.",
+      },
+      {
+        question: "What details are to be filled in the Shop Act Registration form?",
+        answer:
+          "The form typically requires the establishment’s name and address, details of the employer and employees, nature of business, PAN, proof of address, number of employees, date of commencement, and other relevant documents.",
+      },
+      {
+        question:
+          "Is it necessary for the establishment to get self-registered under the Shops and Establishments Registration Act?",
+        answer:
+          "Yes, most states/UTs require all eligible establishments to self-register under the Shops and Establishments Act within a specific timeframe after commencing business.",
+      },
+      {
+        question: "What is the fundamental objective of the Shops and Establishments Act?",
+        answer:
+          "The primary objective is to provide better working conditions for employees, regulate work hours and holidays, protect workers’ rights, ensure payment of wages, and promote the well-being of staff in commercial establishments.",
+      },
+      {
+        question: "Is it necessary to take approval from the labor department?",
+        answer:
+          "Yes, approval or registration from the local Labor Department is generally mandatory for most establishments under the Shops and Establishments Act. This ensures compliance with labor laws and proper record-keeping.",
+      },
+    ],
+
     imageUrl: faq_illus,
   };
   const WhyEnsurekar = {
     heading: "Why to choose Ensurekar for Shop and Establishment Registration",
     description: "",
-    elements:[
+    elements: [
       {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl:TalkExpert ,
+        imageUrl: TalkExpert,
       },
       {
         heading: "Hassle-Free & Fast Service",
@@ -425,14 +468,14 @@ const ShopandEstablishmentRegistration = () => {
       },
     ],
   };
-  
+
 
   return (
     <>
       <BreadcrumbSection BreadcrumbData={BreadcrumbData} />
       <WhoConsidered WhoConsideredData={WhoConsideredData} />
       {/* <ServiceOverview OverviewData={OverviewData} /> */}
- 
+
       <BenefitSection BenefitData={BenefitData} />
       <DocumentsRequired DocumentsRequiredData={DocumentsRequiredData} />
       <OnlineProcessforEmployers OnlineProcessData={OnlineProcessData} />

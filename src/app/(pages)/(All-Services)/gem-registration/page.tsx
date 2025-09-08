@@ -373,7 +373,6 @@ const UdyamRegistration = () => {
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
-
       <RegisterSteps RegisterSteps={RegisterStepsData} />
       <FAQsServicesSection FAQsData={FAQsData}  />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />

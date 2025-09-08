@@ -3,7 +3,7 @@ import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services
 import HelpSection from "@/app/components/Section/help-section";
 import React from "react";
 // import we_help from "../../../../images/we_help.png";
-import we_help from "../../../../images/Shareholder Agreement.jpeg";
+import we_help from "@/app/images/pages icons/other Required images/6-removebg-preview.png";
 import StepByStep from "../../../../images/SGV-Types/Step-By-Step.svg";
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 import ServiceCovered from "@/app/components/Section/Service/Service-Covered";
@@ -31,7 +31,13 @@ import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";/
 import EnhancedBusinessCredibility from "./../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "./../../../../images/SGV-Types/Hand-User-Money.svg";
 
-
+import Identifying_the_Parties from "@/app/images/pages icons/NDA/28-removebg-preview.png"
+import Defining_Confidential_Information from "@/app/images/pages icons/NDA/29-removebg-preview.png"
+import Scope_of_Confidentiality from "@/app/images/pages icons/NDA/30-removebg-preview.png"
+import Exceptions_to_Confidentiality from "@/app/images/pages icons/NDA/31-removebg-preview.png"
+import Recipient_Obligations from "@/app/images/pages icons/NDA/32-removebg-preview.png"
+import Remedies_for_Breach from "@/app/images/pages icons/NDA/33-removebg-preview.png"
+import Governing_Law_and_Jurisdiction from "@/app/images/pages icons/NDA/34-removebg-preview.png"
 const NonDisclosureAgreement = () => {
   const BreadcrumbData = {
     title: "Non-Disclosure Agreement ",
@@ -175,37 +181,37 @@ const NonDisclosureAgreement = () => {
       description: "",
       roles: [
         {
-          icon: "",
+          icon: Identifying_the_Parties.src,
           title: "Identifying the Parties",
           description: "Clearly define the parties involved in the agreement.",
         },
         {
-          icon: "",
+          icon: Defining_Confidential_Information.src,
           title: "Defining Confidential Information",
           description: "Specify the types of information that are considered confidential.",
         },
         {
-          icon: "",
+          icon: Scope_of_Confidentiality.src,
           title: "Scope of Confidentiality",
           description: "Outline the duration of the confidentiality obligation.",
         },
         {
-          icon: "",
+          icon: Exceptions_to_Confidentiality.src,
           title: "Exceptions to Confidentiality",
           description: "Identify any exceptions, such as information already in the public domain.",
         },
         {
-          icon: "",
+          icon: Recipient_Obligations.src,
           title: "Recipient's Obligations",
           description: "Detail the recipient's responsibilities, including maintaining confidentiality and limiting information usage.",
         },
         {
-          icon: "",
+          icon: Remedies_for_Breach.src,
           title: "Remedies for Breach",
           description: "Specify the legal remedies available in case of a breach, such as injunctions or damages.",
         },
         {
-          icon: "",
+          icon: Governing_Law_and_Jurisdiction.src,
           title: "Governing Law and Jurisdiction",
           description: "Determine the applicable law and jurisdiction for resolving disputes.",
         },

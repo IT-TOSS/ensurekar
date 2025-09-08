@@ -13,7 +13,9 @@ import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import faq_illus from "../../../../images/faq_illus.png";
 import PlansSection from "@/app/components/Section/Plans-Section";
 import productImage from "../../../../images/recent_post_img1.png";
+import registration from "@/app/images/pages icons/other Required images/1-removebg-preview.png";
 
+import Trademark_Search from "@/app/images/pages icons/other Required images/2-removebg-preview.png";
 
 const TrademarkSearch = () => {
   const BreadcrumbData = {
@@ -504,7 +506,7 @@ const TrademarkSearch = () => {
     subHeading: "",
     description:
       "Trademark searches can be complex and time-consuming, which is why many opt to outsource the task. If you decide to do it yourself, be aware that it may cost more than using an agency. ",
-    image: we_help,
+    image: registration,
     bottomHeading:
       "When selecting a trademark public search company, consider these factors:",
     bottomDescription: "",
@@ -625,7 +627,7 @@ const TrademarkSearch = () => {
     subHeading: "",
     description:
       "You can easily perform a free trademark search online using Ensurekar’s trademark search tool. Our experts are here to guide you through the process for seamless trademark registration. An online trademark search can also be conducted through the official Indian Trademark Database. The trademark registry performs a search and provides a report on trademarks that may conflict with your application.",
-    image: we_help,
+    image: Trademark_Search , //we_help,
     bottomHeading:
       "When conducting a trademark public search, businesses should follow these key steps:",
     bottomDescription: "With Ensurekar, trademark registration is simple, efficient, and reliable!",

@@ -1,7 +1,8 @@
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import HelpSection from "@/app/components/Section/help-section";
 // import we_help from "../../../../images/we_help.png";
-import we_help from "../../../../images/Shareholder Agreement.jpeg";
+// import we_help from "../../../../images/Shareholder Agreement.jpeg";
+import we_help from "@/app/images/pages icons/other Required images/6-removebg-preview.png";
 import StepByStep from "../../../../images/SGV-Types/Step-By-Step.svg";
 import React from "react";
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
@@ -23,6 +24,12 @@ import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";/
 import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
 
+
+import Identify_Key_Issues from "@/app/images/pages icons/Shareholder/23-removebg-preview.png"
+import Consult_a_Lawyer from "@/app/images/pages icons/Shareholder/24-removebg-preview.png"
+import Negotiate_Terms from "@/app/images/pages icons/Shareholder/25-removebg-preview.png"
+import Finalize_the_Document from "@/app/images/pages icons/Shareholder/26-removebg-preview.png"
+import Sign_the_Agreement from "@/app/images/pages icons/Shareholder/27-removebg-preview.png"
 const ShareholderAgreement = () => {
   const BreadcrumbData = {
     title: "Shareholder's Agreement",
@@ -192,31 +199,31 @@ const ShareholderAgreement = () => {
       description: "",
       roles: [
         {
-          icon: "",
+          icon: Identify_Key_Issues.src,
           title: "Identify Key Issues",
           description:
             "Determine and agree on the critical matters to be covered in the agreement.",
         },
         {
-          icon: "",
+          icon: Consult_a_Lawyer.src,
           title: "Consult a Lawyer",
           description:
             "Engage a qualified corporate lawyer to ensure the agreement complies with legal requirements and suits your company’s needs.",
         },
         {
-          icon: "",
+          icon: Negotiate_Terms.src,
           title: "Negotiate Terms",
           description:
             "All shareholders should review, discuss, and agree upon the terms to reach a mutual consensus.",
         },
         {
-          icon: "",
+          icon: Finalize_the_Document.src,
           title: "Finalize the Document",
           description:
             "Prepare the agreement in writing, ensuring all terms are clear and comprehensive.",
         },
         {
-          icon: "",
+          icon: Sign_the_Agreement.src ,
           title: "Sign the Agreement",
           description:
             "Once finalized, all shareholders must sign to make the agreement legally binding.",

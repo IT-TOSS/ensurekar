@@ -15,6 +15,13 @@ import TalkExpert from "./../../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../../images/SGV-Types/Hand-User-Money.svg";
 
+import Legal_Recognition from "@/app/images/pages icons/GST Registration/35-removebg-preview.png"
+import Input_Tax_Credit from "@/app/images/pages icons/GST Registration/36-removebg-preview.png"
+import Simplified_Compliance from "@/app/images/pages icons/GST Registration/37-removebg-preview.png"
+import Composition_Scheme from "@/app/images/pages icons/GST Registration/38-removebg-preview.png"
+import Higher_Registration_Threshold from "@/app/images/pages icons/GST Registration/39-removebg-preview.png"
+import No_Cascading_Effect from "@/app/images/pages icons/GST Registration/40-removebg-preview.png"
+
 const GSTRegistration = () => {
 
   const BreadcrumbData = {
@@ -112,32 +119,32 @@ const GSTRegistration = () => {
       description: "The Central Goods and Services Tax Act of 2017, implemented to streamline taxation and curb tax evasion, establishes the framework for the Goods and Services Tax (GST) levied on intra-state and inter-state supplies of goods and services in India.",
       advantages: [
         {
-          imageUrl: "",
+          imageUrl: Legal_Recognition.src,
           heading: "Legal Recognition",
           details: "GST registration officially recognizes a business as a supplier, enhancing its credibility.",
         },
         {
-          imageUrl: "",
+          imageUrl: Input_Tax_Credit.src,
           heading: "Input Tax Credit (ITC)",
           details: "Registered businesses can offset taxes paid on purchases against taxes collected on sales, reducing tax liability.",
         },
         {
-          imageUrl: "",
+          imageUrl: Simplified_Compliance.src,
           heading: "Simplified Compliance",
           details: "GST offers a streamlined online system for filing taxes, making compliance faster and easier.",
         },
         {
-          imageUrl: "",
+          imageUrl: Composition_Scheme.src,
           heading: "Composition Scheme",
           details: "Small businesses can opt for a lower, fixed tax rate under the Composition Scheme, easing their financial burden.",
         },
         {
-          imageUrl: "",
+          imageUrl: Higher_Registration_Threshold.src,
           heading: "Higher Registration Threshold",
           details: "Only businesses with annual turnover above ₹40 lakh need to register, reducing requirements for smaller firms.",
         },
         {
-          imageUrl: "",
+          imageUrl: No_Cascading_Effect.src,
           heading: "No Cascading Effect",
           details: "GST prevents double taxation by allowing input tax credit throughout the supply chain.",
         },

@@ -17,8 +17,8 @@ import {
 import RegisterSteps from "@/app/components/Section/Register-Steps";
 import HelpSection from "@/app/components/Section/help-section";
 // import we_help from "../../../../images/we_help.png";
-import we_help from "../../../../images/Documents Required for Trademark Registration Renewal Online India.jpeg";
-import never_worry_img from "../../../../images/never_worry_img.png";
+import we_help from "@/app/images/pages icons/other Required images/3-removebg-preview.png";
+import never_worry_img from "@/app/images/pages icons/other Required images/4-removebg-preview.png";
 import FAQsServicesSection from "@/app/components/Section/FAQs-All-Services";
 import CopyrightEducation from "@/app/components/Section/Copyright-Education";
 import productImage from "../../../../images/recent_post_img1.png";
