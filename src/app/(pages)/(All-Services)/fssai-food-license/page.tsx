@@ -109,8 +109,8 @@ const FSSAI_Food_Licence = () => {
     image: "",
     component: Component,
     bottomHeading: "Get Your FASSAI License in 3 Days.",
-    cartDetails:{
-      id:22,
+    cartDetails: {
+      id: 22,
       name: "FSSAI Food License",
       price: 10000,
       quantity: 1,
@@ -148,7 +148,7 @@ const FSSAI_Food_Licence = () => {
           details:
             "If the annual revenue of the food business is above ₹20 crore, then the food business owner should apply for a central license using Form B. This license is also required for food businesses with branches across India.",
         },
-       
+
       ],
     },
     eligibilityCriteria: [
@@ -397,65 +397,82 @@ const FSSAI_Food_Licence = () => {
     title: "FAQs",
     heading: "",
     description: "",
-    FAQs: [
-      { question: "What is FoSCos?", answer: "NA" },
-      { question: "Is GST registration necessary for FSSAI?", answer: "NA" },
-      { question: "How can I obtain an FSSAI certificate?", answer: "NA" },
-      {
-        question: "Who qualifies for exemption from the FoSCos license?",
-        answer: "NA",
-      },
-      {
-        question:
-          "How can I download the FSSAI registration certificate from the FoSCos portal?",
-        answer: "NA",
-      },
-      {
-        question:
-          "What is the procedure for renewing my registration or license after it expires?",
-        answer: "NA",
-      },
-      {
-        question: "What steps are involved in obtaining the FoSCos license?",
-        answer: "NA",
-      },
-      {
-        question: "How can I acquire a food license in Chennai?",
-        answer: "NA",
-      },
-      {
-        question: "How do I apply for FSSAI registration in Tamil Nadu?",
-        answer: "NA",
-      },
-      {
-        question: "What does the vegetarian symbol on FSSAI products signify?",
-        answer: "NA",
-      },
-      {
-        question: "What does the fortified FSSAI logo represent?",
-        answer: "NA",
-      },
-      { question: "What is FSSAI's tagline?", answer: "NA" },
-      { question: "How can I renew my FSSAI registration?", answer: "NA" },
-      {
-        question:
-          "Is it possible to operate a food business without FSSAI registration?",
-        answer: "NA",
-      },
-      {
-        question: "Which types of products require an FSSAI license?",
-        answer: "NA",
-      },
-      { question: "Can an expired FSSAI license be renewed?", answer: "NA" },
-      {
-        question: "How can I obtain a food license for a fruit business?",
-        answer: "NA",
-      },
-      {
-        question: "How can I check the status of my FSSAI application online?",
-        answer: "NA",
-      },
-    ],
+    FAQs:
+      [
+        {
+          "question": "What is FoSCos?",
+          "answer": "FoSCos (Food Safety Compliance System) is the official online portal launched by FSSAI for food business registration, licensing, renewals, and compliance across India. Through FoSCos, food business operators (FBOs) can manage their FSSAI license and ensure compliance with food safety regulations."
+        },
+        {
+          "question": "Is GST registration necessary for FSSAI?",
+          "answer": "GST registration is not mandatory for obtaining an FSSAI license; however, GST details are often required for food businesses with taxable turnover. Linking GST with FSSAI registration can streamline business operations and compliance."
+        },
+        {
+          "question": "How can I obtain an FSSAI certificate?",
+          "answer": "To obtain an FSSAI certificate, apply through the FoSCos portal (fssai.gov.in/foscos) by filling out the required application, uploading documents, and paying the applicable fee. Once approved, you’ll receive your FSSAI registration or license certificate online."
+        },
+        {
+          "question": "Who qualifies for exemption from the FoSCos license?",
+          "answer": "Certain small-scale food businesses, such as petty retailers, hawkers, and businesses with annual turnover below the prescribed limit, may qualify for exemption from an FSSAI license but may still require FSSAI registration."
+        },
+        {
+          "question": "How can I download the FSSAI registration certificate from the FoSCos portal?",
+          "answer": "Log in to your FoSCos account, go to the application dashboard, find your approved FSSAI registration or license, and click on the “Download certificate” option to get your certificate in PDF format."
+        },
+        {
+          "question": "What is the procedure for renewing my registration or license after it expires?",
+          "answer": "To renew an expired FSSAI license or registration, log in to the FoSCos portal, select “Renewal,” fill in the renewal form, upload required documents, and pay the renewal fee before the license’s expiry date to avoid penalties."
+        },
+        {
+          "question": "What steps are involved in obtaining the FoSCos license?",
+          "answer": "Steps include: Create an account on the FoSCos portal, select the license/registration type, complete the online application, upload supporting documents, make payment, and track the application status until approval."
+        },
+        {
+          "question": "How can I acquire a food license in Chennai?",
+          "answer": "Food businesses in Chennai must register and apply for an FSSAI license via the FoSCos portal, submitting correct documents and fees specific to Tamil Nadu regulations."
+        },
+        {
+          "question": "How do I apply for FSSAI registration in Tamil Nadu?",
+          "answer": "Visit the FoSCos portal, select Tamil Nadu as your state, fill the FSSAI application form, upload the necessary documents, and submit the application for official review and approval."
+        },
+        {
+          "question": "What does the vegetarian symbol on FSSAI products signify?",
+          "answer": "The green vegetarian symbol on FSSAI labels shows that the food product is entirely vegetarian, containing no animal-derived ingredients, for easy identification by consumers."
+        },
+        {
+          "question": "What does the fortified FSSAI logo represent?",
+          "answer": "The fortified FSSAI logo indicates that the food product contains added essential nutrients (fortification) above standard requirements, promoting better nutrition."
+        },
+        {
+          "question": "What is FSSAI's tagline?",
+          "answer": "FSSAI’s official tagline is “Ensuring Safe & Nutritious Food” for all consumers in India."
+        },
+        {
+          "question": "How can I renew my FSSAI registration?",
+          "answer": "You can renew your FSSAI registration online through the FoSCos portal by logging in, selecting the renewal option, filling out the required details, and submitting specified documents and renewal fees."
+        },
+        {
+          "question": "Is it possible to operate a food business without FSSAI registration?",
+          "answer": "No, operating a food business without valid FSSAI registration or license is illegal in India. All food businesses, regardless of size, must register or obtain an FSSAI license as per FSSAI regulations."
+        },
+        {
+          "question": "Which types of products require an FSSAI license?",
+          "answer": "All food products meant for human consumption—including packaged foods, beverages, dairy, meat, bakery goods, and food additives—require an FSSAI license before production or sale."
+        },
+        {
+          "question": "Can an expired FSSAI license be renewed?",
+          "answer": "Yes, an expired FSSAI license can be renewed within 30 days of expiry via the FoSCos portal. Delays beyond this period may require a fresh FSSAI application and may attract penalties."
+        },
+        {
+          "question": "How can I obtain a food license for a fruit business?",
+          "answer": "Fruit business owners must apply for an FSSAI registration or license on the FoSCos portal, providing business details, documents, and paying the prescribed fee, specific to the category of fruit handling or sales."
+        },
+        {
+          "question": "How can I check the status of my FSSAI application online?",
+          "answer": "Check your FSSAI application status by logging into FoSCos, navigating to the “Track Application Status” section, and entering your application or reference number."
+        }
+      ]
+    ,
   };
   const WhyEnsurekar = {
     title: "Why Choose Us",
@@ -466,7 +483,7 @@ const FSSAI_Food_Licence = () => {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl:TalkExpert ,
+        imageUrl: TalkExpert,
       },
       {
         heading: "Hassle-Free & Fast Service",
@@ -564,81 +581,81 @@ const FSSAI_Food_Licence = () => {
       <div className="bg-[#F1F7FF]">
         <div className="md:my-[90px] max-w-[1200px] mx-auto max-md:bg-[#EEF6FF]">
           <div className="p-6">
-        <h2 className="font-bold md:text-[32px] md:leading-[42px] text-center text-[24px] leading-[34px] mb-4 mx-auto md:mb-[32px] text-[#231F20]">
-          {" "}
-          <b style={{ color: "#007aff" }}>Difference</b> Between FSSAI Registration
-          and FSSAI License
-        </h2>
-        <p className="leading-[24px] text-[#606162] text-center text-[16px] md:text-[18px] md:pb-[54px] pb-6">
-          The FSSAI registration is a process of registering with the
-          government and is best suited for small-scale businesses with
-          limited turnover, whereas an FSSAI license is a 14-digit number
-          provided to the FBOs if their annual returns exceed ₹12 lakhs. The
-          differences are further discussed below:{" "}
-        </p>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white">
-            <thead>
-          <tr className="shadow-md">
-            <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
-              Particulars
-            </th>
-            <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
-              FSSAI Registration
-            </th>
-            <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
-              FSSAI License
-            </th>
-          </tr>
-            </thead>
-            <tbody className="text-sm">
-          <tr>
-            <td className="px-5 py-4 border-r border-gray-300">Turnover Limit</td>
-            <td className="px-5 py-4 border-r border-gray-300">Companies with yearly sales of no more than ₹12 lakh</td>
-            <td className="px-5 py-4">Businesses having an annual turnover of more than ₹12 lakh</td>
-          </tr>
-          <tr>
-            <td className="px-5 py-4 border-r border-gray-300">Types</td>
-            <td className="px-5 py-4 border-r border-gray-300">Basic Registration</td>
-            <td className="px-5 py-4">FSSAI Central License and FSSAI State License</td>
-          </tr>
-          <tr>
-            <td className="px-5 py-4 border-r border-gray-300">Size of Business</td>
-            <td className="px-5 py-4 border-r border-gray-300">Petty food business operators</td>
-            <td className="px-5 py-4">Medium and large-sized food business operators and food businesses</td>
-          </tr>
-          <tr>
-            <td className="px-5 py-4 border-r border-gray-300">Duration</td>
-            <td className="px-5 py-4 border-r border-gray-300">The duration is determined by how applicable the registration is</td>
-            <td className="px-5 py-4">Issued with a one-year minimum and a five-year maximum term</td>
-          </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="overflow-x-auto mt-8">
-          <table className="min-w-full bg-white">
-            <thead>
-          <tr className="shadow-md">
-            <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
-              Application
-            </th>
-            <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
-              Form A
-            </th>
-            <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
-              Form B
-            </th>
-          </tr>
-            </thead>
-            <tbody className="text-sm">
-          <tr>
-            <td className="px-5 py-4 border-r border-gray-300">Publication</td>
-            <td className="px-5 py-4 border-r border-gray-300">The registered number and the FSSAI registration shall be prominently displayed on the product package and on the office premises, respectively</td>
-            <td className="px-5 py-4">It is mandatory for exporters, importers, traders, and producers to display the FSSAI license number on the product packaging</td>
-          </tr>
-            </tbody>
-          </table>
-        </div>
+            <h2 className="font-bold md:text-[32px] md:leading-[42px] text-center text-[24px] leading-[34px] mb-4 mx-auto md:mb-[32px] text-[#231F20]">
+              {" "}
+              <b style={{ color: "#007aff" }}>Difference</b> Between FSSAI Registration
+              and FSSAI License
+            </h2>
+            <p className="leading-[24px] text-[#606162] text-center text-[16px] md:text-[18px] md:pb-[54px] pb-6">
+              The FSSAI registration is a process of registering with the
+              government and is best suited for small-scale businesses with
+              limited turnover, whereas an FSSAI license is a 14-digit number
+              provided to the FBOs if their annual returns exceed ₹12 lakhs. The
+              differences are further discussed below:{" "}
+            </p>
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white">
+                <thead>
+                  <tr className="shadow-md">
+                    <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
+                      Particulars
+                    </th>
+                    <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
+                      FSSAI Registration
+                    </th>
+                    <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
+                      FSSAI License
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm">
+                  <tr>
+                    <td className="px-5 py-4 border-r border-gray-300">Turnover Limit</td>
+                    <td className="px-5 py-4 border-r border-gray-300">Companies with yearly sales of no more than ₹12 lakh</td>
+                    <td className="px-5 py-4">Businesses having an annual turnover of more than ₹12 lakh</td>
+                  </tr>
+                  <tr>
+                    <td className="px-5 py-4 border-r border-gray-300">Types</td>
+                    <td className="px-5 py-4 border-r border-gray-300">Basic Registration</td>
+                    <td className="px-5 py-4">FSSAI Central License and FSSAI State License</td>
+                  </tr>
+                  <tr>
+                    <td className="px-5 py-4 border-r border-gray-300">Size of Business</td>
+                    <td className="px-5 py-4 border-r border-gray-300">Petty food business operators</td>
+                    <td className="px-5 py-4">Medium and large-sized food business operators and food businesses</td>
+                  </tr>
+                  <tr>
+                    <td className="px-5 py-4 border-r border-gray-300">Duration</td>
+                    <td className="px-5 py-4 border-r border-gray-300">The duration is determined by how applicable the registration is</td>
+                    <td className="px-5 py-4">Issued with a one-year minimum and a five-year maximum term</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="overflow-x-auto mt-8">
+              <table className="min-w-full bg-white">
+                <thead>
+                  <tr className="shadow-md">
+                    <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
+                      Application
+                    </th>
+                    <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
+                      Form A
+                    </th>
+                    <th className="px-5 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider">
+                      Form B
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm">
+                  <tr>
+                    <td className="px-5 py-4 border-r border-gray-300">Publication</td>
+                    <td className="px-5 py-4 border-r border-gray-300">The registered number and the FSSAI registration shall be prominently displayed on the product package and on the office premises, respectively</td>
+                    <td className="px-5 py-4">It is mandatory for exporters, importers, traders, and producers to display the FSSAI license number on the product packaging</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

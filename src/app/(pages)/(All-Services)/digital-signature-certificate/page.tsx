@@ -29,8 +29,8 @@ import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
 
 import EnhancedSecurity from "./../../../images/Digital Signature/EnhancedSecurity.png";
 import LegalValidity from "./../../../images/Digital Signature/LegalValidity.png";
-import importLegalValidity from "./../../../images/Digital Signature/LegalValidity.png"; 
-import ImprovedTraceability from "./../../../images/Digital Signature/ImprovedTraceability.png"; 
+import importLegalValidity from "./../../../images/Digital Signature/LegalValidity.png";
+import ImprovedTraceability from "./../../../images/Digital Signature/ImprovedTraceability.png";
 
 interface OverviewData {
   heading: string;
@@ -91,7 +91,7 @@ const DigitalSignature = () => {
   const handleBuy = () => {
     console.log("clicked digital sign");
   };
-  
+
   const BreadcrumbData = {
     title: "Digital Signature",
     heading: "Digital Signature Certificate (DSC)",
@@ -101,15 +101,15 @@ const DigitalSignature = () => {
     image: "",
     bottomHeading:
       "Complete Online Process, Expert Support, Simple and Cost-Effective.",
-      cartDetails:{
-        id:23,
-        name: "Digital Signature Certificate",
-        price: 1000,
-        quantity: 1,
-        subtotal: 1000,
-        image: productImage,
-      }
-      
+    cartDetails: {
+      id: 23,
+      name: "Digital Signature Certificate",
+      price: 1000,
+      quantity: 1,
+      subtotal: 1000,
+      image: productImage,
+    }
+
   };
   const RegistrationGuideData = {
     title: "",
@@ -146,7 +146,7 @@ const DigitalSignature = () => {
       { title: "Provide Document and Get Certificate", description: "" },
     ],
     aboutSteps: [
-     ],
+    ],
   };
   const OverviewData = {
     heading: "",
@@ -400,7 +400,7 @@ const DigitalSignature = () => {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl:TalkExpert ,
+        imageUrl: TalkExpert,
       },
       {
         heading: "Hassle-Free & Fast Service",
@@ -464,47 +464,47 @@ const DigitalSignature = () => {
     description: "",
     FAQs: [
       {
-        question:
-          "How can I obtain a Digital Signature Certificate (DSC) online?",
-        answer: "",
+        "question": "How can I obtain a Digital Signature Certificate (DSC) online?",
+        "answer": "Obtaining your Digital Signature Certificate (DSC) online is simple, fast, and affordable with Ensurekar. We provide a seamless end-to-end process to help individuals and organizations get their DSCs quickly and securely. \n\nWith Ensurekar, you get:\n• Competitive pricing with transparent costs and no hidden fees\n• Expert support throughout your DSC application and issuance process\n• Fully digital, paperless procedure for maximum convenience\n• Compatibility for all government, corporate, and legal document signing needs\n• Fast verification and issuance, delivered securely to your doorstep\n• Trusted by thousands of customers for reliable digital certification\n\nChoose Ensurekar for your DSC online and experience hassle-free, affordable, and compliant digital signature solutions tailored to your needs. Start your application today and secure your documents the smart way!"
       },
       {
-        question:
-          "How does a Digital Signature Certificate (DSC) work for signing documents online?",
-        answer: "NA",
+        "question": "How does a Digital Signature Certificate (DSC) work for signing documents online?",
+        "answer": "A DSC authenticates your identity electronically and allows you to sign documents digitally. The digital signature is encrypted and legally valid, ensuring the integrity of online contracts, tax filings, and compliance documents."
       },
       {
-        question:
-          "Who is authorized to issue a digital signature certificate online?",
-        answer: "NA",
-      },
-      { question: "Can I get a DSC registration for free?", answer: "NA" },
-      {
-        question:
-          "What is the cost of obtaining a digital signature certificate online?",
-        answer: "NA",
+        "question": "Who is authorized to issue a digital signature certificate online?",
+        "answer": "Licensed Certifying Authorities (CAs) approved by the Controller of Certifying Authorities (CCA), Government of India, are authorized to issue DSCs. Examples include eMudhra, Sify, NSDL, and others."
       },
       {
-        question:
-          "Is there a limit to how many DSC registrations one can hold?",
-        answer: "NA",
+        "question": "Can I get a DSC registration for free?",
+        "answer": "No, obtaining a legally valid DSC requires a fee. Certifying Authorities charge for issuing Digital Signature Certificates to cover verification and hardware token costs."
       },
       {
-        question:
-          "What is the difference between a digital certificate and a digital signature?",
-        answer: "NA",
+        "question": "What is the cost of obtaining a digital signature certificate online?",
+        "answer": "The DSC cost varies by provider, type, and validity period. Typically, prices start from ₹2,000 plus GST for signature or encryption DSC, and about ₹2,750 plus GST for a combo. Additional token and delivery charges may apply."
       },
       {
-        question:
-          "How long is a Digital Signature Certificate (DSC) valid for online signing?",
-        answer: "NA",
+        "question": "Is there a limit to how many DSC registrations one can hold?",
+        "answer": "There’s no strict limit for individuals or organizations; you can have multiple DSCs for different purposes or entities, provided each is acquired lawfully."
       },
-      { question: "Why is DSC registration necessary?", answer: "NA" },
       {
-        question: "Who issues the Digital Signature Certificate online?",
-        answer: "NA",
+        "question": "What is the difference between a digital certificate and a digital signature?",
+        "answer": "A digital certificate is an electronic ID (issued by a CA) that proves your identity online. A digital signature is the encrypted output generated by using the certificate to sign a document electronically."
       },
-    ],
+      {
+        "question": "How long is a Digital Signature Certificate (DSC) valid for online signing?",
+        "answer": "DSCs are usually valid for 1 or 2 years. After expiration, they must be renewed for continued online use."
+      },
+      {
+        "question": "Why is DSC registration necessary?",
+        "answer": "DSC registration ensures legally recognized e-signatures, protects data integrity, enables secure online transactions, and is often mandatory for e-filing with government, GST, MCA, and income tax portals."
+      },
+      {
+        "question": "Who issues the Digital Signature Certificate online?",
+        "answer": "DSCs are issued online by authorized Certifying Authorities (CAs) licensed by India's Controller of Certifying Authorities (CCA)."
+      }
+    ]
+    ,
   };
   const TestimonialData = {
     title: "Testimonials",

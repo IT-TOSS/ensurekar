@@ -38,13 +38,13 @@ const ImportExportCode = () => {
   const BreadcrumbData = {
     title: "IEC Registration ",
     heading: "Importer Exporter Code Registration",
-    description:'',
+    description: '',
     bottomHeading:
       "Submit your IEC application seamlessly from anywhere in India.",
     image: "",
     subHeading: "Expand Your Business Globally: Quick IEC Registration in Just 2 Days",
-    cartDetails:{
-      id:21,
+    cartDetails: {
+      id: 21,
       name: "IEC (Import-Export Code)",
       price: 5000,
       quantity: 1,
@@ -214,7 +214,7 @@ const ImportExportCode = () => {
                 description:
                   "Societies, trusts, and Hindu Undivided Families (HUFs) can also apply for an IEC",
               },
-            
+
             ],
           },
         ],
@@ -295,14 +295,14 @@ const ImportExportCode = () => {
           "The fee is minimal, but always refer to the latest fee structure on the DGFT website.You can conveniently pay through net banking or debit/credit cards.",
       },
       {
-        heading:'Get Verified and Receive Your IEC Certificate',
-        description:"The DGFT will verify your application and documents.	Upon approval, you can download your IEC certificate directly from the DGFT portal.",
+        heading: 'Get Verified and Receive Your IEC Certificate',
+        description: "The DGFT will verify your application and documents.	Upon approval, you can download your IEC certificate directly from the DGFT portal.",
       },
       {
-        heading:'Bonus!',
-          description:"Your IEC is valid for life with no renewal required. However, annual return filings and maintaining communication with customs authorities are essential."
+        heading: 'Bonus!',
+        description: "Your IEC is valid for life with no renewal required. However, annual return filings and maintaining communication with customs authorities are essential."
       },
-     
+
     ],
   };
   const ComplianceObligations = {
@@ -358,58 +358,57 @@ const ImportExportCode = () => {
     description: "",
     FAQs: [
       {
-        question: "How to Download Your IEC Certificate?",
-        answer: "NA",
+        "question": "How to Download Your IEC Certificate?",
+        "answer": "Log in to the DGFT (Directorate General of Foreign Trade) portal with your credentials, go to the “IEC Profile Management” section, and select “Print IEC Certificate” to download your IEC certificate in PDF format."
       },
       {
-        question: "How to Modify Your IEC Code?",
-        answer: "NA",
+        "question": "How to Modify Your IEC Code?",
+        "answer": "To modify your IEC code details (such as address or entity name), log in to the DGFT portal, navigate to “Modify IEC,” update the required information, upload supporting documents, and submit for approval."
       },
       {
-        question: "How to Edit and Renew Your IEC?",
-        answer: "NA",
+        "question": "How to Edit and Renew Your IEC?",
+        "answer": "IEC renewal and editing is done via the DGFT portal. Select “Update IEC,” make the necessary changes, upload documents, and submit. Renewal must be done every year to keep your IEC active as per DGFT guidelines."
       },
       {
-        question:
-          "Which DSC (Digital Signature Certificate) is Required for IEC Code?",
-        answer: "NA",
+        "question": "Which DSC (Digital Signature Certificate) is Required for IEC Code?",
+        "answer": "A valid Class 2 or Class 3 Digital Signature Certificate (DSC) registered in the name of the authorized signatory is required for filing and modifying IEC applications on the DGFT portal."
       },
       {
-        question: "How Can I Print My IEC Certificate?",
-        answer: "NA",
+        "question": "How Can I Print My IEC Certificate?",
+        "answer": "After issuance, log in to the DGFT portal, go to the IEC section, and use the “Print IEC Certificate” option to print your IEC in a downloadable format."
       },
       {
-        question:
-          "What Are the Technical Requirements for Filing an IEC Number?",
-        answer: "NA",
+        "question": "What Are the Technical Requirements for Filing an IEC Number?",
+        "answer": "You need a stable internet connection, compatible browser (latest Chrome, Firefox, or Edge), scanned supporting documents, and an active DSC (Digital Signature Certificate) for secure submission on the DGFT portal."
       },
       {
-        question: "Is IEC Number Required for Service Exporters?",
-        answer: "NA",
+        "question": "Is IEC Number Required for Service Exporters?",
+        "answer": "Yes, service exporters from India generally need an IEC number to receive payments in foreign currency or for conducting cross-border service transactions as per RBI and DGFT rules."
       },
       {
-        question: "Who Issues the IEC?",
-        answer: "NA",
+        "question": "Who Issues the IEC?",
+        "answer": "The IEC (Import Export Code) is issued online by the Directorate General of Foreign Trade (DGFT), Ministry of Commerce and Industry, Government of India."
       },
       {
-        question: "Which Browsers Are Compatible with the DGFT Portal?",
-        answer: "NA",
+        "question": "Which Browsers Are Compatible with the DGFT Portal?",
+        "answer": "The DGFT portal works best with updated versions of Google Chrome, Mozilla Firefox, and Microsoft Edge. Avoid using outdated or unsupported browsers for error-free application."
       },
       {
-        question: "What Is the Validity of the IEC Number?",
-        answer: "NA",
-      },
-    ],
+        "question": "What Is the Validity of the IEC Number?",
+        "answer": "The IEC number is valid for the lifetime of the business, but you must update/confirm your IEC registration annually on the DGFT portal to keep it active as per new regulations."
+      }
+    ]
+    ,
   };
   const WhyEnsurekar = {
     heading: "Why to choose Ensurekar for  IEC CODE ?",
     description: "",
-    elements:  [
+    elements: [
       {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl:TalkExpert ,
+        imageUrl: TalkExpert,
       },
       {
         heading: "Hassle-Free & Fast Service",
@@ -633,7 +632,7 @@ const ImportExportCode = () => {
           {" "}
           Start a Free Trial With Our Experts Today!
         </p>
-    
+
       </div>
       <RegisterSteps RegisterSteps={RegisterStepsData} />
       <FAQsServicesSection FAQsData={FAQsData} />
