@@ -67,14 +67,14 @@ const Dashboard = () => {
       textColor: "text-white",
       url: "/admin/all-Admin"
     },
-    //  {
-    //   title: "Company Slider",
-    //   value: "",
-    //   icon: NotepadText,
-    //   color: "bg-gradient-to-r from-yellow-500 to-orange-500",
-    //   textColor: "text-white",
-    //   url:"/admin/logoSystem"
-    // }
+     {
+      title: "Company Slider",
+      value: "",
+      icon: NotepadText,
+      color: "bg-gradient-to-r from-yellow-500 to-orange-500",
+      textColor: "text-white",
+      url:"/admin/logoSystem"
+    }
   ];
 
   const contactButtons = [

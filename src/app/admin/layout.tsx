@@ -48,6 +48,57 @@
 //     </Provider>
 //   );
 // }
+//----------------------------------------------------------------------------------------------
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { usePathname, useRouter } from "next/navigation";
+// import { Provider } from "react-redux";
+// import store from "@/store";
+// import LoggedNavbar from "../components/LoggedNavbar";
+
+// export default function Layout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
+//   const pathname = usePathname();
+//   const router = useRouter();
+
+//   const [isAuthChecked, setIsAuthChecked] = useState(false);
+
+//   useEffect(() => {
+//     const adminAuth = localStorage.getItem("adminAuth");
+
+//     const isLoggedIn = !!adminAuth;
+
+//     const isLoginPage = pathname === "/admin/Login";
+
+//     if (!isLoggedIn && !isLoginPage) {
+//       router.push("/admin/Login");
+//     }
+
+//     if (isLoggedIn && isLoginPage) {
+//       router.push("/admin");
+//     }
+
+//     setIsAuthChecked(true);
+//   }, [pathname, router]);
+
+//   if (!isAuthChecked) return null; 
+
+//   const hideNavbar = pathname === "/admin/Login";
+
+//   return (
+//     <Provider store={store}>
+//       <div className="flex">
+//         {!hideNavbar && <LoggedNavbar />}
+//         <aside className="flex-grow">{children}</aside>
+//       </div>
+//     </Provider>
+//   );
+// }
+//----------------------------------------------------------------------------------------------
 
 "use client";
 
@@ -71,7 +122,6 @@ export default function Layout({
     const adminAuth = localStorage.getItem("adminAuth");
 
     const isLoggedIn = !!adminAuth;
-
     const isLoginPage = pathname === "/admin/Login";
 
     if (!isLoggedIn && !isLoginPage) {
@@ -85,15 +135,25 @@ export default function Layout({
     setIsAuthChecked(true);
   }, [pathname, router]);
 
-  if (!isAuthChecked) return null; 
+  if (!isAuthChecked) return null;
 
-  const hideNavbar = pathname === "/admin/Login";
+  const hideNavbar = pathname === "/admin/Login" || pathname === "/super_admin";
 
   return (
     <Provider store={store}>
       <div className="flex">
-        {!hideNavbar && <LoggedNavbar />}
-        <aside className="flex-grow">{children}</aside>
+        {!hideNavbar && (
+          <div className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50">
+            <LoggedNavbar />
+          </div>
+        )}
+        <aside
+          className={`flex-grow p-4 transition-all duration-300 ${
+            !hideNavbar ? "ml-64" : ""
+          }`}
+        >
+          {children}
+        </aside>
       </div>
     </Provider>
   );

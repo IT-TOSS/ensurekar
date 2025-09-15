@@ -254,7 +254,7 @@ const LoggedNavbar = () => {
     { name: "Profile", link: "/", icon: <User size={20} /> },
     { name: "Register User", link: "/profile", icon: <Users size={20} /> },
     { name: "Package", link: "/package", icon: <ShoppingCart size={20} /> },
-    // { name: "Company Slider", link: "/logoSystem", icon: <ListPlus size={20} /> },
+    { name: "Company Slider", link: "/logoSystem", icon: <ListPlus size={20} /> },
     { name: "Admin", link: "/all-Admin", icon: <ListPlus size={20} /> },
   ];
   // { name: "Help", link: "/help", icon: <Question size={20} /> },
