@@ -33,14 +33,14 @@
 //   const hideNavbar = pathname === '/admin/Login'
 
 //   console.log(hideNavbar)
- 
+
 //   return (
 //     <Provider store={store}>
 //       {/* <nav className="bg-softBg1 p-3 shadow-lg flex justify-between items-center">
 
 //     </nav> */}
 //       <div className="flex stp-1 sbp-1">
-        
+
 //         {/* <LoggedNavbar/> */}
 //         {!hideNavbar && <LoggedNavbar />}
 //         <aside className="">{children}</aside>
@@ -49,57 +49,6 @@
 //   );
 // }
 //----------------------------------------------------------------------------------------------
-// "use client";
-
-// import { useEffect, useState } from "react";
-// import { usePathname, useRouter } from "next/navigation";
-// import { Provider } from "react-redux";
-// import store from "@/store";
-// import LoggedNavbar from "../components/LoggedNavbar";
-
-// export default function Layout({
-//   children,
-// }: {
-//   children: React.ReactNode;
-// }) {
-//   const pathname = usePathname();
-//   const router = useRouter();
-
-//   const [isAuthChecked, setIsAuthChecked] = useState(false);
-
-//   useEffect(() => {
-//     const adminAuth = localStorage.getItem("adminAuth");
-
-//     const isLoggedIn = !!adminAuth;
-
-//     const isLoginPage = pathname === "/admin/Login";
-
-//     if (!isLoggedIn && !isLoginPage) {
-//       router.push("/admin/Login");
-//     }
-
-//     if (isLoggedIn && isLoginPage) {
-//       router.push("/admin");
-//     }
-
-//     setIsAuthChecked(true);
-//   }, [pathname, router]);
-
-//   if (!isAuthChecked) return null; 
-
-//   const hideNavbar = pathname === "/admin/Login";
-
-//   return (
-//     <Provider store={store}>
-//       <div className="flex">
-//         {!hideNavbar && <LoggedNavbar />}
-//         <aside className="flex-grow">{children}</aside>
-//       </div>
-//     </Provider>
-//   );
-// }
-//----------------------------------------------------------------------------------------------
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -122,6 +71,7 @@ export default function Layout({
     const adminAuth = localStorage.getItem("adminAuth");
 
     const isLoggedIn = !!adminAuth;
+
     const isLoginPage = pathname === "/admin/Login";
 
     if (!isLoggedIn && !isLoginPage) {
@@ -135,26 +85,73 @@ export default function Layout({
     setIsAuthChecked(true);
   }, [pathname, router]);
 
-  if (!isAuthChecked) return null;
+  if (!isAuthChecked) return null; 
 
-  const hideNavbar = pathname === "/admin/Login" || pathname === "/super_admin";
+  const hideNavbar = pathname === "/admin/Login";
 
   return (
     <Provider store={store}>
       <div className="flex">
-        {!hideNavbar && (
-          <div className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50">
-            <LoggedNavbar />
-          </div>
-        )}
-        <aside
-          className={`flex-grow p-4 transition-all duration-300 ${
-            !hideNavbar ? "ml-64" : ""
-          }`}
-        >
-          {children}
-        </aside>
+        {!hideNavbar && <LoggedNavbar />}
+        <aside className="flex-grow">{children}</aside>
       </div>
     </Provider>
   );
 }
+//----------------------------------------------------------------------------------------------
+
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { usePathname, useRouter } from "next/navigation";
+// import { Provider } from "react-redux";
+// import store from "@/store";
+// import LoggedNavbar from "../components/LoggedNavbar";
+
+// export default function Layout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
+//   const pathname = usePathname();
+//   const router = useRouter();
+
+//   const [isAuthChecked, setIsAuthChecked] = useState(false);
+
+//   useEffect(() => {
+//     const adminAuth = localStorage.getItem("adminAuth");
+
+//     const isLoggedIn = !!adminAuth;
+//     const isLoginPage = pathname === "/admin/Login";
+
+//     if (!isLoggedIn && !isLoginPage) {
+//       router.push("/admin/Login");
+//     }
+
+//     if (isLoggedIn && isLoginPage) {
+//       router.push("/admin");
+//     }
+
+//     setIsAuthChecked(true);
+//   }, [pathname, router]);
+
+//   if (!isAuthChecked) return null;
+
+//   const hideNavbar = pathname === "/admin/Login" || pathname === "/super_admin";
+
+//   return (
+//     <Provider store={store}>
+//       <div className="flex h-screen">
+//         {!hideNavbar && (
+//           <div className="fixed top-0 left-0">
+//             <LoggedNavbar />
+//           </div>
+//         )}
+//         <aside className="flex-grow ml-64 overflow-auto">
+//           {children}
+//         </aside>
+//       </div>
+//     </Provider>
+
+//   );
+// }

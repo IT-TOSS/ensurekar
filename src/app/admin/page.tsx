@@ -31,7 +31,6 @@ const Dashboard = () => {
     Fname: "Toss",
     Lname: "training",
     email: "toss125training@gmail.com",
-    picture: "https://lh3.googleusercontent.com/a/ACg8ocKw1pXA7V8kUpZA2_7jrqAPcbMbN4-21AZbi4-MaYBQdPw9Pbgt=s96-c-rg-br100",
     phone: "+91 1234567890",
     location: "Javapur, India",
     joinDate: "Jan 2023",
@@ -220,14 +219,6 @@ const Dashboard = () => {
           <div className={`${cardBgClass} rounded-xl p-6 shadow-lg transition-colors duration-300`}>
             <div className="flex items-start justify-between mb-6">
               <div className="flex items-center gap-4">
-                <div className="relative">
-                  <img
-                    src={user.picture}
-                    alt="Profile"
-                    className="w-16 h-16 rounded-full object-cover shadow-lg ring-4 ring-blue-50"
-                  />
-                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white"></div>
-                </div>
                 <div>
                   <h3 className={`text-xl font-bold ${textClass}`}>
                     {user.Fname} {user.Lname}

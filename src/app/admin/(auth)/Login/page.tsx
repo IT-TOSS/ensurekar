@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 // import { collection, getDocs, query } from "firebase/firestore";
 // import { db } from "../../../../firebase/firebase.config";
 import { Eye, EyeOff } from "lucide-react";
-import Image from "next/image";
-import Logo from "../../../images/ensure_logo.png";
 
 interface InputState {
   email: string;
@@ -121,11 +119,6 @@ const Login = () => {
     <section className="h-screen w-screen flex justify-center items-center bg-gray-50 dark:bg-gray-900">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
         <div className="text-center">
-          <Image
-            alt="logo"
-            src={Logo}
-            className="my-3 mx-auto animate-pulse"
-          />
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Admin Login</h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Endurekar - Grow with Expert Consulting Support.

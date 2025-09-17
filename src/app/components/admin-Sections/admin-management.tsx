@@ -184,9 +184,8 @@ export default function AdminManagement() {
       {toasts.map((toast) => (
         <div
           key={toast.id}
-          className={`p-4 rounded-md shadow-lg max-w-sm ${
-            toast.variant === "destructive" ? "bg-red-600 text-white" : "bg-white border border-gray-200 text-gray-900"
-          }`}
+          className={`p-4 rounded-md shadow-lg max-w-sm ${toast.variant === "destructive" ? "bg-red-600 text-white" : "bg-white border border-gray-200 text-gray-900"
+            }`}
         >
           <div className="font-semibold">{toast.title}</div>
           <div className="text-sm opacity-90">{toast.description}</div>
@@ -287,31 +286,65 @@ export default function AdminManagement() {
   }
 
   // Delete admin (POST request)
-  const deleteAdmin = async (adminId: string) => {
+  // const deleteAdmin = async (adminemail: string) => {
+  //   console.log("Deleting admin with ID:", adminemail)
+  //   try {
+  //     const response = await fetch(API_URL, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         action: "delete",
+  //         id: adminemail,
+  //       }),
+  //     })
+
+  //     if (response.ok) {
+  //       showToast("Success", "Admin deleted successfully")
+  //       setIsDeleteModalOpen(false)
+  //       setAdminToDelete(null)
+  //       fetchAdmins()
+  //     } else {
+  //       showToast("Error", "Failed to delete admin", "destructive")
+  //     }
+  //   } catch (error) {
+  //     showToast("Error", "Network error while deleting admin", "destructive")
+  //   }
+  // }
+  const deleteAdmin = async (adminEmail: string): Promise<void> => {
+    console.log("Deleting admin with email:", adminEmail);
+
     try {
-      const response = await fetch(API_URL, {
-        method: "POST",
+      const response = await fetch("https://edueye.co.in/ensurekar/existing-site/admin-register.php", {
+        method: "DELETE", 
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          action: "delete",
-          id: adminId,
+          action: "delete", // ✅ Tell backend it's a delete operation
+          email: adminEmail,
         }),
-      })
+      });
 
-      if (response.ok) {
-        showToast("Success", "Admin deleted successfully")
-        setIsDeleteModalOpen(false)
-        setAdminToDelete(null)
-        fetchAdmins()
-      } else {
-        showToast("Error", "Failed to delete admin", "destructive")
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Server responded with error:", errorText);
+        showToast("Error", "Failed to delete admin", "destructive");
+        return;
       }
-    } catch (error) {
-      showToast("Error", "Network error while deleting admin", "destructive")
+
+      showToast("Success", "Admin deleted successfully");
+      setIsDeleteModalOpen(false);
+      setAdminToDelete(null);
+      fetchAdmins();
+    } catch (error: any) {
+      console.error("Network error:", error);
+      showToast("Error", "Network error while deleting admin", "destructive");
     }
-  }
+  };
+
+
 
   // Filter admins based on search term
   const filteredAdmins = admins.filter((admin) => {
@@ -645,7 +678,7 @@ export default function AdminManagement() {
             <div className="flex gap-2 pt-4">
               <Button
                 variant="destructive"
-                onClick={() => deleteAdmin(adminToDelete.id)}
+                onClick={() => deleteAdmin(adminToDelete.email)}
                 className="flex-1 !visible !opacity-100"
               >
                 Delete
