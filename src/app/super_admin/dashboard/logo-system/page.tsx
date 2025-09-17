@@ -557,43 +557,46 @@ const MultiSectionsAdmin = () => {
   // Sections overview view
   if (viewMode === "sections") {
     return (
-      <div className="min-h-screen bg-gray-50 p-4">
-        <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen bg-gray-50 p-2 sm:p-4 overflow-x-hidden">
+        <div className="w-full max-w-none mx-auto">
           {/* Header */}
-          <div className="bg-white shadow-lg rounded-xl p-6 mb-6">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">Super Admin - Company Slider Sections Management</h1>
-                <p className="text-gray-600">Manage company slider images with headers and descriptions - Super Admin Access</p>
+          <div className="bg-white shadow-lg rounded-xl p-3 sm:p-6 mb-4 sm:mb-6">
+            <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+              <div className="flex-1 min-w-0">
+                <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-2 break-words">Super Admin - Company Slider Sections Management</h1>
+                <p className="text-xs sm:text-sm md:text-base text-gray-600 break-words">Manage company slider images with headers and descriptions - Super Admin Access</p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4 items-center">
-                <div className="bg-blue-50 px-4 py-2 rounded-lg">
-                  <span className="text-sm text-gray-600">Total Sections: </span>
-                  <span className="font-semibold text-blue-600">{businessSections.length}</span>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                  <div className="bg-blue-50 px-3 py-2 rounded-lg text-center sm:text-left">
+                    <span className="text-xs sm:text-sm text-gray-600">Total Sections: </span>
+                    <span className="font-semibold text-blue-600">{businessSections.length}</span>
+                  </div>
+                  <div className="bg-green-50 px-3 py-2 rounded-lg text-center sm:text-left">
+                    <span className="text-xs sm:text-sm text-gray-600">Total Images: </span>
+                    <span className="font-semibold text-green-600">
+                      {businessSections.reduce((total, section) => total + section.images.length, 0)}
+                    </span>
+                  </div>
                 </div>
-                <div className="bg-green-50 px-4 py-2 rounded-lg">
-                  <span className="text-sm text-gray-600">Total Images: </span>
-                  <span className="font-semibold text-green-600">
-                    {businessSections.reduce((total, section) => total + section.images.length, 0)}
-                  </span>
-                </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="search"
                     placeholder="Search sections..."
-                    className="border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-full sm:w-auto min-w-0"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                   <button
-                    className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2"
+                    className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm whitespace-nowrap"
                     onClick={() => {
                       resetSectionForm()
                       setShowCreateSectionModal(true)
                     }}
                   >
-                    <Plus className="w-4 h-4" />
-                    Add Section
+                    <Plus className="w-4 h-4 flex-shrink-0" />
+                    <span className="hidden sm:inline">Add Section</span>
+                    <span className="sm:hidden">Add</span>
                   </button>
                 </div>
               </div>
@@ -602,33 +605,33 @@ const MultiSectionsAdmin = () => {
 
           {/* Sections Grid */}
           {businessSections.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="mx-auto h-32 w-32 text-gray-300 mb-8">
+            <div className="text-center py-8 sm:py-16">
+              <div className="mx-auto h-24 w-24 sm:h-32 sm:w-32 text-gray-300 mb-6 sm:mb-8">
                 <FolderPlus className="w-full h-full" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">No Company Slider Found</h2>
-              <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">No Company Slider Found</h2>
+              <p className="text-sm sm:text-lg text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
                 Get started by creating your first Company Slider section with custom header and description and image.
               </p>
               <button
-                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-4 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl text-lg font-medium flex items-center gap-3 mx-auto"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-lg font-medium flex items-center gap-2 sm:gap-3 mx-auto"
                 onClick={() => {
                   resetSectionForm()
                   setShowCreateSectionModal(true)
                 }}
               >
-                <Plus className="w-6 h-6" />
+                <Plus className="w-5 h-5 sm:w-6 sm:h-6" />
                 Create First Section
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
               {filteredSections.map((section, index) => (
                 <div
                   key={section.id}
                   className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-200 overflow-hidden"
                 >
-                  <div className="p-6">
+                  <div className="p-3 sm:p-4 lg:p-6">
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
@@ -642,9 +645,9 @@ const MultiSectionsAdmin = () => {
                             {section.isActive ? "Active" : "Inactive"}
                           </span>
                         </div>
-                        <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">{section.header}</h3>
+                        <h3 className="text-sm sm:text-base lg:text-lg font-bold text-gray-800 mb-2 line-clamp-2 break-words">{section.header}</h3>
                         {section.description && (
-                          <p className="text-sm text-gray-600 mb-3 line-clamp-3">{section.description}</p>
+                          <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-3 break-words">{section.description}</p>
                         )}
                       </div>
                     </div>
@@ -658,8 +661,8 @@ const MultiSectionsAdmin = () => {
 
                     {/* Image Preview */}
                     {section.images.length > 0 && (
-                      <div className="mb-4">
-                        <div className="grid grid-cols-4 gap-2">
+                      <div className="mb-3 sm:mb-4">
+                        <div className="grid grid-cols-4 gap-1 sm:gap-2">
                           {section.images.slice(0, 4).map((image) => (
                             <div key={image.id} className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
                               <img
@@ -675,7 +678,7 @@ const MultiSectionsAdmin = () => {
                           ))}
                         </div>
                         {section.images.length > 4 && (
-                          <p className="text-xs text-gray-500 mt-2 text-center">
+                          <p className="text-xs text-gray-500 mt-1 sm:mt-2 text-center">
                             +{section.images.length - 4} more images
                           </p>
                         )}
@@ -684,14 +687,15 @@ const MultiSectionsAdmin = () => {
 
                     <div className="flex gap-2 mb-2">
                       <button
-                        className="flex-1 bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                        className="flex-1 bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center justify-center gap-1 sm:gap-2"
                         onClick={() => {
                           setCurrentSection(section)
                           setViewMode("section-detail")
                         }}
                       >
-                        <Edit className="w-4 h-4" />
-                        Manage
+                        <Edit className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <span className="hidden sm:inline">Manage</span>
+                        <span className="sm:hidden">Edit</span>
                       </button>
                       {/* <button
                         className="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
@@ -731,14 +735,14 @@ const MultiSectionsAdmin = () => {
 
         {/* Create Section Modal */}
         {showCreateSectionModal && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-800">Super Admin - Create New Section</h2>
-                <p className="text-gray-600">Add a new Company Slider section with custom header and description - Super Admin Access</p>
+              <div className="p-4 sm:p-6 border-b border-gray-200">
+                <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Super Admin - Create New Section</h2>
+                <p className="text-sm sm:text-base text-gray-600">Add a new Company Slider section with custom header and description - Super Admin Access</p>
               </div>
 
-              <div className="p-6 space-y-6">
+              <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Section Header *</label>
                   <input
@@ -746,7 +750,7 @@ const MultiSectionsAdmin = () => {
                     value={sectionForm.header}
                     onChange={(e) => setSectionForm((prev) => ({ ...prev, header: e.target.value }))}
                     placeholder="e.g., Company Slider Section header here..."
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
                 </div>
 
@@ -804,22 +808,22 @@ const MultiSectionsAdmin = () => {
 
         {/* Delete Section Confirmation Modal */}
         {showDeleteSectionModal && sectionToDelete && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-md">
-              <div className="p-6 border-b border-gray-200">
+              <div className="p-4 sm:p-6 border-b border-gray-200">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-red-100 rounded-full">
-                    <AlertTriangle className="w-6 h-6 text-red-600" />
+                    <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />
                   </div>
-                  <h2 className="text-xl font-bold text-gray-800">Delete Section</h2>
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-800">Delete Section</h2>
                 </div>
               </div>
 
-              <div className="p-6">
-                <p className="text-gray-600 mb-4">
+              <div className="p-4 sm:p-6">
+                <p className="text-sm sm:text-base text-gray-600 mb-4">
                   Are you sure you want to delete the section <strong>"{sectionToDelete.header}"</strong>?
                 </p>
-                <div className="bg-red-50 p-4 rounded-lg mb-4">
+                <div className="bg-red-50 p-3 sm:p-4 rounded-lg mb-4">
                   <p className="text-sm text-red-800">
                     <strong>Warning:</strong> This will permanently delete:
                   </p>
@@ -831,9 +835,9 @@ const MultiSectionsAdmin = () => {
                 </div>
               </div>
 
-              <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
+              <div className="p-4 sm:p-6 border-t border-gray-200 flex flex-col sm:flex-row gap-3 justify-end">
                 <button
-                  className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 disabled:opacity-50 flex items-center gap-2"
+                  className="px-4 sm:px-6 py-2 sm:py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 disabled:opacity-50 flex items-center justify-center gap-2 text-sm sm:text-base"
                   onClick={handleDeleteSection}
                   disabled={isLoading}
                 >
@@ -841,7 +845,7 @@ const MultiSectionsAdmin = () => {
                   {isLoading ? "Deleting..." : "Delete Section"}
                 </button>
                 <button
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  className="px-4 sm:px-6 py-2 sm:py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm sm:text-base"
                   onClick={() => {
                     setShowDeleteSectionModal(false)
                     setSectionToDelete(null)
@@ -860,13 +864,13 @@ const MultiSectionsAdmin = () => {
   // Section detail view for managing images
   if (viewMode === "section-detail" && currentSection) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4">
-        <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen bg-gray-50 p-2 sm:p-4 overflow-x-hidden">
+        <div className="w-full max-w-none mx-auto">
           {/* Header with back button */}
-          <div className="bg-white shadow-lg rounded-xl p-6 mb-6">
-            <div className="flex items-center gap-4 mb-4">
+          <div className="bg-white shadow-lg rounded-xl p-3 sm:p-6 mb-4 sm:mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-4">
               <button
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors self-start"
                 onClick={() => {
                   setViewMode("sections")
                   setCurrentSection(null)
@@ -875,17 +879,17 @@ const MultiSectionsAdmin = () => {
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
-              <div className="flex-1">
-                <h1 className="text-2xl font-bold text-gray-800">Super Admin - {currentSection.header}</h1>
-                <p className="text-gray-600">{currentSection.description || "Manage images for this section - Super Admin Access"}</p>
-                <p className="text-xs text-gray-500 mt-1">
+              <div className="flex-1 min-w-0">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 break-words">Super Admin - {currentSection.header}</h1>
+                <p className="text-sm sm:text-base text-gray-600 break-words">{currentSection.description || "Manage images for this section - Super Admin Access"}</p>
+                <p className="text-xs text-gray-500 mt-1 break-words">
                   Section ID: <code className="bg-gray-100 px-1 rounded">{currentSection.id}</code> | Images named:{" "}
                   <code className="bg-gray-100 px-1 rounded">{currentSection.id}_imageName.ext</code>
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2 flex-shrink-0">
                 <button
-                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2"
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 sm:px-4 lg:px-6 py-2 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-xs sm:text-sm lg:text-base whitespace-nowrap"
                   onClick={() => {
                     setSectionForm({
                       header: currentSection.header,
@@ -895,21 +899,23 @@ const MultiSectionsAdmin = () => {
                     setShowEditSectionModal(true)
                   }}
                 >
-                  <Settings className="w-4 h-4" />
-                  Edit Section
+                  <Settings className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                  <span className="hidden sm:inline">Edit Section</span>
+                  <span className="sm:hidden">Edit</span>
                 </button>
                 <button
-                  className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2"
+                  className="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 sm:px-4 lg:px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-xs sm:text-sm lg:text-base whitespace-nowrap"
                   onClick={() => {
                     resetImageForm()
                     setShowAddImageModal(true)
                   }}
                 >
-                  <Plus className="w-4 h-4" />
-                  Add Image
+                  <Plus className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                  <span className="hidden sm:inline">Add Image</span>
+                  <span className="sm:hidden">Add</span>
                 </button>
                 <button
-                  className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-2 rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2"
+                  className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 sm:px-4 lg:px-6 py-2 rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-xs sm:text-sm lg:text-base whitespace-nowrap"
                   onClick={() => {
                     // console.log("Deleting section: Krishna : ", currentSection.header)
                     setSectionToDelete(currentSection)
@@ -917,22 +923,23 @@ const MultiSectionsAdmin = () => {
                     setShowDeleteSectionModal(true)
                   }}
                 >
-                  <Trash2 className="w-4 h-4" />
-                  Delete Section
+                  <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                  <span className="hidden sm:inline">Delete Section</span>
+                  <span className="sm:hidden">Delete</span>
                 </button>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
               <input
                 type="search"
                 placeholder="Search images..."
-                className="border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 px-3 sm:px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base w-full sm:w-auto"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <div className="bg-blue-50 px-4 py-2 rounded-lg">
-                <span className="text-sm text-gray-600">Images: </span>
+              <div className="bg-blue-50 px-3 sm:px-4 py-2 rounded-lg">
+                <span className="text-xs sm:text-sm text-gray-600">Images: </span>
                 <span className="font-semibold text-blue-600">{currentSection.images.length}</span>
               </div>
             </div>
@@ -946,14 +953,14 @@ const MultiSectionsAdmin = () => {
                 <span className="ml-3 text-lg text-gray-600">Processing...</span>
               </div>
             ) : filteredImages.length > 0 ? (
-              <div className="p-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+              <div className="p-3 sm:p-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-6">
                   {filteredImages.map((image, index) => (
                     <div
                       key={image.id}
-                      className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:border-blue-300 transition-colors"
+                      className="bg-gray-50 rounded-lg p-2 sm:p-4 border border-gray-200 hover:border-blue-300 transition-colors"
                     >
-                      <div className="aspect-square bg-white rounded-lg mb-3 flex items-center justify-center overflow-hidden">
+                      <div className="aspect-square bg-white rounded-lg mb-2 sm:mb-3 flex items-center justify-center overflow-hidden">
                         <img
                           src={image.src || "/placeholder.svg?height=150&width=150"}
                           alt={image.alt}
@@ -965,13 +972,13 @@ const MultiSectionsAdmin = () => {
                         />
                       </div>
 
-                      <div className="space-y-2">
+                      <div className="space-y-1 sm:space-y-2">
                         <div className="flex items-center justify-between">
                           {/* <span className="text-xs text-gray-500">#{image.order}</span> */}
                           <span className="text-xs text-gray-500">ID: {image.id}</span>
                         </div>
 
-                        <p className="text-sm font-medium text-gray-900 truncate" title={image.alt}>
+                        <p className="text-xs sm:text-sm font-medium text-gray-900 truncate" title={image.alt}>
                           {image.alt}
                         </p>
 
@@ -985,7 +992,7 @@ const MultiSectionsAdmin = () => {
 
                         <div className="flex gap-1">
                           <button
-                            className="flex-1 bg-blue-100 hover:bg-blue-200 text-blue-700 px-2 py-1 rounded text-xs font-medium transition-colors"
+                            className="flex-1 bg-blue-100 hover:bg-blue-200 text-blue-700 px-1 sm:px-2 py-1 rounded text-xs font-medium transition-colors"
                             onClick={() => {
                               setSelectedImage(image)
                               setImageForm({
@@ -1003,7 +1010,7 @@ const MultiSectionsAdmin = () => {
                           </button>
 
                           <button
-                            className="bg-red-100 hover:bg-red-200 text-red-700 px-2 py-1 rounded text-xs font-medium transition-colors"
+                            className="bg-red-100 hover:bg-red-200 text-red-700 px-1 sm:px-2 py-1 rounded text-xs font-medium transition-colors"
                             onClick={() => handleDeleteImage(image.id)}
                           >
                             <Trash2 className="w-3 h-3" />
@@ -1033,14 +1040,14 @@ const MultiSectionsAdmin = () => {
                 </div>
               </div>
             ) : (
-              <div className="text-center py-16">
-                <div className="mx-auto h-24 w-24 text-gray-300 mb-4">
+              <div className="text-center py-8 sm:py-16">
+                <div className="mx-auto h-20 w-20 sm:h-24 sm:w-24 text-gray-300 mb-4">
                   <Upload className="w-full h-full" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No images found</h3>
-                <p className="text-gray-500 mb-4">Get started by adding your first logo image to this section.</p>
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2">No images found</h3>
+                <p className="text-sm sm:text-base text-gray-500 mb-4 px-4">Get started by adding your first logo image to this section.</p>
                 <button
-                  className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200"
+                  className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 text-sm sm:text-base"
                   onClick={() => {
                     resetImageForm()
                     setShowAddImageModal(true)
@@ -1055,21 +1062,21 @@ const MultiSectionsAdmin = () => {
 
         {/* Add Image Modal */}
         {showAddImageModal && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-800">Super Admin - Add New Image</h2>
-                <p className="text-gray-600">Upload a new logo image to {currentSection.header} - Super Admin Access</p>
+              <div className="p-4 sm:p-6 border-b border-gray-200">
+                <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Super Admin - Add New Image</h2>
+                <p className="text-sm sm:text-base text-gray-600">Upload a new logo image to {currentSection.header} - Super Admin Access</p>
               </div>
 
-              <div className="p-6 space-y-6">
+              <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Upload Image *</label>
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
                   {imageForm.file && (
                     <div className="mt-3 p-3 bg-green-50 rounded-lg">
@@ -1093,7 +1100,7 @@ const MultiSectionsAdmin = () => {
                     value={imageForm.alt}
                     onChange={(e) => setImageForm((prev) => ({ ...prev, alt: e.target.value }))}
                     placeholder="e.g., Company Logo, Partner Brand"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
                   <p className="text-xs text-gray-500 mt-1">This text will be used for accessibility and SEO</p>
                 </div>
@@ -1109,9 +1116,9 @@ const MultiSectionsAdmin = () => {
                 </div>
               </div>
 
-              <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
+              <div className="p-4 sm:p-6 border-t border-gray-200 flex flex-col sm:flex-row gap-3 justify-end">
                 <button
-                  className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 disabled:opacity-50 flex items-center gap-2"
+                  className="px-4 sm:px-6 py-2 sm:py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 disabled:opacity-50 flex items-center justify-center gap-2 text-sm sm:text-base"
                   onClick={handleAddImage}
                   disabled={isLoading}
                 >
@@ -1119,7 +1126,7 @@ const MultiSectionsAdmin = () => {
                   {isLoading ? "Uploading..." : "Add Image"}
                 </button>
                 <button
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  className="px-4 sm:px-6 py-2 sm:py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm sm:text-base"
                   onClick={() => setShowAddImageModal(false)}
                 >
                   Cancel
@@ -1131,14 +1138,14 @@ const MultiSectionsAdmin = () => {
 
         {/* Edit Section Modal */}
         {showEditSectionModal && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-800">Super Admin - Edit Section</h2>
-                <p className="text-gray-600">Update section header and description - Super Admin Access</p>
+              <div className="p-4 sm:p-6 border-b border-gray-200">
+                <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Super Admin - Edit Section</h2>
+                <p className="text-sm sm:text-base text-gray-600">Update section header and description - Super Admin Access</p>
               </div>
 
-              <div className="p-6 space-y-6">
+              <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Section Header *</label>
                   <input
@@ -1146,7 +1153,7 @@ const MultiSectionsAdmin = () => {
                     value={sectionForm.header}
                     onChange={(e) => setSectionForm((prev) => ({ ...prev, header: e.target.value }))}
                     placeholder="e.g., Our Business Partners, Customer Success Stories"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
                 </div>
 
@@ -1157,7 +1164,7 @@ const MultiSectionsAdmin = () => {
                     onChange={(e) => setSectionForm((prev) => ({ ...prev, description: e.target.value }))}
                     placeholder="Brief description of this section..."
                     rows={3}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
                 </div>
 
@@ -1172,9 +1179,9 @@ const MultiSectionsAdmin = () => {
                 </div>
               </div>
 
-              <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
+              <div className="p-4 sm:p-6 border-t border-gray-200 flex flex-col sm:flex-row gap-3 justify-end">
                 <button
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 flex items-center gap-2"
+                  className="px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 flex items-center justify-center gap-2 text-sm sm:text-base"
                   onClick={handleUpdateSection}
                   disabled={isLoading}
                 >
@@ -1182,7 +1189,7 @@ const MultiSectionsAdmin = () => {
                   {isLoading ? "Saving..." : "Save Changes"}
                 </button>
                 <button
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  className="px-4 sm:px-6 py-2 sm:py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm sm:text-base"
                   onClick={() => setShowEditSectionModal(false)}
                 >
                   Cancel
@@ -1194,17 +1201,17 @@ const MultiSectionsAdmin = () => {
 
         {/* Edit Image Modal */}
         {showEditImageModal && selectedImage && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-800">Super Admin - Edit Image</h2>
-                <p className="text-gray-600">Update image details - Super Admin Access</p>
+              <div className="p-4 sm:p-6 border-b border-gray-200">
+                <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Super Admin - Edit Image</h2>
+                <p className="text-sm sm:text-base text-gray-600">Update image details - Super Admin Access</p>
               </div>
 
-              <div className="p-6 space-y-6">
+              <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Current Image</label>
-                  <div className="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-32">
+                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 flex items-center justify-center h-24 sm:h-32">
                     <img
                       src={selectedImage.src || "/placeholder.svg?height=120&width=120"}
                       alt={selectedImage.alt}
@@ -1225,7 +1232,7 @@ const MultiSectionsAdmin = () => {
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
                   {imageForm.file && (
                     <div className="mt-3 p-3 bg-blue-50 rounded-lg">
@@ -1249,14 +1256,14 @@ const MultiSectionsAdmin = () => {
                     value={imageForm.alt}
                     onChange={(e) => setImageForm((prev) => ({ ...prev, alt: e.target.value }))}
                     placeholder="e.g., Company Logo, Partner Brand"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
                 </div>
               </div>
 
-              <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
+              <div className="p-4 sm:p-6 border-t border-gray-200 flex flex-col sm:flex-row gap-3 justify-end">
                 <button
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 flex items-center gap-2"
+                  className="px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 flex items-center justify-center gap-2 text-sm sm:text-base"
                   onClick={handleEditImage}
                   disabled={isLoading}
                 >
@@ -1264,7 +1271,7 @@ const MultiSectionsAdmin = () => {
                   {isLoading ? "Saving..." : "Save Changes"}
                 </button>
                 <button
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  className="px-4 sm:px-6 py-2 sm:py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm sm:text-base"
                   onClick={() => {
                     setShowEditImageModal(false)
                     setSelectedImage(null)
@@ -1280,22 +1287,22 @@ const MultiSectionsAdmin = () => {
 
         {/* Delete Section Confirmation Modal */}
         {showDeleteSectionModal && sectionToDelete && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-4">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-md">
-              <div className="p-6 border-b border-gray-200">
+              <div className="p-4 sm:p-6 border-b border-gray-200">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-red-100 rounded-full">
-                    <AlertTriangle className="w-6 h-6 text-red-600" />
+                    <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />
                   </div>
-                  <h2 className="text-xl font-bold text-gray-800">Delete Section</h2>
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-800">Delete Section</h2>
                 </div>
               </div>
 
-              <div className="p-6">
-                <p className="text-gray-600 mb-4">
+              <div className="p-4 sm:p-6">
+                <p className="text-sm sm:text-base text-gray-600 mb-4">
                   Are you sure you want to delete the section <strong>"{sectionToDelete.header}"</strong>?
                 </p>
-                <div className="bg-red-50 p-4 rounded-lg mb-4">
+                <div className="bg-red-50 p-3 sm:p-4 rounded-lg mb-4">
                   <p className="text-sm text-red-800">
                     <strong>Warning:</strong> This will permanently delete:
                   </p>
@@ -1308,9 +1315,9 @@ const MultiSectionsAdmin = () => {
                 </div>
               </div>
 
-              <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
+              <div className="p-4 sm:p-6 border-t border-gray-200 flex flex-col sm:flex-row gap-3 justify-end">
                 <button
-                  className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 disabled:opacity-50 flex items-center gap-2"
+                  className="px-4 sm:px-6 py-2 sm:py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 disabled:opacity-50 flex items-center justify-center gap-2 text-sm sm:text-base"
                   onClick={handleDeleteSection}
                   disabled={isLoading}
                 >
@@ -1318,7 +1325,7 @@ const MultiSectionsAdmin = () => {
                   {isLoading ? "Deleting..." : "Delete Section"}
                 </button>
                 <button
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  className="px-4 sm:px-6 py-2 sm:py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm sm:text-base"
                   onClick={() => {
                     setShowDeleteSectionModal(false)
                     setSectionToDelete(null)

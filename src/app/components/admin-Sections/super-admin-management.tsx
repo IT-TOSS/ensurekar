@@ -18,6 +18,7 @@ import {
   X,
   Filter,
   MoreVertical,
+  Clock,
 } from "lucide-react";
 
 interface Admin {
@@ -242,30 +243,31 @@ const AdminManagement = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-50 p-3 sm:p-6">
+      <div className="w-full max-w-none">
         {/* Header */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                <Shield className="h-8 w-8 text-blue-600" />
-                Admin Management
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-2 sm:gap-3">
+                <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
+                <span className="hidden sm:inline">Admin Management</span>
+                <span className="sm:hidden">Admins</span>
               </h1>
-              <p className="text-gray-600 mt-1">Manage admin accounts and permissions</p>
+              <p className="text-gray-600 mt-1 text-sm sm:text-base">Manage admin accounts and permissions</p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex gap-2 bg-blue-50 px-4 py-2 rounded-lg">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <div className="flex gap-2 bg-blue-50 px-3 sm:px-4 py-2 rounded-lg">
                 <div className="text-center">
-                  <div className="text-sm text-gray-600">Total Admins</div>
-                  <div className="text-2xl font-bold text-blue-600">{admins.length}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Total Admins</div>
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600">{admins.length}</div>
                 </div>
               </div>
-              <div className="flex gap-2 bg-green-50 px-4 py-2 rounded-lg">
+              <div className="flex gap-2 bg-green-50 px-3 sm:px-4 py-2 rounded-lg">
                 <div className="text-center">
-                  <div className="text-sm text-gray-600">Active Admins</div>
-                  <div className="text-2xl font-bold text-green-600">
+                  <div className="text-xs sm:text-sm text-gray-600">Active Admins</div>
+                  <div className="text-xl sm:text-2xl font-bold text-green-600">
                     {admins.filter((admin) => admin.status === "active").length}
                   </div>
                 </div>
@@ -274,84 +276,89 @@ const AdminManagement = () => {
           </div>
 
           {/* Controls */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-6">
-            <div className="flex gap-2 flex-1">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <input
-                  type="search"
-                  placeholder="Search admins..."
-                  className="pl-10 border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+          <div className="flex flex-col gap-4 mt-4 sm:mt-6">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-2 flex-1">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <input
+                    type="search"
+                    placeholder="Search admins..."
+                    className="pl-10 border border-gray-300 px-3 sm:px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full text-sm sm:text-base"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+
+                <select
+                  className="border border-gray-300 px-3 sm:px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                >
+                  <option value="all">All Status</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
               </div>
 
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
+                <button
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-sm sm:text-base"
+                  onClick={fetchAdmins}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                      <span className="hidden sm:inline">Loading...</span>
+                      <span className="sm:hidden">Loading</span>
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="mr-2 h-4 w-4" />
+                      <span className="hidden sm:inline">Refresh</span>
+                      <span className="sm:hidden">Refresh</span>
+                    </>
+                  )}
+                </button>
 
-              <select
-                className="border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-              >
-                <option value="all">All Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-            </div>
-
-            <div className="flex gap-2">
-              <button
-                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
-                onClick={fetchAdmins}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                    Loading...
-                  </>
-                ) : (
-                  <>
-                    <RefreshCw className="mr-2 h-4 w-4" />
-                    Refresh
-                  </>
-                )}
-              </button>
-
-              <button
-                className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center"
-                onClick={() => {
-                  setFormData({
-                    name: "",
-                    email: "",
-                    password: "",
-                    role: activeTab,
-                    status: "active",
-                  });
-                  setShowAddModal(true);
-                }}
-              >
-                <UserPlus className="mr-2 h-4 w-4" />
-                Add {activeTab === "superadmin" ? "Super Admin" : "Sub Admin"}
-              </button>
+                <button
+                  className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center text-sm sm:text-base"
+                  onClick={() => {
+                    setFormData({
+                      name: "",
+                      email: "",
+                      password: "",
+                      role: activeTab,
+                      status: "active",
+                    });
+                    setShowAddModal(true);
+                  }}
+                >
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  <span className="hidden sm:inline">Add {activeTab === "superadmin" ? "Super Admin" : "Sub Admin"}</span>
+                  <span className="sm:hidden">Add Admin</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Tab Navigation */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6">
           <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
             <button
               onClick={() => setActiveTab("superadmin")}
-              className={`flex-1 py-3 px-6 rounded-md font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`flex-1 py-2 sm:py-3 px-3 sm:px-6 rounded-md font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center justify-center gap-1 sm:gap-2 ${
                 activeTab === "superadmin"
                   ? "bg-white text-purple-700 shadow-sm"
                   : "text-gray-600 hover:text-gray-800"
               }`}
             >
-              <Shield className="h-4 w-4" />
-              Super Admin
-              <span className={`px-2 py-1 rounded-full text-xs ${
+              <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Super Admin</span>
+              <span className="sm:hidden">Super</span>
+              <span className={`px-1 sm:px-2 py-1 rounded-full text-xs ${
                 activeTab === "superadmin" 
                   ? "bg-purple-100 text-purple-700" 
                   : "bg-gray-200 text-gray-600"
@@ -361,15 +368,16 @@ const AdminManagement = () => {
             </button>
             <button
               onClick={() => setActiveTab("subadmin")}
-              className={`flex-1 py-3 px-6 rounded-md font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`flex-1 py-2 sm:py-3 px-3 sm:px-6 rounded-md font-semibold text-xs sm:text-sm transition-all duration-200 flex items-center justify-center gap-1 sm:gap-2 ${
                 activeTab === "subadmin"
                   ? "bg-white text-green-700 shadow-sm"
                   : "text-gray-600 hover:text-gray-800"
               }`}
             >
-              <UserPlus className="h-4 w-4" />
-              Sub Admin
-              <span className={`px-2 py-1 rounded-full text-xs ${
+              <UserPlus className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Sub Admin</span>
+              <span className="sm:hidden">Sub</span>
+              <span className={`px-1 sm:px-2 py-1 rounded-full text-xs ${
                 activeTab === "subadmin" 
                   ? "bg-green-100 text-green-700" 
                   : "bg-gray-200 text-gray-600"
@@ -394,23 +402,25 @@ const AdminManagement = () => {
               <p className="text-gray-500 mt-2">Please try refreshing the page</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Admin Info
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Role
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Last Update
                     </th>
-                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-3 sm:px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -418,7 +428,7 @@ const AdminManagement = () => {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredAdmins.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="px-6 py-12 text-center">
+                      <td colSpan={5} className="px-3 sm:px-6 py-12 text-center">
                         <Shield className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                         <div className="text-gray-500 text-lg">No admins found</div>
                         <p className="text-gray-400 mt-2">
@@ -431,7 +441,7 @@ const AdminManagement = () => {
                   ) : (
                     filteredAdmins.map((admin) => (
                       <tr key={admin.id} className="hover:bg-gray-50 transition-colors duration-150">
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="flex-shrink-0 h-10 w-10">
                               <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold">
@@ -444,20 +454,20 @@ const AdminManagement = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(admin.role)}`}>
                             {admin.role}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(admin.status)}`}>
                             {admin.status}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {new Date(admin.lastupdate).toLocaleDateString()}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                        <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-center">
                           <div className="flex items-center justify-center gap-2">
                             <button
                               className="bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center"
@@ -480,18 +490,87 @@ const AdminManagement = () => {
                   )}
                 </tbody>
               </table>
-            </div>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="md:hidden">
+                {filteredAdmins.length === 0 ? (
+                  <div className="p-8 text-center">
+                    <div className="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                      <Shield className="h-10 w-10 text-gray-400" />
+                    </div>
+                    <div className="text-gray-600 text-lg font-medium mb-2">No admins found</div>
+                    <p className="text-gray-400 text-sm">
+                      {searchTerm || filterRole !== "all" || filterStatus !== "all"
+                        ? "Try adjusting your search criteria"
+                        : "No admin data available"}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="p-3 space-y-3">
+                    {filteredAdmins.map((admin) => (
+                      <div key={admin.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition-shadow duration-200">
+                        {/* Header with Avatar and Info */}
+                        <div className="flex items-start gap-3 mb-4">
+                          <div className="flex-shrink-0">
+                            <div className="h-12 w-12 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                              {admin.name.charAt(0).toUpperCase()}
+                            </div>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-sm font-semibold text-gray-900 truncate">{admin.name}</h3>
+                            <p className="text-xs text-gray-500 truncate mt-1">{admin.email}</p>
+                            <div className="flex items-center gap-2 mt-2">
+                              <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getRoleColor(admin.role)}`}>
+                                {admin.role}
+                              </span>
+                              <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(admin.status)}`}>
+                                {admin.status}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Last Update */}
+                        <div className="flex items-center gap-2 text-xs text-gray-500 mb-4 px-1">
+                          <Clock className="h-3 w-3" />
+                          <span>Updated: {new Date(admin.lastupdate).toLocaleDateString()}</span>
+                        </div>
+                        
+                        {/* Action Buttons */}
+                        <div className="flex gap-2">
+                          <button
+                            className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
+                            onClick={() => handleEdit(admin)}
+                          >
+                            <Edit className="h-4 w-4" />
+                            Edit
+                          </button>
+                          <button
+                            className="flex-1 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
+                            onClick={() => handleDeleteClick(admin)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
           )}
         </div>
       </div>
 
       {/* Add Admin Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md">
-            <div className="p-6 border-b border-gray-200">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="p-4 sm:p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-gray-800">Add New {activeTab === "superadmin" ? "Super Admin" : "Sub Admin"}</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Add New {activeTab === "superadmin" ? "Super Admin" : "Sub Admin"}</h2>
                 <button
                   onClick={() => {
                     setShowAddModal(false);
