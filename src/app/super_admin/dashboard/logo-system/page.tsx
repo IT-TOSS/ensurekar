@@ -735,8 +735,8 @@ const MultiSectionsAdmin = () => {
 
         {/* Create Section Modal */}
         {showCreateSectionModal && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4 overflow-y-auto">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto mx-2 sm:mx-4">
               <div className="p-4 sm:p-6 border-b border-gray-200">
                 <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Super Admin - Create New Section</h2>
                 <p className="text-sm sm:text-base text-gray-600">Add a new Company Slider section with custom header and description - Super Admin Access</p>
@@ -808,8 +808,8 @@ const MultiSectionsAdmin = () => {
 
         {/* Delete Section Confirmation Modal */}
         {showDeleteSectionModal && sectionToDelete && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-md">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4 overflow-y-auto">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-md mx-2 sm:mx-4">
               <div className="p-4 sm:p-6 border-b border-gray-200">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-red-100 rounded-full">
@@ -930,15 +930,15 @@ const MultiSectionsAdmin = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <input
                 type="search"
                 placeholder="Search images..."
-                className="border border-gray-300 px-3 sm:px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base w-full sm:w-auto"
+                className="border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-full sm:w-auto min-w-0 flex-1"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <div className="bg-blue-50 px-3 sm:px-4 py-2 rounded-lg">
+              <div className="bg-blue-50 px-3 py-2 rounded-lg text-center sm:text-left flex-shrink-0">
                 <span className="text-xs sm:text-sm text-gray-600">Images: </span>
                 <span className="font-semibold text-blue-600">{currentSection.images.length}</span>
               </div>
@@ -953,8 +953,8 @@ const MultiSectionsAdmin = () => {
                 <span className="ml-3 text-lg text-gray-600">Processing...</span>
               </div>
             ) : filteredImages.length > 0 ? (
-              <div className="p-3 sm:p-6">
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-6">
+              <div className="p-3 sm:p-4 lg:p-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 lg:gap-6">
                   {filteredImages.map((image, index) => (
                     <div
                       key={image.id}
@@ -978,11 +978,11 @@ const MultiSectionsAdmin = () => {
                           <span className="text-xs text-gray-500">ID: {image.id}</span>
                         </div>
 
-                        <p className="text-xs sm:text-sm font-medium text-gray-900 truncate" title={image.alt}>
+                        <p className="text-xs sm:text-sm font-medium text-gray-900 truncate break-words" title={image.alt}>
                           {image.alt}
                         </p>
 
-                        <p className="text-xs text-gray-500 truncate" title={image.fileName}>
+                        <p className="text-xs text-gray-500 truncate break-words" title={image.fileName}>
                           📁 {image.fileName}
                         </p>
 
@@ -1062,8 +1062,8 @@ const MultiSectionsAdmin = () => {
 
         {/* Add Image Modal */}
         {showAddImageModal && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4 overflow-y-auto">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto mx-2 sm:mx-4">
               <div className="p-4 sm:p-6 border-b border-gray-200">
                 <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Super Admin - Add New Image</h2>
                 <p className="text-sm sm:text-base text-gray-600">Upload a new logo image to {currentSection.header} - Super Admin Access</p>
@@ -1138,8 +1138,8 @@ const MultiSectionsAdmin = () => {
 
         {/* Edit Section Modal */}
         {showEditSectionModal && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4 overflow-y-auto">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto mx-2 sm:mx-4">
               <div className="p-4 sm:p-6 border-b border-gray-200">
                 <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Super Admin - Edit Section</h2>
                 <p className="text-sm sm:text-base text-gray-600">Update section header and description - Super Admin Access</p>
@@ -1201,8 +1201,8 @@ const MultiSectionsAdmin = () => {
 
         {/* Edit Image Modal */}
         {showEditImageModal && selectedImage && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4 overflow-y-auto">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto mx-2 sm:mx-4">
               <div className="p-4 sm:p-6 border-b border-gray-200">
                 <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Super Admin - Edit Image</h2>
                 <p className="text-sm sm:text-base text-gray-600">Update image details - Super Admin Access</p>
@@ -1287,8 +1287,8 @@ const MultiSectionsAdmin = () => {
 
         {/* Delete Section Confirmation Modal */}
         {showDeleteSectionModal && sectionToDelete && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-md">
+          <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center p-2 sm:p-4 overflow-y-auto">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-md mx-2 sm:mx-4">
               <div className="p-4 sm:p-6 border-b border-gray-200">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-red-100 rounded-full">
