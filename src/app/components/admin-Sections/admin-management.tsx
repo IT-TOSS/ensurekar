@@ -548,23 +548,6 @@ export default function AdminManagement() {
         </div>
       </div>
 
-      <Card className="mb-6 bg-yellow-50 border-yellow-200">
-        <CardContent className="pt-4">
-          <p className="text-sm text-yellow-800">
-            <strong>Debug info:</strong> Total Admins: {admins.length} | Loading: {loading.toString()} | Search Term: "
-            {searchTerm}" | Filtered Results: {filteredAdmins.length}
-            {searchTerm && (
-              <span className="ml-2">
-                |{" "}
-                <button onClick={() => setSearchTerm("")} className="underline hover:no-underline">
-                  Clear Search
-                </button>
-              </span>
-            )}
-          </p>
-        </CardContent>
-      </Card>
-
       {/* Admin Table */}
       <Card>
         <CardHeader>
