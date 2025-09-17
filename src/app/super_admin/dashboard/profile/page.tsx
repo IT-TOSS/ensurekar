@@ -15,34 +15,103 @@ import {
   AlertCircle
 } from 'lucide-react';
 
+interface AdminProfile {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+  lastupdate: string;
+}
+
 const SuperAdminProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [fetchingData, setFetchingData] = useState(true);
   const [message, setMessage] = useState({ type: '', text: '' });
 
   const [profileData, setProfileData] = useState({
-    name: 'Super Admin',
-    email: 'toss125training@gmail.com',
+    name: '',
+    email: '',
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
   });
 
   const [originalData, setOriginalData] = useState({
-    name: 'Super Admin',
-    email: 'toss125training@gmail.com'
+    name: '',
+    email: '',
+    role: '',
+    status: '',
+    lastupdate: ''
   });
 
-  useEffect(() => {
-    // Load profile data from localStorage or API
+  // Extract email from localStorage
+  const extractEmailFromLocalStorage = () => {
     const superAdminAuth = localStorage.getItem('superAdminAuth');
     if (superAdminAuth) {
-      // Extract email from auth token if needed
-      // For now, using hardcoded values
+      // Extract email from localStorage value like "super_admin_authkrishna.vish9329%40gmail.com"
+      const emailMatch = superAdminAuth.match(/super_admin_auth(.+)/);
+      if (emailMatch) {
+        return decodeURIComponent(emailMatch[1]);
+      }
     }
+    return 'toss125training@gmail.com'; // fallback email
+  };
+
+  // Fetch admin profile data from API
+  const fetchAdminProfile = async () => {
+    try {
+      setFetchingData(true);
+      const email = extractEmailFromLocalStorage();
+      
+      const response = await fetch(`https://edueye.co.in/ensurekar/existing-site/admin-register.php?email=${encodeURIComponent(email)}`);
+      const data = await response.json();
+      
+      // Handle different response formats
+      let adminData = null;
+      if (Array.isArray(data) && data.length > 0) {
+        adminData = data[0];
+      } else if (data.data && Array.isArray(data.data) && data.data.length > 0) {
+        adminData = data.data[0];
+      } else if (data.success && data.data) {
+        adminData = data.data;
+      } else if (data.email) {
+        adminData = data;
+      }
+
+      if (adminData) {
+        setProfileData({
+          name: adminData.name || '',
+          email: adminData.email || '',
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        });
+
+        setOriginalData({
+          name: adminData.name || '',
+          email: adminData.email || '',
+          role: adminData.role || '',
+          status: adminData.status || '',
+          lastupdate: adminData.lastupdate || ''
+        });
+      } else {
+        setMessage({ type: 'error', text: 'Failed to load profile data' });
+      }
+    } catch (error) {
+      console.error('Error fetching admin profile:', error);
+      setMessage({ type: 'error', text: 'Failed to load profile data' });
+    } finally {
+      setFetchingData(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAdminProfile();
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,36 +173,53 @@ const SuperAdminProfile = () => {
           setLoading(false);
           return;
         }
-
-        // Validate current password (in real app, this would be API call)
-        if (profileData.currentPassword !== 'Toss@1234') {
-          setMessage({ type: 'error', text: 'Current password is incorrect' });
-          setLoading(false);
-          return;
-        }
       }
 
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Update original data
-      setOriginalData({
+      // Prepare update data
+      const updateData = {
         name: profileData.name,
-        email: profileData.email
+        email: profileData.email,
+        password: profileData.newPassword || originalData.password, // Use new password or keep current
+        role: originalData.role,
+        status: originalData.status,
+        lastupdate: new Date().toISOString().slice(0, 19).replace('T', ' ') // Format: YYYY-MM-DD HH:mm:ss
+      };
+
+      // Call API to update profile
+      const response = await fetch('https://edueye.co.in/ensurekar/existing-site/admin-register.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateData),
       });
 
-      // Clear password fields
-      setProfileData(prev => ({
-        ...prev,
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
-      }));
+      if (response.ok) {
+        // Update original data
+        setOriginalData({
+          name: profileData.name,
+          email: profileData.email,
+          role: originalData.role,
+          status: originalData.status,
+          lastupdate: updateData.lastupdate
+        });
 
-      setMessage({ type: 'success', text: 'Profile updated successfully!' });
-      setIsEditing(false);
+        // Clear password fields
+        setProfileData(prev => ({
+          ...prev,
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        }));
+
+        setMessage({ type: 'success', text: 'Profile updated successfully!' });
+        setIsEditing(false);
+      } else {
+        setMessage({ type: 'error', text: 'Failed to update profile. Please try again.' });
+      }
 
     } catch (error) {
+      console.error('Error updating profile:', error);
       setMessage({ type: 'error', text: 'Failed to update profile. Please try again.' });
     } finally {
       setLoading(false);
@@ -150,6 +236,19 @@ const SuperAdminProfile = () => {
     setIsEditing(false);
     setMessage({ type: '', text: '' });
   };
+
+  if (fetchingData) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+            <p className="mt-4 text-gray-600 text-lg">Loading profile data...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -364,19 +463,29 @@ const SuperAdminProfile = () => {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">Status</span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-                  Active
+                <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                  originalData.status === 'active' 
+                    ? 'bg-green-100 text-green-800' 
+                    : 'bg-red-100 text-red-800'
+                }`}>
+                  {originalData.status || 'Loading...'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">Role</span>
-                <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded-full">
-                  Super Admin
+                <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                  originalData.role === 'superadmin' 
+                    ? 'bg-purple-100 text-purple-800' 
+                    : 'bg-blue-100 text-blue-800'
+                }`}>
+                  {originalData.role ? originalData.role.charAt(0).toUpperCase() + originalData.role.slice(1) : 'Loading...'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Last Login</span>
-                <span className="text-sm text-gray-900">Just now</span>
+                <span className="text-sm text-gray-600">Last Update</span>
+                <span className="text-sm text-gray-900">
+                  {originalData.lastupdate ? new Date(originalData.lastupdate).toLocaleDateString() : 'Loading...'}
+                </span>
               </div>
             </div>
           </div>

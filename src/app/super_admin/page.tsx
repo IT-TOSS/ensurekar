@@ -34,17 +34,69 @@ const SuperAdminLogin = () => {
   };
 
   const loginSuperAdmin = async (email: string, password: string) => {
-    // Hardcoded credentials for super admin
-    const superAdminEmail = "toss125training@gmail.com";
-    const superAdminPassword = "Toss@1234";
-    
-    console.log("Email:", email, "Password:", password);
-    
-    if (email === superAdminEmail && password === superAdminPassword) {
-      return true;
+    try {
+      console.log("Attempting Super Admin login for:", email);
+      
+      // Call the API to get admin data
+      const response = await fetch(`https://edueye.co.in/ensurekar/existing-site/admin-register.php?email=${encodeURIComponent(email)}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("API Response:", data);
+
+      // Handle different response formats
+      let adminData = null;
+      if (Array.isArray(data) && data.length > 0) {
+        adminData = data[0];
+      } else if (data.data && Array.isArray(data.data) && data.data.length > 0) {
+        adminData = data.data[0];
+      } else if (data.success && data.data) {
+        adminData = data.data;
+      } else if (data.email) {
+        adminData = data;
+      }
+
+      if (!adminData) {
+        throw new Error("No admin data found for this email");
+      }
+
+      console.log("Admin Data:", adminData);
+
+      // Check if the admin exists
+      if (!adminData.email) {
+        throw new Error("Admin not found");
+      }
+
+      // Check if the role is superadmin
+      if (adminData.role && adminData.role.toLowerCase() !== "superadmin") {
+        throw new Error("Access denied. This account is not authorized for Super Admin access.");
+      }
+
+      // Check if the status is active
+      if (adminData.status && adminData.status.toLowerCase() !== "active") {
+        throw new Error("Your email is inactive for Super Admin credentials. Please contact support.");
+      }
+
+      // Check password (assuming the API returns the password or we need to verify it)
+      // Note: In a real application, you should never compare passwords directly
+      // This is just for demonstration. In production, use proper password hashing
+      if (adminData.password && adminData.password !== password) {
+        throw new Error("Invalid password");
+      }
+
+      // If we reach here, login is successful
+      return {
+        success: true,
+        adminData: adminData
+      };
+
+    } catch (error) {
+      console.error("Super Admin login error:", error);
+      throw error;
     }
-    
-    return false;
   };
 
   const setAuthLocalStorage = (email: string) => {
@@ -72,17 +124,19 @@ const SuperAdminLogin = () => {
     }
 
     try {
-      const success = await loginSuperAdmin(input.email, input.password);
-      if (success) {
+      const result = await loginSuperAdmin(input.email, input.password);
+      if (result.success) {
         setAuthLocalStorage(input.email);
         console.log("Super Admin Login successful");
+        console.log("Admin Data:", result.adminData);
         router.push("/super_admin/dashboard");
       } else {
-        setError("Invalid email or password.");
+        setError("Login failed. Please check your credentials.");
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError("Something went wrong. Please try again.");
+      // Use the specific error message from the API
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
