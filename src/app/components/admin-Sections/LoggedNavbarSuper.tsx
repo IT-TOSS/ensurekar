@@ -38,7 +38,7 @@ import { useRouter } from "next/navigation";
 const LoggedNavbarSuper = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false); // Toggle for mobile sidebar
+  const [isOpen, setIsOpen] = useState(false);
 
   const routes = [
     { name: "Dashboard", link: "/dashboard", icon: <BarChart3 size={20} /> },

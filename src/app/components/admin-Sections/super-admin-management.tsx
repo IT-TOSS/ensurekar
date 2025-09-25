@@ -287,6 +287,7 @@ const AdminManagement = () => {
                     className="pl-10 border border-gray-300 px-3 sm:px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full text-sm sm:text-base"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    style={{ paddingLeft: "34px" }}
                   />
                 </div>
 

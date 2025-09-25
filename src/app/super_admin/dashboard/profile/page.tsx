@@ -179,7 +179,7 @@ const SuperAdminProfile = () => {
       const updateData = {
         name: profileData.name,
         email: profileData.email,
-        password: profileData.newPassword || originalData.password, // Use new password or keep current
+        ...(profileData.newPassword ? { password: profileData.newPassword } : {}),
         role: originalData.role,
         status: originalData.status,
         lastupdate: new Date().toISOString().slice(0, 19).replace('T', ' ') // Format: YYYY-MM-DD HH:mm:ss
