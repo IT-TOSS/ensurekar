@@ -22,7 +22,7 @@ const SuperAdminDashboard = () => {
   const statsCards = [
     {
       title: "Total Users",
-      value: "1,234",
+      value: "",
       icon: Users,
       color: "bg-gradient-to-r from-blue-500 to-cyan-500",
       textColor: "text-white",
@@ -31,7 +31,7 @@ const SuperAdminDashboard = () => {
     },
     {
       title: "Active Admins",
-      value: "45",
+      value: "",
       icon: UserCheck,
       color: "bg-gradient-to-r from-green-500 to-emerald-500",
       textColor: "text-white",
@@ -40,7 +40,7 @@ const SuperAdminDashboard = () => {
     },
     {
       title: "Total Packages",
-      value: "89",
+      value: "",
       icon: Package,
       color: "bg-gradient-to-r from-purple-500 to-pink-500",
       textColor: "text-white",
@@ -49,7 +49,7 @@ const SuperAdminDashboard = () => {
     },
     {
       title: "Total Orders",
-      value: "2,456",
+      value: "",
       icon: ShoppingCart,
       color: "bg-gradient-to-r from-orange-500 to-red-500",
       textColor: "text-white",
@@ -81,7 +81,7 @@ const SuperAdminDashboard = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <Crown className="w-8 h-8 text-purple-600" />
+            <Crown className="w-8 h-8 text-[#14bc79]" />
             Super Admin Dashboard
           </h1>
           <p className="text-gray-600 mt-1">Welcome back! Here's what's happening with your system.</p>

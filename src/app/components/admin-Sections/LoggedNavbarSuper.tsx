@@ -64,7 +64,9 @@ const LoggedNavbarSuper = () => {
 
   // Shared UI block
   const SidebarContent = (
-    <div className="flex flex-col h-full justify-between p-4 bg-gradient-to-b from-purple-900 via-blue-900 to-indigo-900 shadow-lg">
+    // <div className="flex flex-col h-full justify-between p-4 bg-gradient-to-b from-purple-900 via-blue-900 to-indigo-900 shadow-lg">
+    <div className="flex flex-col h-full justify-between p-4 bg-[#eafaf8] shadow-lg">
+
       {/* Top Section */}
       <div>
         <div className="flex items-center justify-between mb-6">
@@ -76,8 +78,8 @@ const LoggedNavbarSuper = () => {
               </div>
             </div>
             <div>
-              <h2 className="text-white font-bold text-sm">Ensurekar</h2>
-              <p className="text-purple-200 text-xs">Super Admin Panel</p>
+              <h2 className="text-[#1a8b82] font-bold text-sm">Ensurekar</h2>
+              <p className="text-[#1a8b82] text-xs">Super Admin Panel</p>
             </div>
           </div>
           {/* Close button (mobile only) */}
@@ -95,7 +97,7 @@ const LoggedNavbarSuper = () => {
               key={item.name}
               href={`/super_admin${item.link}`}
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 p-3 font-medium rounded-lg hover:bg-white/10 transition-all duration-200 text-white hover:text-purple-200 group"
+              className="flex items-center gap-3 p-3 font-medium rounded-lg hover:bg-white/10 transition-all duration-200 text-black hover:text-[#1a8b82] group"
             >
               <div className="group-hover:scale-110 transition-transform duration-200">
                 {item.icon}
@@ -110,7 +112,7 @@ const LoggedNavbarSuper = () => {
       <div className="space-y-4">
         {/* Notifications */}
         <div className="bg-white/10 rounded-lg p-3">
-          <div className="flex items-center gap-2 text-white text-sm">
+          <div className="flex items-center gap-2 text-black text-sm">
             <Bell size={16} />
             <span>Notifications</span>
             <div className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -122,7 +124,9 @@ const LoggedNavbarSuper = () => {
         {/* Logout Button */}
         <button
           onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold rounded-lg p-3 hover:from-red-600 hover:to-pink-600 transition-all duration-200 shadow-lg"
+          //className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold rounded-lg p-3 hover:from-red-600 hover:to-pink-600 transition-all duration-200 shadow-lg"
+          className="w-full flex items-center justify-center gap-2 bg-[#16a34a] text-white font-bold rounded-lg p-3 hover:bg-[#ffbf3f] hover:text-black transition-all duration shadow-lg"
+
         >
           <LogOut size={20} /> Logout
         </button>
