@@ -51,7 +51,7 @@ const LoggedNavbarSuper = () => {
     { name: "Analytics", link: "/dashboard/analytics", icon: <TrendingUp size={20} /> },
     { name: "Database", link: "/dashboard/database", icon: <Database size={20} /> },
     { name: "Reports", link: "/dashboard/reports", icon: <FileText size={20} /> },
-    { name: "Activity Log", link: "/dashboard/activity", icon: <Activity size={20} /> },
+    { name: "Activity Log", link: "/dashboard/activity-log", icon: <Activity size={20} /> },
     { name: "Settings", link: "/dashboard/settings", icon: <Settings size={20} /> },
     { name: "Help", link: "/dashboard/help", icon: <HelpCircle size={20} /> },
   ];
