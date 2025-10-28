@@ -2,32 +2,34 @@ import { type NextRequest, NextResponse } from "next/server"
 import { unlink } from "fs/promises"
 import path from "path"
 
-export async function DELETE(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const { fileName } = await request.json()
+    const { filename, folder } = await request.json()
 
-    if (!fileName) {
-      return NextResponse.json({ error: "No file name provided" }, { status: 400 })
+    if (!filename) {
+      return NextResponse.json({ error: "No filename provided" }, { status: 400 })
     }
 
-    // ✅ CORRECT PATH: Delete from public folder
-    const fullPath = path.join(process.cwd(), "public", "images", "upload", "image", "company-slider", fileName)
+    // Construct the file path
+    const filePath = path.join(process.cwd(), "public", "images", "upload", folder || "blogImage", filename)
 
     try {
       // Delete the file
-      await unlink(fullPath)
-      console.log(`✅ Image deleted successfully: ${fullPath}`)
+      await unlink(filePath)
+      
+      console.log(`✅ Image deleted successfully: ${filePath}`)
 
       return NextResponse.json({
         success: true,
         message: "Image deleted successfully",
       })
-    } catch (error) {
+    } catch (fileError) {
       // File might not exist, which is okay
-      console.log(`⚠️ File not found or already deleted: ${fullPath}`)
+      console.log(`⚠️ File not found or already deleted: ${filePath}`)
+      
       return NextResponse.json({
         success: true,
-        message: "File not found or already deleted",
+        message: "Image deleted successfully (file was not found)",
       })
     }
   } catch (error) {

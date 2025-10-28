@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Logo from "../../images/logo.png";
+import Logo from "../../images/ensure_logo.png";
 import Link from "next/link";
 import {
   ArrowFatLinesLeft,
@@ -48,6 +48,7 @@ const LoggedNavbarSuper = () => {
     { name: "Packages", link: "/dashboard/packages", icon: <Package size={20} /> },
     { name: "Orders", link: "/dashboard/orders", icon: <ShoppingCart size={20} /> },
     { name: "Company Slider", link: "/dashboard/logo-system", icon: <Globe size={20} /> },
+    { name: "Blog Management", link: "/dashboard/blog", icon: <FileText size={20} /> },
     { name: "Analytics", link: "/dashboard/analytics", icon: <TrendingUp size={20} /> },
     { name: "Database", link: "/dashboard/database", icon: <Database size={20} /> },
     { name: "Reports", link: "/dashboard/reports", icon: <FileText size={20} /> },

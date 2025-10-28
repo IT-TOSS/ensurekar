@@ -5,9 +5,8 @@ import path from "path"
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()
-    const file = formData.get("file") as File
-    const fileName = formData.get("fileName") as string
-    const sectionId = formData.get("sectionId") as string
+    const file = formData.get("image") as File
+    const folder = formData.get("folder") as string || "blogImage"
 
     if (!file) {
       return NextResponse.json({ error: "No file received" }, { status: 400 })
@@ -26,8 +25,14 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
+    // Generate unique filename
+    const timestamp = Date.now()
+    const randomString = Math.random().toString(36).substring(2, 15)
+    const fileExtension = path.extname(file.name)
+    const fileName = `${timestamp}_${randomString}${fileExtension}`
+
     // ✅ CORRECT PATH: Create directory in public folder
-    const uploadDir = path.join(process.cwd(), "public", "images", "upload", "image", "company-slider")
+    const uploadDir = path.join(process.cwd(), "public", "images", "upload", folder)
 
     // Create directory if it doesn't exist
     await mkdir(uploadDir, { recursive: true })
@@ -37,19 +42,19 @@ export async function POST(request: NextRequest) {
     await writeFile(filePath, buffer)
 
     // ✅ CORRECT PATHS for response
-    const publicUrl = `/images/upload/image/company-slider/${fileName}` // For displaying image
-    const storagePath = `./../../images/upload/image/company-slider/${fileName}` // For localStorage
+    const publicUrl = `/images/upload/${folder}/${fileName}` // For displaying image
+    const storagePath = `/images/upload/${folder}/${fileName}` // For database storage (without public/ prefix)
 
     console.log(`✅ Image uploaded successfully:`)
     console.log(`📁 Physical file saved to: ${filePath}`)
     console.log(`🌐 Public URL: ${publicUrl}`)
-    console.log(`💾 localStorage path: ${storagePath}`)
+    console.log(`💾 Database path: ${storagePath}`)
 
     return NextResponse.json({
       success: true,
       url: publicUrl, // This URL will display the image
-      fileName: fileName,
-      filePath: storagePath, // This path will be stored in localStorage
+      filename: fileName,
+      path: storagePath, // This path will be stored in database
       message: "Image uploaded successfully",
     })
   } catch (error) {
