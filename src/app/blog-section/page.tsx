@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -52,49 +51,40 @@ const getBlogImageSrc = (imageFilename?: string, imagePath?: string) => {
   return ensureLogo as unknown as string;
 };
 
-const BlogSectionPage = () => {
-  const [blogs, setBlogs] = useState<BlogPost[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+async function fetchBlogs(): Promise<BlogPost[]> {
+  try {
+    const response = await fetch(
+      "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
+      {
+        headers: {
+          "X-API-Key": process.env.ADMIN_API_KEY || "",
+        },
+        cache: "no-store", // Use "force-cache" for static generation or "no-store" for dynamic
+      }
+    );
 
-  const token = useMemo(() => {
-    if (typeof window === "undefined") return "";
-    return localStorage.getItem("adminAuth") || "";
-  }, []);
+    if (!response.ok) return [];
 
-  const fetchBlogs = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(
-        "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
-        { headers: { "X-API-Key": token } }
-      );
-      if (!response.ok) throw new Error("Failed to load blogs");
-      const data = await response.json();
-      let list: any[] = [];
-      if (Array.isArray(data)) list = data;
-      else if (data?.data && Array.isArray(data.data)) list = data.data;
-      else if (data?.blogs && Array.isArray(data.blogs)) list = data.blogs;
-      else if (data?.result && Array.isArray(data.result)) list = data.result;
-      const normalized = list.map((b: any) => ({
-        ...b,
-        tags: parseTags(b.tags),
-      }));
-      setBlogs(normalized);
-    } catch (e: any) {
-      setError(e?.message || "Error fetching blogs");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const data = await response.json();
+    let list: any[] = [];
+    
+    if (Array.isArray(data)) list = data;
+    else if (data?.data && Array.isArray(data.data)) list = data.data;
+    else if (data?.blogs && Array.isArray(data.blogs)) list = data.blogs;
+    else if (data?.result && Array.isArray(data.result)) list = data.result;
 
-  // navigation handled via Link to detail page
+    return list.map((b: any) => ({
+      ...b,
+      tags: parseTags(b.tags),
+    }));
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+    return [];
+  }
+}
 
-  useEffect(() => {
-    fetchBlogs();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+const BlogSectionPage = async () => {
+  const blogs = await fetchBlogs();
 
   const featured = blogs.filter(b => b.featured);
   const primaryFeatured = featured[0] || blogs[0];
@@ -107,11 +97,6 @@ const BlogSectionPage = () => {
   return (
     <div className="min-h-screen bg-[#eafaf8] dark:bg-black py-8 sm:py-10 md:py-12 lg:py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        {/* <div className="mb-6">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Blog</h1>
-          <p className="text-gray-600 mt-1">Latest insights and updates</p>
-        </div> */}
-
         {/* Featured section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
           <div className="lg:col-span-2">
@@ -205,15 +190,6 @@ const BlogSectionPage = () => {
           ))}
         </div>
       </div>
-
-
-      {/* Loading & error */}
-      {isLoading && (
-        <div className="fixed bottom-4 right-4 bg-white border shadow px-4 py-2 rounded">Loading...</div>
-      )}
-      {error && (
-        <div className="fixed bottom-4 right-4 bg-red-600 text-white shadow px-4 py-2 rounded">{error}</div>
-      )}
     </div>
   );
 };

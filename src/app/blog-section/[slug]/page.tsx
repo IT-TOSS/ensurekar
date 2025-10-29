@@ -1,7 +1,7 @@
-"use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - next/image static import provides an object with a .src field
 import ensureLogo from "@/app/images/ensure_logo.png";
@@ -54,85 +54,103 @@ const getBlogImageSrc = (imageFilename?: string, imagePath?: string) => {
   return (ensureLogo as unknown) as string;
 };
 
-const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
-  const { slug } = params;
-  const [blog, setBlog] = useState<BlogPost | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const token = useMemo(() => {
-    if (typeof window === "undefined") return "";
-    return localStorage.getItem("adminAuth") || "";
-  }, []);
-
-  useEffect(() => {
-    const load = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const isNumeric = /^\d+$/.test(slug);
-        if (isNumeric) {
-          const res = await fetch(
-            `https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php?id=${slug}`,
-            { headers: { "X-API-Key": token } }
-          );
-          if (!res.ok) throw new Error("Failed to load blog");
-          const data = await res.json();
-          let item: any = data;
-          if (data?.data && Array.isArray(data.data)) item = data.data[0] || {};
-          else if (data?.blogs && Array.isArray(data.blogs)) item = data.blogs[0] || {};
-          setBlog({ ...item, tags: parseTags(item?.tags) });
-        } else {
-          // Fallback: fetch all and match by slug
-          const res = await fetch(
-            "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
-            { headers: { "X-API-Key": token } }
-          );
-          if (!res.ok) throw new Error("Failed to load blogs");
-          const data = await res.json();
-          let list: any[] = [];
-          if (Array.isArray(data)) list = data;
-          else if (data?.data && Array.isArray(data.data)) list = data.data;
-          else if (data?.blogs && Array.isArray(data.blogs)) list = data.blogs;
-          else if (data?.result && Array.isArray(data.result)) list = data.result;
-          const found = list.find((b: any) => (b?.slug || "").toLowerCase() === slug.toLowerCase());
-          if (found) setBlog({ ...found, tags: parseTags(found.tags) });
-          else setError("Blog not found");
+async function fetchBlog(slug: string): Promise<BlogPost | null> {
+  try {
+    const isNumeric = /^\d+$/.test(slug);
+    let response;
+    
+    if (isNumeric) {
+      // Fetch by ID
+      response = await fetch(
+        `https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php?id=${slug}`,
+        {
+          headers: {
+            "X-API-Key": process.env.ADMIN_API_KEY || "",
+          },
+          cache: "no-store", // Use no-store for dynamic content, or "force-cache" for SSG
         }
-      } catch (e: any) {
-        setError(e?.message || "Error loading blog");
-      } finally {
-        setIsLoading(false);
-      }
+      );
+    } else {
+      // Fetch all and find by slug
+      response = await fetch(
+        "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
+        {
+          headers: {
+            "X-API-Key": process.env.ADMIN_API_KEY || "",
+          },
+          cache: "no-store",
+        }
+      );
+    }
+
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    
+    if (isNumeric) {
+      let item: any = data;
+      if (data?.data && Array.isArray(data.data)) item = data.data[0] || {};
+      else if (data?.blogs && Array.isArray(data.blogs)) item = data.blogs[0] || {};
+      
+      if (!item || !item.id) return null;
+      
+      return {
+        ...item,
+        tags: parseTags(item.tags),
+      };
+    } else {
+      // Find by slug
+      let list: any[] = [];
+      if (Array.isArray(data)) list = data;
+      else if (data?.data && Array.isArray(data.data)) list = data.data;
+      else if (data?.blogs && Array.isArray(data.blogs)) list = data.blogs;
+      else if (data?.result && Array.isArray(data.result)) list = data.result;
+      
+      const found = list.find((b: any) => (b?.slug || "").toLowerCase() === slug.toLowerCase());
+      
+      if (!found) return null;
+      
+      return {
+        ...found,
+        tags: parseTags(found.tags),
+      };
+    }
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    return null;
+  }
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const blog = await fetchBlog(params.slug);
+  
+  if (!blog) {
+    return {
+      title: "Blog Not Found",
     };
-    load();
-  }, [slug, token]);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center">Loading...</div>
-    );
   }
 
-  if (error) {
-    return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3">
-        <p className="text-red-600">{error}</p>
-        <Link href="/blog-section" className="text-blue-600 underline">Back to blog</Link>
-      </div>
-    );
-  }
+  return {
+    title: blog.meta_title || blog.title,
+    description: blog.meta_description || blog.excerpt,
+  };
+}
 
-  if (!blog) return null;
+const BlogDetailPage = async ({ params }: { params: { slug: string } }) => {
+  const blog = await fetchBlog(params.slug);
+
+  if (!blog) {
+    notFound();
+  }
 
   return (
     <div className="min-h-screen bg-[#eafaf8] dark:bg-black py-8 sm:py-10 md:py-12 lg:py-14">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
-          <Link href="/blog-section" className="text-sm text-blue-600 underline">← Back to Blog</Link>
+          {/* <Link href="/blog-section" className="text-sm text-blue-600 underline">← Back to Blog</Link> */}
         </div>
 
-        <div className="bg-white rounded-2xl border shadow overflow-hidden">
+        <div className=" rounded-2xl border shadow overflow-hidden bg-[#dafbf7]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
             {/* Image on the left */}
             <div className="relative w-full h-48 sm:h-56 md:h-64 overflow-hidden">
@@ -147,7 +165,7 @@ const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
             </div>
             
             {/* Content on the right */}
-            <div className="p-5 sm:p-7 flex flex-col">
+            <div className="p-5 sm:p-7 flex flex-col bg-[#dafbf7]">
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{blog.title}</h1>
               <div className="mt-2 text-sm text-gray-500">
                 {new Date(blog.publish_date).toLocaleDateString()} • By {blog.author_name}
@@ -190,5 +208,3 @@ const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
 };
 
 export default BlogDetailPage;
-
-
