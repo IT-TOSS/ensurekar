@@ -26,6 +26,7 @@ const LoggedNavbar = () => {
     { name: "Package", link: "/package", icon: <ShoppingCart size={20} /> },
     { name: "Company Slider", link: "/logoSystem", icon: <ListPlus size={20} /> },
     { name: "Admin", link: "/all-Admin", icon: <ListPlus size={20} /> },
+    { name: "Blog", link: "/blog", icon: <ListPlus size={20} /> },
   ];
   // { name: "Help", link: "/help", icon: <Question size={20} /> },
 
