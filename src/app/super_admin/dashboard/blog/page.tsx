@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import blogDefault from "@/app/images/blogofensureKar.png"
 import {
   Plus,
   Edit,
@@ -680,9 +681,11 @@ const BlogManagement = () => {
                               className="w-full h-48 object-cover rounded-lg"
                             />
                           ) : (
-                            <div className="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
-                              <FileText className="w-12 h-12 text-gray-400" />
-                            </div>
+                            <img
+                              src={(blogDefault as any).src ?? (blogDefault as any)}
+                              alt="Default blog image"
+                              className="w-full h-48 object-cover rounded-lg"
+                            />
                           )}
                         </div>
 
@@ -1153,15 +1156,13 @@ const BlogManagement = () => {
         {/* Blog Content */}
         <div className="bg-white rounded-lg shadow-sm border">
           {/* Image */}
-          {currentBlog.image_filename && (
-            <div className="p-6 border-b">
-              <img
-                src={fixImagePath(currentBlog.image_path || '')}
-                alt={currentBlog.title}
-                className="w-full h-64 object-cover rounded-lg"
-              />
-            </div>
-          )}
+          <div className="p-6 border-b">
+            <img
+              src={currentBlog.image_filename ? fixImagePath(currentBlog.image_path || '') : ((blogDefault as any).src ?? (blogDefault as any))}
+              alt={currentBlog.title}
+              className="w-full h-64 object-cover rounded-lg"
+            />
+          </div>
 
           {/* Meta Information */}
           <div className="p-6 border-b">

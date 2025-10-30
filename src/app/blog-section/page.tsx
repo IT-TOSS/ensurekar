@@ -1,9 +1,12 @@
-import React from "react";
+"use client";
+import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// eslint-disable-next-line
 // @ts-ignore - next/image static import provides an object with a .src field
 import ensureLogo from "@/app/images/ensure_logo.png";
+import Loading from '../loading';
+import blogofensureKar from "@/app/images/blogofensureKar.png";
 
 interface BlogPost {
   id: number;
@@ -48,43 +51,52 @@ const fixImagePath = (imagePath?: string): string => {
 const getBlogImageSrc = (imageFilename?: string, imagePath?: string) => {
   const fixed = fixImagePath(imagePath);
   if (imageFilename && fixed) return fixed;
-  return ensureLogo as unknown as string;
+  return blogofensureKar as unknown as string; // use the new default image
 };
 
-async function fetchBlogs(): Promise<BlogPost[]> {
-  try {
-    const response = await fetch(
-      "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
-      {
-        headers: {
-          "X-API-Key": process.env.ADMIN_API_KEY || "",
-        },
-        cache: "no-store", // Use "force-cache" for static generation or "no-store" for dynamic
-      }
-    );
+const BlogSectionPage = () => {
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    if (!response.ok) return [];
+  const token = useMemo(() => {
+    if (typeof window === "undefined") return "";
+    return localStorage.getItem("adminAuth") || "";
+  }, []);
 
-    const data = await response.json();
-    let list: any[] = [];
-    
-    if (Array.isArray(data)) list = data;
-    else if (data?.data && Array.isArray(data.data)) list = data.data;
-    else if (data?.blogs && Array.isArray(data.blogs)) list = data.blogs;
-    else if (data?.result && Array.isArray(data.result)) list = data.result;
+  const fetchBlogs = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
+        { headers: { "X-API-Key": token } }
+      );
+      if (!response.ok) throw new Error("Failed to load blogs");
+      const data = await response.json();
+      let list: any[] = [];
+      if (Array.isArray(data)) list = data;
+      else if (data?.data && Array.isArray(data.data)) list = data.data;
+      else if (data?.blogs && Array.isArray(data.blogs)) list = data.blogs;
+      else if (data?.result && Array.isArray(data.result)) list = data.result;
+      const normalized = list.map((b: any) => ({
+        ...b,
+        tags: parseTags(b.tags),
+      }));
+      setBlogs(normalized);
+    } catch (e: any) {
+      setError(e?.message || "Error fetching blogs");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    return list.map((b: any) => ({
-      ...b,
-      tags: parseTags(b.tags),
-    }));
-  } catch (error) {
-    console.error("Error fetching blogs:", error);
-    return [];
-  }
-}
+  // navigation handled via Link to detail page
 
-const BlogSectionPage = async () => {
-  const blogs = await fetchBlogs();
+  useEffect(() => {
+    fetchBlogs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   const featured = blogs.filter(b => b.featured);
   const primaryFeatured = featured[0] || blogs[0];
@@ -97,16 +109,21 @@ const BlogSectionPage = async () => {
   return (
     <div className="min-h-screen bg-[#eafaf8] dark:bg-black py-8 sm:py-10 md:py-12 lg:py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {/* <div className="mb-6">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Blog</h1>
+          <p className="text-gray-600 mt-1">Latest insights and updates</p>
+        </div> */}
+
         {/* Featured section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10 items-stretch">
+          <div className="lg:col-span-2 min-h-[440px] md:min-h-[520px] flex flex-col">
             {primaryFeatured ? (
               <Link
                 href={`/blog-section/${primaryFeatured.slug || primaryFeatured.id}`}
-                className="block w-full text-left group"
+                className="block w-full h-full text-left group flex-1"
               >
-                <div className="overflow-hidden rounded-2xl bg-white shadow border">
-                  <div className="relative w-full h-52 sm:h-72 md:h-80">
+                <div className="overflow-hidden rounded-2xl bg-white shadow border h-full flex flex-col">
+                  <div className="relative w-full h-52 sm:h-72 md:h-80 flex-grow">
                     <Image
                       src={getBlogImageSrc(primaryFeatured.image_filename, primaryFeatured.image_path)}
                       alt={primaryFeatured.title}
@@ -190,6 +207,15 @@ const BlogSectionPage = async () => {
           ))}
         </div>
       </div>
+
+
+      {/* Loading & error */}
+      {isLoading && (
+        <Loading />
+      )}
+      {error && (
+        <div className="fixed bottom-4 right-4 bg-red-600 text-white shadow px-4 py-2 rounded">{error}</div>
+      )}
     </div>
   );
 };

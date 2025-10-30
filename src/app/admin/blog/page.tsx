@@ -18,6 +18,7 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react"
+import Image from 'next/image';
 
 interface BlogPost {
   id: number
@@ -441,8 +442,8 @@ const BlogManagement = () => {
   }) : []
 
   useEffect(() => {
-    fetchBlogs()
-  }, [])
+    fetchBlogs();
+  }, [fetchBlogs]);
 
   if (viewMode === "list") {
     return (
@@ -573,7 +574,7 @@ const BlogManagement = () => {
                       <div key={blog.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-blue-300">
                         <div className="mb-4">
                           {blog.image_filename ? (
-                            <img src={fixImagePath(blog.image_path || '')} alt={blog.title} className="w-full h-48 object-cover rounded-lg" />
+                            <Image src={fixImagePath(blog.image_path || '')} alt={blog.title} className="w-full h-48 object-cover rounded-lg" width={640} height={192} />
                           ) : (
                             <div className="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
                               <FileText className="w-12 h-12 text-gray-400" />
@@ -720,7 +721,7 @@ const BlogManagement = () => {
                   Choose Image
                 </label>
                 {imagePreview && (
-                  <img src={fixImagePath(imagePreview)} alt="Preview" className="w-16 h-16 object-cover rounded-lg" />
+                  <Image src={fixImagePath(imagePreview)} alt="Preview" className="w-16 h-16 object-cover rounded-lg" width={64} height={64} />
                 )}
               </div>
             </div>
@@ -817,7 +818,7 @@ const BlogManagement = () => {
         <div className="bg-white rounded-lg shadow-sm border">
           {currentBlog.image_filename && (
             <div className="p-6 border-b">
-              <img src={fixImagePath(currentBlog.image_path || '')} alt={currentBlog.title} className="w-full h-64 object-cover rounded-lg" />
+              <Image src={fixImagePath(currentBlog.image_path || '')} alt={currentBlog.title} className="w-full h-64 object-cover rounded-lg" width={640} height={256} />
             </div>
           )}
 

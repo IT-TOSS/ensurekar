@@ -44,6 +44,7 @@ import ITR6 from "../../../../images/Income-Tax-Returns-images/ITR66.png";
 import ITR7 from "../../../../images/Income-Tax-Returns-images/ITR77.png";
 
 import Text from "@/app/components/Section/Text";
+import Image from 'next/image';
 
 const Page = () => {
   const dispatch = useDispatch();
@@ -1156,9 +1157,10 @@ const Page = () => {
     </Script>
 
     <noscript>
-      <img
-        height="1"
-        width="1"
+      <Image
+        height={1}
+        width={1}
+        alt="Facebook Pixel tracking"
         style={{ display: 'none' }}
         src="https://www.facebook.com/tr?id=1163338854969827&ev=PageView&noscript=1"
       />

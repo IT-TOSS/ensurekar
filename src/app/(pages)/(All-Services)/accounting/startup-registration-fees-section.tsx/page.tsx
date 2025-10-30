@@ -1,4 +1,5 @@
 import { CreditCard, FileText, Gift, AlertCircle } from "lucide-react"
+import Image from 'next/image';
 
 const features = [
   {
@@ -32,10 +33,12 @@ export default function StartupRegistrationFeesSection() {
         {/* Image Section */}
         <div className="relative">
           <div className="bg-gradient-to-br from-blue-50 to-teal-50 rounded-2xl p-8 lg:p-12">
-            <img
+            <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-nwFcoX437tcAHNfnc6aA7Kqo3L5w1i.png"
               alt="Professional businesswoman with glasses talking on phone while taking notes at office desk"
               className="w-full h-auto rounded-lg shadow-lg"
+              width={600}
+              height={400}
             />
           </div>
         </div>
