@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import logo1 from "../../images/logo1.png";
 import logo2 from "../../images/logo2.png";
 import logo3 from "../../images/logo3.png";
 import Image, { StaticImageData } from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 import "swiper/css/autoplay"; // Import Autoplay CSS
 import { Autoplay } from "swiper/modules"; // Correct import for Autoplay
@@ -20,7 +21,68 @@ interface SlideData {
 
 const CompanySlider = ({ SlideData }: { SlideData: SlideData }) => {
   const { heading, subHeading, images } = SlideData;
+  const swiperRef = useRef<SwiperType | null>(null);
+  const sliderContainerRef = useRef<HTMLDivElement | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
+  
   console.log("CompanySlider Data:", SlideData);
+
+  // Handle outside click to reset clicked image
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (clickedIndex !== null && sliderContainerRef.current) {
+        const target = event.target as Node;
+        if (!sliderContainerRef.current.contains(target)) {
+          setClickedIndex(null);
+          if (swiperRef.current?.autoplay) {
+            swiperRef.current.autoplay.start();
+          }
+        }
+      }
+    };
+
+    if (clickedIndex !== null) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [clickedIndex]);
+
+  const handleMouseEnter = (index: number) => {
+    setHoveredIndex(index);
+    if (swiperRef.current?.autoplay) {
+      swiperRef.current.autoplay.stop();
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
+    if (swiperRef.current?.autoplay && clickedIndex === null) {
+      swiperRef.current.autoplay.start();
+    }
+  };
+
+  const handleClick = (index: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (clickedIndex === index) {
+      // If clicking the same image, reset it
+      setClickedIndex(null);
+      if (swiperRef.current?.autoplay) {
+        swiperRef.current.autoplay.start();
+      }
+    } else {
+      // Click on different image
+      setClickedIndex(index);
+      if (swiperRef.current?.autoplay) {
+        swiperRef.current.autoplay.stop();
+      }
+    }
+  };
+
   return (
     //<section className="stp-15 sbp-15 container grid grid-cols-12 gap-6 border-b border-strokeColor ">
     <section className="w-full pl-[50px] pt-6 pb-6 grid grid-cols-12 gap-6 border-b border-strokeColor bg-white dark:bg-light">
@@ -31,8 +93,9 @@ const CompanySlider = ({ SlideData }: { SlideData: SlideData }) => {
         </p>
         <p>{subHeading}</p>
       </div>
-      <div className="col-span-12 sm:col-span-6 xl:col-span-8 flex pt-4">
+      <div ref={sliderContainerRef} className="col-span-12 sm:col-span-6 xl:col-span-8 flex pt-4">
         <Swiper
+          onSwiper={(swiper) => (swiperRef.current = swiper)}
           modules={[Autoplay]}
           direction="horizontal"
           spaceBetween={24}
@@ -49,16 +112,26 @@ const CompanySlider = ({ SlideData }: { SlideData: SlideData }) => {
           style={{ width: 863 }}
         >
           {images.map((image, index) => (
-            <SwiperSlide key={index}>
-              <Link href="" className="flex justify-center items-center">
+            <SwiperSlide 
+              key={index}
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={handleMouseLeave}
+            >
+              <Link href="" className="flex justify-center items-center h-full" onClick={(e) => handleClick(index, e)}>
                 {/* <Image src={image.src} alt={image.alt} 
                     width={120}
                     height={80}
                     className="object-contain"  /> */}
                 <img
-                  src= {`${image.src}`} //{typeof image.src === "string" ? ${image.src} : image.src.src}
+                  src={`${image.src}`}
                   alt={image.alt}
-                  className="object-contain max-w-[100%] max-h-[auto]"
+                  className={`object-contain max-w-[100%] max-h-[auto] transition-transform duration-300 ease-in-out cursor-pointer ${
+                    clickedIndex === index 
+                      ? 'scale-150' 
+                      : hoveredIndex === index 
+                      ? 'scale-125' 
+                      : 'scale-100'
+                  }`}
                   loading={index < 4 ? "eager" : "lazy"}
                   style={{
                     width: 'auto',

@@ -110,7 +110,7 @@ const BlogManagement = () => {
     try {
       const token = localStorage.getItem("superAdminAuth")
       const response = await fetch(
-        "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
+        "/api/blog",
         {
           headers: {
             "X-API-Key": token || "",
@@ -180,7 +180,7 @@ const BlogManagement = () => {
     try {
       const token = localStorage.getItem("superAdminAuth")
       const response = await fetch(
-        `https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php?id=${id}`,
+        `/api/blog?id=${id}`,
         {
           headers: {
             "X-API-Key": token || "",
@@ -273,7 +273,7 @@ const BlogManagement = () => {
       }
 
       const response = await fetch(
-        "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
+        "/api/blog",
         {
           method: "POST",
           headers: {
@@ -327,7 +327,7 @@ const BlogManagement = () => {
       }
 
       const response = await fetch(
-        "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
+        "/api/blog",
         {
           method: "PUT",
           headers: {

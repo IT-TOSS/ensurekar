@@ -69,7 +69,7 @@ const BlogSectionPage = () => {
     setError(null);
     try {
       const response = await fetch(
-        "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
+        "/api/blog",
         { headers: { "X-API-Key": token } }
       );
       if (!response.ok) throw new Error("Failed to load blogs");

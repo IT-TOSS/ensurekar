@@ -91,6 +91,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://ensurekar.com';
 
   // Fetch blogs from your API
+  // Using external API directly since sitemap runs server-side (no CORS issue)
   const res = await fetch(
     'https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php',
     { cache: "no-store" }

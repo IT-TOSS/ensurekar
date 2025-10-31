@@ -73,7 +73,7 @@ const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
         const isNumeric = /^\d+$/.test(slug);
         if (isNumeric) {
           const res = await fetch(
-            `https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php?id=${slug}`,
+            `/api/blog?id=${slug}`,
             { headers: { "X-API-Key": token } }
           );
           if (!res.ok) throw new Error("Failed to load blog");
@@ -85,7 +85,7 @@ const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
         } else {
           // Fallback: fetch all and match by slug
           const res = await fetch(
-            "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
+            "/api/blog",
             { headers: { "X-API-Key": token } }
           );
           if (!res.ok) throw new Error("Failed to load blogs");

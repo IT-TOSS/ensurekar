@@ -15,7 +15,7 @@ const APITest = () => {
     try {
       const token = localStorage.getItem("superAdminAuth")
       const res = await fetch(
-        "https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php",
+        "/api/blog",
         {
           headers: {
             "X-API-Key": token || "",
