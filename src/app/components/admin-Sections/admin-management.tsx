@@ -3,13 +3,17 @@
 import type React from "react"
 
 import { useState, useEffect, useCallback } from "react"
-import { RefreshCw, Plus, Edit, Trash2, Eye, Search, X } from "lucide-react"
+import { RefreshCw, Edit, Eye, X, Trash2 } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useDispatch } from "react-redux"
+import { logout } from "@/store/themeConfigSlice"
 
 interface Admin {
   id: string
   name: string
   email: string
   password: string
+  role?: string
 }
 
 interface Toast {
@@ -20,19 +24,57 @@ interface Toast {
 }
 
 export default function AdminManagement() {
+  const router = useRouter()
+  const dispatch = useDispatch()
   const [admins, setAdmins] = useState<Admin[]>([])
   const [loading, setLoading] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
   const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null)
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isViewModalOpen, setIsViewModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [adminToDelete, setAdminToDelete] = useState<Admin | null>(null)
   const [formData, setFormData] = useState({ name: "", email: "", password: "" })
   const [toasts, setToasts] = useState<Toast[]>([])
+  const [currentUserEmail, setCurrentUserEmail] = useState<string>("")
 
   const API_URL = "https://edueye.co.in/ensurekar/existing-site/admin-register.php"
+
+  // Helper function to parse email from localStorage
+  // Format: "admin_authtoss125training%40gmail.com" -> "toss125training@gmail.com"
+  const parseEmailFromLocalStorage = (value: string): string => {
+    if (!value) return ""
+    // Remove "admin_auth" prefix
+    let email = value.replace(/^admin_auth/, "")
+    // Decode URL encoding (%40 -> @)
+    email = decodeURIComponent(email)
+    return email
+  }
+
+  // Helper function to format email for localStorage
+  // Format: "toss125training@gmail.com" -> "admin_authtoss125training%40gmail.com"
+  const formatEmailForLocalStorage = (email: string): string => {
+    if (!email) return ""
+    // URL encode the email (@ -> %40)
+    const encodedEmail = encodeURIComponent(email)
+    // Add "admin_auth" prefix
+    return `admin_auth${encodedEmail}`
+  }
+
+  // Get current email from localStorage
+  const getLocalStorageEmail = (): string => {
+    if (typeof window === "undefined") return ""
+    const stored = localStorage.getItem("adminAuth")
+    if (!stored) return ""
+    return parseEmailFromLocalStorage(stored)
+  }
+
+  // Update email in localStorage
+  const updateLocalStorageEmail = (newEmail: string): void => {
+    if (typeof window === "undefined") return
+    const formatted = formatEmailForLocalStorage(newEmail)
+    localStorage.setItem("adminAuth", formatted)
+    setCurrentUserEmail(newEmail)
+  }
 
   const showToast = (title: string, description: string, variant: "default" | "destructive" = "default") => {
     const id = Math.random().toString(36).substr(2, 9)
@@ -218,70 +260,37 @@ export default function AdminManagement() {
     }
   }
 
-  // Create new admin (POST request)
-  const createAdmin = async () => {
-    if (!formData.name || !formData.email || !formData.password) {
-      showToast("Error", "Please fill in all fields", "destructive")
-      return
-    }
-
-    try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          action: "create",
-          ...formData,
-        }),
-      })
-
-      if (response.ok) {
-        showToast("Success", "Admin created successfully")
-        setIsCreateModalOpen(false)
-        setFormData({ name: "", email: "", password: "" })
-        fetchAdmins()
-      } else {
-        showToast("Error", "Failed to create admin", "destructive")
-      }
-    } catch (error) {
-      showToast("Error", "Network error while creating admin", "destructive")
-    }
-  }
-
-  // Update admin (POST request)
+  // Update admin email in localStorage only
   const updateAdmin = async () => {
-    if (!selectedAdmin || !formData.name || !formData.email || !formData.password) {
-      showToast("Error", "Please fill in all fields", "destructive")
+    if (!formData.email) {
+      showToast("Error", "Please enter an email", "destructive")
+      return
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email)) {
+      showToast("Error", "Please enter a valid email address", "destructive")
+      return
+    }
+
+    // Only allow updating if it's the current user
+    if (!selectedAdmin || selectedAdmin.email.toLowerCase() !== currentUserEmail.toLowerCase()) {
+      showToast("Error", "You can only edit your own details", "destructive")
       return
     }
 
     try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: selectedAdmin.id,
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
-      })
-
-      if (response.ok) {
-        showToast("Success", "Admin updated successfully")
-        setIsEditModalOpen(false)
-        setSelectedAdmin(null)
-        setFormData({ name: "", email: "", password: "" })
-        fetchAdmins()
-      } else {
-        showToast("Error", "Failed to update admin", "destructive")
-      }
+      // Update localStorage only
+      updateLocalStorageEmail(formData.email)
+      showToast("Success", "Email updated successfully in localStorage")
+      setIsEditModalOpen(false)
+      setSelectedAdmin(null)
+      setFormData({ name: "", email: "", password: "" })
+      // Refresh to see updated data
+      fetchAdmins()
     } catch (error) {
-      showToast("Error", "Network error while updating admin", "destructive")
+      showToast("Error", "Failed to update email", "destructive")
     }
   }
 
@@ -313,57 +322,51 @@ export default function AdminManagement() {
   //   }
   // }
   const deleteAdmin = async (adminEmail: string): Promise<void> => {
-    console.log("Deleting admin with email:", adminEmail);
-
-    try {
-      const response = await fetch("https://edueye.co.in/ensurekar/existing-site/admin-register.php", {
-        method: "DELETE", 
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          action: "delete", // ✅ Tell backend it's a delete operation
-          email: adminEmail,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Server responded with error:", errorText);
-        showToast("Error", "Failed to delete admin", "destructive");
-        return;
-      }
-
-      showToast("Success", "Admin deleted successfully");
-      setIsDeleteModalOpen(false);
-      setAdminToDelete(null);
-      fetchAdmins();
-    } catch (error: any) {
-      console.error("Network error:", error);
-      showToast("Error", "Network error while deleting admin", "destructive");
-    }
+    // Only remove adminAuth from localStorage (logout)
+    localStorage.removeItem("adminAuth");
+    
+    // Dispatch logout to clear Redux state
+    dispatch(logout());
+    
+    // Close modal
+    setIsDeleteModalOpen(false);
+    setAdminToDelete(null);
+    
+    // Show success message
+    showToast("Success", "Logged out successfully. Redirecting to login...");
+    
+    // Redirect to login page after a short delay
+    setTimeout(() => {
+      router.push("/admin/Login");
+    }, 1000);
   };
 
 
 
-  // Filter admins based on search term
+  // Filter admins to show only logged-in user's data
   const filteredAdmins = admins.filter((admin) => {
-    if (!searchTerm.trim()) return true // Show all if no search term
-
-    const searchLower = searchTerm.toLowerCase().trim()
-    const nameMatch = admin.name.toLowerCase().includes(searchLower)
-    const emailMatch = admin.email.toLowerCase().includes(searchLower)
-    const idMatch = admin.id.toString().includes(searchLower)
-
-    return nameMatch || emailMatch || idMatch
+    if (!currentUserEmail) return false
+    // Show only the admin whose email matches the localStorage email
+    return admin.email.toLowerCase() === currentUserEmail.toLowerCase()
   })
 
   // Handle modal operations
   const handleEdit = useCallback((admin: Admin) => {
+    // Only allow editing if it's the current user
+    if (admin.email.toLowerCase() !== currentUserEmail.toLowerCase()) {
+      showToast("Error", "You can only edit your own details", "destructive")
+      return
+    }
     setSelectedAdmin(admin)
-    setFormData({ name: admin.name, email: admin.email, password: admin.password })
+    // Get email from localStorage for editing
+    const localStorageEmail = getLocalStorageEmail()
+    setFormData({ 
+      name: admin.name, 
+      email: localStorageEmail || admin.email, 
+      password: admin.password 
+    })
     setIsEditModalOpen(true)
-  }, [])
+  }, [currentUserEmail])
 
   const handleView = useCallback((admin: Admin) => {
     setSelectedAdmin(admin)
@@ -371,25 +374,16 @@ export default function AdminManagement() {
   }, [])
 
   const handleDeleteClick = useCallback((admin: Admin) => {
+    // Only allow deleting if it's the current user
+    if (admin.email.toLowerCase() !== currentUserEmail.toLowerCase()) {
+      showToast("Error", "You can only delete your own account", "destructive")
+      return
+    }
     setAdminToDelete(admin)
     setIsDeleteModalOpen(true)
-  }, [])
+  }, [currentUserEmail])
 
-  const resetForm = useCallback(() => {
-    setFormData({ name: "", email: "", password: "" })
-    setSelectedAdmin(null)
-  }, [])
 
-  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value
-    setSearchTerm((prev) => {
-      // Only update if the value actually changed
-      if (prev === newValue) {
-        return prev
-      }
-      return newValue
-    })
-  }, [])
 
   const handleInputBlur = useCallback((field: keyof typeof formData) => {
     return (e: React.FocusEvent<HTMLInputElement>) => {
@@ -399,45 +393,11 @@ export default function AdminManagement() {
   }, [])
 
   useEffect(() => {
+    // Get current user email from localStorage
+    const email = getLocalStorageEmail()
+    setCurrentUserEmail(email)
     fetchAdmins()
   }, [])
-
-  const createForm = (
-    <div className="space-y-4">
-      <div>
-        <Label htmlFor="name">Name</Label>
-        <Input id="name" defaultValue={formData.name} onBlur={handleInputBlur("name")} placeholder="Enter admin name" />
-      </div>
-      <div>
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          defaultValue={formData.email}
-          onBlur={handleInputBlur("email")}
-          placeholder="Enter admin email"
-        />
-      </div>
-      <div>
-        <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          type="password"
-          defaultValue={formData.password}
-          onBlur={handleInputBlur("password")}
-          placeholder="Enter admin password"
-        />
-      </div>
-      <div className="flex gap-2 pt-4">
-        <Button onClick={createAdmin} className="flex-1 !visible !opacity-100">
-          Create Admin
-        </Button>
-        <Button variant="outline" onClick={() => setIsCreateModalOpen(false)} className="flex-1 !visible !opacity-100">
-          Cancel
-        </Button>
-      </div>
-    </div>
-  )
 
   const editForm = (
     <div className="space-y-4">
@@ -446,12 +406,14 @@ export default function AdminManagement() {
         <Input
           id="edit-name"
           defaultValue={formData.name}
-          onBlur={handleInputBlur("name")}
+          disabled
+          className="bg-gray-100 cursor-not-allowed"
           placeholder="Enter admin name"
         />
+        <p className="text-xs text-gray-500 mt-1">This field cannot be edited</p>
       </div>
       <div>
-        <Label htmlFor="edit-email">Email</Label>
+        <Label htmlFor="edit-email">Email (Editable)</Label>
         <Input
           id="edit-email"
           type="email"
@@ -459,6 +421,7 @@ export default function AdminManagement() {
           onBlur={handleInputBlur("email")}
           placeholder="Enter admin email"
         />
+        <p className="text-xs text-gray-500 mt-1">Email will be updated in localStorage</p>
       </div>
       <div>
         <Label htmlFor="edit-password">Password</Label>
@@ -466,13 +429,15 @@ export default function AdminManagement() {
           id="edit-password"
           type="password"
           defaultValue={formData.password}
-          onBlur={handleInputBlur("password")}
+          disabled
+          className="bg-gray-100 cursor-not-allowed"
           placeholder="Enter admin password"
         />
+        <p className="text-xs text-gray-500 mt-1">This field cannot be edited</p>
       </div>
       <div className="flex gap-2 pt-4">
         <Button onClick={updateAdmin} className="flex-1 !visible !opacity-100">
-          Update Admin
+          Update Email
         </Button>
         <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="flex-1 !visible !opacity-100">
           Cancel
@@ -489,8 +454,8 @@ export default function AdminManagement() {
       <div className="mb-8">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Admin Management</h1>
-            <p className="text-gray-600 mt-1">Manage admin accounts and their information</p>
+            <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
+            <p className="text-gray-600 mt-1">View and edit your personal information</p>
           </div>
           <div className="flex gap-4">
             <Card className="px-4 py-2">
@@ -508,42 +473,11 @@ export default function AdminManagement() {
           </div>
         </div>
 
-        {/* Search and Actions */}
+        {/* Actions */}
         <div className="flex gap-4 items-center">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Search by name, email, or ID..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="flex h-10 w-full rounded-md border border-gray-300 bg-white pl-10 pr-10 py-2 text-sm ring-offset-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              autoComplete="off"
-              spellCheck="false"
-            />
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm("")}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 pointer-events-auto"
-                type="button"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            )}
-          </div>
           <Button onClick={fetchAdmins} variant="outline" disabled={loading}>
             <RefreshCw className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`} />
             Refresh
-          </Button>
-          <Button
-            onClick={() => {
-              resetForm()
-              setIsCreateModalOpen(true)
-            }}
-            className="!opacity-100 !visible !bg-blue-600 !text-white"
-          >
-            <Plus className="h-4 w-4 mr-2 " />
-            Add Admin
           </Button>
         </div>
       </div>
@@ -551,7 +485,7 @@ export default function AdminManagement() {
       {/* Admin Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Admin List</CardTitle>
+          <CardTitle>My Details</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -561,16 +495,7 @@ export default function AdminManagement() {
             </div>
           ) : filteredAdmins.length === 0 ? (
             <div className="text-center py-8">
-              {searchTerm ? (
-                <div>
-                  <p className="text-gray-500 mb-2">No admins found matching "{searchTerm}"</p>
-                  <Button variant="outline" onClick={() => setSearchTerm("")} size="sm">
-                    Clear Search
-                  </Button>
-                </div>
-              ) : (
-                <p className="text-gray-500">No admins found</p>
-              )}
+              <p className="text-gray-500">No profile found. Please check your localStorage adminAuth key.</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -584,7 +509,12 @@ export default function AdminManagement() {
                       {admin.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
-                      <div className="font-semibold">{admin.name}</div>
+                      <div className="font-semibold">
+                        {admin.name}
+                        {admin.role && admin.role.toLowerCase() === "superadmin" && (
+                          <span className="text-yellow-500 ml-1">*</span>
+                        )}
+                      </div>
                       <div className="text-sm text-gray-500">ID: {admin.id}</div>
                     </div>
                   </div>
@@ -597,11 +527,22 @@ export default function AdminManagement() {
                       <Eye className="h-4 w-4 mr-1" />
                       View
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => handleEdit(admin)}>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleEdit(admin)}
+                      disabled={admin.email.toLowerCase() !== currentUserEmail.toLowerCase()}
+                    >
                       <Edit className="h-4 w-4 mr-1" />
                       Edit
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => handleDeleteClick(admin)}>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => handleDeleteClick(admin)}
+                      disabled={admin.email.toLowerCase() !== currentUserEmail.toLowerCase()}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-300"
+                    >
                       <Trash2 className="h-4 w-4 mr-1" />
                       Delete
                     </Button>
@@ -613,18 +554,13 @@ export default function AdminManagement() {
         </CardContent>
       </Card>
 
-      {/* Create Modal */}
-      <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} title="Create New Admin">
-        {createForm}
-      </Modal>
-
       {/* Edit Modal */}
-      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Edit Admin">
+      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Edit My Profile">
         {editForm}
       </Modal>
 
       {/* View Modal */}
-      <Modal isOpen={isViewModalOpen} onClose={() => setIsViewModalOpen(false)} title="Admin Details">
+      <Modal isOpen={isViewModalOpen} onClose={() => setIsViewModalOpen(false)} title="My Profile Details">
         {selectedAdmin && (
           <div className="space-y-4">
             <div>
@@ -633,7 +569,12 @@ export default function AdminManagement() {
             </div>
             <div>
               <Label>Name</Label>
-              <p className="text-sm text-gray-600 mt-1">{selectedAdmin.name}</p>
+              <p className="text-sm text-gray-600 mt-1">
+                {selectedAdmin.name}
+                {selectedAdmin.role && selectedAdmin.role.toLowerCase() === "superadmin" && (
+                  <span className="text-yellow-500 ml-1">*</span>
+                )}
+              </p>
             </div>
             <div>
               <Label>Email</Label>
@@ -651,12 +592,11 @@ export default function AdminManagement() {
       </Modal>
 
       {/* Delete Confirmation Modal */}
-      <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} title="Are you sure?">
+      <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} title="Logout">
         {adminToDelete && (
           <div className="space-y-4">
             <p className="text-sm text-gray-600">
-              This action cannot be undone. This will permanently delete the admin account for{" "}
-              <strong>{adminToDelete.name}</strong>.
+              Are you sure you want to logout? This will remove your authentication and redirect you to the login page.
             </p>
             <div className="flex gap-2 pt-4">
               <Button
@@ -664,7 +604,7 @@ export default function AdminManagement() {
                 onClick={() => deleteAdmin(adminToDelete.email)}
                 className="flex-1 !visible !opacity-100"
               >
-                Delete
+                Logout
               </Button>
               <Button
                 variant="outline"
