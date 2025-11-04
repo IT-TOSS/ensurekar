@@ -37,9 +37,9 @@ export default function SuperAdminLayout({
 
   return (
     <Provider store={store}>
-      <div className="flex min-h-screen bg-gray-50 overflow-hidden" style={{ backgroundColor: '#f9fafb' }}>
+      <div className="flex min-h-screen">
         <LoggedNavbarSuper />
-        <main className="flex-grow p-3 sm:p-6 ml-0 lg:ml-80 bg-gray-50 min-h-screen overflow-x-auto" style={{ backgroundColor: '#f9fafb' }}>
+        <main className="flex-grow p-3 sm:p-6 ml-0 lg:ml-80 bg-gray-50 min-h-screen overflow-x-auto">
           <div className="w-full">
             {children}
           </div>

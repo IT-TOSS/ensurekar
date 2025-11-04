@@ -30,7 +30,7 @@ import {
   Globe,
   Lock
 } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { logout } from "@/store/themeConfigSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -39,43 +39,6 @@ const LoggedNavbarSuper = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [sidebarHeight, setSidebarHeight] = useState('100vh');
-
-  // Update sidebar height based on document height
-  useEffect(() => {
-    const updateHeight = () => {
-      const docHeight = Math.max(
-        document.body.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight,
-        document.documentElement.offsetHeight
-      );
-      setSidebarHeight(`${docHeight}px`);
-    };
-
-    // Initial update
-    updateHeight();
-
-    // Update on scroll and resize
-    window.addEventListener('scroll', updateHeight);
-    window.addEventListener('resize', updateHeight);
-
-    // Update when content changes (using MutationObserver)
-    const observer = new MutationObserver(updateHeight);
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ['style', 'class']
-    });
-
-    return () => {
-      window.removeEventListener('scroll', updateHeight);
-      window.removeEventListener('resize', updateHeight);
-      observer.disconnect();
-    };
-  }, []);
 
   const routes = [
     { name: "Dashboard", link: "/dashboard", icon: <BarChart3 size={20} /> },
@@ -103,7 +66,7 @@ const LoggedNavbarSuper = () => {
   // Shared UI block
   const SidebarContent = (
     // <div className="flex flex-col h-full justify-between p-4 bg-gradient-to-b from-purple-900 via-blue-900 to-indigo-900 shadow-lg">
-    <div className="flex flex-col justify-between p-4 w-full" style={{ minHeight: '100%' }}>
+    <div className="flex flex-col h-full justify-between p-4 bg-[#eafaf8] shadow-lg">
 
       {/* Top Section */}
       <div>
@@ -170,8 +133,8 @@ const LoggedNavbarSuper = () => {
         </button>
 
         {/* Footer */}
-        <div className="flex items-center justify-between text-xs text-[#1a8b82]">
-          <Link href="/super_admin" className="flex items-center gap-1 hover:text-[#16a34a] transition-colors">
+        <div className="flex items-center justify-between text-xs text-purple-200">
+          <Link href="/super_admin" className="flex items-center gap-1 hover:text-white transition-colors">
             <Home size={14} /> Home
           </Link>
           <span>|</span>
@@ -206,10 +169,8 @@ const LoggedNavbarSuper = () => {
       </div>
 
       {/* Desktop Sidebar (always visible and fixed) */}
-      <div className="hidden lg:flex lg:flex-col lg:w-80 lg:fixed lg:top-0 lg:left-0 lg:z-30" style={{ backgroundColor: '#eafaf8', minHeight: sidebarHeight, height: sidebarHeight }}>
-        <div className="flex flex-col w-full overflow-y-auto" style={{ minHeight: '100%', height: '100%' }}>
-          {SidebarContent}
-        </div>
+      <div className="hidden lg:flex lg:flex-col lg:w-80 lg:h-screen lg:fixed lg:top-0 lg:left-0 lg:z-30">
+        {SidebarContent}
       </div>
     </>
   );
