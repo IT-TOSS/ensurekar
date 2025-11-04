@@ -624,11 +624,11 @@ const PlansSection = ({ planData = defaultPlanData, page = "page1" }: PlansSecti
   const [selectPlan, setSelectPlane] = useState(defaultPlan)
   const [gotPlansData, setGotPlansData] = useState<PackageData[]>([])
 
-  const WC_API_CONFIG = {
-    baseUrl: "https://edueye.co.in/ensurekar/wp-json/wc/v3",
-    consumerKey: "ck_1a163a1d803b2ed9c2c501a232692bd5ee3c2619",
-    consumerSecret: "cs_054aea9c8f7ddeef9b7ceb5fc45c56cd422ba4a2",
-  }
+  // const WC_API_CONFIG = {
+  //   baseUrl: "https://edueye.co.in/ensurekar/wp-json/wc/v3",
+  //   consumerKey: "ck_1a163a1d803b2ed9c2c501a232692bd5ee3c2619",
+  //   consumerSecret: "cs_054aea9c8f7ddeef9b7ceb5fc45c56cd422ba4a2",
+  // }
 
   const handlePlanSelection = (planId: string, planName: string, price: string) => {
     try {
@@ -709,30 +709,93 @@ const PlansSection = ({ planData = defaultPlanData, page = "page1" }: PlansSecti
     const fetchPlans = async () => {
       setIsLoading(true)
       try {
-        const url = `${WC_API_CONFIG.baseUrl}/products?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}&per_page=100`
-        const response = await fetch(url, {
+        // Fetch from Next.js API route (which proxies to package.php) with page parameter
+        const packageUrl = `/api/package?page=${encodeURIComponent(page)}`
+        const packageResponse = await fetch(packageUrl, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         })
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch plans: ${response.status}`)
+        if (!packageResponse.ok) {
+          throw new Error(`Failed to fetch from package API: ${packageResponse.status}`)
         }
 
-        const products = await response.json()
-        console.log("Fetching plans from:", products)
+        const apiData = await packageResponse.json()
+        console.log("Fetched plans from package.php:", apiData)
+        
+        // Map API response to PackageData format
+        const mappedPlans: PackageData[] = apiData
+          .filter((item: any) => item.recordType === "package" && item.page === page) // Filter by page and package type
+          .map((item: any) => {
+            // Find offers related to this package
+            const packageOffers = apiData.filter(
+              (offer: any) => offer.recordType === "offer" && offer.parentPackageId === item.id && offer.isOfferActive === "1"
+            )
 
-        const mappedPlans = products.map(mapFromProduct)
-        const filterdata = mappedPlans.filter((product: PackageData) => product.page === page)
+            // Transform offers to OfferData format
+            const offers: OfferData[] = packageOffers.map((offer: any) => ({
+              id: offer.id.toString(),
+              planId: offer.parentPackageId?.toString() || item.id.toString(),
+              title: offer.offerTitle || "",
+              description: offer.offerDescription || "",
+              discountPercentage: parseFloat(offer.discountPercentage) || 0,
+              validUntil: offer.validUntil || "",
+              isActive: offer.isOfferActive === "1" || offer.isOfferActive === 1,
+              offerPrice: parseFloat(offer.offerPrice) || undefined,
+            }))
 
-        console.log("Fetched plans:", filterdata)
-        setGotPlansData(filterdata)
+            // If no offers from separate records, check if package has offer fields
+            if (offers.length === 0 && item.isOfferActive === "1" && item.offerTitle) {
+              offers.push({
+                id: `offer-${item.id}`,
+                planId: item.id.toString(),
+                title: item.offerTitle || "",
+                description: item.offerDescription || "",
+                discountPercentage: parseFloat(item.discountPercentage) || 0,
+                validUntil: item.validUntil || "",
+                isActive: true,
+                offerPrice: parseFloat(item.offerPrice) || undefined,
+              })
+            }
+
+            const packageData: PackageData = {
+              id: item.id.toString(),
+              planName: item.planName || "",
+              Status: item.Status || "Inactive",
+              Description: item.Description || "",
+              Price: parseFloat(item.Price) || 0,
+              PriceAfterDiscount: parseFloat(item.PriceAfterDiscount) || parseFloat(item.Price) || 0,
+              instalments: item.instalments || "",
+              Features: item.Features || "",
+              page: item.page || "",
+              offers: offers,
+              navigationUrl: item.navigationUrl || "/cart",
+              actionType: item.actionType || "both",
+              customPlanId: item.customPlanId || "",
+              customPlanName: item.customPlanName || "",
+              customPrice: item.customPrice || "",
+              enableSelectButton: item.enableSelectButton === "1" || item.enableSelectButton === 1,
+              selectButtonText: item.selectButtonText || "Select Plan",
+            }
+
+            // Set up onSelect handler
+            packageData.onSelect = () => {
+              console.log("Selected Package Data:", packageData)
+              const priceToUse = packageData.customPrice || packageData.PriceAfterDiscount.toString()
+              handlePlanSelection(packageData.id, packageData.planName, `₹${priceToUse}`)
+            }
+
+            return packageData
+          })
+
+        console.log("Mapped plans:", mappedPlans)
+        setGotPlansData(mappedPlans)
         
         // Set first plan as selected if no plan is selected and plans exist
-        if (filterdata.length > 0 && !filterdata.some((plan: PackageData) => plan.planName === selectPlan)) {
-          setSelectPlane(filterdata[0].planName)
+        if (mappedPlans.length > 0 && !mappedPlans.some((plan: PackageData) => plan.planName === selectPlan)) {
+          setSelectPlane(mappedPlans[0].planName)
         }
       } catch (error) {
         console.error("Failed to fetch plans:", error)
