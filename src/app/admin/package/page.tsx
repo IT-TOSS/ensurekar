@@ -1538,12 +1538,8 @@ interface PlanSelectionData {
   selectedAt: Date
 }
 
-//  API configuration
-const WC_API_CONFIG = {
-  baseUrl: "https://edueye.co.in/ensurekar/wp-json/wc/v3",
-  consumerKey: "ck_1a163a1d803b2ed9c2c501a232692bd5ee3c2619",
-  consumerSecret: "cs_054aea9c8f7ddeef9b7ceb5fc45c56cd422ba4a2",
-}
+//  API configuration - Using Next.js API route to avoid CORS issues
+const PACKAGE_API_URL = "/api/package"
 
 const Page = () => {
   const [showUserDetailsModal, setShowUserDetailsModal] = useState(false)
@@ -1625,307 +1621,324 @@ const Page = () => {
 
   useEffect(() => {
     fetchPlans()
-    // Initialize plans with sample offers
-    const samplePlans = [
-      {
-        id: "1",
-        planName: "Premium Plan",
-        Status: "Active",
-        Description: "Our premium subscription plan",
-        Price: 1000,
-        PriceAfterDiscount: 800,
-        instalments: "3 months",
-        Features: "Feature 1, Feature 2, Feature 3",
-        Page: "Premium",
-        offers: [
-          {
-            id: "offer1",
-            planId: "1",
-            title: "New Year Special",
-            description: "Get 30% off on premium plan",
-            discountPercentage: 30,
-            validUntil: "2024-01-31",
-            isActive: true,
-            offerPrice: 560,
-          },
-        ],
-        navigationUrl: "/cart",
-        onSelect: () => handlePlanSelection("1", "Premium Plan", "₹800"),
-        enableSelectButton: true,
-        selectButtonText: "Choose Premium",
-        customPlanId: "1",
-        customPlanName: "Premium Plan",
-        customPrice: "₹800",
-        actionType: "both",
-      },
-      {
-        id: "2",
-        planName: "Multiple Employer Plan",
-        Status: "Active",
-        Description: "Perfect for multiple employers",
-        Price: 1200,
-        PriceAfterDiscount: 999,
-        instalments: "6 months",
-        Features: "Multi-employer support, Advanced features, Priority support",
-        Page: "Business",
-        offers: [],
-        navigationUrl: "/checkout",
-        onSelect: () => handlePlanSelection("2", "Multiple Employer Plan", "₹999"),
-        enableSelectButton: true,
-        selectButtonText: "Select Business Plan",
-        customPlanId: "2",
-        customPlanName: "Multiple Employer Plan",
-        customPrice: "₹999",
-        actionType: "both",
-      },
-      {
-        id: "3",
-        planName: "Basic Plan",
-        Status: "Active",
-        Description: "Great for getting started",
-        Price: 500,
-        PriceAfterDiscount: 399,
-        instalments: "1 month",
-        Features: "Basic features, Email support, Standard access",
-        Page: "Starter",
-        offers: [],
-        navigationUrl: "/payment",
-        onSelect: () => handlePlanSelection("3", "Basic Plan", "₹399"),
-        enableSelectButton: true,
-        selectButtonText: "Get Started",
-        customPlanId: "3",
-        customPlanName: "Basic Plan",
-        customPrice: "₹399",
-        actionType: "both",
-      },
-    ]
   }, [])
 
   // Convert PackageData to product format
+  // Map PackageData to API format
   const mapToProduct = (planData: PackageData) => {
-    const featuresArray = planData.Features ? planData.Features.split(",").map((f) => f.trim()) : []
-
     return {
-      name: planData.planName,
-      type: "simple",
-      regular_price: planData.Price.toString(),
-      sale_price: planData.PriceAfterDiscount.toString(),
-      description: planData.Description,
-      short_description: `${planData.instalments} installment plan`,
-      status: planData.Status.toLowerCase() === "active" ? "publish" : "draft",
-      catalog_visibility: "visible",
-      featured: false,
-      categories: [
-        {
-          name: planData.Page || "General Plans",
-        },
-      ],
-      attributes: [
-        {
-          name: "Features",
-          options: featuresArray,
-          visible: true,
-          variation: false,
-        },
-        {
-          name: "Installments",
-          options: [planData.instalments],
-          visible: true,
-          variation: false,
-        },
-        {
-          name: "Page Category",
-          options: [planData.Page],
-          visible: true,
-          variation: false,
-        },
-      ],
-      meta_data: [
-        {
-          key: "_plan_features",
-          value: planData.Features,
-        },
-        {
-          key: "_plan_installments",
-          value: planData.instalments,
-        },
-        {
-          key: "_plan_page",
-          value: planData.Page,
-        },
-        {
-          key: "_plan_offers",
-          value: JSON.stringify(planData.offers || []),
-        },
-        {
-          key: "_plan_navigation_url",
-          value: planData.navigationUrl || "/cart",
-        },
-        {
-          key: "_plan_enable_select_button",
-          value: planData.enableSelectButton ? "true" : "false",
-        },
-        {
-          key: "_plan_select_button_text",
-          value: planData.selectButtonText || "Select Plan",
-        },
-        {
-          key: "_plan_custom_plan_id",
-          value: planData.customPlanId || planData.id,
-        },
-        {
-          key: "_plan_custom_plan_name",
-          value: planData.customPlanName || planData.planName,
-        },
-        {
-          key: "_plan_custom_price",
-          value: planData.customPrice || `₹${planData.PriceAfterDiscount}`,
-        },
-        {
-          key: "_plan_action_type",
-          value: planData.actionType || "both",
-        },
-      ],
+      id: planData.id || undefined, // Include ID only for updates
+      planName: planData.planName,
+      Status: planData.Status,
+      Description: planData.Description || null,
+      Price: planData.Price.toString(),
+      PriceAfterDiscount: planData.PriceAfterDiscount.toString(),
+      instalments: planData.instalments || null,
+      Features: planData.Features || null,
+      page: planData.Page || null,
+      navigationUrl: planData.navigationUrl || null,
+      actionType: "both", // Default action type
+      customPlanId: planData.customPlanId || null, // Custom Plan ID for runtime
+      customPlanName: null, // Not used anymore - will use planName
+      customPrice: null, // Not used anymore - will use PriceAfterDiscount
+      enableSelectButton: planData.enableSelectButton ? "1" : "0",
+      selectButtonText: "Select Plan", // Default button text
+      recordType: "package", // Always set record type as package
     }
   }
 
   // Convert product to PackageData format
-  const mapFromProduct = (product: any): PackageData => {
-    const getMetaValue = (key: string) => {
-      const meta = product.meta_data?.find((m: any) => m.key === key)
-      return meta ? meta.value : ""
-    }
-
+  // Map API response to PackageData format
+  const mapFromProduct = (apiData: any): PackageData | null => {
+    console.log("🔀 Mapping API Data:", apiData)
+    
+    // Handle offers - separate packages and offers from API response
     let offers: OfferData[] = []
-    try {
-      const offersData = getMetaValue("_plan_offers")
-      offers = offersData ? JSON.parse(offersData) : []
-    } catch (error) {
-      console.error("Error parsing offers data:", error)
-      offers = []
+    
+    // If this is an offer record, we'll handle it separately
+    if (apiData.recordType === "offer") {
+      console.log("   ⚠️ Skipping - this is an offer record, not a package")
+      // This is an offer, not a package - we'll filter these out in fetchPlans
+      return null
     }
 
-    // Add navigation URL and onSelect function
-    const navigationUrl = getMetaValue("_plan_navigation_url") || "/cart"
-    const enableSelectButton = getMetaValue("_plan_enable_select_button") === "true"
-    const selectButtonText = getMetaValue("_plan_select_button_text") || "Select Plan"
-    const customPlanId = getMetaValue("_plan_custom_plan_id") || product.id.toString()
-    const customPlanName = getMetaValue("_plan_custom_plan_name") || product.name || ""
-    const customPrice =
-      getMetaValue("_plan_custom_price") ||
-      `₹${Number.parseFloat(product.sale_price) || Number.parseFloat(product.regular_price) || 0}`
-    const actionType = getMetaValue("_plan_action_type") || "both"
+    // Extract offer data if available
+    if (apiData.offerTitle) {
+      offers = [
+        {
+          id: apiData.id || "",
+          planId: apiData.parentPackageId || apiData.id || "",
+          title: apiData.offerTitle || "",
+          description: apiData.offerDescription || "",
+          discountPercentage: Number.parseFloat(apiData.discountPercentage) || 0,
+          validUntil: apiData.validUntil || "",
+          isActive: apiData.isOfferActive === "1" || apiData.isOfferActive === 1,
+          offerPrice: Number.parseFloat(apiData.offerPrice) || 0,
+        },
+      ]
+      console.log("   📦 Found embedded offer in package data")
+    }
+
+    const enableSelectButton = apiData.enableSelectButton === "1" || apiData.enableSelectButton === 1 || apiData.enableSelectButton === true
+    const customPlanId = apiData.customPlanId || apiData.id?.toString() || ""
+    // Use actual plan name and sale price from the plan data
+    const planName = apiData.planName || ""
+    const salePrice = `₹${apiData.PriceAfterDiscount || apiData.Price || 0}`
 
     const onSelect = enableSelectButton
-      ? () => handlePlanSelection(customPlanId, customPlanName, customPrice)
+      ? () => handlePlanSelection(customPlanId, planName, salePrice)
       : undefined
 
-    return {
-      id: product.id.toString(),
-      planName: product.name || "",
-      Status: product.status === "publish" ? "Active" : "Inactive",
-      Description: product.description || product.short_description || "",
-      Price: Number.parseFloat(product.regular_price) || 0,
-      PriceAfterDiscount: Number.parseFloat(product.sale_price) || Number.parseFloat(product.regular_price) || 0,
-      instalments: getMetaValue("_plan_installments") || "",
-      Features: getMetaValue("_plan_features") || "",
-      Page: getMetaValue("_plan_page") || product.categories?.[0]?.name || "",
+    const mapped = {
+      id: apiData.id?.toString() || "",
+      planName: apiData.planName || "",
+      Status: apiData.Status || "Inactive",
+      Description: apiData.Description || "",
+      Price: Number.parseFloat(apiData.Price) || 0,
+      PriceAfterDiscount: Number.parseFloat(apiData.PriceAfterDiscount) || Number.parseFloat(apiData.Price) || 0,
+      instalments: apiData.instalments || "",
+      Features: apiData.Features || "",
+      Page: apiData.page || apiData.Page || "",
       offers: offers,
-      navigationUrl: navigationUrl,
+      navigationUrl: apiData.navigationUrl || "/cart",
       onSelect: onSelect,
       enableSelectButton: enableSelectButton,
-      selectButtonText: selectButtonText,
+      selectButtonText: "Select Plan", // Default button text
       customPlanId: customPlanId,
-      customPlanName: customPlanName,
-      customPrice: customPrice,
-      actionType: actionType,
+      customPlanName: planName,
+      customPrice: salePrice,
+      actionType: "both" as "navigate" | "function" | "both", // Default action type
     }
+    
+    console.log("   ✅ Mapped to:", mapped)
+    console.log(`   💰 Price: ${apiData.Price}, PriceAfterDiscount: ${apiData.PriceAfterDiscount}`)
+    
+    return mapped
   }
 
   // Fetch plans from API
   const fetchPlans = async () => {
     setIsLoading(true)
     try {
-      const url = `${WC_API_CONFIG.baseUrl}/products?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}&per_page=100`
-      const response = await fetch(url, {
+      console.log("🔍 Fetching plans from API:", PACKAGE_API_URL)
+      
+      const response = await fetch(PACKAGE_API_URL, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       })
 
+      console.log("📡 API Response Status:", response.status, response.statusText)
+
       if (!response.ok) {
-        throw new Error(`Failed to fetch plans: ${response.status}`)
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }))
+        console.error("❌ API Error:", errorData)
+        throw new Error(`Failed to fetch plans: ${response.status} - ${errorData.error || errorData.details || "Unknown error"}`)
       }
 
-      const products = await response.json()
-      const mappedPlans = products.map(mapFromProduct)
-      setPlans(mappedPlans)
-      console.log("Fetched plans:", mappedPlans)
+      const data = await response.json()
+      console.log("📦 Raw API Response Data:", data)
+      console.log("📊 Data Type:", Array.isArray(data) ? "Array" : typeof data)
+      console.log("📊 Data Length:", Array.isArray(data) ? data.length : "N/A")
+      
+      // Check if response has error
+      if (data.error) {
+        throw new Error(data.error + (data.details ? `: ${data.details}` : ""))
+      }
+      
+      // Filter out offers and only get packages, then map them
+      const packages = Array.isArray(data) 
+        ? data.filter((item: any) => item.recordType === "package" || !item.recordType)
+        : []
+      
+      console.log("📋 Filtered Packages (recordType='package'):", packages)
+      console.log("📋 Package Count:", packages.length)
+      
+      // Group packages with their offers
+      const packagesWithOffers: PackageData[] = packages
+        .map((pkg: any, index: number) => {
+          console.log(`🔄 Processing Package ${index + 1}:`, pkg)
+          
+          const packageOffers = Array.isArray(data)
+            ? data.filter((item: any) => item.recordType === "offer" && item.parentPackageId === pkg.id)
+            : []
+          
+          console.log(`   └─ Found ${packageOffers.length} offers for package ${pkg.id}`)
+          
+          const mappedPackage = mapFromProduct(pkg)
+          
+          console.log(`   └─ Mapped Package:`, mappedPackage)
+          
+          // Skip if mapping returned null (shouldn't happen for packages, but just in case)
+          if (!mappedPackage) {
+            console.warn(`   ⚠️ Package ${pkg.id} returned null after mapping`)
+            return null as any
+          }
+          
+          // Add offers to the package
+          if (packageOffers.length > 0) {
+            mappedPackage.offers = packageOffers.map((offer: any) => ({
+              id: offer.id || "",
+              planId: offer.parentPackageId || pkg.id || "",
+              title: offer.offerTitle || "",
+              description: offer.offerDescription || "",
+              discountPercentage: Number.parseFloat(offer.discountPercentage) || 0,
+              validUntil: offer.validUntil || "",
+              isActive: offer.isOfferActive === "1" || offer.isOfferActive === 1,
+              offerPrice: Number.parseFloat(offer.offerPrice) || 0,
+            }))
+            console.log(`   └─ Added ${mappedPackage.offers.length} offers to package`)
+          }
+          
+          return mappedPackage
+        })
+        .filter((pkg): pkg is PackageData => pkg !== null) // Filter out any null values with type guard
+      
+      console.log("✅ Final Mapped Plans:", packagesWithOffers)
+      console.log("✅ Total Plans to Display:", packagesWithOffers.length)
+      
+      setPlans(packagesWithOffers)
+      
+      // Auto-expand all sections when plans are loaded
+      if (packagesWithOffers.length > 0) {
+        const allPages = new Set(packagesWithOffers.map(p => p.Page || "Uncategorized"))
+        setExpandedSections(allPages)
+        console.log(`✅ Successfully loaded ${packagesWithOffers.length} plan(s) from database`)
+        console.log(`✅ Auto-expanded ${allPages.size} section(s)`)
+      } else {
+        console.warn("⚠️ No plans found in database or API returned empty array")
+      }
     } catch (error) {
-      console.error("Failed to fetch plans:", error)
-      alert("Failed to fetch plans. Please check your API credentials and try again.")
+      console.error("❌ Failed to fetch plans:", error)
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
+      alert(`Failed to fetch plans: ${errorMessage}`)
     } finally {
       setIsLoading(false)
     }
   }
 
-  // Create new plan
+  // Create new plan - Only creates when no ID is present
   const postPlanToAPI = async (planData: PackageData) => {
     try {
-      console.log("Creating plan:", planData)
-      const Product = mapToProduct(planData)
-      const url = `${WC_API_CONFIG.baseUrl}/products?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}`
+      console.log("➕ [Create] Creating new plan:", planData)
+      const apiPayload: any = mapToProduct(planData)
+      
+      // Ensure ID is removed for new package creation
+      if (apiPayload.id) {
+        delete apiPayload.id
+      }
+      
+      // Remove undefined values
+      Object.keys(apiPayload).forEach((key: string) => {
+        if (apiPayload[key] === undefined) {
+          delete apiPayload[key]
+        }
+      })
 
-      const response = await fetch(url, {
+      console.log("➕ [Create] Payload being sent:", apiPayload)
+      console.log("➕ [Create] Payload JSON:", JSON.stringify(apiPayload, null, 2))
+
+      const response = await fetch(PACKAGE_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(Product),
+        body: JSON.stringify(apiPayload),
       })
 
+      console.log("➕ [Create] Response status:", response.status, response.statusText)
+
       if (!response.ok) {
-        const errorData = await response.json()
-        console.error("API error response:", errorData)
-        throw new Error(`API request failed with status ${response.status}: ${errorData.message || "Unknown error"}`)
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }))
+        console.error("➕ [Create] API error response:", errorData)
+        throw new Error(`API request failed with status ${response.status}: ${errorData.error || errorData.details || "Unknown error"}`)
       }
 
       const result = await response.json()
-      console.log("Plan created successfully:", result)
+      console.log("➕ [Create] Response data:", result)
+      
+      // Check if response has error
+      if (result.error) {
+        throw new Error(result.error + (result.details ? `: ${result.details}` : ""))
+      }
+      
+      console.log("✅ [Create] Plan created successfully:", result)
       return result
     } catch (error) {
-      console.error("Failed to create plan:", error)
+      console.error("❌ [Create] Failed to create plan:", error)
       throw error
     }
   }
 
-  // Update plan
+  // Update plan - Uses ID in URL query parameter
   const updatePlanInAPI = async (planData: PackageData) => {
     try {
-      console.log("Updating plan:", planData)
-      const Product = mapToProduct(planData)
-      const url = `${WC_API_CONFIG.baseUrl}/products/${planData.id}?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}`
+      console.log("🔄 [Update] Original plan data:", planData)
+      console.log("🔄 [Update] Plan ID:", planData.id, "Type:", typeof planData.id)
+      
+      if (!planData.id) {
+        throw new Error("Cannot update plan: ID is missing")
+      }
+      
+      const apiPayload: any = mapToProduct(planData)
+      // Remove ID from body since it will be in URL
+      delete apiPayload.id
+      
+      // Remove undefined values to avoid sending them
+      Object.keys(apiPayload).forEach((key: string) => {
+        if (apiPayload[key] === undefined) {
+          delete apiPayload[key]
+        }
+      })
 
-      const response = await fetch(url, {
+      // Use ID in URL query parameter: /api/package?id=3
+      const updateUrl = `${PACKAGE_API_URL}?id=${planData.id}`
+      console.log("🔄 [Update] Update URL:", updateUrl)
+      console.log("🔄 [Update] Payload being sent:", apiPayload)
+      console.log("🔄 [Update] Payload JSON:", JSON.stringify(apiPayload, null, 2))
+
+      // Use PUT method with ID in URL
+      const response = await fetch(updateUrl, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(Product),
+        body: JSON.stringify(apiPayload),
       })
 
+      console.log("🔄 [Update] PUT Response status:", response.status, response.statusText)
+
       if (!response.ok) {
-        const errorData = await response.json()
-        console.error("API error response:", errorData)
-        throw new Error(`Failed to update plan: ${response.status}`)
+        // Try to get error text first
+        let errorText = "Unknown error"
+        try {
+          const errorData = await response.json()
+          errorText = errorData.error || errorData.details || JSON.stringify(errorData)
+          console.error("🔄 [Update] API error response (JSON):", errorData)
+        } catch (e) {
+          try {
+            errorText = await response.text()
+            console.error("🔄 [Update] API error response (Text):", errorText)
+          } catch (e2) {
+            console.error("🔄 [Update] Could not parse error response")
+          }
+        }
+        throw new Error(`Failed to update plan: ${response.status} - ${errorText}`)
       }
 
       const result = await response.json()
-      console.log("Plan updated successfully:", result)
+      console.log("🔄 [Update] Response data:", result)
+      
+      // Check if response has error
+      if (result.error) {
+        throw new Error(result.error + (result.details ? `: ${result.details}` : ""))
+      }
+      
+      console.log("✅ [Update] Plan updated successfully:", result)
       return result
     } catch (error) {
-      console.error("Failed to update plan:", error)
+      console.error("❌ [Update] Failed to update plan:", error)
       throw error
     }
   }
@@ -1933,19 +1946,26 @@ const Page = () => {
   // Delete plan
   const deletePlanFromAPI = async (id: string) => {
     try {
-      const url = `${WC_API_CONFIG.baseUrl}/products/${id}?consumer_key=${WC_API_CONFIG.consumerKey}&consumer_secret=${WC_API_CONFIG.consumerSecret}&force=true`
-      const response = await fetch(url, {
+      const response = await fetch(PACKAGE_API_URL, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ id: id }),
       })
 
       if (!response.ok) {
-        throw new Error(`Failed to delete plan: ${response.status}`)
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }))
+        throw new Error(`Failed to delete plan: ${response.status} - ${errorData.error || errorData.details || "Unknown error"}`)
       }
 
       const result = await response.json()
+      
+      // Check if response has error
+      if (result.error) {
+        throw new Error(result.error + (result.details ? `: ${result.details}` : ""))
+      }
+      
       console.log("Plan deleted successfully:", result)
       return result
     } catch (error) {
@@ -2053,25 +2073,56 @@ const Page = () => {
 
     setIsLoading(true)
     try {
-      if (updateMode && selectedPlan) {
-        // Update existing plan
-        const updatedPlan = { ...formData, id: selectedPlan.id }
-        await updatePlanInAPI(updatedPlan)
-        setPlans(plans.map((plan) => (plan.id === selectedPlan.id ? updatedPlan : plan)))
-        setUpdateMode(false)
-        alert("Plan updated successfully!")
+      // Check if we're updating (has ID and updateMode is true)
+      const isUpdate = updateMode && formData.id && formData.id !== ""
+      
+      console.log("💾 [Save] Mode:", isUpdate ? "UPDATE" : "CREATE")
+      console.log("💾 [Save] Form Data ID:", formData.id)
+      console.log("💾 [Save] Update Mode:", updateMode)
+      
+      if (isUpdate) {
+        // Update existing plan - ensure we have the ID
+        if (!formData.id) {
+          throw new Error("Cannot update: Plan ID is missing")
+        }
+        
+        console.log("💾 [Save] Updating plan with ID:", formData.id)
+        const updatedPlan = { ...formData, id: formData.id }
+        const apiResponse = await updatePlanInAPI(updatedPlan)
+        
+        // Map the response back to PackageData format
+        const mappedPlan = mapFromProduct(apiResponse)
+        if (mappedPlan) {
+          setPlans(plans.map((plan) => (plan.id === formData.id ? mappedPlan : plan)))
+          setUpdateMode(false)
+          alert("Plan updated successfully!")
+        } else {
+          throw new Error("Failed to map updated plan from API response")
+        }
       } else {
-        // Create new plan
-        const newPlan = { ...formData, id: Date.now().toString(), offers: [] }
-        const createdProduct = await postPlanToAPI(newPlan)
-        // Update the plan with the actual product ID
-        const createdPlan = mapFromProduct(createdProduct)
-        setPlans([...plans, createdPlan])
-        alert("Plan created successfully!")
+        // Create new plan - ensure no ID is present
+        console.log("💾 [Save] Creating new plan (no ID)")
+        const newPlan: PackageData = { ...formData, id: "", offers: [] }
+        // Ensure ID is empty string for new plans
+        newPlan.id = ""
+        
+        const apiResponse = await postPlanToAPI(newPlan)
+        
+        // Map the response back to PackageData format
+        const createdPlan = mapFromProduct(apiResponse)
+        if (createdPlan) {
+          setPlans([...plans, createdPlan])
+          alert("Plan created successfully!")
+        } else {
+          throw new Error("Failed to map created plan from API response")
+        }
       }
       setShowUserCreatModal(false)
       resetForm()
+      // Refresh the plans list to get the latest data
+      await fetchPlans()
     } catch (error) {
+      console.error("💾 [Save] Error:", error)
       alert(`Failed to save plan: ${error instanceof Error ? error.message : "Unknown error"}`)
     } finally {
       setIsLoading(false)
@@ -2131,6 +2182,7 @@ const Page = () => {
       customPrice: "",
       actionType: "both",
     })
+    setUpdateMode(false)
   }
 
   const resetOfferForm = () => {
@@ -2154,10 +2206,14 @@ const Page = () => {
 
   const handleUpdatePlan = () => {
     if (selectedPlan) {
-      setFormData({ ...selectedPlan })
+      console.log("✏️ [Edit] Loading plan for editing:", selectedPlan)
+      console.log("✏️ [Edit] Plan ID:", selectedPlan.id)
+      // Ensure the ID is included in formData for updates
+      setFormData({ ...selectedPlan, id: selectedPlan.id })
       setShowUserDetailsModal(false)
       setUpdateMode(true)
       setShowUserCreatModal(true)
+      console.log("✏️ [Edit] Update mode set to true, form opened")
     }
   }
 
@@ -2663,12 +2719,6 @@ const Page = () => {
                 Edit Plan
               </button>
               <button
-                className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
-                onClick={() => handleDeletePlan(selectedPlan.id)}
-              >
-                Delete Plan
-              </button>
-              <button
                 className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
                 onClick={() => setShowUserDetailsModal(false)}
               >
@@ -2787,119 +2837,65 @@ const Page = () => {
               <div className="mt-6 space-y-6">
                 <div className="border-t border-gray-200 pt-6">
                   <h3 className="text-lg font-semibold text-gray-800 mb-4">Plan Selection Configuration</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Navigation URL</label>
-                        <input
-                          name="navigationUrl"
-                          value={formData.navigationUrl || ""}
-                          onChange={handleChange}
-                          placeholder="/cart, /checkout, /payment"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Select Button Text</label>
-                        <input
-                          name="selectButtonText"
-                          value={formData.selectButtonText || ""}
-                          onChange={handleChange}
-                          placeholder="Select Plan, Choose Premium, Get Started"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Action Type</label>
-                        <select
-                          name="actionType"
-                          value={formData.actionType || "both"}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                          <option value="navigate">Navigate Only</option>
-                          <option value="function">Function Only</option>
-                          <option value="both">Both Navigate & Function</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Custom Plan ID (for onSelect)
-                        </label>
-                        <input
-                          name="customPlanId"
-                          value={formData.customPlanId || ""}
-                          onChange={handleChange}
-                          placeholder="Leave empty to use plan ID"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Custom Plan Name (for onSelect)
-                        </label>
-                        <input
-                          name="customPlanName"
-                          value={formData.customPlanName || ""}
-                          onChange={handleChange}
-                          placeholder="Leave empty to use plan name"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Custom Price (for onSelect)
-                        </label>
-                        <input
-                          name="customPrice"
-                          value={formData.customPrice || ""}
-                          onChange={handleChange}
-                          placeholder="₹999, Leave empty to use sale price"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-4">
-                    <div className="flex items-center">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Navigation URL</label>
                       <input
-                        name="enableSelectButton"
-                        type="checkbox"
-                        checked={formData.enableSelectButton || false}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, enableSelectButton: e.target.checked }))}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        name="navigationUrl"
+                        value={formData.navigationUrl || ""}
+                        onChange={handleChange}
+                        placeholder="/cart, /checkout, /payment"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
-                      <label className="ml-2 block text-sm text-gray-700">
-                        Enable "Select Plan" button for this plan
-                      </label>
                     </div>
-                  </div>
 
-                  {formData.enableSelectButton && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Custom Plan ID (for runtime)
+                      </label>
+                      <input
+                        name="customPlanId"
+                        value={formData.customPlanId || ""}
+                        onChange={handleChange}
+                        placeholder="Leave empty to use plan ID"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">
+                        Custom ID used at runtime. If empty, will use plan ID or "ID" as fallback.
+                      </p>
+                    </div>
+
+                    <div className="mt-4">
+                      <div className="flex items-center">
+                        <input
+                          name="enableSelectButton"
+                          type="checkbox"
+                          checked={formData.enableSelectButton || false}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, enableSelectButton: e.target.checked }))}
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        />
+                        <label className="ml-2 block text-sm text-gray-700">
+                          Enable "Select Plan" button for this plan
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* Always show preview configuration */}
                     <div className="mt-4 p-4 bg-blue-50 rounded-lg">
                       <h4 className="text-sm font-semibold text-blue-800 mb-2">Preview Configuration:</h4>
                       <div className="text-sm text-blue-700 space-y-1">
-                        <p>
-                          <strong>Button Text:</strong> {formData.selectButtonText || "Select Plan"}
-                        </p>
                         <p>
                           <strong>Navigation:</strong> {formData.navigationUrl || "/cart"}
                         </p>
                         <p>
                           <strong>Function Call:</strong> handlePlanSelection("
                           {formData.customPlanId || formData.id || "ID"}", "
-                          {formData.customPlanName || formData.planName || "Plan Name"}", "
-                          {formData.customPrice || `₹${formData.PriceAfterDiscount || 0}`}")
-                        </p>
-                        <p>
-                          <strong>Action Type:</strong> {formData.actionType || "both"}
+                          {formData.planName || "Plan Name"}", "
+                          {`₹${formData.PriceAfterDiscount || 0}`}")
                         </p>
                       </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
