@@ -51,9 +51,9 @@ const LoggedNavbarSuper = () => {
     { name: "Blog Management", link: "/dashboard/blog", icon: <FileText size={20} /> },
     { name: "Analytics", link: "/dashboard/analytics", icon: <TrendingUp size={20} /> },
     // { name: "Database", link: "/dashboard/database", icon: <Database size={20} /> },
-    { name: "Reports", link: "/dashboard/reports", icon: <FileText size={20} /> },
+    // { name: "Reports", link: "/dashboard/reports", icon: <FileText size={20} /> },
     // { name: "Activity Log", link: "/dashboard/activity-log", icon: <Activity size={20} /> },
-    { name: "Settings", link: "/dashboard/settings", icon: <Settings size={20} /> },
+    // { name: "Settings", link: "/dashboard/settings", icon: <Settings size={20} /> },
     { name: "Help", link: "/dashboard/help", icon: <HelpCircle size={20} /> },
   ];
 
@@ -92,7 +92,7 @@ const LoggedNavbarSuper = () => {
           </button>
         </div>
 
-        <div className="space-y-1 overflow-y-auto max-h-96">
+        <div className="space-y-1">
           {routes.map((item) => (
             <Link
               key={item.name}
@@ -112,7 +112,7 @@ const LoggedNavbarSuper = () => {
       {/* Bottom Section */}
       <div className="space-y-4">
         {/* Notifications */}
-        <div className="bg-white/10 rounded-lg p-3">
+        {/* <div className="bg-white/10 rounded-lg p-3">
           <div className="flex items-center gap-2 text-black text-sm">
             <Bell size={16} />
             <span>Notifications</span>
@@ -120,7 +120,7 @@ const LoggedNavbarSuper = () => {
               3
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Logout Button */}
         <button

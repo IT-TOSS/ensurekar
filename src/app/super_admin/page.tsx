@@ -36,63 +36,39 @@ const SuperAdminLogin = () => {
   const loginSuperAdmin = async (email: string, password: string) => {
     try {
       console.log("Attempting Super Admin login for:", email);
-      
-      // Call the API to get admin data
-      const response = await fetch(`https://edueye.co.in/ensurekar/existing-site/admin-register.php?email=${encodeURIComponent(email)}`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+
+      const response = await fetch("https://edueye.co.in/ensurekar/existing-site/admin-login.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password })
+      });
 
       const data = await response.json();
       console.log("API Response:", data);
 
-      // Handle different response formats
-      let adminData = null;
-      if (Array.isArray(data) && data.length > 0) {
-        adminData = data[0];
-      } else if (data.data && Array.isArray(data.data) && data.data.length > 0) {
-        adminData = data.data[0];
-      } else if (data.success && data.data) {
-        adminData = data.data;
-      } else if (data.email) {
-        adminData = data;
+      if (!response.ok) {
+        const message = (data && (data.message || data.error)) || `HTTP error! status: ${response.status}`;
+        throw new Error(message);
       }
 
-      if (!adminData) {
-        throw new Error("No admin data found for this email");
+      // Normalize potential response shapes
+      const adminData = data?.data?.user || data?.user || data?.data || data;
+      const token = data?.token || data?.data?.token || data?.authToken || "";
+
+      if (!adminData || !adminData.email) {
+        throw new Error("Invalid login response");
       }
 
-      console.log("Admin Data:", adminData);
-
-      // Check if the admin exists
-      if (!adminData.email) {
-        throw new Error("Admin not found");
+      if (token) {
+        localStorage.setItem("superAdminToken", token);
       }
 
-      // Check if the role is superadmin
-      if (adminData.role && adminData.role.toLowerCase() !== "superadmin") {
-        throw new Error("Access denied. This account is not authorized for Super Admin access.");
-      }
-
-      // Check if the status is active
-      if (adminData.status && adminData.status.toLowerCase() !== "active") {
-        throw new Error("Your email is inactive for Super Admin credentials. Please contact support.");
-      }
-
-      // Check password (assuming the API returns the password or we need to verify it)
-      // Note: In a real application, you should never compare passwords directly
-      // This is just for demonstration. In production, use proper password hashing
-      if (adminData.password && adminData.password !== password) {
-        throw new Error("Invalid password");
-      }
-
-      // If we reach here, login is successful
       return {
         success: true,
-        adminData: adminData
+        adminData
       };
-
     } catch (error) {
       console.error("Super Admin login error:", error);
       throw error;
@@ -142,6 +118,15 @@ const SuperAdminLogin = () => {
     }
   };
 
+  const handlePasswordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (!loading) {
+        handleLogin();
+      }
+    }
+  };
+
   return (
     <section className="h-screen w-screen flex justify-center items-center bg-gray-50 dark:bg-gray-900">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
@@ -179,6 +164,7 @@ const SuperAdminLogin = () => {
               name="password"
               placeholder="Password"
               onChange={handleInputChange}
+              onKeyDown={handlePasswordKeyDown}
               className="w-full px-4 py-3 border rounded text-gray-700 dark:text-white dark:bg-gray-800"
               required
             />

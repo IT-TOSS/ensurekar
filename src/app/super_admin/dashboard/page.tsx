@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Users,
   UserCheck,
@@ -19,6 +19,17 @@ import {
 } from 'lucide-react';
 
 const SuperAdminDashboard = () => {
+  const [loggedInEmail, setLoggedInEmail] = useState<string>("Super Admin");
+
+  useEffect(() => {
+    const superAdminAuth = localStorage.getItem('superAdminAuth');
+    if (superAdminAuth) {
+      const emailMatch = superAdminAuth.match(/super_admin_auth(.+)/);
+      if (emailMatch && emailMatch[1]) {
+        setLoggedInEmail(decodeURIComponent(emailMatch[1]));
+      }
+    }
+  }, []);
   const statsCards = [
     {
       title: "Total Users",
@@ -92,7 +103,7 @@ const SuperAdminDashboard = () => {
           </button>
           <div className="flex items-center gap-2 bg-white rounded-lg px-4 py-2 shadow-md">
             <Shield className="w-5 h-5 text-purple-600" />
-            <span className="text-sm font-medium">Super Admin</span>
+            <span className="text-sm font-medium">{loggedInEmail}</span>
           </div>
         </div>
       </div>
