@@ -48,10 +48,30 @@ const fixImagePath = (imagePath?: string): string => {
   return imagePath;
 };
 
-const getBlogImageSrc = (imageFilename?: string, imagePath?: string) => {
+const getFirstContentImage = (html?: string): string => {
+  if (!html || typeof document === "undefined") return "";
+  try {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = html;
+    const img = wrapper.querySelector("img");
+    if (!img) return "";
+    let src = img.getAttribute("src") || "";
+    if (!src) return "";
+    if (src.startsWith("public/")) return fixImagePath(src);
+    if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
+    if (!src.startsWith("/")) src = "/" + src;
+    return src;
+  } catch {
+    return "";
+  }
+};
+
+const getBlogImageSrc = (imageFilename?: string, imagePath?: string, content?: string) => {
   const fixed = fixImagePath(imagePath);
   if (imageFilename && fixed) return fixed;
-  return blogofensureKar as unknown as string; // use the new default image
+  const fromContent = getFirstContentImage(content);
+  if (fromContent) return fromContent;
+  return blogofensureKar as unknown as string; // final fallback
 };
 
 const BlogSectionPage = () => {
@@ -125,7 +145,7 @@ const BlogSectionPage = () => {
                 <div className="overflow-hidden rounded-2xl bg-white shadow border h-full flex flex-col">
                   <div className="relative w-full h-52 sm:h-72 md:h-80 flex-grow">
                     <Image
-                      src={getBlogImageSrc(primaryFeatured.image_filename, primaryFeatured.image_path)}
+                      src={getBlogImageSrc(primaryFeatured.image_filename, primaryFeatured.image_path, primaryFeatured.content)}
                       alt={primaryFeatured.title}
                       fill
                       className="object-cover group-hover:scale-[1.02] duration-300"
@@ -161,7 +181,7 @@ const BlogSectionPage = () => {
                   >
                     <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-md overflow-hidden bg-gray-100 flex-shrink-0 relative">
                       <Image
-                        src={getBlogImageSrc(b.image_filename, b.image_path)}
+                        src={getBlogImageSrc(b.image_filename, b.image_path, b.content)}
                         alt={b.title}
                         fill
                         className="object-cover"
@@ -181,8 +201,8 @@ const BlogSectionPage = () => {
 
         {/* Recent posts */}
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-semibold">Recent Posts</h3>
-          <span className="text-sm text-gray-500">All Posts</span>
+          <h3 className="text-xl font-semibold dark:text-white">Recent Posts</h3>
+          {/* <span className="text-sm text-gray-500">All Posts</span> */}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {recent.map((b) => (
@@ -190,7 +210,7 @@ const BlogSectionPage = () => {
               <div className="bg-white rounded-2xl border shadow overflow-hidden">
                 <div className="h-40 sm:h-44 overflow-hidden bg-gray-100 relative">
                   <Image
-                    src={getBlogImageSrc(b.image_filename, b.image_path)}
+                    src={getBlogImageSrc(b.image_filename, b.image_path, b.content)}
                     alt={b.title}
                     fill
                     className="object-cover group-hover:scale-[1.03] duration-300"

@@ -51,7 +51,46 @@ const fixImagePath = (imagePath?: string): string => {
 const getBlogImageSrc = (imageFilename?: string, imagePath?: string) => {
   const fixed = fixImagePath(imagePath);
   if (imageFilename && fixed) return fixed;
-  return blogofensureKar as unknown as string;
+  // No fallback: if API has no image, don't render any image
+  return "";
+};
+
+// Normalize inline HTML content: fix relative image src and link attrs
+const normalizeContentHtml = (html: string): string => {
+  if (!html) return "";
+  try {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = html;
+
+    // Fix images
+    wrapper.querySelectorAll("img").forEach((img) => {
+      const src = img.getAttribute("src") || "";
+      if (src) {
+        if (src.startsWith("public/")) {
+          img.setAttribute("src", fixImagePath(src));
+        } else if (!/^https?:\/\//i.test(src) && !src.startsWith("/") && !src.startsWith("data:")) {
+          img.setAttribute("src", "/" + src);
+        }
+      }
+      img.setAttribute("loading", "lazy");
+      if (!img.getAttribute("style")) img.setAttribute("style", "max-width:100%;height:auto;");
+      img.classList.add("rounded-md");
+    });
+
+    // Ensure links open in new tab
+    wrapper.querySelectorAll("a").forEach((a) => {
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
+      const href = a.getAttribute("href") || "";
+      if (href && !/^https?:\/\//i.test(href) && !href.startsWith("/")) {
+        a.setAttribute("href", "/" + href);
+      }
+    });
+
+    return wrapper.innerHTML;
+  } catch {
+    return html;
+  }
 };
 
 const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
@@ -133,21 +172,23 @@ const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
         </div> */}
 
         <div className="bg-white rounded-2xl border shadow overflow-hidden">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+          <div className={`grid grid-cols-1 ${getBlogImageSrc(blog.image_filename, blog.image_path) ? 'md:grid-cols-2' : ''} gap-0`}>
             {/* Image on the left */}
-            <div className="flex items-center justify-center bg-white py-8">
-              <div className="relative w-full max-w-[500px] h-[320px] rounded-2xl shadow-lg overflow-hidden flex items-center justify-center">
-                <Image
-                  src={getBlogImageSrc(blog.image_filename, blog.image_path)}
-                  alt={blog.title}
-                  fill
-                  className="object-contain w-full h-full"
-                  sizes="(min-width: 768px) 500px, 100vw"
-                  priority
-                />
+            {getBlogImageSrc(blog.image_filename, blog.image_path) && (
+              <div className="flex items-center justify-center bg-white py-8">
+                <div className="relative w-full max-w-[500px] h-[320px] rounded-2xl shadow-lg overflow-hidden flex items-center justify-center">
+                  <Image
+                    src={getBlogImageSrc(blog.image_filename, blog.image_path)}
+                    alt={blog.title}
+                    fill
+                    className="object-contain w-full h-full"
+                    sizes="(min-width: 768px) 500px, 100vw"
+                    priority
+                  />
+                </div>
               </div>
-            </div>
-            
+            )}
+
             {/* Content on the right */}
             <div className="p-5 sm:p-7 flex flex-col">
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{blog.title}</h1>
@@ -168,9 +209,15 @@ const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
 
               <p className="mt-5 text-gray-700">{blog.excerpt}</p>
 
-              <div className="prose max-w-none mt-6 flex-grow">
-                <div className="whitespace-pre-wrap text-gray-900">{blog.content}</div>
-              </div>
+              <div className="prose max-w-none mt-6 flex-grow text-gray-900 content-html"
+                   dangerouslySetInnerHTML={{ __html: normalizeContentHtml(blog.content) }}
+              />
+              <style jsx>{`
+                .content-html :global(a) {
+                  color: #2563eb;
+                  text-decoration: underline;
+                }
+              `}</style>
 
               {/* {(blog.meta_title || blog.meta_description) && (
                 <div className="mt-8 border-t pt-4">

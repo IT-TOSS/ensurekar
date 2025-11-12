@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import RichTextEditor from "@/app/components/RichTextEditor"
 import blogDefault from "@/app/images/blogofensureKar.png"
 import {
   Plus,
@@ -372,6 +373,14 @@ const BlogManagement = () => {
     } else {
       throw new Error("Failed to upload image")
     }
+  }
+
+  // Upload inline content image and return a public URL
+  const uploadContentImage = async (file: File) => {
+    const data = await uploadImage(file)
+    // API returns { filename, path }
+    const path = (data && (data.path || data.url)) || ""
+    return fixImagePath(path)
   }
 
   // Delete blog
@@ -885,12 +894,10 @@ const BlogManagement = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Content *
               </label>
-              <textarea
-                required
-                rows={3}
+              <RichTextEditor
                 value={formData.content}
-                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                className="w-full px-3 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                onChange={(html) => setFormData({ ...formData, content: html })}
+                onUploadImage={uploadContentImage}
                 placeholder="Write your blog content here..."
               />
             </div>
@@ -1217,9 +1224,13 @@ const BlogManagement = () => {
           {/* Content */}
           <div className="p-6">
             <h3 className="text-sm font-medium text-gray-500 mb-4">Content</h3>
-            <div className="prose max-w-none">
-              <div className="whitespace-pre-wrap text-gray-900">{currentBlog.content}</div>
-            </div>
+            <div className="prose max-w-none text-gray-900 content-html" dangerouslySetInnerHTML={{ __html: currentBlog.content }} />
+            <style jsx>{`
+              .content-html :global(a) {
+                color: #2563eb;
+                text-decoration: underline;
+              }
+            `}</style>
           </div>
 
           {/* SEO Information */}
