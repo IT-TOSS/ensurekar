@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import RichTextEditor from "@/app/components/RichTextEditor"
 import blogDefault from "@/app/images/blogofensureKar.png"
 import {
   Plus,
@@ -108,7 +109,7 @@ const BlogManagement = () => {
   const fetchBlogs = async () => {
     setIsLoading(true)
     try {
-      const token = localStorage.getItem("superAdminAuth")
+      const token = localStorage.getItem("adminAuth")
       const response = await fetch(
         "/api/blog",
         {
@@ -178,7 +179,7 @@ const BlogManagement = () => {
   const fetchBlog = async (id: number) => {
     setIsLoading(true)
     try {
-      const token = localStorage.getItem("superAdminAuth")
+      const token = localStorage.getItem("adminAuth")
       const response = await fetch(
         `/api/blog?id=${id}`,
         {
@@ -256,7 +257,7 @@ const BlogManagement = () => {
   const createBlog = async () => {
     setIsLoading(true)
     try {
-      const token = localStorage.getItem("superAdminAuth")
+      const token = localStorage.getItem("adminAuth")
       
       // First upload image if selected
       let imageData = null
@@ -307,7 +308,7 @@ const BlogManagement = () => {
 
     setIsLoading(true)
     try {
-      const token = localStorage.getItem("superAdminAuth")
+      const token = localStorage.getItem("adminAuth")
       
       // Upload new image if selected
       let imageData = null
@@ -374,7 +375,66 @@ const BlogManagement = () => {
     }
   }
 
+  // Upload inline content image and return a public URL
+  const uploadContentImage = async (file: File) => {
+    const data = await uploadImage(file)
+    // API returns { filename, path }
+    const path = (data && (data.path || data.url)) || ""
+    return fixImagePath(path)
+  }
 
+  // Delete blog
+  const deleteBlog = async (id: number) => {
+    if (!confirm("Are you sure you want to delete this blog?")) return
+
+    setIsLoading(true)
+    try {
+      const token = localStorage.getItem("adminAuth")
+      
+      // First get the blog to check for image
+      const blog = Array.isArray(blogs) ? blogs.find(b => b.id === id) : null
+      if (blog?.image_filename) {
+        // Delete image file
+        await fetch("/api/delete-image", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            filename: blog.image_filename,
+            folder: "blogImage",
+          }),
+        })
+      }
+
+      // Delete blog from database using external API
+      const response = await fetch(
+        "https://edueye.co.in/ensurekar/existing-site/delete_blog_post.php",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-Key": token || "",
+          },
+          body: JSON.stringify({ id }),
+        }
+      )
+      console.log("Response:", response)
+
+      if (response.ok) {
+        alert("Blog deleted successfully!")
+        fetchBlogs()
+      } else {
+        const errorData = await response.json()
+        alert(`Failed to delete blog: ${errorData.error}`)
+      }
+    } catch (error) {
+      console.error("Error deleting blog:", error)
+      alert("Error deleting blog")
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   // Reset form
   const resetForm = () => {
@@ -725,6 +785,13 @@ const BlogManagement = () => {
                               <Edit className="w-4 h-4" />
                               Edit
                             </button>
+                            <button
+                              onClick={() => deleteBlog(blog.id)}
+                              className="w-full sm:flex-1 min-w-[100px] bg-red-50 text-red-600 px-3 py-2 rounded-lg hover:bg-red-100 transition-colors inline-flex items-center justify-center gap-2 text-sm"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                              Delete
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -745,42 +812,43 @@ const BlogManagement = () => {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto space-y-6">
           {/* Header */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => {
-                  setViewMode("list")
-                  resetForm()
-                }}
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <ExternalLink className="w-5 h-5 rotate-180" />
-              </button>
-              <div>
-                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">
-                  {viewMode === "create" ? "Create New Blog" : "Edit Blog"}
-                </h1>
-                <p className="text-gray-600 mt-2 text-base">
-                  {viewMode === "create" ? "Create a new blog post" : "Edit existing blog post"}
-                </p>
-              </div>
+          <div className="flex items-start gap-4">
+            <button
+              onClick={() => {
+                setViewMode("list")
+                resetForm()
+              }}
+              className="text-gray-600 hover:text-gray-900 mt-1"
+            >
+              <ExternalLink className="w-5 h-5 rotate-180" />
+            </button>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 leading-tight">
+                {viewMode === "create" ? "Create New Blog" : "Edit Blog"}
+              </h1>
+              <p className="text-gray-600 mt-1 text-base">
+                {viewMode === "create" ? "Create a new blog post" : "Edit existing blog post"}
+              </p>
             </div>
           </div>
 
           {/* Form */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8 xl:p-10">
-          <form onSubmit={(e) => {
-            e.preventDefault()
-            if (viewMode === "create") {
-              createBlog()
-            } else {
-              updateBlog()
-            }
-          }} className="space-y-6">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                if (viewMode === "create") {
+                  createBlog()
+                } else {
+                  updateBlog()
+                }
+              }}
+              className="space-y-6"
+            >
             {/* Basic Information */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Title *
                 </label>
                 <input
@@ -798,7 +866,7 @@ const BlogManagement = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Slug *
                 </label>
                 <input
@@ -813,7 +881,7 @@ const BlogManagement = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Excerpt *
               </label>
               <textarea
@@ -827,23 +895,21 @@ const BlogManagement = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Content *
               </label>
-              <textarea
-                required
-                rows={3}
+              <RichTextEditor
                 value={formData.content}
-                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                className="w-full px-3 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                onChange={(html) => setFormData({ ...formData, content: html })}
+                onUploadImage={uploadContentImage}
                 placeholder="Write your blog content here..."
               />
             </div>
 
             {/* Author Information */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Author Name *
                 </label>
                 <input
@@ -856,7 +922,7 @@ const BlogManagement = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Author Email *
                 </label>
                 <input
@@ -871,7 +937,7 @@ const BlogManagement = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Author Bio
               </label>
               <textarea
@@ -885,7 +951,7 @@ const BlogManagement = () => {
 
             {/* Image Upload */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Featured Image
               </label>
               <div className="flex items-center gap-3">
@@ -915,7 +981,7 @@ const BlogManagement = () => {
 
             {/* Tags */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Tags
               </label>
               <div className="flex gap-2 mb-2">
@@ -955,9 +1021,9 @@ const BlogManagement = () => {
             </div>
 
             {/* Settings */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Status
                 </label>
                 <select
@@ -971,7 +1037,7 @@ const BlogManagement = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Publish Date
                 </label>
                 <input
@@ -996,10 +1062,10 @@ const BlogManagement = () => {
             </div>
 
             {/* SEO */}
-            <div className="space-y-4 pt-4 border-t border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">SEO Settings</h3>
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium text-gray-900">SEO Settings</h3>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Meta Title
                 </label>
                 <input
@@ -1011,7 +1077,7 @@ const BlogManagement = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Meta Description
                 </label>
                 <textarea
@@ -1025,21 +1091,21 @@ const BlogManagement = () => {
             </div>
 
             {/* Actions */}
-            <div className="flex justify-end gap-3 pt-6 mt-6 border-t border-gray-200">
+            <div className="flex justify-end gap-3 pt-4 border-t">
               <button
                 type="button"
                 onClick={() => {
                   setViewMode("list")
                   resetForm()
                 }}
-                className="px-5 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium"
+                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 text-sm"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isLoading}
-                className="px-6 py-2.5 bg-[#16a34a] text-white rounded-lg hover:bg-[#15803d] disabled:opacity-50 inline-flex items-center gap-2 text-sm font-medium shadow-sm transition-colors"
+                className="px-5 py-2 bg-[#16a34a]! text-white rounded-lg hover:bg-[#15803d] disabled:opacity-50 inline-flex items-center gap-2 text-sm"
                 style={{ backgroundColor: "#16a34a", color: "#ffffff" }}
               >
                 {isLoading && <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>}
@@ -1047,9 +1113,9 @@ const BlogManagement = () => {
               </button>
             </div>
           </form>
-          </div>
         </div>
       </div>
+    </div>
     )
   }
 
@@ -1059,83 +1125,79 @@ const BlogManagement = () => {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Header */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8">
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
-              <div className="flex items-start gap-4 flex-1">
-                <button
-                  onClick={() => setViewMode("list")}
-                  className="text-gray-600 hover:text-gray-900 transition-colors mt-1"
+          <div className="flex items-start gap-4">
+            <button
+              onClick={() => setViewMode("list")}
+              className="text-gray-600 hover:text-gray-900 mt-1"
+            >
+              <ExternalLink className="w-5 h-5 rotate-180" />
+            </button>
+            <div className="flex-1">
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">{currentBlog.title}</h1>
+              <div className="flex items-center gap-3 flex-wrap mt-3">
+                <span
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                    currentBlog.status === "published"
+                      ? "bg-green-100 text-green-800"
+                      : currentBlog.status === "draft"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "bg-gray-100 text-gray-800"
+                  }`}
                 >
-                  <ExternalLink className="w-5 h-5 rotate-180" />
-                </button>
-                <div className="flex-1">
-                  <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">{currentBlog.title}</h1>
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span
-                      className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${
-                        currentBlog.status === "published"
-                          ? "bg-green-100 text-green-800"
-                          : currentBlog.status === "draft"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "bg-gray-100 text-gray-800"
-                      }`}
-                    >
-                      {currentBlog.status}
-                    </span>
-                    {currentBlog.featured && (
-                      <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                        ⭐ Featured
-                      </span>
-                    )}
-                  </div>
+                  {currentBlog.status}
+                </span>
+                {currentBlog.featured && (
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    Featured
+                  </span>
+                )}
+                <div className="flex items-center text-sm text-gray-600">
+                  <TrendingUp className="w-4 h-4 mr-1" />
+                  {currentBlog.views} views
                 </div>
               </div>
-              <button
-                onClick={() => openEditView(currentBlog.id)}
-                className="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center gap-2 shadow-sm"
-              >
-                <Edit className="w-4 h-4" />
-                Edit
-              </button>
             </div>
+            <button
+              onClick={() => openEditView(currentBlog.id)}
+              className="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center gap-2 shadow-sm"
+            >
+              <Edit className="w-4 h-4" />
+              Edit
+            </button>
           </div>
 
           {/* Blog Content */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             {/* Image */}
-            <div className="p-8 lg:p-12 border-b border-gray-200 bg-gradient-to-br from-gray-50 to-white">
+            <div className="p-6 border-b">
               <img
                 src={currentBlog.image_filename ? fixImagePath(currentBlog.image_path || '') : ((blogDefault as any).src ?? (blogDefault as any))}
                 alt={currentBlog.title}
-                className="w-full h-auto max-h-96 object-cover rounded-xl shadow-md"
+                className="w-full h-72 object-cover rounded-lg"
               />
             </div>
 
             {/* Meta Information */}
-            <div className="p-8 lg:p-12 border-b border-gray-200 bg-white">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                <div className="space-y-4">
-                  <h3 className="text-base font-semibold text-gray-700 mb-4 uppercase tracking-wide">Author</h3>
-                  <div className="space-y-2">
-                    <div className="text-base font-medium text-gray-900">{currentBlog.author_name}</div>
-                    <div className="text-sm text-gray-600">{currentBlog.author_email}</div>
-                    {currentBlog.author_bio && (
-                      <div className="text-sm text-gray-600 mt-3 leading-relaxed">{currentBlog.author_bio}</div>
-                    )}
-                  </div>
+            <div className="p-6 border-b">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-2">Author</h3>
+                  <div className="text-sm text-gray-900">{currentBlog.author_name}</div>
+                  <div className="text-sm text-gray-500">{currentBlog.author_email}</div>
+                  {currentBlog.author_bio && (
+                    <div className="text-sm text-gray-600 mt-1">{currentBlog.author_bio}</div>
+                  )}
                 </div>
-                <div className="space-y-4">
-                  <h3 className="text-base font-semibold text-gray-700 mb-4 uppercase tracking-wide">Publication Details</h3>
-                  <div className="space-y-2">
-                    <div className="text-sm font-medium text-gray-900">
-                      Published: <span className="font-normal text-gray-600">{new Date(currentBlog.publish_date).toLocaleDateString()}</span>
-                    </div>
-                    <div className="text-sm font-medium text-gray-900">
-                      Created: <span className="font-normal text-gray-600">{new Date(currentBlog.created_at).toLocaleDateString()}</span>
-                    </div>
-                    <div className="text-sm font-medium text-gray-900">
-                      Updated: <span className="font-normal text-gray-600">{new Date(currentBlog.updated_at).toLocaleDateString()}</span>
-                    </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-2">Publication Details</h3>
+                  <div className="text-sm text-gray-900">
+                    Published: {new Date(currentBlog.publish_date).toLocaleDateString()}
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    Created: {new Date(currentBlog.created_at).toLocaleDateString()}
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    Updated: {new Date(currentBlog.updated_at).toLocaleDateString()}
                   </div>
                 </div>
               </div>
@@ -1143,15 +1205,15 @@ const BlogManagement = () => {
 
             {/* Tags */}
             {currentBlog.tags.length > 0 && (
-              <div className="p-8 lg:p-12 border-b border-gray-200 bg-white">
-                <h3 className="text-base font-semibold text-gray-700 mb-4 uppercase tracking-wide">Tags</h3>
-                <div className="flex flex-wrap gap-2.5">
+              <div className="p-6 border-b">
+                <h3 className="text-sm font-medium text-gray-500 mb-2">Tags</h3>
+                <div className="flex flex-wrap gap-2">
                   {currentBlog.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+                      className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
                     >
-                      <Tag className="w-3.5 h-3.5 mr-1.5" />
+                      <Tag className="w-3 h-3 mr-1" />
                       {tag}
                     </span>
                   ))}
@@ -1160,39 +1222,43 @@ const BlogManagement = () => {
             )}
 
             {/* Excerpt */}
-            <div className="p-8 lg:p-12 border-b border-gray-200 bg-white">
-              <h3 className="text-base font-semibold text-gray-700 mb-4 uppercase tracking-wide">Excerpt</h3>
-              <p className="text-base text-gray-900 leading-relaxed">{currentBlog.excerpt}</p>
+            <div className="p-6 border-b">
+              <h3 className="text-sm font-medium text-gray-500 mb-2">Excerpt</h3>
+              <p className="text-gray-900">{currentBlog.excerpt}</p>
             </div>
 
             {/* Content */}
-            <div className="p-8 lg:p-12 bg-white">
-              <h3 className="text-base font-semibold text-gray-700 mb-6 uppercase tracking-wide">Content</h3>
-              <div className="prose max-w-none prose-lg">
-                <div className="whitespace-pre-wrap text-gray-900 leading-relaxed text-base">{currentBlog.content}</div>
-              </div>
+            <div className="p-6">
+              <h3 className="text-sm font-medium text-gray-500 mb-4">Content</h3>
+              <div className="prose max-w-none text-gray-900 content-html" dangerouslySetInnerHTML={{ __html: currentBlog.content }} />
+              <style jsx>{`
+                .content-html :global(a) {
+                  color: #2563eb;
+                  text-decoration: underline;
+                }
+              `}</style>
             </div>
 
             {/* SEO Information */}
-            {/* {(currentBlog.meta_title || currentBlog.meta_description) && (
-              <div className="p-8 lg:p-12 border-t border-gray-200 bg-gray-50">
-                <h3 className="text-base font-semibold text-gray-700 mb-6 uppercase tracking-wide">SEO Information</h3>
-                <div className="space-y-5">
+            {(currentBlog.meta_title || currentBlog.meta_description) && (
+              <div className="p-6 border-t bg-gray-50">
+                <h3 className="text-sm font-medium text-gray-500 mb-4">SEO Information</h3>
+                <div className="space-y-3">
                   {currentBlog.meta_title && (
-                    <div className="bg-white p-4 rounded-lg border border-gray-200">
-                      <div className="text-sm font-semibold text-gray-700 mb-2">Meta Title</div>
+                    <div>
+                      <div className="text-sm font-medium text-gray-700">Meta Title</div>
                       <div className="text-sm text-gray-900">{currentBlog.meta_title}</div>
                     </div>
                   )}
                   {currentBlog.meta_description && (
-                    <div className="bg-white p-4 rounded-lg border border-gray-200">
-                      <div className="text-sm font-semibold text-gray-700 mb-2">Meta Description</div>
+                    <div>
+                      <div className="text-sm font-medium text-gray-700">Meta Description</div>
                       <div className="text-sm text-gray-900">{currentBlog.meta_description}</div>
                     </div>
                   )}
                 </div>
               </div>
-            )} */}
+            )}
           </div>
         </div>
       </div>
@@ -1203,3 +1269,4 @@ const BlogManagement = () => {
 }
 
 export default BlogManagement
+
