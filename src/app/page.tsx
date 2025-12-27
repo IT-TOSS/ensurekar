@@ -274,7 +274,7 @@ export default function Home() {
       {/* <PricingSection /> */}
 
       <BlogSection />
-           <GotQuestionsSection />
+      <GotQuestionsSection />
       {/* <CTASection />
         <Footer /> */}
 
