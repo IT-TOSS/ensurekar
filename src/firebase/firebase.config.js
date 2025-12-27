@@ -1,7 +1,7 @@
 // src/firebase/config.ts
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 // Using environment variables (recommended)
@@ -41,7 +41,7 @@ const analytics = typeof window !== "undefined" ? getAnalytics(app) : null;
 export const saveProfileToFirebase = async (userData) => {
   try {
     const db = getFirestore(app);
-    
+
     // Save user data with userId as document ID
     await setDoc(doc(db, "userProfiles", userData.username || 'defaultuser'), userData);
     console.log("User profile saved to Firebase");
@@ -57,7 +57,7 @@ export const getProfileFromFirebase = async (userId) => {
     const db = getFirestore(app);
     const docRef = doc(db, "userProfiles", userId);
     const docSnap = await getDoc(docRef);
-    
+
     if (docSnap.exists()) {
       return docSnap.data();
     } else {
@@ -69,5 +69,31 @@ export const getProfileFromFirebase = async (userId) => {
     return null;
   }
 };
+
+
+/*
+*
+*/
+
+export const forgotPassword = async (email) => {
+  if (!email) {
+    throw new Error("Email is required");
+  }
+
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return {
+      success: true,
+      message: "Password reset email sent successfully",
+    };
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
 
 export { app, auth, db, analytics };

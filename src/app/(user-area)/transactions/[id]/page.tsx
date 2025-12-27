@@ -139,7 +139,7 @@ const Page = ({ params }: PageProps) => {
 
             try {
                 const [apiResponse, localResponse] = await Promise.all([
-                    axios.get("https://edueye.co.in/ensurekar/existing-site/orderid_get.php", {
+                    axios.get("/api/orderid-get", {
                         headers: { "Content-Type": "application/json" },
                     }).catch(() => null),
                     OrderHistoryOne(id).catch(() => null),

@@ -28,12 +28,12 @@ import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
 
-import SeparateLegalEntity  from "../../../images/One Person Company/SeparateLegal Entity.png";
-import EasierAccesstoFunding  from "../../../images/One Person Company/Easier Access to Funding.png";
-import ReducedComplianceRequirements  from "../../../images/One Person Company/Reduced Compliance Requirements.png";
-import SimplifiedIntegration  from "../../../images/One Person Company/Simplified Integration.png";
-import EffortlessManagement  from "../../../images/One Person Company/Effortless Management.png";
-import PerpetualSuccession  from "../../../images/One Person Company/Perpetual Successio.png";
+import SeparateLegalEntity from "../../../images/One Person Company/SeparateLegal Entity.png";
+import EasierAccesstoFunding from "../../../images/One Person Company/Easier Access to Funding.png";
+import ReducedComplianceRequirements from "../../../images/One Person Company/Reduced Compliance Requirements.png";
+import SimplifiedIntegration from "../../../images/One Person Company/Simplified Integration.png";
+import EffortlessManagement from "../../../images/One Person Company/Effortless Management.png";
+import PerpetualSuccession from "../../../images/One Person Company/Perpetual Successio.png";
 import { useRef } from "react";
 
 import Text from "@/app/components/Section/Text";
@@ -860,7 +860,7 @@ const OnePersonCompany = () => {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl:TalkExpert ,
+        imageUrl: TalkExpert,
       },
       {
         heading: "Hassle-Free & Fast Service",
@@ -1071,21 +1071,21 @@ const OnePersonCompany = () => {
       },
     ],
   };
-    const plansRef = useRef<HTMLDivElement | null>(null); 
-    const scrollToPlans = () => {
-      if (plansRef.current) {
-        plansRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    };
+  const plansRef = useRef<HTMLDivElement | null>(null);
+  const scrollToPlans = () => {
+    if (plansRef.current) {
+      plansRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
   return (
     <>
       <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans} />
       <div ref={plansRef} id="plans" className="plans-section">
-      {/* <PlansSection planData={planData} /> */}
-         <Text planData={planData} page={"one-person-company"} />
+        {/* <PlansSection planData={planData} /> */}
+        <Text planData={planData} page={"one-person-company"} serviceName="One Person Company" />
       </div>
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />

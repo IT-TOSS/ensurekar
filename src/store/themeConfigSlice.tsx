@@ -229,6 +229,9 @@ const themeConfigSlice = createSlice({
       localStorage.removeItem("Token");
       localStorage.removeItem("userInfo");
       localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("sessionStartTime");
+      localStorage.removeItem("lastActivityTime");
+      localStorage.removeItem("authToken");
       state.authToken = "";
       state.userInfo = {};
       state.isAuthenticated = false;

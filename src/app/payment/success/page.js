@@ -38,7 +38,7 @@ export default function PaymentSuccess() {
         }
 
         const response = await axios.post(
-          "https://edueye.co.in/ensurekar/existing-site/orderidpost.php",
+          "/api/orderidpost",
           formData,
           {
             headers: {

@@ -37,7 +37,7 @@ export default function AdminManagement() {
   const [toasts, setToasts] = useState<Toast[]>([])
   const [currentUserEmail, setCurrentUserEmail] = useState<string>("")
 
-  const API_URL = "https://edueye.co.in/ensurekar/existing-site/admin-register.php"
+  const API_URL = "/api/admin-register"
 
   // Helper function to parse email from localStorage
   // Format: "admin_authtoss125training%40gmail.com" -> "toss125training@gmail.com"
@@ -324,6 +324,8 @@ export default function AdminManagement() {
   const deleteAdmin = async (adminEmail: string): Promise<void> => {
     // Only remove adminAuth from localStorage (logout)
     localStorage.removeItem("adminAuth");
+    localStorage.removeItem("adminSessionStartTime");
+    localStorage.removeItem("adminLastActivityTime");
     
     // Dispatch logout to clear Redux state
     dispatch(logout());

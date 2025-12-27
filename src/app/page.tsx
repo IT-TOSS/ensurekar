@@ -44,6 +44,8 @@ const BlogSection = lazy(() => import("./components/Section/Blog-Section"));
 const GotQuestionsSection = lazy(
   () => import("./components/Section/Got-Questions-Section")
 );
+const Calendar = lazy(() => import("./components/calendar"));
+
 import logo1 from "./images/Compliances/1.png";///images/logo1.png";
 import logo2 from "./images/Compliances/2.png"//./images/logo2.png";
 import logo3 from "./images/Compliances/3.png"//"./images/logo3.png";
@@ -81,14 +83,18 @@ export default function Home() {
   React.useEffect(() => {
     const fetchCompliancesData = async () => {
       const apiUrl =
-        "https://edueye.co.in/ensurekar/existing-site/get_compan_slider_sections.php?header=Upcoming_Compliances";
+        "/api/get-compan-slider-sections?header=Upcoming_Compliances";
 
       try {
-        const response = await axios.get(apiUrl);
-        // console.log("Response from API:", response);
-        console.log("Compliances Data:", response.data);
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log("Response from API:", data);
+        console.log("Compliances Data:", data);
 
-        const activeSection = response.data.find(
+        const activeSection = data.find(
           (section: any) => section.isActive === "1"
         );
 
@@ -98,7 +104,7 @@ export default function Home() {
           setCompliancesData({
             heading: activeSection.header,
             subHeading: activeSection.description || "",
-            images: activeSection.images.map((img: any) => ({
+            images: (activeSection.images || []).map((img: any) => ({
               // Ensure the path starts with / for public folder access
               src: img.src,
               alt: img.alt,
@@ -108,11 +114,6 @@ export default function Home() {
         console.log("Compliances Data after setting state:", CompliancesData);
       } catch (error) {
         console.error("Error fetching Compliances data:", error);
-        // Axios provides more detailed error information
-        if (axios.isAxiosError(error)) {
-          console.error("Axios error details:", {
-          });
-        }
       }
     };
 
@@ -147,14 +148,18 @@ export default function Home() {
   React.useEffect(() => {
     const fetchCompliancesData = async () => {
       const apiUrl =
-        "https://edueye.co.in/ensurekar/existing-site/get_compan_slider_sections.php?header=Business_and_customer_with_us";
+        "/api/get-compan-slider-sections?header=Business_and_customer_with_us";
 
       try {
-        const response = await axios.get(apiUrl);
-        // console.log("Response from API:", response);
-        console.log("Compliances Data:", response.data);
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log("Response from API:", data);
+        console.log("Compliances Data:", data);
 
-        const activeSection = response.data.find(
+        const activeSection = data.find(
           (section: any) => section.isActive === "1"
         );
 
@@ -164,7 +169,7 @@ export default function Home() {
           setSliderData({
             heading: activeSection.header,
             subHeading: activeSection.description || "",
-            images: activeSection.images.map((img: any) => ({
+            images: (activeSection.images || []).map((img: any) => ({
               // Ensure the path starts with / for public folder access
               src: img.src,
               alt: img.alt,
@@ -174,11 +179,6 @@ export default function Home() {
         console.log("Compliances Data after setting state:", CompliancesData);
       } catch (error) {
         console.error("Error fetching Compliances data:", error);
-        // Axios provides more detailed error information
-        if (axios.isAxiosError(error)) {
-          console.error("Axios error details:", {
-          });
-        }
       }
     };
 
@@ -251,11 +251,13 @@ export default function Home() {
       {/* <Header /> */}
       <HeroSection />
       <CompanySlider SlideData={CompliancesData} />
+      {/* <Calendar /> */}
       <OurServices />
 
       <CompanySlider SlideData={SliderData} />
       <CounterSection CounterSectionData={CounterSectionData} />
       <FeaturesSection />
+      <Calendar />
       <SecuritySolutions />
 
       <SolutionsSection SolutionData={SolutionData} />
@@ -272,7 +274,7 @@ export default function Home() {
       {/* <PricingSection /> */}
 
       <BlogSection />
-      <GotQuestionsSection />
+           <GotQuestionsSection />
       {/* <CTASection />
         <Footer /> */}
 

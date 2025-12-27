@@ -63,7 +63,7 @@ const AdminManagement = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://edueye.co.in/ensurekar/existing-site/admin-register.php");
+      const response = await fetch("/api/admin-register");
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -97,8 +97,14 @@ const AdminManagement = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://edueye.co.in/ensurekar/existing-site/admin-register.php", {
-        method: "POST",
+      // Use PUT for updates, POST for creates
+      const method = selectedAdmin ? "PUT" : "POST";
+      const url = selectedAdmin 
+        ? `/api/admin-register?email=${encodeURIComponent(selectedAdmin.email)}`
+        : "/api/admin-register";
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           "Content-Type": "application/json",
         },
@@ -142,15 +148,11 @@ const AdminManagement = () => {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch("https://edueye.co.in/ensurekar/existing-site/admin-register.php", {
+      const response = await fetch(`/api/admin-register?email=${encodeURIComponent(selectedAdmin.email)}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          action: "delete",
-          email: selectedAdmin.email,
-        }),
       });
 
       if (!response.ok) {

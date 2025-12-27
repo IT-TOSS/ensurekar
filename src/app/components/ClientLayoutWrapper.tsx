@@ -3,6 +3,7 @@
 
 import { usePathname } from 'next/navigation';
 import React from 'react';
+import { useSessionTimeout } from '@/hooks/useSessionTimeout';
 
 interface ClientLayoutWrapperProps {
   children: React.ReactNode;
@@ -22,6 +23,9 @@ export default function ClientLayoutWrapper({
   const pathname = usePathname();
   // const isAdminDashboard = pathname === '/Adman' || pathname?.startsWith('/Adman/');
   const isAdminDashboard =  pathname === '/Adman' ||  pathname?.startsWith('/Adman/') ||  pathname === '/admin' ||  pathname?.startsWith('/admin/') || pathname === '/whatsapbot' || pathname?.startsWith('/whatsapbot/') || pathname === '/super_admin' || pathname?.startsWith('/super_admin/');
+
+  // Initialize session timeout for authenticated users
+  useSessionTimeout();
 
   return (
     <>

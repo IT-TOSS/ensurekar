@@ -3,14 +3,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import login_bg_img from "../../images/login_bg_img.png";
-import google from "../../images/google.png";
-import logo from "../../images/logo.png";
-import { ArrowLeft, ArrowRight, Envelope, Lock, Password } from "phosphor-react";
+import { ArrowLeft, ArrowRight, Envelope } from "phosphor-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setAuth } from "@/store/themeConfigSlice";
-import axios from "axios";
+// import axios from "axios"; // Unused if using client-side firebase
+import { forgotPassword } from "@/firebase/firebase.config";
 
 const Login = () => {
   const testimonials = [
@@ -51,7 +49,7 @@ const Login = () => {
   };
 
   //---------------------------------------------------------------------------------
-  const [input, setInput] = useState({ email: ""});
+  const [input, setInput] = useState({ email: "" });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
@@ -69,40 +67,25 @@ const Login = () => {
       setLoading(true);
       setError("");
       setSuccess("");
-      if(!input.email) {
+
+      if (!input.email) {
         setError("Please enter your email address.");
+        setLoading(false);
         return;
       }
-      const payload = {
-        email: input.email
-      };
 
-      const response = await axios.post('/api/forget-Password', payload);
-      console.log(response.data);
+      console.log("Sending password reset email to:", input.email);
+      const result = await forgotPassword(input.email);
 
-      console.log(response, "response coming from backend");
-
-      // console.lo g(response.body, "response coming from backend");
-
-      const user = response.data.user;
-      // console.log(user, "user Created by Krishna coming fron backend");
-
-      console.log(user, "user Created bt Krishna")
-      if(user){
-        setSuccess("Reset link sent to your email.");
-        // router.push(`Forget-Password/${user}`);
+      if (result.success) {
+        setSuccess(result.message); // "Password reset email sent successfully"
+      } else {
+        setError(result.message || "Failed to send reset email.");
       }
-      else{
-      setError("Forget-Password failed. Please check your credentials.");
 
-      }
-      
-      // alert(`Reset link sent to your email: ${input.email}`);
-    
-    } catch (err) {
-      console.error("Login error:", err);
-      let errorMessage = "An error occurred during login. Please try again.";
-      setError(errorMessage);
+    } catch (err: any) {
+      console.error("Forgot Password error:", err);
+      setError("An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -173,7 +156,7 @@ const Login = () => {
               required
             />
           </div>
-          
+
           <div className="col-span-2">
             <button
               className="py-4 bg-p1 text-white block text-center border border-p1 hover:bg-s2 hover:border-mainTextColor hover:text-mainTextColor duration-500 w-full"

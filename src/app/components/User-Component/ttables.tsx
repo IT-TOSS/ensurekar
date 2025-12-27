@@ -49,7 +49,7 @@ interface TableTypes {
 }
 
 // Constants to avoid magic strings
-const API_URL = "https://edueye.co.in/ensurekar/existing-site/orderid_get.php";
+const API_URL = "/api/orderid-get";
 const LOCAL_STORAGE_KEY = "userInfo";
 
 const OrderHistoryTable = ({ itemsData }: { itemsData: TableTypes }) => {

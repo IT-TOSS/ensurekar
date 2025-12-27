@@ -68,7 +68,7 @@ const SuperAdminProfile = () => {
       setFetchingData(true);
       const email = extractEmailFromLocalStorage();
       
-      const response = await fetch(`https://edueye.co.in/ensurekar/existing-site/admin-register.php?email=${encodeURIComponent(email)}`);
+      const response = await fetch(`/api/admin-register?email=${encodeURIComponent(email)}`);
       const data = await response.json();
       
       // Handle different response formats
@@ -186,8 +186,8 @@ const SuperAdminProfile = () => {
       };
 
       // Call API to update profile
-      const response = await fetch('https://edueye.co.in/ensurekar/existing-site/admin-register.php', {
-        method: 'POST',
+      const response = await fetch(`/api/admin-register?email=${encodeURIComponent(originalData.email)}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },

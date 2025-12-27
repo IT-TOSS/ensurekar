@@ -1246,7 +1246,7 @@ const LimitedLiabilityPartnershipRegistration = () => {
       <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans} />
 
       <div ref={plansRef} id="plans" className="plans-section">
-        <Text planData={planData} page={"limited-liability-partnership-registration"} />
+        <Text planData={planData} page={"limited-liability-partnership-registration"} serviceName="Limited Liability Partnership (LLP)" />
         {/* <PlansSection planData={planData} /> */}
       </div>
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />

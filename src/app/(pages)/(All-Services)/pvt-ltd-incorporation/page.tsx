@@ -36,7 +36,6 @@ import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
 import RegistrationGuide from "@/app/components/Section/Registration-Guide";
 import { HandCoins } from "lucide-react";
 
-import DynamicPlansSection from "../../../components/Section/DynamicPlansSection";
 
 import Text from "@/app/components/Section/Text";
 
@@ -45,62 +44,6 @@ import axios from "axios";
 
 const Pvt_Ltd_Incorporation_Registration = () => {
 
-
-  useEffect(() => {
-    const fetchPlans = async () => {
-      // setLoading(true);
-      try {
-        const response = await axios.get("https://edueye.co.in/ensurekar/wp-json/wc/v3/products?consumer_key=ck_1a163a1d803b2ed9c2c501a232692bd5ee3c2619&consumer_secret=cs_054aea9c8f7ddeef9b7ceb5fc45c56cd422ba4a2");
-        const data = response.data;
-
-        console.log("Response:data", data.data);
-        // const grouped = groupPlans(data.data);
-        // console.log("Grouped Plans:", grouped);
-
-        // console.log(Array.isArray(data.data))
-        
-        // if (data && Array.isArray(data.data)) {
-        //   setPlansData(grouped);
-        //   console.log("Plans Data:", plansData);
-          
-        //   // Create states dropdown options
-        //   const states = Object.values(grouped).map(group => ({ 
-        //     value: group.state, 
-        //     label: group.state_name 
-        //   }));
-        //   setStatesOptions(states);
-          
-        //   // Initialize split payment toggle states
-        //   const toggleStates: { [key: string]: boolean } = {};
-        //   Object.values(grouped).forEach(group => {
-        //     group.plans.forEach(p => {
-        //       toggleStates[p.plan.id] = false;
-        //     });
-        //   });
-        //   setSplitPaymentStates(toggleStates);
-          
-        //   // Set initial filtered plans based on default state
-        //   const initialPlans = grouped[selectedState]?.plans.filter(p => p.isActive) || [];
-        //   setFilteredPlans(initialPlans);
-          
-        //   // Set initial selected plan if available
-        //   if (initialPlans.length > 0) {
-        //     setSelectedPlan(initialPlans[0].planName);
-        //   }
-        // } else {
-        //   setError("Invalid data format received from server");
-        // }
-      } catch (error) {
-        console.error("Error fetching plans:", error);
-        // setError("Failed to load plans. Please try again later.");
-      } 
-    };
-
-    fetchPlans();
-  }, []);
-
-
-
   const BreadcrumbData = {
     title: "Private Limited Incorporation",
     heading: "Private Limited Incorporation Registration",
@@ -108,8 +51,8 @@ const Pvt_Ltd_Incorporation_Registration = () => {
       "Expert Support for Company Registration, including SPICe-INC-32, eMoA-INC-33, and eAOA-INC-34 along with DSC on MCA Filings.",
     image: "",
     subHeading: "Get Your Company Registered in Just 7 days.",
-    cartDetails:{
-      id:1,
+    cartDetails: {
+      id: 1,
       name: "	Private Limited Incorporation",
       price: 18000,
       quantity: 1,
@@ -137,7 +80,7 @@ const Pvt_Ltd_Incorporation_Registration = () => {
             isActive: true,
             suggestionText: "",
             happyText: "",
-            
+
             plan: {
               id: "1",
               price: "",
@@ -543,11 +486,11 @@ const Pvt_Ltd_Incorporation_Registration = () => {
           },
         ],
       },
-   
+
     ],
     defaultState: "MP",
     defaultPlan: "Standard",
-    
+
   };
   const AllInOneData = {
     title: "",
@@ -812,16 +755,16 @@ const Pvt_Ltd_Incorporation_Registration = () => {
     meta: "Private Limited Incorporation",
     description: "",
     steps: [
-      { title: "Create Your Account", description: "",imageUrl: CreateImage },
-      { title: "Talk To Our Expert", description: "",imageUrl:TalkExpert },
+      { title: "Create Your Account", description: "", imageUrl: CreateImage },
+      { title: "Talk To Our Expert", description: "", imageUrl: TalkExpert },
       {
         title:
           "Provide Document and Get Incorporated",
-        description: "",imageUrl:ProvideDocument
+        description: "", imageUrl: ProvideDocument
       },
     ],
     aboutSteps: [],
-    footerMessage:'Start a Free Trial With Our Experts Today!'
+    footerMessage: 'Start a Free Trial With Our Experts Today!'
   };
   const FAQsData = {
     title: "FAQs",
@@ -876,7 +819,7 @@ const Pvt_Ltd_Incorporation_Registration = () => {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl:TalkExpert ,
+        imageUrl: TalkExpert,
       },
       {
         heading: "Hassle-Free & Fast Service",
@@ -1090,26 +1033,26 @@ const Pvt_Ltd_Incorporation_Registration = () => {
 
 
 
-  const plansRef = useRef<HTMLDivElement | null>(null); 
-    const scrollToPlans = () => {
-      if (plansRef.current) {
-        plansRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    };
+  const plansRef = useRef<HTMLDivElement | null>(null);
+  const scrollToPlans = () => {
+    if (plansRef.current) {
+      plansRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
 
 
   return (
     <div>
-      <BreadcrumbSection BreadcrumbData={BreadcrumbData}  scrollToPlans={scrollToPlans}/>
+      <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       {/* <PlansSection planData={planData} /> */}
 
       <div ref={plansRef} id="plans" className="plans-section">
         {/* <NewPlansSection planData={planData} plansData={plansData} />  //  this data is not preresnt in this page*/}
-        <Text planData={planData} page={"pvt-ltd-incorporation"} />
+        <Text planData={planData} page={"pvt-ltd-incorporation"} serviceName="Private Limited Incorporation" />
         {/* <PlansSection planData={planData} /> */}
       </div>
 
@@ -1121,7 +1064,7 @@ const Pvt_Ltd_Incorporation_Registration = () => {
 
 
 
-      <All_In_One_ServiceSection AllInOneData={AllInOneData}  />
+      <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
       <RegisterSteps RegisterSteps={RegisterStepsData} />

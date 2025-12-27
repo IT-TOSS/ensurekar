@@ -28,7 +28,8 @@ import {
   UserCheck,
   Package,
   Globe,
-  Lock
+  Lock,
+  Sparkles
 } from "lucide-react";
 import React, { useState } from "react";
 import { logout } from "@/store/themeConfigSlice";
@@ -45,6 +46,7 @@ const LoggedNavbarSuper = () => {
     { name: "Profile", link: "/dashboard/profile", icon: <User size={20} /> },
     { name: "All Users", link: "/dashboard/users", icon: <Users size={20} /> },
     { name: "All Admins", link: "/dashboard/admins", icon: <UserCheck size={20} /> },
+    { name: "Hero Section", link: "/dashboard/hero-section", icon: <Sparkles size={20} /> },
     { name: "Packages", link: "/dashboard/packages", icon: <Package size={20} /> },
     // { name: "Orders", link: "/dashboard/orders", icon: <ShoppingCart size={20} /> },
     { name: "Company Slider", link: "/dashboard/logo-system", icon: <Globe size={20} /> },
@@ -60,6 +62,9 @@ const LoggedNavbarSuper = () => {
   const handleLogout = () => {
     dispatch(logout());
     localStorage.removeItem("superAdminAuth");
+    localStorage.removeItem("superAdminSessionStartTime");
+    localStorage.removeItem("superAdminLastActivityTime");
+    localStorage.removeItem("superAdminToken");
     router.push("/super_admin");
   };
 

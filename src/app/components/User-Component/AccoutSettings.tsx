@@ -1284,7 +1284,7 @@ const AccountSettings = ({
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const response = await axios.get("https://edueye.co.in/ensurekar/existing-site/userinfo_get.php", {
+        const response = await axios.get("/api/userinfo-get", {
           headers: {
             "Content-Type": "application/json"
           }
@@ -1748,7 +1748,7 @@ const AccountSettings = ({
         // Send the data to the server API - using formDataToSend for multipart/form-data
 
         ///api/Setting/updateuserinfo
-        const response = await axios.post("https://edueye.co.in/ensurekar/existing-site/userinfo_post.php", formDataToSend, {
+        const response = await axios.post("/api/userinfo-post", formDataToSend, {
           headers: {
             "Content-Type": "application/json"
           }

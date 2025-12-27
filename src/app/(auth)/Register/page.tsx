@@ -146,7 +146,7 @@ const Register = () => {
         console.log(user.uid, " I am User Id");
 
         console.log(formData.firstName + "  " + formData.lastName)
-        const response = await fetch("https://edueye.co.in/ensurekar/existing-site/register.php", {
+        const response = await fetch("/api/registerUser", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -189,6 +189,11 @@ const Register = () => {
           })
         );
 
+        // Set session start time for session timeout (40 minutes)
+        const now = Date.now();
+        localStorage.setItem("sessionStartTime", now.toString());
+        localStorage.setItem("lastActivityTime", now.toString());
+
         setMessage({
           message: "Registration Successful! You can now proceed to dashboard.",
           showModel: true,
@@ -198,21 +203,7 @@ const Register = () => {
       } else if (userCredential) {
         const user = userCredential.user;
         const isNewUser = userCredential.additionalUserInfo?.isNewUser;
-
-        // console.log(user, " I am User by Google Sign In by Krishna");
-
-        // if (isNewUser) {
-        //   await setDoc(doc(db, "users", user.uid), {
-        //     firstName: user.displayName?.split(" ")[0] || "",
-        //     lastName: user.displayName?.split(" ").slice(1).join(" ") || "",
-        //     email: user.email,
-        //     whatsappNumber: formData.whatsappNumber || "",
-        //     createdAt: new Date().toISOString(),
-        //     role: "user",
-        //     picture: user.photoURL,
-        //   });
-        // }
-
+        
         dispatch(
           setAuth({
             isAuthenticated: true,
@@ -229,6 +220,11 @@ const Register = () => {
             Token: await user.getIdToken(),
           })
         );
+
+        // Set session start time for session timeout (40 minutes)
+        const now = Date.now();
+        localStorage.setItem("sessionStartTime", now.toString());
+        localStorage.setItem("lastActivityTime", now.toString());
 
         setMessage({
           message: "Registration Successful! You can now proceed to dashboard.",
@@ -348,8 +344,8 @@ const Register = () => {
 
         console.log(payload, "I am result by Google Sign In by Krishna");
 
-        // First check if the user exists in the database
-        const response = await fetch('https://edueye.co.in/ensurekar/existing-site/register.php', {
+        // Register user in our own backend (or confirm they already exist)
+        const response = await fetch('/api/registerUser', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -357,33 +353,22 @@ const Register = () => {
           body: JSON.stringify(payload),
         });
 
-        console.log(response, "response by Google Sign In by Krishna from backend");
+        const userData = await response.json().catch(() => null);
+        console.log(userData, "user and result by Google Sign In from backend");
 
-        const userData = await response.json();
-        console.log(userData, "user and result by Google Sign In by Krishna from backend");
-        console.log(userData.exists);
+        if (!response.ok && response.status !== 409) {
+          // 409 means user already exists, which is fine for Google login
+          throw new Error(userData?.message || "Failed to register user in backend");
+        }
 
-        // If user doesn't exist, redirect to registration
-        if (!userData.exists) {
-          // First register the user in the database
-          const registerResponse = await fetch('https://edueye.co.in/ensurekar/existing-site/register.php', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-          });
-
-          const registeredUser = await registerResponse.json();
-          console.log(registeredUser);
-
+        // If user was newly created, show success message
+        if (response.ok) {
           setMessage({
             message: "Registration Successful! You can now proceed to dashboard.",
             showModel: true,
             success: true,
             userId: user.uid,
           });
-
           setUserCredential({ user });
         }
 
@@ -409,6 +394,12 @@ const Register = () => {
         );
 
         localStorage.setItem('authToken', token);
+
+        // Set session start time for session timeout (40 minutes)
+        const now = Date.now();
+        localStorage.setItem("sessionStartTime", now.toString());
+        localStorage.setItem("lastActivityTime", now.toString());
+
         navigate.push("/dashboard");
 
       } else {

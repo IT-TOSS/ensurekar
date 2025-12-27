@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Provider } from "react-redux";
 import store from "@/store";
 import LoggedNavbarSuper from "../../components/admin-Sections/LoggedNavbarSuper";
+import { useAdminSessionTimeout } from "@/hooks/useAdminSessionTimeout";
 
 export default function SuperAdminLayout({
   children,
@@ -15,6 +16,9 @@ export default function SuperAdminLayout({
   const router = useRouter();
 
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+
+  // Initialize super admin session timeout (90 minutes)
+  useAdminSessionTimeout(true);
 
   useEffect(() => {
     const superAdminAuth = localStorage.getItem("superAdminAuth");

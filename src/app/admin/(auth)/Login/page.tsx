@@ -47,7 +47,7 @@ const Login = () => {
       // console.log("Logging in with email:", email);
       // console.log("Logging in with password:", password);
       const response = await fetch(
-        "https://edueye.co.in/ensurekar/existing-site/admin-login.php",
+        "/api/admin-login",
         {
           method: "POST",
           headers: {
@@ -102,6 +102,12 @@ const Login = () => {
       const success = await loginAdmin(input.email, input.password);
       if (success) {
         setAuthLocalStorage(input.email);
+        
+        // Set session start time for admin session timeout (90 minutes)
+        const now = Date.now();
+        localStorage.setItem("adminSessionStartTime", now.toString());
+        localStorage.setItem("adminLastActivityTime", now.toString());
+        
         console.log("Login successful");
         router.push("/admin");
       } else {

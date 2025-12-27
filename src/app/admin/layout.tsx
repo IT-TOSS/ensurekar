@@ -56,6 +56,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Provider } from "react-redux";
 import store from "@/store";
 import LoggedNavbar from "../components/LoggedNavbar";
+import { useAdminSessionTimeout } from "@/hooks/useAdminSessionTimeout";
 
 export default function Layout({
   children,
@@ -66,6 +67,9 @@ export default function Layout({
   const router = useRouter();
 
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+
+  // Initialize admin session timeout (90 minutes)
+  useAdminSessionTimeout(false);
 
   useEffect(() => {
     const adminAuth = localStorage.getItem("adminAuth");

@@ -2,9 +2,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-// eslint-disable-next-line
-// @ts-ignore - next/image static import provides an object with a .src field
-import blogofensureKar from "@/app/images/blogofensureKar.png";
+import { FiBookmark, FiShare2, FiMoreHorizontal } from "react-icons/fi";
+import { FaRegComment, FaRegHandPaper } from "react-icons/fa";
 
 interface BlogPost {
   id: number;
@@ -50,7 +49,7 @@ const fixImagePath = (imagePath?: string): string => {
 
 const getBlogImageSrc = (imageFilename?: string, imagePath?: string) => {
   const fixed = fixImagePath(imagePath);
-  if (imageFilename && fixed) return fixed;
+  if (fixed) return fixed;
   // No fallback: if API has no image, don't render any image
   return "";
 };
@@ -91,6 +90,26 @@ const normalizeContentHtml = (html: string): string => {
   } catch {
     return html;
   }
+};
+
+// Calculate reading time (average 200 words per minute)
+const calculateReadingTime = (content: string): number => {
+  const text = content.replace(/<[^>]*>/g, ""); // Remove HTML tags
+  const words = text.trim().split(/\s+/).length;
+  return Math.ceil(words / 200);
+};
+
+// Format date to "X days ago" or date
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - date.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "1 day ago";
+  if (diffDays < 7) return `${diffDays} days ago`;
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 };
 
 const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
@@ -164,75 +183,184 @@ const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
 
   if (!blog) return null;
 
+  const readingTime = calculateReadingTime(blog.content);
+  const formattedDate = formatDate(blog.publish_date);
+
   return (
-    <div className="min-h-screen bg-[#eafaf8] dark:bg-black pt-20 pb-8 sm:pt-28 sm:pb-10 md:pt-32 md:pb-12 lg:pt-30 lg:pb-14">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* <div className="mb-6">
-          <Link href="/blog-section" className="text-sm text-blue-600 underline">← Back to Blog</Link>
-        </div> */}
+    <div className="min-h-screen bg-white">
+      <div className="max-w-[680px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
+        {/* Article Title */}
+        <h1 className="text-4xl sm:text-5xl md:text-[42px] font-bold text-gray-900 mb-10 leading-[1.15] tracking-[-0.02em]" style={{ fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+          {blog.title}
+        </h1>
 
-        <div className="bg-white rounded-2xl border shadow overflow-hidden">
-          <div className={`grid grid-cols-1 ${getBlogImageSrc(blog.image_filename, blog.image_path) ? 'md:grid-cols-2' : ''} gap-0`}>
-            {/* Image on the left */}
-            {getBlogImageSrc(blog.image_filename, blog.image_path) && (
-              <div className="flex items-center justify-center bg-white py-8">
-                <div className="relative w-full max-w-[500px] h-[320px] rounded-2xl shadow-lg overflow-hidden flex items-center justify-center">
-                  <Image
-                    src={getBlogImageSrc(blog.image_filename, blog.image_path)}
-                    alt={blog.title}
-                    fill
-                    className="object-contain w-full h-full"
-                    sizes="(min-width: 768px) 500px, 100vw"
-                    priority
-                  />
+        {/* Author Section */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+          <div className="flex items-center gap-3">
+            {/* Author Avatar */}
+            <div className="w-10 h-10 rounded-full bg-gray-300 overflow-hidden flex-shrink-0">
+              {blog.author_email ? (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-500 to-purple-600 text-white font-semibold text-sm">
+                  {blog.author_name.charAt(0).toUpperCase()}
                 </div>
-              </div>
-            )}
-
-            {/* Content on the right */}
-            <div className="p-5 sm:p-7 flex flex-col">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{blog.title}</h1>
-              <div className="mt-2 text-sm text-gray-500">
-                {new Date(blog.publish_date).toLocaleDateString()} • By {blog.author_name}
-              </div>
-              {blog.author_bio && (
-                <div className="mt-1 text-xs text-gray-500">{blog.author_bio}</div>
-              )}
-
-              {blog.tags?.length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {blog.tags.map((t, i) => (
-                    <span key={i} className="inline-block text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700">{t}</span>
-                  ))}
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                  <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                  </svg>
                 </div>
               )}
-
-              <p className="mt-5 text-gray-700">{blog.excerpt}</p>
-
-              <div className="prose max-w-none mt-6 flex-grow text-gray-900 content-html"
-                   dangerouslySetInnerHTML={{ __html: normalizeContentHtml(blog.content) }}
-              />
-              <style jsx>{`
-                .content-html :global(a) {
-                  color: #2563eb;
-                  text-decoration: underline;
-                }
-              `}</style>
-
-              {/* {(blog.meta_title || blog.meta_description) && (
-                <div className="mt-8 border-t pt-4">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-2">SEO</h3>
-                  {blog.meta_title && (
-                    <div className="text-sm text-gray-900"><span className="font-medium">Title:</span> {blog.meta_title}</div>
-                  )}
-                  {blog.meta_description && (
-                    <div className="text-sm text-gray-900 mt-1"><span className="font-medium">Description:</span> {blog.meta_description}</div>
-                  )}
-                </div>
-              )} */}
+            </div>
+            
+            {/* Author Name and Follow Button */}
+            <div className="flex items-center gap-3">
+              <span className="text-gray-900 font-medium text-[15px]">{blog.author_name}</span>
+              {/* <button className="px-4 py-1.5 text-sm font-medium border border-gray-300 rounded-full hover:bg-gray-50 transition-colors whitespace-nowrap">
+                Follow
+              </button> */}
             </div>
           </div>
+
+          {/* Publication Details */}
+          <div className="flex items-center gap-4 text-sm text-gray-500 whitespace-nowrap">
+            <span>{formattedDate}</span>
+          </div>
         </div>
+
+        {/* Featured Image */}
+        {getBlogImageSrc(blog.image_filename, blog.image_path) && (
+          <div className="mb-10 -mx-4 sm:-mx-6 lg:-mx-8">
+            <div className="relative w-full min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] flex items-center justify-center bg-gray-50">
+              <Image
+                src={getBlogImageSrc(blog.image_filename, blog.image_path)}
+                alt={blog.title}
+                width={1200}
+                height={800}
+                className="object-contain w-full h-auto max-h-[600px]"
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 680px"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Article Content */}
+        <article className="max-w-none">
+          <div 
+            className="content-html"
+            dangerouslySetInnerHTML={{ __html: normalizeContentHtml(blog.content) }}
+            style={{
+              fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+              fontSize: '18px',
+              lineHeight: '1.5',
+              color: '#292929',
+              letterSpacing: '-0.03em'
+            }}
+          />
+        </article>
+
+        <style jsx>{`
+          @media (min-width: 1024px) {
+            :global(.lg\:px-8) {
+              padding-left: 2rem;
+              padding-right: 2rem;
+              padding-top: 8rem;
+            }
+          }
+          .content-html :global(p) {
+            margin-bottom: 1.5em;
+            font-size: 18px;
+            line-height: 1.7;
+            color: #292929;
+            letter-spacing: -0.01em;
+            font-weight: 400;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          }
+          .content-html :global(h1),
+          .content-html :global(h2),
+          .content-html :global(h3),
+          .content-html :global(h4),
+          .content-html :global(h5),
+          .content-html :global(h6) {
+            font-weight: 700;
+            margin-top: 1.8em;
+            margin-bottom: 0.8em;
+            color: #292929;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+          }
+          .content-html :global(h2) {
+            font-size: 34px;
+          }
+          .content-html :global(h3) {
+            font-size: 28px;
+          }
+          .content-html :global(h4) {
+            font-size: 24px;
+          }
+          .content-html :global(a) {
+            color: #292929;
+            text-decoration: underline;
+            text-decoration-color: rgba(41, 41, 41, 0.4);
+            text-underline-offset: 2px;
+          }
+          .content-html :global(a:hover) {
+            text-decoration-color: #292929;
+          }
+          .content-html :global(img) {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin: 3em 0;
+            display: block;
+          }
+          .content-html :global(ul),
+          .content-html :global(ol) {
+            margin: 1.46em 0;
+            padding-left: 1.8em;
+          }
+          .content-html :global(li) {
+            margin-bottom: 0.6em;
+            font-size: 18px;
+            line-height: 1.7;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          }
+          .content-html :global(blockquote) {
+            border-left: 3px solid #292929;
+            padding-left: 1.5em;
+            margin: 2em 0;
+            font-style: italic;
+            color: #757575;
+            font-size: 18px;
+            line-height: 1.7;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          }
+          .content-html :global(strong) {
+            font-weight: 700;
+            color: #292929;
+          }
+          .content-html :global(em) {
+            font-style: italic;
+          }
+          .content-html :global(code) {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-family: 'Courier New', monospace;
+          }
+          .content-html :global(pre) {
+            background-color: #f5f5f5;
+            padding: 1.5em;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 2em 0;
+          }
+          .content-html :global(pre code) {
+            background-color: transparent;
+            padding: 0;
+          }
+        `}</style>
       </div>
     </div>
   );

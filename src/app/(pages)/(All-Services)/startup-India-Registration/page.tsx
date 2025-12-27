@@ -38,7 +38,7 @@ import SeparateLegalIdentity from "../../../images/SGV-Types/Separate-Legal-Iden
 import TaxBenefitsforPrivateLimitedCompanies from "../../../images/SGV-Types/Tax-Benefits-for-Private-Limited-Companies.svg";
 import ProvideDocument from "../../../images/SGV-Types/Provide-Document-and-Get-Incorporated.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
-import DynamicPlansSection from "../../../components/Section/DynamicPlansSection";
+// import DynamicPlansSection from "../../../components/Section/DynamicPlansSection";
 
 
 // add by geetanjali

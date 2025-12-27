@@ -1,192 +1,224 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { CreateConnection } from '../../../../config/database';
 
-const API_BASE_URL = 'https://edueye.co.in/ensurekar/existing-site/create_get_update_blog_posts.php';
+// Helper to standardize responses
+const jsonResponse = (body: any, status = 200) =>
+  NextResponse.json(body, {
+    status,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-API-KEY, X-Requested-With, Origin, Accept, X-API-Key',
+    },
+  });
 
+// Utility: normalize tags field from DB (stringified JSON) to array
+const parseTags = (value: any) => {
+  if (!value) return [];
+  try {
+    return typeof value === 'string' ? JSON.parse(value) : value;
+  } catch {
+    return [];
+  }
+};
+
+// ===========================================================
+// 1️⃣ GET (All or One)
+// ===========================================================
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
-    const token = request.headers.get('X-API-Key') || '';
 
-    let url = API_BASE_URL;
+    const db = await CreateConnection();
+
     if (id) {
-      url += `?id=${id}`;
+      const [rows]: any = await db.query('SELECT * FROM blog_posts WHERE id = ?', [parseInt(id)]);
+      if (!Array.isArray(rows) || rows.length === 0) {
+        return jsonResponse({ error: 'Post not found' }, 404);
+      }
+      const post = rows[0];
+      return jsonResponse({
+        status: 'success',
+        data: { ...post, tags: parseTags(post.tags) },
+      });
     }
 
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'X-API-Key': token,
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store',
-    });
+    // All posts
+    const [rows]: any = await db.query(
+      'SELECT * FROM blog_posts ORDER BY publish_date DESC, created_at DESC'
+    );
+    const posts = Array.isArray(rows)
+      ? rows.map((p) => ({ ...p, tags: parseTags(p.tags) }))
+      : [];
 
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: 'Failed to fetch blog data' },
-        { status: response.status }
-      );
-    }
-
-    const data = await response.json();
-
-    // Return with CORS headers
-    return NextResponse.json(data, {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
-      },
+    return jsonResponse({
+      status: 'success',
+      count: posts.length,
+      data: posts,
     });
   } catch (error) {
-    console.error('Error fetching blog:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+    console.error('Error fetching blog posts:', error);
+    return jsonResponse(
+      {
+        error: 'Database connection failed',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
+      500
     );
   }
 }
 
+// ===========================================================
+// 2️⃣ CREATE NEW POST
+// ===========================================================
 export async function POST(request: NextRequest) {
   try {
-    const token = request.headers.get('X-API-Key') || '';
-    const body = await request.json();
+    const input = await request.json().catch(() => null);
+    if (!input) {
+      return jsonResponse({ error: 'Invalid JSON input.' }, 400);
+    }
 
-    const response = await fetch(API_BASE_URL, {
-      method: 'POST',
-      headers: {
-        'X-API-Key': token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
+    const {
+      title,
+      slug,
+      excerpt = '',
+      content = '',
+      author_name,
+      author_email = '',
+      author_bio = '',
+      status = 'draft',
+      featured = false,
+      image_filename = '',
+      image_path = '',
+      tags = [],
+      publish_date = null,
+      meta_title = '',
+      meta_description = '',
+    } = input;
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      return NextResponse.json(
-        { error: errorData.error || 'Failed to create blog' },
-        { status: response.status }
+    if (!title || !slug || !content || !author_name) {
+      return jsonResponse(
+        { error: 'Missing required fields: title, slug, content, author_name' },
+        400
       );
     }
 
-    const data = await response.json();
+    const db = await CreateConnection();
+    const insertSql = `
+      INSERT INTO blog_posts 
+        (title, slug, excerpt, content, author_name, author_email, author_bio, status, featured, 
+         image_filename, image_path, tags, publish_date, meta_title, meta_description)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
 
-    return NextResponse.json(data, {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
-      },
-    });
+    const [result]: any = await db.query(insertSql, [
+      title,
+      slug,
+      excerpt,
+      content,
+      author_name,
+      author_email,
+      author_bio,
+      status,
+      featured ? 1 : 0,
+      image_filename,
+      image_path,
+      JSON.stringify(tags ?? []),
+      publish_date || null,
+      meta_title,
+      meta_description,
+    ]);
+
+    return jsonResponse({ status: 'created', id: result.insertId }, 201);
   } catch (error) {
-    console.error('Error creating blog:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+    console.error('Error creating blog post:', error);
+    return jsonResponse(
+      { error: 'Insert failed', details: error instanceof Error ? error.message : 'Unknown error' },
+      500
     );
   }
 }
 
+// ===========================================================
+// 3️⃣ UPDATE EXISTING POST
+// ===========================================================
 export async function PUT(request: NextRequest) {
   try {
-    const token = request.headers.get('X-API-Key') || '';
-    const body = await request.json();
-
-    const response = await fetch(API_BASE_URL, {
-      method: 'PUT',
-      headers: {
-        'X-API-Key': token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      return NextResponse.json(
-        { error: errorData.error || 'Failed to update blog' },
-        { status: response.status }
-      );
+    const input = await request.json().catch(() => null);
+    if (!input || !input.id) {
+      return jsonResponse({ error: "Missing or invalid 'id' for update" }, 400);
     }
 
-    const data = await response.json();
+    const id = parseInt(input.id);
+    const fields: string[] = [];
+    const values: any[] = [];
 
-    return NextResponse.json(data, {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
-      },
-    });
+    for (const [key, value] of Object.entries(input)) {
+      if (key === 'id') continue;
+
+      // Convert arrays to JSON (e.g., tags)
+      const valToStore =
+        Array.isArray(value) ? JSON.stringify(value) : value === undefined ? null : value;
+      fields.push(`\`${key}\` = ?`);
+      values.push(valToStore);
+    }
+
+    if (fields.length === 0) {
+      return jsonResponse({ error: 'No fields to update' }, 400);
+    }
+
+    const sql = `UPDATE blog_posts SET ${fields.join(', ')} WHERE id = ?`;
+    values.push(id);
+
+    const db = await CreateConnection();
+    await db.query(sql, values);
+
+    return jsonResponse({ status: 'updated', id });
   } catch (error) {
-    console.error('Error updating blog:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+    console.error('Error updating blog post:', error);
+    return jsonResponse(
+      { error: 'Update failed', details: error instanceof Error ? error.message : 'Unknown error' },
+      500
     );
   }
 }
 
+// ===========================================================
+// 4️⃣ DELETE POST
+// ===========================================================
 export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
-    const token = request.headers.get('X-API-Key') || '';
+    const idFromQuery = searchParams.get('id');
+    const body = await request.json().catch(() => ({}));
+    const id = idFromQuery || body?.id;
 
     if (!id) {
-      return NextResponse.json(
-        { error: 'ID is required for deletion' },
-        { status: 400 }
-      );
+      return jsonResponse({ error: 'ID is required for deletion' }, 400);
     }
 
-    const response = await fetch(`${API_BASE_URL}?id=${id}`, {
-      method: 'DELETE',
-      headers: {
-        'X-API-Key': token,
-        'Content-Type': 'application/json',
-      },
-    });
+    const db = await CreateConnection();
+    const [result]: any = await db.query('DELETE FROM blog_posts WHERE id = ?', [parseInt(id)]);
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      return NextResponse.json(
-        { error: errorData.error || 'Failed to delete blog' },
-        { status: response.status }
-      );
+    if (result.affectedRows === 0) {
+      return jsonResponse({ error: 'Post not found' }, 404);
     }
 
-    const data = await response.json();
-
-    return NextResponse.json(data, {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
-      },
-    });
+    return jsonResponse({ status: 'deleted', id: parseInt(id) });
   } catch (error) {
-    console.error('Error deleting blog:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+    console.error('Error deleting blog post:', error);
+    return jsonResponse(
+      { error: 'Delete failed', details: error instanceof Error ? error.message : 'Unknown error' },
+      500
     );
   }
 }
 
+// ===========================================================
+// 5️⃣ OPTIONS (CORS Preflight)
+// ===========================================================
 export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
-    },
-  });
+  return jsonResponse({}, 200);
 }
 

@@ -33,6 +33,8 @@ const LoggedNavbar = () => {
   const handleLogout = () => {
     dispatch(logout());
     localStorage.removeItem("adminAuth");
+    localStorage.removeItem("adminSessionStartTime");
+    localStorage.removeItem("adminLastActivityTime");
     router.push("/admin/Login");
   };
 

@@ -407,16 +407,15 @@ const BlogManagement = () => {
         })
       }
 
-      // Delete blog from database using external API
+      // Delete blog from database using local API
       const response = await fetch(
-        "https://edueye.co.in/ensurekar/existing-site/delete_blog_post.php",
+        `/api/blog?id=${id}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             "X-API-Key": token || "",
           },
-          body: JSON.stringify({ id }),
         }
       )
       console.log("Response:", response)

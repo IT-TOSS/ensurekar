@@ -37,7 +37,7 @@ const SuperAdminLogin = () => {
     try {
       console.log("Attempting Super Admin login for:", email);
 
-      const response = await fetch("https://edueye.co.in/ensurekar/existing-site/admin-login.php", {
+      const response = await fetch("/api/admin-login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,8 +53,8 @@ const SuperAdminLogin = () => {
         throw new Error(message);
       }
 
-      // Normalize potential response shapes
-      const adminData = data?.data?.user || data?.user || data?.data || data;
+      // Normalize potential response shapes - new API returns { message, user }
+      const adminData = data?.user || data?.data?.user || data?.data || data;
       const token = data?.token || data?.data?.token || data?.authToken || "";
 
       if (!adminData || !adminData.email) {
@@ -103,6 +103,12 @@ const SuperAdminLogin = () => {
       const result = await loginSuperAdmin(input.email, input.password);
       if (result.success) {
         setAuthLocalStorage(input.email);
+        
+        // Set session start time for super admin session timeout (90 minutes)
+        const now = Date.now();
+        localStorage.setItem("superAdminSessionStartTime", now.toString());
+        localStorage.setItem("superAdminLastActivityTime", now.toString());
+        
         console.log("Super Admin Login successful");
         console.log("Admin Data:", result.adminData);
         router.push("/super_admin/dashboard");

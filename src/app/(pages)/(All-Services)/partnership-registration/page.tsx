@@ -29,16 +29,16 @@ import productImage from "../../../images/recent_post_img1.png";
 import TalkExpert from "../../../images/SGV-Types/Talk-To-Our-Expert.svg";
 import EnhancedBusinessCredibility from "../../../images/SGV-Types/Enhanced-Business-Credibility.svg";
 import HandUserMoney from "../../../images/SGV-Types/Hand-User-Money.svg";
-import IncreasedCapital  from "../../../images/Partnership/Increased Capital.png";
-import ExpandedBusinessOpportunities  from "../../../images/Partnership/Expanded Business Opportunities.png";
-import BuiltInTrust  from "../../../images/Partnership/Built-In Trust.png";
-import SharedResponsibilities  from "../../../images/Partnership/Shared Responsibilities.png";
-import BetterDecisionMaking  from "../../../images/Partnership/Better Decision Making.png";
-import TaxBenefits  from "../../../images/Partnership/Tax Benefits.png";
-import EnhancedFlexibility   from "../../../images/Partnership/Enhanced Flexibility.png";
-import EmotionalSupport    from "../../../images/Partnership/Emotional Support.png";
-import AccesstoNewIdeas    from "../../../images/Partnership/Access to New Ideas.png";
-import BalancedLifestyle     from "../../../images/Partnership/Balanced Lifestyle.png";
+import IncreasedCapital from "../../../images/Partnership/Increased Capital.png";
+import ExpandedBusinessOpportunities from "../../../images/Partnership/Expanded Business Opportunities.png";
+import BuiltInTrust from "../../../images/Partnership/Built-In Trust.png";
+import SharedResponsibilities from "../../../images/Partnership/Shared Responsibilities.png";
+import BetterDecisionMaking from "../../../images/Partnership/Better Decision Making.png";
+import TaxBenefits from "../../../images/Partnership/Tax Benefits.png";
+import EnhancedFlexibility from "../../../images/Partnership/Enhanced Flexibility.png";
+import EmotionalSupport from "../../../images/Partnership/Emotional Support.png";
+import AccesstoNewIdeas from "../../../images/Partnership/Access to New Ideas.png";
+import BalancedLifestyle from "../../../images/Partnership/Balanced Lifestyle.png";
 
 import Text from "@/app/components/Section/Text";
 
@@ -1230,7 +1230,7 @@ const PartnershipRegistration = () => {
         heading: "Expert Assistance",
         description:
           "EnsureKar offers professional guidance throughout the entire registration process, ensuring compliance with legal requirements",
-        imageUrl:TalkExpert ,
+        imageUrl: TalkExpert,
       },
       {
         heading: "Hassle-Free & Fast Service",
@@ -1442,24 +1442,24 @@ const PartnershipRegistration = () => {
     ],
   };
 
-  
-    const plansRef = useRef<HTMLDivElement | null>(null); 
-    const scrollToPlans = () => {
-      if (plansRef.current) {
-        plansRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    };
+
+  const plansRef = useRef<HTMLDivElement | null>(null);
+  const scrollToPlans = () => {
+    if (plansRef.current) {
+      plansRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
 
   return (
     <div>
       <BreadcrumbSection BreadcrumbData={BreadcrumbData} scrollToPlans={scrollToPlans} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       <div ref={plansRef} id="plans" className="plans-section">
-      {/* <PlansSection planData={planData} /> */}
-      <Text planData={planData} page={"partnership-registration"} />
+        {/* <PlansSection planData={planData} /> */}
+        <Text planData={planData} page={"partnership-registration"} serviceName="Partnership Firm Registration" />
       </div>
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />

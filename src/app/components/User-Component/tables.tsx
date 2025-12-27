@@ -67,7 +67,7 @@
 //   //         }
 
 //   //         // Step 2: Fetch all order data
-//   //         const response = await axios.get(`https://edueye.co.in/ensurekar/existing-site/orderid_get.php`, {
+//   //         const response = await axios.get(`/api/orderid-get`, {
 //   //           headers: {
 //   //             "Content-Type": "application/json",
 //   //           },
@@ -118,7 +118,7 @@
 //         }
   
 //         // Step 2: Fetch all order data
-//         const response = await axios.get("https://edueye.co.in/ensurekar/existing-site/orderid_get.php", {
+//         const response = await axios.get("/api/orderid-get", {
 //           headers: { "Content-Type": "application/json" },
 //         });
   
@@ -387,7 +387,7 @@ const TablesComponent = ({ itemsData }: { itemsData: TableTypes }) => {
           return;
         }
         const userEmail = userInfo.email;
-        const response = await axios.get("https://edueye.co.in/ensurekar/existing-site/orderid_get.php", {
+        const response = await axios.get("/api/orderid-get", {
           headers: { "Content-Type": "application/json" },
         });
         

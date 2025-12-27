@@ -1,194 +1,348 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { CreateConnection } from '../../../../config/database';
 
-const API_BASE_URL = 'https://edueye.co.in/ensurekar/existing-site/package.php';
+// ===========================================================
+// 📦 PACKAGES_OFFERS CRUD API
+// ===========================================================
 
+// ===========================================================
+// ✅ GET (All or One)
+// ===========================================================
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
-    
-    // Build URL - if ID is provided, add it as query parameter
-    let apiUrl = API_BASE_URL;
-    if (id) {
-      apiUrl = `${API_BASE_URL}?id=${id}`;
-    } 
-    
-    const response = await fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store',
-    });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('🔵 [API Route] API error response:', errorText);
-      return NextResponse.json(
-        { error: 'Failed to fetch packages', details: errorText },
-        { status: response.status }
-      );
+    const db = await CreateConnection();
+
+    let query: string;
+    let params: any[] = [];
+
+    if (id) {
+      query = 'SELECT * FROM packages_offers WHERE id = ?';
+      params = [parseInt(id)];
+    } else {
+      query = 'SELECT * FROM packages_offers ORDER BY id DESC';
     }
 
-    const data = await response.json();
+    const [rows] = await db.query(query, params);
 
-    // Return with CORS headers
-    return NextResponse.json(data, {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    });
+    if (Array.isArray(rows) && rows.length > 0) {
+      return NextResponse.json(rows, {
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        },
+      });
+    } else {
+      return NextResponse.json(
+        { message: 'No records found' },
+        {
+          status: 200,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          },
+        }
+      );
+    }
   } catch (error) {
-    console.error('🔵 [API Route] Error fetching packages:', error);
+    console.error('Error fetching packages:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
+      {
+        error: 'Database connection failed',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
       { status: 500 }
     );
   }
 }
 
+// ===========================================================
+// ✅ POST (Create)
+// ===========================================================
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const data = await request.json();
 
-    const response = await fetch(API_BASE_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-      cache: 'no-store',
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('API error response:', errorText);
+    if (!data) {
       return NextResponse.json(
-        { error: 'Failed to create package', details: errorText },
-        { status: response.status }
+        { error: 'Invalid JSON input' },
+        { status: 400 }
       );
     }
 
-    const data = await response.json();
+    const db = await CreateConnection();
 
-    return NextResponse.json(data, {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
+    const planName = data.planName ?? '';
+    const Status = data.Status ?? 'Active';
+    const Description = data.Description ?? '';
+    const Price = parseFloat(data.Price ?? 0);
+    const PriceAfterDiscount = parseFloat(data.PriceAfterDiscount ?? 0);
+    const instalments = data.instalments ?? '';
+    const Features = data.Features ?? '';
+    const page = data.page ?? '';
+    const navigationUrl = data.navigationUrl ?? '';
+    const actionType = data.actionType ?? '';
+    const customPlanId = data.customPlanId ?? '';
+    const customPlanName = data.customPlanName ?? '';
+    const customPrice = data.customPrice ?? '';
+    const enableSelectButton = parseInt(data.enableSelectButton ?? 0);
+    const selectButtonText = data.selectButtonText ?? '';
+    const offerTitle = data.offerTitle ?? '';
+    const offerDescription = data.offerDescription ?? '';
+    const discountPercentage = parseFloat(data.discountPercentage ?? 0);
+    const validUntil = data.validUntil ?? null;
+    const isOfferActive = parseInt(data.isOfferActive ?? 1);
+    const offerPrice = parseFloat(data.offerPrice ?? 0);
+    const recordType = data.recordType ?? 'package';
+    const parentPackageId = data.parentPackageId ? parseInt(data.parentPackageId) : null;
+
+    const query = `INSERT INTO packages_offers (
+      planName, Status, Description, Price, PriceAfterDiscount, instalments,
+      Features, page, navigationUrl, actionType, customPlanId, customPlanName,
+      customPrice, enableSelectButton, selectButtonText, offerTitle,
+      offerDescription, discountPercentage, validUntil, isOfferActive,
+      offerPrice, recordType, parentPackageId
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    const params = [
+      planName,
+      Status,
+      Description,
+      Price,
+      PriceAfterDiscount,
+      instalments,
+      Features,
+      page,
+      navigationUrl,
+      actionType,
+      customPlanId,
+      customPlanName,
+      customPrice,
+      enableSelectButton,
+      selectButtonText,
+      offerTitle,
+      offerDescription,
+      discountPercentage,
+      validUntil,
+      isOfferActive,
+      offerPrice,
+      recordType,
+      parentPackageId,
+    ];
+
+    const [result]: any = await db.query(query, params);
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Package/Offer created',
+        id: result.insertId,
       },
-    });
+      {
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error creating package:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
+      {
+        error: 'Insert failed',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
       { status: 500 }
     );
   }
 }
 
+// ===========================================================
+// ✅ PUT (Update)
+// ===========================================================
 export async function PUT(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
-    const body = await request.json();
 
-    // Build URL with ID query parameter
-    let apiUrl = API_BASE_URL;
-    if (id) {
-      apiUrl = `${API_BASE_URL}?id=${id}`;
-    }
-
-    const response = await fetch(apiUrl, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-      cache: 'no-store',
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('🔵 [API Route] PUT API error response:', errorText);
-      console.error('🔵 [API Route] Error response headers:', Object.fromEntries(response.headers.entries()));
+    if (!id) {
       return NextResponse.json(
-        { error: 'Failed to update package', details: errorText },
-        { status: response.status }
+        { error: 'Missing id for update' },
+        { status: 400 }
       );
     }
 
-    const data = await response.json();
-    return NextResponse.json(data, {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    });
-  } catch (error) {
-    console.error('🔵 [API Route] Error updating package:', error);
+    const data = await request.json();
+
+    if (!data) {
+      return NextResponse.json(
+        { error: 'Invalid JSON input' },
+        { status: 400 }
+      );
+    }
+
+    const db = await CreateConnection();
+
+    // Build update fields dynamically
+    const updates: string[] = [];
+    const values: any[] = [];
+
+    // List of allowed fields to update
+    const allowedFields = [
+      'planName',
+      'Status',
+      'Description',
+      'Price',
+      'PriceAfterDiscount',
+      'instalments',
+      'Features',
+      'page',
+      'navigationUrl',
+      'actionType',
+      'customPlanId',
+      'customPlanName',
+      'customPrice',
+      'enableSelectButton',
+      'selectButtonText',
+      'offerTitle',
+      'offerDescription',
+      'discountPercentage',
+      'validUntil',
+      'isOfferActive',
+      'offerPrice',
+      'recordType',
+      'parentPackageId',
+    ];
+
+    for (const key of allowedFields) {
+      if (data.hasOwnProperty(key) && data[key] !== null && data[key] !== undefined) {
+        updates.push(`${key} = ?`);
+        // Convert numeric fields
+        if (key === 'Price' || key === 'PriceAfterDiscount' || key === 'discountPercentage' || key === 'offerPrice') {
+          values.push(parseFloat(data[key]));
+        } else if (key === 'enableSelectButton' || key === 'isOfferActive') {
+          values.push(parseInt(data[key]));
+        } else if (key === 'parentPackageId') {
+          values.push(parseInt(data[key]));
+        } else {
+          values.push(data[key]);
+        }
+      }
+    }
+
+    if (updates.length === 0) {
+      return NextResponse.json(
+        { message: 'No fields to update' },
+        { status: 200 }
+      );
+    }
+
+    const query = `UPDATE packages_offers SET ${updates.join(', ')} WHERE id = ?`;
+    values.push(parseInt(id));
+
+    await db.query(query, values);
+
     return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
+      {
+        success: true,
+        message: 'Package/Offer updated',
+      },
+      {
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        },
+      }
+    );
+  } catch (error) {
+    console.error('Error updating package:', error);
+    return NextResponse.json(
+      {
+        error: 'Update failed',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
       { status: 500 }
     );
   }
 }
 
+// ===========================================================
+// ✅ DELETE (Delete Package)
+// ===========================================================
 export async function DELETE(request: NextRequest) {
   try {
-    const body = await request.json();
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
 
-    const response = await fetch(API_BASE_URL, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-      cache: 'no-store',
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('API error response:', errorText);
+    if (!id) {
       return NextResponse.json(
-        { error: 'Failed to delete package', details: errorText },
-        { status: response.status }
+        { error: 'Missing id for delete' },
+        { status: 400 }
       );
     }
 
-    const data = await response.json();
+    const db = await CreateConnection();
 
-    return NextResponse.json(data, {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
+    const query = 'DELETE FROM packages_offers WHERE id = ?';
+    const [result]: any = await db.query(query, [parseInt(id)]);
+
+    // Check if any row was affected
+    if (result.affectedRows === 0) {
+      return NextResponse.json(
+        { error: 'Package not found or already deleted' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Package/Offer deleted successfully',
       },
-    });
+      {
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error deleting package:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
+      {
+        error: 'Delete failed',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
       { status: 500 }
     );
   }
 }
 
+// ===========================================================
+// ✅ OPTIONS (CORS Preflight)
+// ===========================================================
 export async function OPTIONS(request: NextRequest) {
-  return NextResponse.json({}, {
-    status: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    },
-  });
+  return NextResponse.json(
+    {},
+    {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      },
+    }
+  );
 }
 

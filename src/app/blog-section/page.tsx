@@ -118,10 +118,23 @@ const BlogSectionPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
-  const featured = blogs.filter(b => b.featured);
-  const primaryFeatured = featured[0] || blogs[0];
+  // Filter only published posts
+  const publishedBlogs = blogs.filter(b => b.status === "published");
+  
+  const featured = publishedBlogs.filter(b => b.featured);
+  const primaryFeatured = featured[0] || publishedBlogs[0];
   const otherFeatured = featured.filter(b => b.id !== primaryFeatured?.id).slice(0, 4);
-  const recent = blogs
+  
+  // Get recent posts excluding the primary featured one, for fallback in "Other featured posts"
+  const recentForSidebar = publishedBlogs
+    .filter(b => b.id !== primaryFeatured?.id)
+    .sort((a, b) => new Date(b.publish_date).getTime() - new Date(a.publish_date).getTime())
+    .slice(0, 4);
+  
+  // Use otherFeatured if available, otherwise use recent posts as fallback
+  const postsToShowInSidebar = otherFeatured.length > 0 ? otherFeatured : recentForSidebar;
+  
+  const recent = publishedBlogs
     .slice()
     .sort((a, b) => new Date(b.publish_date).getTime() - new Date(a.publish_date).getTime())
     .slice(0, 9);
@@ -168,32 +181,35 @@ const BlogSectionPage = () => {
           </div>
           <div>
             <div className="bg-white rounded-2xl border shadow p-3 sm:p-4">
-              <h3 className="text-lg font-semibold mb-3">Other featured posts</h3>
+              <h3 className="text-lg font-semibold mb-3">
+                {otherFeatured.length > 0 ? "Other featured posts" : "Recent posts"}
+              </h3>
               <div className="space-y-3">
-                {otherFeatured.length === 0 && (
-                  <div className="text-sm text-gray-500">No more featured posts</div>
+                {postsToShowInSidebar.length === 0 ? (
+                  <div className="text-sm text-gray-500">No posts available</div>
+                ) : (
+                  postsToShowInSidebar.map((b) => (
+                    <Link
+                      key={b.id}
+                      href={`/blog-section/${b.slug || b.id}`}
+                      className="w-full text-left flex gap-3 items-start hover:bg-gray-50 p-2 rounded-lg"
+                    >
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-md overflow-hidden bg-gray-100 flex-shrink-0 relative">
+                        <Image
+                          src={getBlogImageSrc(b.image_filename, b.image_path, b.content)}
+                          alt={b.title}
+                          fill
+                          className="object-cover"
+                          sizes="64px"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-medium text-sm sm:text-base text-gray-900 line-clamp-2">{b.title}</p>
+                        <p className="text-xs sm:text-sm text-gray-500 mt-0.5">{new Date(b.publish_date).toLocaleDateString()}</p>
+                      </div>
+                    </Link>
+                  ))
                 )}
-                {otherFeatured.map((b) => (
-                  <Link
-                    key={b.id}
-                    href={`/blog-section/${b.slug || b.id}`}
-                    className="w-full text-left flex gap-3 items-start hover:bg-gray-50 p-2 rounded-lg"
-                  >
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-md overflow-hidden bg-gray-100 flex-shrink-0 relative">
-                      <Image
-                        src={getBlogImageSrc(b.image_filename, b.image_path, b.content)}
-                        alt={b.title}
-                        fill
-                        className="object-cover"
-                        sizes="64px"
-                      />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-medium text-sm sm:text-base text-gray-900 line-clamp-2">{b.title}</p>
-                      <p className="text-xs sm:text-sm text-gray-500 mt-0.5">{new Date(b.publish_date).toLocaleDateString()}</p>
-                    </div>
-                  </Link>
-                ))}
               </div>
             </div>
           </div>

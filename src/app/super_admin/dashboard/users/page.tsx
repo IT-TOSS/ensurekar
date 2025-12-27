@@ -59,9 +59,9 @@ const SuperAdminUsersManagement = () => {
     setIsLoading(true)
     setError(null)
     try {
-      console.log("Making API call to:", "https://edueye.co.in/ensurekar/existing-site/userinfo_get.php")
+      console.log("Making API call to:", "/api/userinfo-get")
 
-      const response = await axios.get("https://edueye.co.in/ensurekar/existing-site/userinfo_get.php", {
+      const response = await axios.get("/api/userinfo-get", {
         timeout: 10000, // 10 second timeout
         headers: {
           Accept: "application/json",
@@ -263,7 +263,7 @@ const SuperAdminUsersManagement = () => {
     console.log("Updating user with data:", editFormData)
     setIsUpdating(true)
     try {
-      const response = await axios.post("https://edueye.co.in/ensurekar/existing-site/userinfo_post.php", editFormData)
+      const response = await axios.post("/api/userinfo-post", editFormData)
 
       console.log("Update response:", response.data)
 

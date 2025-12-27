@@ -1350,7 +1350,7 @@ const ProprietorshipRegistration = () => {
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       <div ref={plansRef} id="plans" className="plans-section">
         {/* <PlansSection planData={planData} /> */}
-        <Text planData={planData} page={"sole-proprietorship-registration"} />
+        <Text planData={planData} page={"sole-proprietorship-registration"} serviceName="Sole Proprietorship Registration" />
       </div>
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />

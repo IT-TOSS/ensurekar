@@ -98,7 +98,7 @@ const Login = () => {
 
       console.log(payload, " I am result by Login by Krishna");
       ///api/Login
-      const response = await fetch('https://edueye.co.in/ensurekar/existing-site/login.php', {
+      const response = await fetch('/api/Login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,16 +106,45 @@ const Login = () => {
         body: JSON.stringify(payload),
       });
 
-      const user = await response.json();
-      console.log(user, "user Created by Krishna coming fron backend");
+      // Check if response is OK and is JSON
+      if (!response.ok) {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await response.json();
+          setError(errorData?.error || "Login failed. Please check your credentials.");
+        } else {
+          setError(`Login failed. Server returned ${response.status} ${response.statusText}.`);
+        }
+        return;
+      }
 
-      console.log(user.user, "user Created bt Krishna")
+      const apiData = await response.json().catch((parseError) => {
+        console.error("Failed to parse JSON response:", parseError);
+        setError("Invalid response from server. Please try again.");
+        return null;
+      });
 
-      if (user.user.email && user.user.userId) {
+      if (!apiData) {
+        return;
+      }
+
+      console.log(apiData, "user Created by Krishna coming fron backend");
+
+      // Ensure the shape is what we expect and handle errors safely
+      if (!apiData?.user) {
+        console.error("Login API error:", apiData);
+        setError(apiData?.error || "Login failed. Please check your credentials.");
+        return;
+      }
+
+      const apiUser = apiData.user;
+      console.log(apiUser, "user Created bt Krishna");
+
+      if (apiUser.email && apiUser.userId) {
         // Safely access user properties with optional chaining
-        const displayName = (user.user.firstName + user.user.lastName) || '';
-        const email = user.user.email || '';
-        const phoneNumber = user.user.whatsappNumber || '';
+        const displayName = (apiUser.firstName + apiUser.lastName) || '';
+        const email = apiUser.email || '';
+        const phoneNumber = apiUser.whatsappNumber || '';
 
         // console.log(await user.getIdToken(), "created by Krishna") // kk
         // Store authentication info in Redux
@@ -129,13 +158,18 @@ const Login = () => {
               Lname: displayName ? displayName.split(' ').slice(1).join(' ') : '',
               contact: phoneNumber || "N/A",
               role: "user", // Default role
-              picture: user.photoURL || "N/A",
-              uid: user.user.userId,
+              picture: apiUser.photoURL || "N/A",
+              uid: apiUser.userId,
             },
             // Token: await user.getIdToken(),  //Authe
             Token: Authe,
           })
         );
+
+        // Set session start time for session timeout (40 minutes)
+        const now = Date.now();
+        localStorage.setItem("sessionStartTime", now.toString());
+        localStorage.setItem("lastActivityTime", now.toString());
 
         // Store authentication in localStorage if remember is checked
         if (input.remember) {
@@ -203,58 +237,56 @@ const Login = () => {
           firstName: user.displayName?.split(" ")[0] || "Unknown",
           lastName: user.displayName?.split(" ")[1] || "User",
           email: user.email,
-          phoneNumber: user.phoneNumber || "",        
-          whatsappNumber: "",                         
+          phoneNumber: user.phoneNumber || "",
+          whatsappNumber: "",
           photoURL: user.photoURL,
-          password: user.uid.slice(0, 8)         
+          password: user.uid.slice(0, 8),
         };
-  
+
         console.log(payload, " I am result by Google Sign In by Krishna");
 
-        ///api/CheckGoogleLogin
-  
-        const response = await fetch('https://edueye.co.in/ensurekar/existing-site/login_google.php', {
-          method: 'POST',
+        // Call our own backend (equivalent to login_google.)
+        const response = await fetch("/api/login-google", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(payload),
         });
-  
-        const userData = await response.json();
+
+        const userData = await response.json().catch(() => null);
         console.log(userData, "user and result by Google Sign In by Krishna from backend");
 
-        console.log(userData.exists )
-  
-        //------------krishna Code-------------
-  
-        if (!userData.exists) {
-          alert("Please complete registration first.");
-          // router.push("/settings");
-          // return; 
+        if (!response.ok && !userData?.exists) {
+          throw new Error(userData?.emessage || "Google login failed");
         }
-  
+
         // Get the token safely
         const token = await user.getIdToken?.() || "";
-  
+
         dispatch(
           setAuth({
             isAuthenticated: true,
             userInfo: {
-              username: displayName || email?.split('@')[0] || '',
+              username: (userData?.data?.firstName as string) || displayName || email?.split("@")[0] || "",
               email: email,
-              Fname: displayName ? displayName.split(' ')[0] : '', // Split first name
-              Lname: displayName ? displayName.split(' ').slice(1).join(' ') : '',
+              Fname: (userData?.data?.firstName as string) || displayName?.split(" ")[0] || "",
+              Lname: (userData?.data?.lastName as string) || displayName?.split(" ").slice(1).join(" ") || "",
               contact: phoneNumber || "N/A",
               role: "user", // Default role
               picture: user.photoURL || "N/A",
-              uid: userData.userId,
+              uid: (userData?.data?.userId as string) || user.uid,
             },
             Token: token,
           })
         );
 
         localStorage.setItem('authToken', token);
+
+        // Set session start time for session timeout (40 minutes)
+        const now = Date.now();
+        localStorage.setItem("sessionStartTime", now.toString());
+        localStorage.setItem("lastActivityTime", now.toString());
 
         // Redirect to the Cart page  
 

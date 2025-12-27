@@ -81,7 +81,7 @@ const MultiSectionsAdmin = () => {
 
       // const existingSections = localStorage.getItem("businessSections")
 
-      const response = await fetch("https://edueye.co.in/ensurekar/existing-site/get_compan_slider_sections.php?all=1")
+      const response = await fetch("/api/get-compan-slider-sections?all=1")
       if (response.ok) {
         const sections = await response.json()
         setBusinessSections(sections.sort((a: BusinessSection, b: BusinessSection) => a.order - b.order))
@@ -103,7 +103,7 @@ const MultiSectionsAdmin = () => {
       setBusinessSections(sortedSections);
       console.log("✅ Sections sorted by order:", JSON.stringify(sortedSections));
 
-      const response = await fetch("https://edueye.co.in/ensurekar/existing-site/compan_slider_sections.php", {
+      const response = await fetch("/api/compan-slider-sections", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -133,7 +133,7 @@ const MultiSectionsAdmin = () => {
       const payload = { header: headerValue }; // 👈 match Postman format
       console.log("📤 Deleting sections, payload:", JSON.stringify(payload));
 
-      const response = await fetch("https://edueye.co.in/ensurekar/existing-site/compan_slider_sections.php", {
+      const response = await fetch("/api/compan-slider-sections", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -171,11 +171,10 @@ const MultiSectionsAdmin = () => {
       // Create filename: sectionId_originalName.extension
       const fileName = `${sectionId}_${originalName}.${fileExtension}`
 
-      // Create FormData for API call
+      // Create FormData for API call (upload-image expects field name "image")
       const formData = new FormData()
-      formData.append("file", file)
-      formData.append("fileName", fileName)
-      formData.append("sectionId", sectionId)
+      formData.append("image", file)
+      formData.append("folder", "logoSystem")
 
       console.log("📤 Uploading image:", fileName)
 

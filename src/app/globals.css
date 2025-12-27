@@ -4233,9 +4233,10 @@ p{
 }
 @media (min-width: 1200px){
   .display-2{
-    font-size: 88px;
+    font-size: 66px;
   }
 }
+
 .display-3{
   font-size: 1.5rem;
   line-height: 2rem;
