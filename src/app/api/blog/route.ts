@@ -23,17 +23,25 @@ const parseTags = (value: any) => {
 };
 
 // ===========================================================
-// 1️⃣ GET (All or One)
+// 1️⃣ GET (All or One) - OPTIMIZED with pagination
 // ===========================================================
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '20');
+    const status = searchParams.get('status') || 'published'; // Default to published only
+    const offset = (page - 1) * limit;
 
     const db = await CreateConnection();
 
     if (id) {
-      const [rows]: any = await db.query('SELECT * FROM blog_posts WHERE id = ?', [parseInt(id)]);
+      // Single post - select only needed columns
+      const [rows]: any = await db.query(
+        'SELECT id, title, slug, excerpt, content, author_name, author_email, author_bio, status, featured, image_filename, image_path, tags, publish_date, created_at, updated_at, views, meta_title, meta_description FROM blog_posts WHERE id = ?',
+        [parseInt(id)]
+      );
       if (!Array.isArray(rows) || rows.length === 0) {
         return jsonResponse({ error: 'Post not found' }, 404);
       }
@@ -44,19 +52,72 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // All posts
-    const [rows]: any = await db.query(
-      'SELECT * FROM blog_posts ORDER BY publish_date DESC, created_at DESC'
-    );
-    const posts = Array.isArray(rows)
-      ? rows.map((p) => ({ ...p, tags: parseTags(p.tags) }))
-      : [];
+    // All posts with pagination and status filter
+    // Select only needed columns (exclude large content for list view)
+    const isList = !searchParams.get('full'); // If 'full' param not present, return list view
+    
+    if (isList) {
+      // List view - exclude content for faster queries
+      const [rows]: any = await db.query(
+        `SELECT id, title, slug, excerpt, author_name, status, featured, image_filename, image_path, tags, publish_date, created_at, views, meta_title, meta_description 
+         FROM blog_posts 
+         WHERE status = ? 
+         ORDER BY publish_date DESC, created_at DESC 
+         LIMIT ? OFFSET ?`,
+        [status, limit, offset]
+      );
+      
+      // Get total count for pagination
+      const [countResult]: any = await db.query(
+        'SELECT COUNT(*) as total FROM blog_posts WHERE status = ?',
+        [status]
+      );
+      const total = countResult[0]?.total || 0;
 
-    return jsonResponse({
-      status: 'success',
-      count: posts.length,
-      data: posts,
-    });
+      const posts = Array.isArray(rows)
+        ? rows.map((p) => ({ ...p, tags: parseTags(p.tags) }))
+        : [];
+
+      return jsonResponse({
+        status: 'success',
+        count: posts.length,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+        data: posts,
+      });
+    } else {
+      // Full view with content
+      const [rows]: any = await db.query(
+        `SELECT id, title, slug, excerpt, content, author_name, author_email, author_bio, status, featured, image_filename, image_path, tags, publish_date, created_at, updated_at, views, meta_title, meta_description 
+         FROM blog_posts 
+         WHERE status = ? 
+         ORDER BY publish_date DESC, created_at DESC 
+         LIMIT ? OFFSET ?`,
+        [status, limit, offset]
+      );
+      
+      const [countResult]: any = await db.query(
+        'SELECT COUNT(*) as total FROM blog_posts WHERE status = ?',
+        [status]
+      );
+      const total = countResult[0]?.total || 0;
+
+      const posts = Array.isArray(rows)
+        ? rows.map((p) => ({ ...p, tags: parseTags(p.tags) }))
+        : [];
+
+      return jsonResponse({
+        status: 'success',
+        count: posts.length,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+        data: posts,
+      });
+    }
   } catch (error) {
     console.error('Error fetching blog posts:', error);
     return jsonResponse(

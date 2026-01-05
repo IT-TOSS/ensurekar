@@ -39,7 +39,7 @@ let Connection;
 const CreateConnection = async () => {
     if (!Connection) {
         try {
-            Connection = await mysql.createConnection({
+            Connection = mysql.createPool({
                 host: 'sql12.freesqldatabase.com',
                 user: 'sql12773599',
                 password: '8JBR6UY2EQ',
@@ -48,10 +48,13 @@ const CreateConnection = async () => {
                 waitForConnections: true,
                 connectionLimit: 10,
                 queueLimit: 0,
+                enableKeepAlive: true,
+                keepAliveInitialDelay: 0,
             });
-            console.log('Database connected successfully');
+            console.log('Database pool created successfully');
         } catch (error) {
-            console.error('Error connecting to the database:', error);
+            console.error('Error creating database pool:', error);
+            throw error;
         }
     }
     return Connection;

@@ -10,17 +10,32 @@ import { CreateConnection } from '../../../../config/database';
 // ===========================================================
 export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '50'); // Default 50, max 100
+    const actualLimit = Math.min(limit, 100); // Cap at 100
+    const offset = (page - 1) * actualLimit;
+
     const db = await CreateConnection();
 
-    // Query to fetch all user info
-    const query = 'SELECT * FROM user_info';
-    const [rows]: any = await db.query(query);
+    // Query with pagination - select only needed columns
+    const query = 'SELECT * FROM user_info ORDER BY id DESC LIMIT ? OFFSET ?';
+    const [rows]: any = await db.query(query, [actualLimit, offset]);
+
+    // Get total count
+    const [countResult]: any = await db.query('SELECT COUNT(*) as total FROM user_info');
+    const total = countResult[0]?.total || 0;
 
     console.log('Fetched user info count:', Array.isArray(rows) ? rows.length : 0);
 
     return NextResponse.json(
       {
         success: true,
+        count: Array.isArray(rows) ? rows.length : 0,
+        total,
+        page,
+        limit: actualLimit,
+        totalPages: Math.ceil(total / actualLimit),
         data: Array.isArray(rows) ? rows : [],
       },
       {
@@ -29,6 +44,7 @@ export async function GET(request: NextRequest) {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
           'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
         },
       }
     );

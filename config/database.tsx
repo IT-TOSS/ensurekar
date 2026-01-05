@@ -7,27 +7,29 @@ export const dbConfig = {
   password: "",
 };
 
-let connection: mysql.Connection | null = null;
+let pool: mysql.Pool | null = null;
 
-export const CreateConnection = async (): Promise<mysql.Connection> => {
-  if (!connection) {
+export const CreateConnection = async (): Promise<mysql.Pool> => {
+  if (!pool) {
     try {
-      connection = await mysql.createConnection({
+      pool = mysql.createPool({
         host: dbConfig.host,
         user: dbConfig.username,
         password: dbConfig.password,
         database: dbConfig.db_name,
         port: 3306,
         waitForConnections: true,
-        connectionLimit: 10,
+        connectionLimit: 20, // Increased for better concurrency
         queueLimit: 0,
+        enableKeepAlive: true,
+        keepAliveInitialDelay: 0,
       });
-      console.log('Database connected successfully');
+      console.log('Database pool created successfully');
     } catch (error) {
-      console.error('Error connecting to the database:', error);
+      console.error('Error creating database pool:', error);
       throw error;
     }
   }
-  return connection;
+  return pool;
 };
 
