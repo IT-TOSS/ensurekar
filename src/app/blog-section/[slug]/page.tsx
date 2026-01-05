@@ -55,48 +55,66 @@ const getBlogImageSrc = (imageFilename?: string, imagePath?: string) => {
 };
 
 // Normalize inline HTML content: fix relative image src and link attrs
-const normalizeContentHtml = (html: string): string => {
-  if (!html) return "";
+// Works on both server and client side
+const normalizeContentHtml = (html: string | null | undefined): string => {
+  if (!html || typeof html !== 'string') return "";
   try {
-    const wrapper = document.createElement("div");
-    wrapper.innerHTML = html;
+    // Use string replacement for server-side compatibility
+    let normalized = html;
 
-    // Fix images
-    wrapper.querySelectorAll("img").forEach((img) => {
-      const src = img.getAttribute("src") || "";
-      if (src) {
+    // Fix image paths - improved regex to handle all cases
+    normalized = normalized.replace(
+      /<img\s+([^>]*?)src\s*=\s*["']([^"']+)["']([^>]*?)>/gi,
+      (match, before, src, after) => {
+        let fixedSrc = src;
         if (src.startsWith("public/")) {
-          img.setAttribute("src", fixImagePath(src));
+          fixedSrc = fixImagePath(src);
         } else if (!/^https?:\/\//i.test(src) && !src.startsWith("/") && !src.startsWith("data:")) {
-          img.setAttribute("src", "/" + src);
+          fixedSrc = "/" + src;
         }
+        
+        // Add loading and style attributes if not present
+        const fullBefore = before || '';
+        const fullAfter = after || '';
+        let loadingAttr = (fullBefore + fullAfter).includes('loading=') ? '' : ' loading="lazy"';
+        let styleAttr = (fullBefore + fullAfter).includes('style=') ? '' : ' style="max-width:100%;height:auto;"';
+        let classAttr = (fullBefore + fullAfter).includes('class=') ? '' : ' class="rounded-md"';
+        
+        return `<img ${fullBefore}src="${fixedSrc}"${fullAfter}${loadingAttr}${styleAttr}${classAttr}>`;
       }
-      img.setAttribute("loading", "lazy");
-      if (!img.getAttribute("style")) img.setAttribute("style", "max-width:100%;height:auto;");
-      img.classList.add("rounded-md");
-    });
+    );
 
-    // Ensure links open in new tab
-    wrapper.querySelectorAll("a").forEach((a) => {
-      a.setAttribute("target", "_blank");
-      a.setAttribute("rel", "noopener noreferrer");
-      const href = a.getAttribute("href") || "";
-      if (href && !/^https?:\/\//i.test(href) && !href.startsWith("/")) {
-        a.setAttribute("href", "/" + href);
+    // Fix links - ensure they open in new tab
+    normalized = normalized.replace(
+      /<a\s+([^>]*?)href\s*=\s*["']([^"']+)["']([^>]*?)>/gi,
+      (match, before, href, after) => {
+        let fixedHref = href;
+        if (href && !/^https?:\/\//i.test(href) && !href.startsWith("/") && !href.startsWith("#") && !href.startsWith("mailto:")) {
+          fixedHref = "/" + href;
+        }
+        
+        // Add target and rel if not present
+        const fullAttrs = (before || '') + (after || '');
+        let targetAttr = fullAttrs.includes('target=') ? '' : ' target="_blank"';
+        let relAttr = fullAttrs.includes('rel=') ? '' : ' rel="noopener noreferrer"';
+        
+        return `<a ${before}href="${fixedHref}"${after}${targetAttr}${relAttr}>`;
       }
-    });
+    );
 
-    return wrapper.innerHTML;
-  } catch {
+    return normalized;
+  } catch (error) {
+    console.error('Error normalizing HTML:', error);
     return html;
   }
 };
 
 // Calculate reading time (average 200 words per minute)
-const calculateReadingTime = (content: string): number => {
+const calculateReadingTime = (content: string | null | undefined): number => {
+  if (!content || typeof content !== 'string') return 1; // Default to 1 minute if no content
   const text = content.replace(/<[^>]*>/g, ""); // Remove HTML tags
-  const words = text.trim().split(/\s+/).length;
-  return Math.ceil(words / 200);
+  const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+  return Math.max(1, Math.ceil(words / 200)); // At least 1 minute
 };
 
 // Format date to "X days ago" or date
@@ -129,6 +147,35 @@ const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
       setError(null);
       try {
         const isNumeric = /^\d+$/.test(slug);
+        
+        // Try fetching by slug first (most common case)
+        if (!isNumeric) {
+          const res = await fetch(
+            `/api/blog?slug=${encodeURIComponent(slug)}`,
+            { headers: { "X-API-Key": token } }
+          );
+          if (res.ok) {
+            const data = await res.json();
+            console.log('Blog API response:', data); // Debug log
+            if (data?.status === 'success' && data?.data) {
+              const blogData = { ...data.data, tags: parseTags(data.data?.tags) };
+              console.log('Blog content length:', blogData.content?.length); // Debug log
+              setBlog(blogData);
+              setIsLoading(false);
+              return;
+            } else if (data?.data && !data.status) {
+              // Handle case where API returns data directly
+              const blogData = { ...data.data, tags: parseTags(data.data?.tags) };
+              setBlog(blogData);
+              setIsLoading(false);
+              return;
+            }
+          } else {
+            console.error('API response not OK:', res.status, res.statusText);
+          }
+        }
+        
+        // Fallback: try by ID if numeric
         if (isNumeric) {
           const res = await fetch(
             `/api/blog?id=${slug}`,
@@ -138,24 +185,32 @@ const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
           const data = await res.json();
           let item: any = data;
           if (data?.data && Array.isArray(data.data)) item = data.data[0] || {};
+          else if (data?.data && !Array.isArray(data.data)) item = data.data;
           else if (data?.blogs && Array.isArray(data.blogs)) item = data.blogs[0] || {};
-          setBlog({ ...item, tags: parseTags(item?.tags) });
+          if (item && item.id) {
+            setBlog({ ...item, tags: parseTags(item?.tags) });
+            setIsLoading(false);
+            return;
+          }
+        }
+        
+        // Last resort: fetch all with full content and match by slug
+        const res = await fetch(
+          "/api/blog?full=true&limit=100",
+          { headers: { "X-API-Key": token } }
+        );
+        if (!res.ok) throw new Error("Failed to load blogs");
+        const data = await res.json();
+        let list: any[] = [];
+        if (Array.isArray(data)) list = data;
+        else if (data?.data && Array.isArray(data.data)) list = data.data;
+        else if (data?.blogs && Array.isArray(data.blogs)) list = data.blogs;
+        else if (data?.result && Array.isArray(data.result)) list = data.result;
+        const found = list.find((b: any) => (b?.slug || "").toLowerCase() === slug.toLowerCase());
+        if (found) {
+          setBlog({ ...found, tags: parseTags(found.tags) });
         } else {
-          // Fallback: fetch all and match by slug
-          const res = await fetch(
-            "/api/blog",
-            { headers: { "X-API-Key": token } }
-          );
-          if (!res.ok) throw new Error("Failed to load blogs");
-          const data = await res.json();
-          let list: any[] = [];
-          if (Array.isArray(data)) list = data;
-          else if (data?.data && Array.isArray(data.data)) list = data.data;
-          else if (data?.blogs && Array.isArray(data.blogs)) list = data.blogs;
-          else if (data?.result && Array.isArray(data.result)) list = data.result;
-          const found = list.find((b: any) => (b?.slug || "").toLowerCase() === slug.toLowerCase());
-          if (found) setBlog({ ...found, tags: parseTags(found.tags) });
-          else setError("Blog not found");
+          setError("Blog not found");
         }
       } catch (e: any) {
         setError(e?.message || "Error loading blog");
@@ -246,17 +301,21 @@ const BlogDetailPage = ({ params }: { params: { slug: string } }) => {
 
         {/* Article Content */}
         <article className="max-w-none">
-          <div 
-            className="content-html"
-            dangerouslySetInnerHTML={{ __html: normalizeContentHtml(blog.content) }}
-            style={{
-              fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-              fontSize: '18px',
-              lineHeight: '1.5',
-              color: '#292929',
-              letterSpacing: '-0.03em'
-            }}
-          />
+          {blog.content ? (
+            <div 
+              className="content-html"
+              dangerouslySetInnerHTML={{ __html: normalizeContentHtml(blog.content || '') }}
+              style={{
+                fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                fontSize: '18px',
+                lineHeight: '1.5',
+                color: '#292929',
+                letterSpacing: '-0.03em'
+              }}
+            />
+          ) : (
+            <div className="text-gray-500 italic">Content not available</div>
+          )}
         </article>
 
         <style jsx>{`

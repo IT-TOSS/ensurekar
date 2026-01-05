@@ -29,6 +29,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+    const slug = searchParams.get('slug');
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
     const status = searchParams.get('status') || 'published'; // Default to published only
@@ -36,6 +37,23 @@ export async function GET(request: NextRequest) {
 
     const db = await CreateConnection();
 
+    // Fetch by slug (for blog detail pages)
+    if (slug) {
+      const [rows]: any = await db.query(
+        'SELECT id, title, slug, excerpt, content, author_name, author_email, author_bio, status, featured, image_filename, image_path, tags, publish_date, created_at, updated_at, views, meta_title, meta_description FROM blog_posts WHERE slug = ?',
+        [slug]
+      );
+      if (!Array.isArray(rows) || rows.length === 0) {
+        return jsonResponse({ error: 'Post not found' }, 404);
+      }
+      const post = rows[0];
+      return jsonResponse({
+        status: 'success',
+        data: { ...post, tags: parseTags(post.tags) },
+      });
+    }
+
+    // Fetch by ID
     if (id) {
       // Single post - select only needed columns
       const [rows]: any = await db.query(

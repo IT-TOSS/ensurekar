@@ -1,4 +1,8 @@
 User-agent: *
-Disallow:
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api
+Allow: /
 
 Sitemap: https://ensurekar.com/sitemap.xml
+Sitemap: https://ensurekar.com/blog-section/sitemap.xml
