@@ -42,7 +42,7 @@ const Wishlist = () => {
   const route = useRouter();
   const itemsData = [
     {
-      id: "pvt-ltd-incorporation",
+      id: "private-limited-company-registration",
       name: "Private Limited Incorporation Registration",
       price: 1500,
       quantity: 2,

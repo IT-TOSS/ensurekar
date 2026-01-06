@@ -18,7 +18,7 @@ const SearchbarHome = () => {
     { title: "Digital Signature Certificate (DSC)", link: "/digital-signature-certificate" },
     {
       title: "Private Limited Registration",
-      link: "/pvt-ltd-incorporation",
+      link: "/private-limited-company-registration",
     },
     {
       title: "LLP Registration",

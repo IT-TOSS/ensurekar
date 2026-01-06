@@ -27,7 +27,7 @@ const OurServices = () => {
               "&more",
             ],
             plan_type: "month",
-            know_more: "/pvt-ltd-incorporation",
+            know_more: "/private-limited-company-registration",
           },
           {
             title: "Limited Liability Partnership",
