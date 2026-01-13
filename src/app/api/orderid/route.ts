@@ -46,46 +46,67 @@ export async function POST(request: NextRequest) {
     const db = await CreateConnection();
 
     // Loop through each item and insert into orders table
-    for (const item of items) {
-      const insertQuery = `
-        INSERT INTO orders (
-          order_id,
-          customer_name, 
-          customer_email, 
-          customer_phone, 
-          customer_address,
-          item_id, 
-          item_name, 
-          item_price, 
-          item_quantity, 
-          item_subtotal,
-          image_src, 
-          image_height, 
-          image_width, 
-          total_amount
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `;
+    // Aggregate all items into a single entry to satisfy UNIQUE constraint on order_id
+    // Aggregate all items into a single entry to satisfy UNIQUE constraint on order_id
+    const aggregatedItem = items.reduce(
+      (acc: any, curr: any) => {
+        const qty = parseInt(curr.quantity) || 0;
+        const nameWithQty = `${curr.name || ''} (Qty: ${qty})`;
 
-      const values = [
-        orderId,
-        customerInfo.name || '',
-        customerInfo.email || '',
-        customerInfo.phone || '',
-        customerInfo.address || '',
-        item.id || '',
-        item.name || '',
-        parseFloat(item.price) || 0,
-        parseInt(item.quantity) || 0,
-        parseFloat(item.subtotal) || 0,
-        item.image?.src || '',
-        parseInt(item.image?.height) || 0,
-        parseInt(item.image?.width) || 0,
-        parseFloat(item.subtotal) || 0,
-      ];
+        return {
+          // Concatenate names: "Item A (Qty: 2), Item B (Qty: 1)"
+          name: acc.name ? `${acc.name}, ${nameWithQty}` : nameWithQty,
 
-      await db.query(insertQuery, values);
-      console.log(`Inserted order item: ${item.name} for order ${orderId}`);
-    }
+          // Sum numeric values
+          price: acc.price + (parseFloat(curr.price) || 0),
+          quantity: acc.quantity + qty,
+          subtotal: acc.subtotal + (parseFloat(curr.subtotal) || 0),
+
+          // Keep first image
+          image: acc.image || curr.image,
+        };
+      },
+      { name: '', price: 0, quantity: 0, subtotal: 0, image: null }
+    );
+
+    const insertQuery = `
+      INSERT INTO orders (
+        order_id,
+        customer_name, 
+        customer_email, 
+        customer_phone, 
+        customer_address,
+        item_id, 
+        item_name, 
+        item_price, 
+        item_quantity, 
+        item_subtotal,
+        image_src, 
+        image_height, 
+        image_width, 
+        total_amount
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [
+      orderId,
+      customerInfo.name || '',
+      customerInfo.email || '',
+      customerInfo.phone || '',
+      customerInfo.address || '',
+      items.map((i: any) => i.id).join(', ') || '', // Concatenate IDs too
+      aggregatedItem.name,
+      aggregatedItem.price,
+      aggregatedItem.quantity,
+      aggregatedItem.subtotal,
+      aggregatedItem.image?.src || '',
+      parseInt(aggregatedItem.image?.height) || 0,
+      parseInt(aggregatedItem.image?.width) || 0,
+      aggregatedItem.subtotal, // Total amount is matched to aggregated subtotal
+    ];
+
+    await db.query(insertQuery, values);
+    console.log(`Inserted merged order: ${aggregatedItem.name} for order ${orderId}`);
 
     console.log(`✅ Successfully created order ${orderId} with ${items.length} item(s)`);
 
