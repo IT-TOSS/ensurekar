@@ -219,16 +219,20 @@ const UserAccountsManagement = () => {
   }, [users])
 
   const filteredUsers = users.filter(
-    (user) =>
-      user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.contactNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.id.toLowerCase().includes(searchTerm.toLowerCase()),
+    (user) => {
+      const term = searchTerm.toLowerCase()
+      return (
+        (user.firstName || "").toLowerCase().includes(term) ||
+        (user.lastName || "").toLowerCase().includes(term) ||
+        (user.userName || "").toLowerCase().includes(term) ||
+        (user.email || "").toLowerCase().includes(term) ||
+        (user.contactNo || "").toLowerCase().includes(term) ||
+        (user.company || "").toLowerCase().includes(term) ||
+        (user.city || "").toLowerCase().includes(term) ||
+        (user.state || "").toLowerCase().includes(term) ||
+        String(user.id || "").toLowerCase().includes(term)
+      )
+    }
   )
 
   const handleViewUser = (user: UserData) => {
@@ -393,10 +397,10 @@ const UserAccountsManagement = () => {
         </div>
 
         {/* Debug Info */}
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm mb-4">
+        {/* <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm mb-4">
           <strong>Debug Info:</strong> Users: {users.length} | Loading: {isLoading.toString()} | Error:{" "}
           {error || "None"} | Filtered: {filteredUsers.length}
-        </div>
+        </div> */}
 
         {/* Main Content */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
