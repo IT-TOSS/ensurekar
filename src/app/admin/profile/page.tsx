@@ -264,10 +264,56 @@ const UserAccountsManagement = () => {
   const handleUpdateUser = async () => {
     if (!editFormData) return
 
-    console.log("Updating user with data:", editFormData)
+    // Transform flat data structure to nested structure expected by API
+    const apiData = {
+      uid: editFormData.uid || editFormData.id,
+      personal: {
+        id: editFormData.id,
+        userName: editFormData.userName,
+        firstName: editFormData.firstName,
+        lastName: editFormData.lastName,
+        fatherName: editFormData.fatherName,
+        DOB: editFormData.DOB,
+        sex: editFormData.sex,
+        maritalStatus: editFormData.maritalStatus,
+      },
+      company: {
+        company: editFormData.company,
+        organisationType: editFormData.organisationType,
+      },
+      identity: {
+        pan: editFormData.pan,
+        aadhar: editFormData.aadhar,
+        din: editFormData.din,
+        addressProof: editFormData.addressProof || null,
+        addressProofName: editFormData.addressProofName || null,
+        nationality: editFormData.nationality || null,
+      },
+      bank: {
+        bank: editFormData.bank,
+        accountNumber: editFormData.accountNumber,
+        ifsc: editFormData.ifsc,
+      },
+      address: {
+        email: editFormData.email, // Primary email (read-only, but needed for WHERE clause)
+        secondaryEmail: editFormData.secondaryEmail,
+        address: editFormData.address,
+        state: editFormData.state,
+        city: editFormData.city,
+        pin: editFormData.pin,
+        contactNo: editFormData.contactNo,
+        secondaryContact: editFormData.secondaryContact,
+      },
+    }
+
+    console.log("Updating user with data:", apiData)
     setIsUpdating(true)
     try {
-      const response = await axios.post("/api/userinfo-post", editFormData)
+      const response = await axios.post("/api/userinfo-post", apiData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
 
       console.log("Update response:", response.data)
 
@@ -281,9 +327,10 @@ const UserAccountsManagement = () => {
       } else {
         alert("Failed to update user: " + (response.data.message || "Unknown error"))
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error updating user:", error)
-      alert("Error updating user. Please try again.")
+      const errorMessage = error.response?.data?.message || error.message || "Unknown error"
+      alert("Error updating user: " + errorMessage)
     } finally {
       setIsUpdating(false)
     }
@@ -591,16 +638,10 @@ const UserAccountsManagement = () => {
                           </div>
                           <div>
                             <span className="font-medium text-gray-700">Username</span>
-                            {isEditMode ? (
-                              <input
-                                type="text"
-                                value={editFormData?.userName || ""}
-                                onChange={(e) => handleInputChange("userName", e.target.value)}
-                                className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                              />
-                            ) : (
-                              <div className="text-gray-900">{selectedUser.userName}</div>
-                            )}
+                            <div className="text-gray-600 bg-gray-100 px-3 py-2 rounded-md border border-gray-300 cursor-not-allowed">
+                              {selectedUser.userName}
+                            </div>
+                            <p className="text-xs text-gray-500 mt-1">This field cannot be edited</p>
                           </div>
                           <div>
                             <span className="font-medium text-gray-700">First Name</span>
@@ -693,16 +734,10 @@ const UserAccountsManagement = () => {
                         <div className="space-y-3">
                           <div>
                             <span className="font-medium text-gray-700">Primary Email</span>
-                            {isEditMode ? (
-                              <input
-                                type="email"
-                                value={editFormData?.email || ""}
-                                onChange={(e) => handleInputChange("email", e.target.value)}
-                                className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                              />
-                            ) : (
-                              <div className="text-gray-900">{selectedUser.email}</div>
-                            )}
+                            <div className="text-gray-600 bg-gray-100 px-3 py-2 rounded-md border border-gray-300 cursor-not-allowed">
+                              {selectedUser.email}
+                            </div>
+                            <p className="text-xs text-gray-500 mt-1">This field cannot be edited</p>
                           </div>
                           <div>
                             <span className="font-medium text-gray-700">Secondary Email</span>
