@@ -49,7 +49,7 @@ const LoggedNavbarSuper = () => {
     { name: "All Admins", link: "/dashboard/admins", icon: <UserCheck size={20} /> },
     { name: "Hero Section", link: "/dashboard/hero-section", icon: <Sparkles size={20} /> },
     { name: "Packages", link: "/dashboard/packages", icon: <Package size={20} /> },
-    // { name: "Orders", link: "/dashboard/orders", icon: <ShoppingCart size={20} /> },
+    { name: "Transactions", link: "/dashboard/transactions", icon: <ShoppingCart size={20} /> },
     { name: "Company Slider", link: "/dashboard/logo-system", icon: <Globe size={20} /> },
     { name: "Blog Management", link: "/dashboard/blog", icon: <FileText size={20} /> },
     { name: "Featured Blogs", link: "/dashboard/featured-blogs", icon: <Star size={20} /> },

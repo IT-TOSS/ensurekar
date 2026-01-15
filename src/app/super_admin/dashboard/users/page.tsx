@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search, RefreshCw, Eye, X, Users, UserCheck, Crown, Shield } from "lucide-react"
+import { Search, RefreshCw, Eye, X, Users, UserCheck, Crown, Shield, CreditCard, Receipt } from "lucide-react"
 import axios from "axios"
 
 interface UserData {
@@ -46,6 +46,9 @@ const SuperAdminUsersManagement = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [error, setError] = useState<string | null>(null)
+  const [userOrders, setUserOrders] = useState<any[]>([])
+  const [loadingOrders, setLoadingOrders] = useState(false)
+  const [showAllOrdersModal, setShowAllOrdersModal] = useState(false)
 
   useEffect(() => {
     console.log("SuperAdminUsersManagement component mounted")
@@ -218,24 +221,78 @@ const SuperAdminUsersManagement = () => {
     }
   }, [users])
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.contactNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.id.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+  const filteredUsers = users.filter((user) => {
+    const term = searchTerm.toLowerCase()
 
-  const handleViewUser = (user: UserData) => {
+    return (
+      (user.firstName || "").toLowerCase().includes(term) ||
+      (user.lastName || "").toLowerCase().includes(term) ||
+      (user.userName || "").toLowerCase().includes(term) ||
+      (user.email || "").toLowerCase().includes(term) ||
+      (user.contactNo || "").toLowerCase().includes(term) ||
+      (user.company || "").toLowerCase().includes(term) ||
+      (user.city || "").toLowerCase().includes(term) ||
+      (user.state || "").toLowerCase().includes(term) ||
+      String(user.id || "").toLowerCase().includes(term)
+    )
+  })
+
+  const handleViewUser = async (user: UserData) => {
     setSelectedUser(user)
     setShowUserDetailsModal(true)
     setIsEditMode(false)
     setEditFormData(null)
+    // Fetch user orders/billing information
+    await fetchUserOrders(user.email)
+  }
+
+  const fetchUserOrders = async (email: string) => {
+    if (!email) return
+    setLoadingOrders(true)
+    try {
+      // Fetch first page to get total count
+      const firstResponse = await axios.get("/api/orderid-get?page=1&limit=100", {
+        headers: { "Content-Type": "application/json" },
+      })
+      
+      const firstPageData = firstResponse.data?.data || []
+      const total = firstResponse.data?.total || 0
+      const limit = 100 // Max limit per page
+      const totalPages = Math.ceil(total / limit)
+      
+      // If there are more pages, fetch them all
+      let allOrders = [...firstPageData]
+      
+      if (totalPages > 1) {
+        const remainingPages = []
+        for (let page = 2; page <= totalPages; page++) {
+          remainingPages.push(
+            axios.get(`/api/orderid-get?page=${page}&limit=${limit}`, {
+              headers: { "Content-Type": "application/json" },
+            })
+          )
+        }
+        
+        const remainingResponses = await Promise.all(remainingPages)
+        const remainingData = remainingResponses.flatMap(
+          (response) => response.data?.data || []
+        )
+        allOrders = [...allOrders, ...remainingData]
+      }
+      
+      // Filter orders by email
+      const filteredOrders = allOrders.filter(
+        (order: any) => order.customer_email === email || order.billing_email === email
+      )
+      
+      console.log(`Fetched ${allOrders.length} total orders, ${filteredOrders.length} for ${email}`)
+      setUserOrders(filteredOrders)
+    } catch (error) {
+      console.error("Error fetching user orders:", error)
+      setUserOrders([])
+    } finally {
+      setLoadingOrders(false)
+    }
   }
 
   const handleEditUser = () => {
@@ -420,10 +477,10 @@ const SuperAdminUsersManagement = () => {
       </div>
 
       {/* Debug Info */}
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm">
+      {/* <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm">
         <strong>Debug Info:</strong> Users: {users.length} | Loading: {isLoading.toString()} | Error:{" "}
         {error || "None"} | Filtered: {filteredUsers.length}
-      </div>
+      </div> */}
 
       {/* Main Content */}
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -960,6 +1017,105 @@ const SuperAdminUsersManagement = () => {
 
             <hr className="border-gray-200" />
 
+            {/* Billing Information Section */}
+            <div className="p-6 border-t border-gray-200">
+              <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <CreditCard className="w-5 h-5 text-purple-600" />
+                Billing & Transaction History
+              </h3>
+              {loadingOrders ? (
+                <div className="flex items-center justify-center py-8">
+                  <RefreshCw className="h-6 w-6 animate-spin text-purple-500" />
+                  <span className="ml-2 text-gray-600">Loading billing information...</span>
+                </div>
+              ) : userOrders.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Receipt className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                  <p>No billing/transaction records found for this user.</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse border border-gray-300">
+                    <thead>
+                      <tr className="bg-gradient-to-r from-green-600 to-emerald-600 text-white">
+                        <th className="text-left py-3 px-4 font-semibold border-b border-gray-300">Order ID</th>
+                        <th className="text-left py-3 px-4 font-semibold border-b border-gray-300">Date</th>
+                        <th className="text-left py-3 px-4 font-semibold border-b border-gray-300">Item</th>
+                        <th className="text-left py-3 px-4 font-semibold border-b border-gray-300">Amount</th>
+                        <th className="text-left py-3 px-4 font-semibold border-b border-gray-300">Payment Status</th>
+                        <th className="text-left py-3 px-4 font-semibold border-b border-gray-300">Payment Mode</th>
+                        <th className="text-left py-3 px-4 font-semibold border-b border-gray-300">Tracking ID</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userOrders.map((order: any) => {
+                        // Prefer detailed order_status when available, otherwise fallback to payment_status
+                        const rawStatus = (order.order_status || order.payment_status || "Pending") as string
+                        const normalizedStatus = rawStatus.toLowerCase()
+
+                        let statusColor = "bg-yellow-100 text-yellow-800"
+                        if (normalizedStatus === "success") {
+                          statusColor = "bg-green-100 text-green-800"
+                        } else if (
+                          ["failed", "failure", "invalid", "aborted", "timeout"].includes(normalizedStatus)
+                        ) {
+                          statusColor = "bg-red-100 text-red-800"
+                        }
+
+                        return (
+                          <tr key={order.id} className="border-b border-gray-200 hover:bg-gray-50">
+                            <td className="py-3 px-4 text-sm font-mono">{order.order_id || "N/A"}</td>
+                            <td className="py-3 px-4 text-sm">
+                              {order.created_at
+                                ? new Date(order.created_at).toLocaleDateString("en-IN", {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  })
+                                : "N/A"}
+                            </td>
+                            <td className="py-3 px-4 text-sm">{order.item_name || "N/A"}</td>
+                            <td className="py-3 px-4 text-sm font-semibold">
+                              ₹{parseFloat(order.total_amount || order.amount || 0).toFixed(2)}
+                            </td>
+                            <td className="py-3 px-4 text-sm">
+                              <span
+                                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${statusColor}`}
+                              >
+                                {rawStatus}
+                              </span>
+                            </td>
+                            <td className="py-3 px-4 text-sm">{order.payment_mode || "N/A"}</td>
+                            <td className="py-3 px-4 text-sm font-mono text-gray-600">
+                              {order.tracking_id || "N/A"}
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                  <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm text-gray-600">
+                    <div>
+                      <strong>Total Transactions:</strong> {userOrders.length} |{" "}
+                      <strong>Total Amount:</strong> ₹
+                      {userOrders
+                        .reduce((sum, order) => sum + parseFloat(order.total_amount || order.amount || 0), 0)
+                        .toFixed(2)}
+                    </div>
+                    <button
+                      type="button"
+                      className="px-4 py-2 rounded-lg border border-purple-200 text-purple-700 hover:bg-purple-50 transition-colors"
+                      onClick={() => setShowAllOrdersModal(true)}
+                    >
+                      View Full Order Details
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <hr className="border-gray-200" />
+
             <div className="p-6 flex justify-end">
               <button
                 className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
@@ -967,7 +1123,63 @@ const SuperAdminUsersManagement = () => {
                   setShowUserDetailsModal(false)
                   setIsEditMode(false)
                   setEditFormData(null)
+                  setUserOrders([])
+                  setShowAllOrdersModal(false)
                 }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* All Orders Raw Data Modal */}
+      {showAllOrdersModal && userOrders.length > 0 && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                <Receipt className="w-6 h-6 text-purple-600" />
+                All Orders (Full Details)
+              </h2>
+              <button
+                onClick={() => setShowAllOrdersModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="p-6 overflow-x-auto">
+              <table className="min-w-full border border-gray-300 text-xs">
+                <thead className="bg-gray-100">
+                  <tr>
+                    {Object.keys(userOrders[0] || {}).map((key) => (
+                      <th key={key} className="px-3 py-2 border-b border-gray-300 text-left font-semibold capitalize">
+                        {key.replace(/_/g, " ")}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {userOrders.map((order: any) => (
+                    <tr key={order.id} className="hover:bg-gray-50">
+                      {Object.keys(userOrders[0] || {}).map((key) => (
+                        <td key={key} className="px-3 py-2 border-b border-gray-200 whitespace-nowrap">
+                          {String(order[key] ?? "N/A")}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="p-4 flex justify-end border-t border-gray-200">
+              <button
+                className="px-5 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                onClick={() => setShowAllOrdersModal(false)}
               >
                 Close
               </button>
