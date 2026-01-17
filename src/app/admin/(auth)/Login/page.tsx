@@ -122,11 +122,54 @@ const Login = () => {
   };
 
   return (
-    <section className="h-screen w-screen flex justify-center items-center bg-gray-50 dark:bg-gray-900">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+    <section className="w-full h-full flex items-center bg-black relative overflow-hidden">
+      {/* Background UI Elements */}
+      <div className="absolute inset-0">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
+        
+        {/* Left side accent gradient */}
+        <div className="absolute left-0 top-0 w-1/3 h-full bg-gradient-to-r from-[#1a8b82]/20 via-[#1a8b82]/10 to-transparent"></div>
+        
+        {/* Decorative animated circles */}
+        <div className="absolute left-10 top-20 w-72 h-72 bg-[#1a8b82] rounded-full opacity-10 blur-3xl animate-pulse"></div>
+        <div className="absolute left-32 bottom-32 w-96 h-96 bg-[#ffbf3f] rounded-full opacity-8 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute right-20 top-40 w-80 h-80 bg-[#1a8b82] rounded-full opacity-5 blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        
+        {/* Grid pattern overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]" 
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px'
+          }}
+        ></div>
+        
+        {/* Diagonal lines pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)'
+          }}
+        ></div>
+        
+        {/* Corner accent elements */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-[#1a8b82]/10 to-transparent rounded-br-full"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-[#ffbf3f]/10 to-transparent rounded-tl-full"></div>
+        
+        {/* Light rays effect */}
+        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-[#1a8b82]/20 to-transparent"></div>
+        <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-[#ffbf3f]/10 to-transparent"></div>
+      </div>
+      
+      {/* Login Form */}
+      <div className="relative z-10 w-full max-w-md p-6 sm:p-8 space-y-6 sm:space-y-8 bg-white rounded-lg shadow-2xl dark:bg-gray-800 mx-4 ml-8 sm:ml-16 md:ml-24 border border-gray-700/50">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Admin Login</h2>
-          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Admin Login</h2>
+          <p className="mt-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
             Endurekar - Grow with Expert Consulting Support.
           </p>
         </div>
@@ -138,8 +181,9 @@ const Login = () => {
             type="email"
             name="email"
             placeholder="Email address"
+            value={input.email}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border rounded text-gray-700 dark:text-white dark:bg-gray-800"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a8b82] focus:border-transparent text-gray-700 dark:text-white dark:bg-gray-800"
             required
           />
           <div className="relative">
@@ -147,8 +191,9 @@ const Login = () => {
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
+              value={input.password}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border rounded text-gray-700 dark:text-white dark:bg-gray-800"
+              className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a8b82] focus:border-transparent text-gray-700 dark:text-white dark:bg-gray-800"
               required
             />
             <button
@@ -176,13 +221,13 @@ const Login = () => {
           <button
             onClick={handleLogin}
             disabled={loading}
-            className="w-full py-3 bg-p1 text-white rounded-md hover:bg-s2 hover:text-mainTextColor transition transform hover:-translate-y-1"
+            className="w-full py-3 bg-[#1a8b82] text-white rounded-lg hover:bg-[#ffbf3f] hover:text-black transition-all duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
 
           <Link href="/admin/Help" className="block w-full">
-            <button className="w-full py-3 bg-p1 text-white rounded-md hover:bg-s2 hover:text-mainTextColor transition transform hover:-translate-y-1">
+            <button className="w-full py-3 bg-[#1a8b82] text-white rounded-lg hover:bg-[#ffbf3f] hover:text-black transition-all duration-200 font-semibold">
               Help
             </button>
           </Link>

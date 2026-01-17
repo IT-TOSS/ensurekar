@@ -89,15 +89,24 @@ export default function Layout({
     setIsAuthChecked(true);
   }, [pathname, router]);
 
-  if (!isAuthChecked) return null; 
+  if (!isAuthChecked) {
+    return (
+      <div className="flex items-center justify-center h-screen w-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const hideNavbar = pathname === "/admin/Login";
 
   return (
     <Provider store={store}>
-      <div className="flex">
+      <div className={`flex ${hideNavbar ? 'h-screen w-full' : 'h-screen overflow-hidden'}`}>
         {!hideNavbar && <LoggedNavbar />}
-        <aside className="flex-grow">{children}</aside>
+        <aside className={`flex-grow ml-0 lg:ml-72 ${hideNavbar ? 'flex items-center justify-center w-full h-full' : 'overflow-y-auto'}`}>{children}</aside>
       </div>
     </Provider>
   );

@@ -19,10 +19,7 @@ import {
   Sun,
   UserCircle
 } from 'lucide-react';
-import { redirect } from 'next/navigation';
-
 const Dashboard = () => {
-  // redirect('/admin/Login');
   const [activeTab, setActiveTab] = useState('Area');
   const [isDarkMode, setIsDarkMode] = useState(false);
 

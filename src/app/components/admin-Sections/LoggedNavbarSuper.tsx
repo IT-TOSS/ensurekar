@@ -73,10 +73,10 @@ const LoggedNavbarSuper = () => {
   // Shared UI block
   const SidebarContent = (
     // <div className="flex flex-col h-full justify-between p-4 bg-gradient-to-b from-purple-900 via-blue-900 to-indigo-900 shadow-lg">
-    <div className="flex flex-col h-full justify-between p-4 bg-[#eafaf8] shadow-lg">
+    <div className="flex flex-col h-full justify-between p-4 bg-[#eafaf8] shadow-lg overflow-hidden">
 
       {/* Top Section */}
-      <div>
+      <div className="flex-1 overflow-y-auto min-h-0">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="relative">
@@ -117,7 +117,7 @@ const LoggedNavbarSuper = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className="space-y-4">
+      <div className="space-y-4 flex-shrink-0">
         {/* Notifications */}
         {/* <div className="bg-white/10 rounded-lg p-3">
           <div className="flex items-center gap-2 text-black text-sm">

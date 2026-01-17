@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
     const final_payment_status = final_order_status;
     const final_delivery_status = final_order_status;
 
-    // Update order
+    // Update order - preserve total_amount (with GST) that was set during order creation
     const updateQuery = `
       UPDATE orders SET
         tracking_id = ?,

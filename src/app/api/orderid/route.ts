@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
 
     const customerInfo = input?.customerInfo ?? null;
     const items = input?.items ?? [];
+    const totalWithGST = parseFloat(input?.total) || null; // Total amount with GST included (from checkout)
 
     // Validate input
     if (!customerInfo || !Array.isArray(items) || items.length === 0) {
@@ -102,11 +103,12 @@ export async function POST(request: NextRequest) {
       aggregatedItem.image?.src || '',
       parseInt(aggregatedItem.image?.height) || 0,
       parseInt(aggregatedItem.image?.width) || 0,
-      aggregatedItem.subtotal, // Total amount is matched to aggregated subtotal
+      totalWithGST || aggregatedItem.subtotal, // Use total with GST if provided, otherwise use subtotal
     ];
 
     await db.query(insertQuery, values);
     console.log(`Inserted merged order: ${aggregatedItem.name} for order ${orderId}`);
+    console.log(`Total amount stored: ${totalWithGST || aggregatedItem.subtotal} (GST ${totalWithGST ? 'included' : 'not included'})`);
 
     console.log(`✅ Successfully created order ${orderId} with ${items.length} item(s)`);
 

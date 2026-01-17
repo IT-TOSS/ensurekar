@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search, RefreshCw, Eye, X, Users, UserCheck, Crown, Shield, CreditCard, Receipt } from "lucide-react"
+import { Search, RefreshCw, Eye, X, Users, UserCheck, Crown, Shield, CreditCard, Receipt, Download } from "lucide-react"
 import axios from "axios"
 
 interface UserData {
@@ -49,6 +49,8 @@ const SuperAdminUsersManagement = () => {
   const [userOrders, setUserOrders] = useState<any[]>([])
   const [loadingOrders, setLoadingOrders] = useState(false)
   const [showAllOrdersModal, setShowAllOrdersModal] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(12) // 12 items per page (4 rows x 3 columns on desktop)
 
   useEffect(() => {
     console.log("SuperAdminUsersManagement component mounted")
@@ -237,6 +239,17 @@ const SuperAdminUsersManagement = () => {
     )
   })
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage)
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentUsers = filteredUsers.slice(indexOfFirstItem, indexOfLastItem)
+
+  // Reset to page 1 when search term changes
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm])
+
   const handleViewUser = async (user: UserData) => {
     setSelectedUser(user)
     setShowUserDetailsModal(true)
@@ -402,6 +415,61 @@ const SuperAdminUsersManagement = () => {
     }
   }
 
+  const exportToExcel = () => {
+    if (!userOrders || userOrders.length === 0) {
+      alert("No order data to export")
+      return
+    }
+
+    try {
+      // Get all unique keys from all orders
+      const allKeys = new Set<string>()
+      userOrders.forEach((order: any) => {
+        Object.keys(order).forEach((key) => allKeys.add(key))
+      })
+      const headers = Array.from(allKeys)
+
+      // Create CSV content
+      const csvHeaders = headers.map((key) => `"${key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}"`).join(",")
+      
+      const csvRows = userOrders.map((order: any) => {
+        return headers
+          .map((key) => {
+            const value = order[key]
+            // Handle null, undefined, and convert to string
+            if (value === null || value === undefined) return '""'
+            // Escape quotes and wrap in quotes
+            const stringValue = String(value).replace(/"/g, '""')
+            return `"${stringValue}"`
+          })
+          .join(",")
+      })
+
+      const csvContent = [csvHeaders, ...csvRows].join("\n")
+
+      // Add BOM for UTF-8 (Excel compatibility)
+      const BOM = "\uFEFF"
+      const blob = new Blob([BOM + csvContent], { type: "text/csv;charset=utf-8;" })
+
+      // Create download link
+      const link = document.createElement("a")
+      const url = URL.createObjectURL(blob)
+      const fileName = `user_orders_${selectedUser?.firstName || "user"}_${selectedUser?.lastName || "data"}_${new Date().toISOString().split("T")[0]}.csv`
+      
+      link.setAttribute("href", url)
+      link.setAttribute("download", fileName)
+      link.style.visibility = "hidden"
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+
+      alert("Order data exported successfully!")
+    } catch (error) {
+      console.error("Error exporting to Excel:", error)
+      alert("Failed to export data. Please try again.")
+    }
+  }
+
   const getUserStatus = (user: UserData) => {
     const requiredFields = [user.firstName, user.lastName, user.email, user.contactNo, user.pan]
     const completedFields = requiredFields.filter((field) => field && field.trim() !== "").length
@@ -492,18 +560,33 @@ const SuperAdminUsersManagement = () => {
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex gap-2 flex-1">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 pointer-events-none z-10" />
               <input
                 type="search"
                 placeholder="Search users by name, email, company, or ID..."
-                className="w-full pl-10 border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a8b82] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = '#1a8b82'
+                  e.currentTarget.style.boxShadow = '0 0 0 2px rgba(26, 139, 130, 0.2)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = '#d1d5db'
+                  e.currentTarget.style.boxShadow = 'none'
+                }}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
             <button
-              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+              className="text-white px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center font-medium"
+              style={{ backgroundColor: '#1a8b82' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#158876'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#1a8b82'
+              }}
               onClick={fetchUsers}
               disabled={isLoading}
             >
@@ -549,76 +632,199 @@ const SuperAdminUsersManagement = () => {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gradient-to-r from-purple-50 to-blue-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    User Info
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Company
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Contact
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {filteredUsers.map((user) => (
-                  <tr key={user.id} className="hover:bg-gray-50 transition-colors duration-150">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
-                          <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-blue-500 flex items-center justify-center text-white font-semibold">
-                            {user.firstName.charAt(0)}
-                            {user.lastName.charAt(0)}
-                          </div>
+          <>
+            {/* Responsive Card Grid Layout */}
+            <div className="p-4 sm:p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                {currentUsers.map((user) => {
+                  const cardId = `card-${user.id}`
+                  return (
+                  <div
+                    key={user.id}
+                    id={cardId}
+                    className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group hover:bg-white"
+                    onMouseEnter={(e) => {
+                      const header = e.currentTarget.querySelector('.card-header') as HTMLElement
+                      const avatar = e.currentTarget.querySelector('.card-avatar') as HTMLElement
+                      if (header) header.style.backgroundColor = '#fbbf24'
+                      if (avatar) avatar.style.color = '#fbbf24'
+                    }}
+                    onMouseLeave={(e) => {
+                      const header = e.currentTarget.querySelector('.card-header') as HTMLElement
+                      const avatar = e.currentTarget.querySelector('.card-avatar') as HTMLElement
+                      if (header) header.style.backgroundColor = '#1a8b82'
+                      if (avatar) avatar.style.color = '#1a8b82'
+                    }}
+                  >
+                    {/* Card Header with Avatar */}
+                    <div 
+                      className="card-header p-4 transition-colors duration-300" 
+                      style={{ backgroundColor: '#1a8b82' }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div 
+                          className="card-avatar h-12 w-12 rounded-full bg-white flex items-center justify-center font-bold text-lg shadow-md transition-colors duration-300" 
+                          style={{ color: '#1a8b82' }}
+                        >
+                          {user.firstName.charAt(0)}
+                          {user.lastName.charAt(0)}
                         </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-white font-semibold text-sm truncate group-hover:text-gray-900 transition-colors duration-300">
                             {user.firstName} {user.lastName}
-                          </div>
-                          <div className="text-sm text-gray-500">ID: {user.id}</div>
+                          </h3>
+                          <p className="text-white/80 text-xs group-hover:text-gray-700 transition-colors duration-300">ID: {user.id}</p>
+                          {user.created_at && (
+                            <p className="text-white/70 text-xs group-hover:text-gray-600 transition-colors duration-300 mt-0.5">
+                              Created: {formatDate(user.created_at)}
+                            </p>
+                          )}
                         </div>
                       </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{user.company}</div>
-                      <div className="text-sm text-gray-500">{user.organisationType}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{user.email}</div>
-                      <div className="text-sm text-gray-500">{user.contactNo}</div>
-                    </td>
+                    </div>
 
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(getUserStatus(user))}`}
-                      >
-                        {getUserStatus(user)}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                    {/* Card Body */}
+                    <div className="p-4 space-y-3 transition-colors duration-300">
+                      {/* Company Info */}
+                      <div className="flex items-start gap-2">
+                        <div className="flex-shrink-0 mt-0.5">
+                          <svg className="w-4 h-4 text-gray-400 group-hover:text-gray-700 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                          </svg>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs text-gray-500 group-hover:text-gray-700 transition-colors duration-300">Company</p>
+                          <p className="text-sm font-medium text-gray-900 group-hover:text-gray-900 truncate transition-colors duration-300">{user.company || "N/A"}</p>
+                          <p className="text-xs text-gray-500 group-hover:text-gray-700 transition-colors duration-300">{user.organisationType || ""}</p>
+                        </div>
+                      </div>
+
+                      {/* Contact Info */}
+                      <div className="flex items-start gap-2">
+                        <div className="flex-shrink-0 mt-0.5">
+                          <svg className="w-4 h-4 text-gray-400 group-hover:text-gray-700 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs text-gray-500 group-hover:text-gray-700 transition-colors duration-300">Email</p>
+                          <p className="text-sm text-gray-900 group-hover:text-gray-900 truncate transition-colors duration-300">{user.email}</p>
+                        </div>
+                      </div>
+
+                      {user.contactNo && (
+                        <div className="flex items-start gap-2">
+                          <div className="flex-shrink-0 mt-0.5">
+                            <svg className="w-4 h-4 text-gray-400 group-hover:text-gray-700 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-gray-500 group-hover:text-gray-700 transition-colors duration-300">Contact</p>
+                            <p className="text-sm text-gray-900 group-hover:text-gray-900 transition-colors duration-300">{user.contactNo}</p>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Status Badge */}
+                      <div className="pt-2 border-t border-gray-100 group-hover:border-gray-300 transition-colors duration-300">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-500 group-hover:text-gray-700 transition-colors duration-300">Status</span>
+                          <span
+                            className={`inline-flex px-2.5 py-1 text-xs font-semibold rounded-full transition-colors duration-300 ${
+                              getUserStatus(user) === "Complete"
+                                ? "bg-green-100 text-green-800 group-hover:bg-yellow-100 group-hover:text-yellow-800"
+                                : getUserStatus(user) === "Partial"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {getUserStatus(user)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card Footer - Action Button */}
+                    <div className="px-4 pb-4">
                       <button
-                        className="bg-gradient-to-r from-purple-100 to-blue-100 hover:from-purple-200 hover:to-blue-200 text-purple-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center mx-auto"
+                        className="w-full px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 group-hover:shadow-md text-white group-hover:text-gray-900"
+                        style={{ backgroundColor: '#1a8b82' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = '#fbbf24'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = '#1a8b82'
+                        }}
                         onClick={() => handleViewUser(user)}
                       >
-                        <Eye className="mr-2 h-4 w-4" />
-                        View Details
+                        <Eye className="w-4 h-4" />
+                        <span>View Details</span>
                       </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                  </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="px-4 sm:px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-sm text-gray-700">
+                    Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to{" "}
+                    <span className="font-medium">{Math.min(indexOfLastItem, filteredUsers.length)}</span> of{" "}
+                    <span className="font-medium">{filteredUsers.length}</span> users
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                      disabled={currentPage === 1}
+                      className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Previous
+                    </button>
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        let pageNum
+                        if (totalPages <= 5) {
+                          pageNum = i + 1
+                        } else if (currentPage <= 3) {
+                          pageNum = i + 1
+                        } else if (currentPage >= totalPages - 2) {
+                          pageNum = totalPages - 4 + i
+                        } else {
+                          pageNum = currentPage - 2 + i
+                        }
+                        return (
+                          <button
+                            key={pageNum}
+                            onClick={() => setCurrentPage(pageNum)}
+                            className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                              currentPage === pageNum
+                                ? "text-white"
+                                : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
+                            }`}
+                            style={currentPage === pageNum ? { backgroundColor: '#1a8b82' } : {}}
+                          >
+                            {pageNum}
+                          </button>
+                        )
+                      })}
+                    </div>
+                    <button
+                      onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                      disabled={currentPage === totalPages}
+                      className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
 
@@ -1131,11 +1337,24 @@ const SuperAdminUsersManagement = () => {
                   </table>
                   <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm text-gray-600">
                     <div>
-                      <strong>Total Transactions:</strong> {userOrders.length} |{" "}
-                      <strong>Total Amount:</strong> ₹
-                      {userOrders
-                        .reduce((sum, order) => sum + parseFloat(order.total_amount || order.amount || 0), 0)
-                        .toFixed(2)}
+                      {(() => {
+                        const successOrders = userOrders.filter((order: any) => {
+                          const status = (order.order_status || order.payment_status || "").toLowerCase()
+                          return status === "success"
+                        })
+                        const successCount = successOrders.length
+                        const successTotalAmount = successOrders.reduce(
+                          (sum: number, order: any) => sum + parseFloat(order.total_amount || order.amount || 0),
+                          0
+                        )
+                        return (
+                          <>
+                            <strong>Total Transactions:</strong> {userOrders.length} |{" "}
+                            <strong>Success Transactions:</strong> {successCount} |{" "}
+                            <strong>Success Total Amount:</strong> ₹{successTotalAmount.toFixed(2)}
+                          </>
+                        )
+                      })()}
                     </div>
                     <button
                       type="button"
@@ -1178,12 +1397,28 @@ const SuperAdminUsersManagement = () => {
                 <Receipt className="w-6 h-6 text-purple-600" />
                 All Orders (Full Details)
               </h2>
-              <button
-                onClick={() => setShowAllOrdersModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <X className="h-6 w-6" />
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={exportToExcel}
+                  className="px-4 py-2 text-white rounded-lg transition-all duration-200 flex items-center gap-2 font-medium shadow-md hover:shadow-lg"
+                  style={{ backgroundColor: '#1a8b82' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#158876'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#1a8b82'
+                  }}
+                >
+                  <Download className="w-5 h-5" />
+                  Export to Excel
+                </button>
+                <button
+                  onClick={() => setShowAllOrdersModal(false)}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
             </div>
 
             <div className="p-6 overflow-x-auto">
@@ -1211,13 +1446,32 @@ const SuperAdminUsersManagement = () => {
               </table>
             </div>
 
-            <div className="p-4 flex justify-end border-t border-gray-200">
-              <button
-                className="px-5 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-                onClick={() => setShowAllOrdersModal(false)}
-              >
-                Close
-              </button>
+            <div className="p-4 flex justify-between items-center border-t border-gray-200">
+              <div className="text-sm text-gray-600">
+                <strong>Total Orders:</strong> {userOrders.length}
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={exportToExcel}
+                  className="px-5 py-2 text-white rounded-lg transition-all duration-200 flex items-center gap-2 font-medium shadow-md hover:shadow-lg"
+                  style={{ backgroundColor: '#1a8b82' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#158876'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#1a8b82'
+                  }}
+                >
+                  <Download className="w-4 h-4" />
+                  Export to Excel
+                </button>
+                <button
+                  className="px-5 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  onClick={() => setShowAllOrdersModal(false)}
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>

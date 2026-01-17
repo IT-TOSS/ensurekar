@@ -40,9 +40,9 @@ const LoggedNavbar = () => {
 
   // Shared UI block
   const SidebarContent = (
-    <div className="flex flex-col h-full justify-between p-4 bg-softBg1 shadow-lg">
+    <div className="flex flex-col h-full justify-between p-4 bg-softBg1 shadow-lg overflow-hidden">
       {/* Top Section */}
-      <div>
+      <div className="flex-1 overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <Image alt="logo" src={Logo} className="w-32 h-auto animate-pulse" />
           {/* Close button (mobile only) */}
@@ -54,7 +54,7 @@ const LoggedNavbar = () => {
           </button>
         </div>
 
-        <div className="space-y-2 overflow-y-auto">
+        <div className="space-y-2">
           {routes.map((item) => (
             <Link
               key={item.name}
@@ -70,7 +70,7 @@ const LoggedNavbar = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className="space-y-4">
+      <div className="space-y-4 flex-shrink-0">
         <button
           onClick={handleLogout}
           className="w-full flex items-center justify-center gap-2 bg-green-600 text-white font-bold rounded p-2"
@@ -109,8 +109,8 @@ const LoggedNavbar = () => {
         {SidebarContent}
       </div>
 
-      {/* Desktop Sidebar (always visible) */}
-      <div className="hidden lg:flex lg:flex-col lg:w-72 lg:h-screen">
+      {/* Desktop Sidebar (always visible and fixed) */}
+      <div className="hidden lg:flex lg:flex-col lg:w-72 lg:h-screen lg:fixed lg:top-0 lg:left-0 lg:z-30">
         {SidebarContent}
       </div>
     </>
