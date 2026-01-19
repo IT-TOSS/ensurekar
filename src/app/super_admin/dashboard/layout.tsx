@@ -41,10 +41,10 @@ export default function SuperAdminLayout({
 
   return (
     <Provider store={store}>
-      <div className="flex min-h-screen">
+      <div className="flex h-screen overflow-hidden">
         <LoggedNavbarSuper />
-        <main className="flex-grow p-3 sm:p-6 ml-0 lg:ml-80 bg-gray-50 min-h-screen overflow-x-auto">
-          <div className="w-full">
+        <main className="flex-grow p-3 sm:p-6 ml-0 lg:ml-80 bg-gray-50 h-screen overflow-y-auto overflow-x-hidden">
+          <div className="w-full min-h-0">
             {children}
           </div>
         </main>

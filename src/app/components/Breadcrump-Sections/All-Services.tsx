@@ -38,7 +38,9 @@ const BreadcrumbSection = ({
   };
   scrollToPlans?: () => void
 }) => {
-  const [message, setMessage] = useState<string | null>(null);
+  // Submit UI flow: loading -> success/error
+  const [submitState, setSubmitState] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [submitMessage, setSubmitMessage] = useState<string>("");
   const router = useRouter();
   const dispatch = useDispatch();
   const themeConfig = useSelector((state: IRootState) => state.themeConfig);
@@ -90,32 +92,45 @@ const BreadcrumbSection = ({
     event: FormEvent<HTMLFormElement>
   ): Promise<void> {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    // capture form element early (safe before await / unmount)
+    const formEl = event.currentTarget;
+    const formData = new FormData(formEl);
     const data = Object.fromEntries(formData.entries());
     setIsOpen(false);
+    setSubmitState("loading");
+    setSubmitMessage("Sending message...");
+
     const TalkToExpert: ContactForm = {
       firstName: data.firstName as string,
       lastName: data.lastName as string,
       email: data.email as string,
       subject: data.subject as string,
-      message: "",
+      message: (data.message as string) || "",
       origin: "Talk_To_Expert",
       phone: data.phone as string,
     };
     console.log("TalkToExpert", TalkToExpert);
-    setMessage("Sending Message...");
-    const response = await ContactUs(TalkToExpert);
+    
+    // Submit + show loading then success/error popup
+    try {
+      const response = await ContactUs(TalkToExpert);
+      console.log("response", response);
 
-    console.log("response", response);
-    if (response.message === 'Email sent successfully') {
+      // If we reached here, fetch returned HTTP 2xx (ContactUs throws on non-OK).
+      // So treat it as success to avoid false "Failed" when email delivery is delayed.
+      setSubmitState("success");
+      setSubmitMessage(response?.message || "Message sent successfully");
 
-      setMessage(response.message);
-      setTimeout(() => {
-        setMessage(null);
-
-      }, 10000);
-    } else {
-      alert("Failed to send message");
+      // reset form fields after success (don't let this fail the UI)
+      try {
+        formEl?.reset?.();
+      } catch (e) {
+        console.warn("Form reset failed (ignored):", e);
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setSubmitState("error");
+      setSubmitMessage("Failed to send message");
     }
   }
 
@@ -303,10 +318,11 @@ const BreadcrumbSection = ({
                     className="placeholder:text-bodyText border p-2 rounded-md w-full "
                     readOnly
                   />
-                  {/* <textarea
+                  <textarea
+                    name="message"
                     placeholder="Message"
-                    className="border p-2 rounded-md w-full h-24"
-                  /> */}
+                    className="border p-2 rounded-md w-full h-24 resize-none"
+                  />
 
                   <div className="col-span-2">
                     <button type="submit"
@@ -320,33 +336,62 @@ const BreadcrumbSection = ({
           </div>
         </div>
       )}
-      <div>
-        {message && (
-          <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center bg-black bg-opacity-50 transition-opacity duration-300 ">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white p-10 rounded shadow-lg text-center"
-            >
-              <div>
-                <h3 className="text-2xl font-bold mb-5">Message</h3>
-                <p className="font-semibold text-bodyText">{message}</p>
 
+      {/* Submit status popup: Loading -> Success/Error */}
+      {submitState !== "idle" && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-gray-900">
+                  {submitState === "loading" ? "Sending..." : submitState === "success" ? "Success" : "Failed"}
+                </h3>
+                <p className="mt-1 text-sm text-gray-600">{submitMessage}</p>
               </div>
-              <div className="flex justify-end mr-5 mt-5">
+              <button
+                type="button"
+                className="text-gray-400 hover:text-gray-700"
+                onClick={() => {
+                  // allow closing only after loading finished
+                  if (submitState === "loading") return;
+                  setSubmitState("idle");
+                  setSubmitMessage("");
+                }}
+                aria-label="Close"
+                title={submitState === "loading" ? "Please wait" : "Close"}
+              >
+                <X weight="bold" size={18} />
+              </button>
+            </div>
+
+            {submitState === "loading" ? (
+              <div className="mt-5 flex items-center gap-3">
+                <div className="h-5 w-5 rounded-full border-2 border-gray-300 border-t-gray-800 animate-spin" />
+                <span className="text-sm text-gray-700">Please wait…</span>
+              </div>
+            ) : (
+              <div className="mt-6 flex justify-end">
                 <button
-                  onClick={() => setMessage(null)}
-                  className="mt-4 py-2 px-4 bg-s2 text-bodyText font-bold rounded"
+                  type="button"
+                  className="px-4 py-2 rounded-lg text-sm font-semibold bg-yellow-400 text-black hover:bg-yellow-500"
+                  onClick={() => {
+                    setSubmitState("idle");
+                    setSubmitMessage("");
+                  }}
                 >
-                  Close
+                  OK
                 </button>
               </div>
-            </motion.div>
-          </div>
-        )}
-      </div>
+            )}
+          </motion.div>
+        </div>
+      )}
     </>
   );
 };
