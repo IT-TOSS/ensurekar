@@ -258,7 +258,7 @@ const FAQsData = {
 
       {/* <WhatWeCharge WhatWeChargeData={RightsOfCopyrightOwnersData} /> */}
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="copyright-registration" />
 
     </>
   );

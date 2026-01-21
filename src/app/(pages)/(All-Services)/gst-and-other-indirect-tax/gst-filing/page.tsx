@@ -664,7 +664,7 @@ const GSTFiling = () => {
           </div> */}
         </div>
       </section>
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="gst-filing"/>
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
     </>

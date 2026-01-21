@@ -399,7 +399,7 @@ const FAQsData = {
       <BenefitSection BenefitData={BenefitData} />
       <DocumentsRequired DocumentsRequiredData={DocumentsRequiredData} />
       <OnlineProcessforEmployers OnlineProcessData={OnlineProcessData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="professional-tax-registration"/>
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
     </>

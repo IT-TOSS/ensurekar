@@ -663,7 +663,7 @@ const FSSAI_Food_Licence = () => {
       {/* <CompaniesAct /> */}
       <RegisterSteps RegisterSteps={RegisterStepsData} />
 
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="fssai-food-license" />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
 
       <TestimonialSection />

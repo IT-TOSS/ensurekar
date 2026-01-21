@@ -1,8 +1,10 @@
 "use client";
 import Image, { StaticImageData } from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import sliceIcon from "../../images/sliceIcon.png";
 import faq_illus from "../../images/faq_illus.png";
+import { usePathname } from "next/navigation";
+import { useFaqs } from "@/hooks/useFaqs";
 
 import { ArrowLeft, ArrowRight, Minus, Plus } from "phosphor-react";
 
@@ -11,15 +13,43 @@ interface FAQsData {
   heading?: string;
   description?: string;
   imageUrl?: StaticImageData | string;
-  FAQs: { question: string; answer: string }[];
+  FAQs?: { question: string; answer: string }[];
 }
-const FAQsServicesSection = ({ FAQsData }: { FAQsData: FAQsData }) => {
-  const { title, heading, description, FAQs, imageUrl } = FAQsData;
+type FAQItem = { question: string; answer: string; id?: number };
+
+function normalizeRouteName(raw: string | undefined | null): string {
+  const s = String(raw || "").trim();
+  if (!s) return "global";
+  if (s.toLowerCase() === "global") return "global";
+  // Allow passing "limited-liability-partnership-registration" without leading slash
+  return s.startsWith("/") ? s : `/${s}`;
+}
+
+const FAQsServicesSection = ({
+  FAQsData,
+  routeName,
+}: {
+  FAQsData?: FAQsData;
+  routeName?: string;
+}) => {
+  const { title = "FAQs", heading = "", description = "", FAQs = [], imageUrl } = FAQsData || {};
+  const pathname = usePathname();
+  const resolvedRouteName = useMemo(
+    () => normalizeRouteName(routeName || pathname || "global"),
+    [routeName, pathname]
+  );
+  const { faqs: fetchedFaqs, isLoading, error } = useFaqs(resolvedRouteName);
+
+  const effectiveFaqs: FAQItem[] = useMemo(() => {
+    // Prefer DB-driven FAQs (global + page-specific). Fallback to page's static data.
+    if (fetchedFaqs?.length) return fetchedFaqs as any;
+    return (FAQs || []) as any;
+  }, [fetchedFaqs, FAQs]);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
- const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const numPages = Math.ceil(FAQs.length / 5);
+  const numPages = Math.ceil((effectiveFaqs?.length || 0) / 5);
 
   const toggleFAQ = (index: number) => {
     if (openFAQ === index) {
@@ -31,13 +61,29 @@ const FAQsServicesSection = ({ FAQsData }: { FAQsData: FAQsData }) => {
 
   const handlePagination = (direction: "left" | "right") => {
     if (direction === "left" && currentPage > 0) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((p) => p - 1);
+      setOpenFAQ(null);
     } else if (direction === "right" && currentPage < numPages - 1) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage((p) => p + 1);
+      setOpenFAQ(null);
     }
   };
 
-  const displayedFAQs = FAQs.slice(currentPage * 5, (currentPage + 1) * 5);
+  useEffect(() => {
+    // When route changes, reset pagination/accordion.
+    setCurrentPage(0);
+    setOpenFAQ(null);
+  }, [resolvedRouteName]);
+
+  useEffect(() => {
+    // If list size changes (e.g. after fetch), keep page index valid.
+    if (currentPage > 0 && currentPage > numPages - 1) {
+      setCurrentPage(0);
+      setOpenFAQ(null);
+    }
+  }, [currentPage, numPages]);
+
+  const displayedFAQs = (effectiveFaqs || []).slice(currentPage * 5, (currentPage + 1) * 5);
 
   return (
     <div>
@@ -78,21 +124,40 @@ const FAQsServicesSection = ({ FAQsData }: { FAQsData: FAQsData }) => {
               )}
          
 
-            <div className={`col-span-12 ${imageUrl ?'lg:col-span-6 xl:col-start-7 flex flex-col gap-4 md:gap-6':''}`}>
-              {displayedFAQs?.map((QA: any, index: any) => {
+            <div className={`col-span-12 ${imageUrl ? "lg:col-span-6 xl:col-start-7 flex flex-col gap-4 md:gap-6" : "flex flex-col gap-4 md:gap-6"}`}>
+              {isLoading && !effectiveFaqs?.length && (
+                <div className="p-4 border rounded-md bg-white/50 dark:bg-black/10 dark:text-white">
+                  Loading FAQs...
+                </div>
+              )}
+
+              {!isLoading && !!error && !effectiveFaqs?.length && (
+                <div className="p-4 border rounded-md bg-white/50 dark:bg-black/10 dark:text-white">
+                  Failed to load FAQs.
+                </div>
+              )}
+
+              {!isLoading && !error && !effectiveFaqs?.length && (
+                <div className="p-4 border rounded-md bg-white/50 dark:bg-black/10 dark:text-white">
+                  No FAQs found for this page.
+                </div>
+              )}
+
+              {displayedFAQs?.map((QA: any, index: number) => {
+                const globalIndex = currentPage * 5 + index;
                 return (
                   <div
-                    key={index}
+                    key={QA?.id ?? globalIndex}
                     className={`flex justify-between items-start gap-2 p-3 md:p-5 xl:p-6 border faqItem duration-1000 cursor-pointer  ${
-                      openFAQ === index + 1 ? "faqItemOpen" : "faqItemClose"
+                      openFAQ === globalIndex ? "faqItemOpen" : "faqItemClose"
                     } dark:text-white`}
-                    onClick={() => toggleFAQ(index + 1)}
+                    onClick={() => toggleFAQ(globalIndex)}
                   >
                     <div>
                       <h4 className="heading-4 dark:text-white">{QA.question}</h4>
                       <div
                         className={`faqAnswer overflow-hidden duration-1000  ${
-                          openFAQ === index + 1 ? "faqOpen" : "faqClose"
+                          openFAQ === globalIndex ? "faqOpen" : "faqClose"
                         }`}
                       >
                         <p className="pt-5 ">{QA.answer}</p>
@@ -103,10 +168,10 @@ const FAQsServicesSection = ({ FAQsData }: { FAQsData: FAQsData }) => {
                     <div className="relative">
                       <div
                         className={`transform duration-500 ${
-                          openFAQ === index + 1 ? "rotate-180" : "rotate-0"
+                          openFAQ === globalIndex ? "rotate-180" : "rotate-0"
                         }`}
                       >
-                        {openFAQ === index + 1 ? (
+                        {openFAQ === globalIndex ? (
                           <Minus size={24} />
                         ) : (
                           <Plus size={24} />
@@ -116,9 +181,10 @@ const FAQsServicesSection = ({ FAQsData }: { FAQsData: FAQsData }) => {
                   </div>
                 );
               })}
+              {numPages > 1 && (
               <div className="flex mt-5 justify-between">
                 <div
-                  className={`cursor-pointer text-nowrap group  max-sm:text-sm  gap-3 py-2 md:py-3 px-3 md:px-6 bg-amber-300 border border-gray-600 text-mainTextColor group font-medium min-w-[150px]  flex  items-center justify-center ${ currentPage === 0 ? "opacity-50" : ""}`}
+                  className={`cursor-pointer text-nowrap group max-sm:text-sm gap-3 py-2 md:py-3 px-3 md:px-6 bg-amber-300 border border-gray-600 text-mainTextColor font-medium min-w-[150px] flex items-center justify-center ${currentPage === 0 ? "opacity-50 pointer-events-none" : ""}`}
                   onClick={() => handlePagination("left")}
                 >
                   <button className="font-bold flex  items-center justify-center">
@@ -131,7 +197,7 @@ const FAQsServicesSection = ({ FAQsData }: { FAQsData: FAQsData }) => {
                   </button>
                 </div>
                 <div
-                  className={`cursor-pointer text-nowrap group  max-sm:text-sm  gap-3 py-2 md:py-3 px-3 md:px-6 bg-amber-300 border border-gray-600 text-mainTextColor group font-medium min-w-[150px]  flex  items-center justify-center ${ currentPage === numPages - 1 ? "opacity-50" : ""}`}
+                  className={`cursor-pointer text-nowrap group max-sm:text-sm gap-3 py-2 md:py-3 px-3 md:px-6 bg-amber-300 border border-gray-600 text-mainTextColor font-medium min-w-[150px] flex items-center justify-center ${currentPage === numPages - 1 ? "opacity-50 pointer-events-none" : ""}`}
                   onClick={() => handlePagination("right")}
                 >
                   <button className="font-bold flex  items-center justify-center">
@@ -144,6 +210,7 @@ const FAQsServicesSection = ({ FAQsData }: { FAQsData: FAQsData }) => {
                   </button>
                 </div>
               </div>
+              )}
             </div>
           </div>
         </div>

@@ -52,6 +52,7 @@ const LoggedNavbarSuper = () => {
     { name: "Packages", link: "/dashboard/packages", icon: <Package size={20} /> },
     { name: "Transactions", link: "/dashboard/transactions", icon: <ShoppingCart size={20} /> },
     { name: "Contact Inquiries", link: "/dashboard/contact-inquiries", icon: <MessageSquare size={20} /> },
+    { name: "FAQ Management", link: "/dashboard/faqs", icon: <ListPlus size={20} /> },
     { name: "Company Slider", link: "/dashboard/logo-system", icon: <Globe size={20} /> },
     { name: "Blog Management", link: "/dashboard/blog", icon: <FileText size={20} /> },
     { name: "Featured Blogs", link: "/dashboard/featured-blogs", icon: <Star size={20} /> },

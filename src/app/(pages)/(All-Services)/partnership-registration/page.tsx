@@ -1473,7 +1473,10 @@ const PartnershipRegistration = () => {
         </p>
       </div>
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection
+        FAQsData={FAQsData}
+        routeName="partnership-registration"
+      />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
     </div>

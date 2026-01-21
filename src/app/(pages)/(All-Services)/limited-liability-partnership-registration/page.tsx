@@ -407,45 +407,45 @@ const LimitedLiabilityPartnershipRegistration = () => {
     title: "FAQs",
     heading: "",
     description: "",
-    FAQs: [
-      {
-        question: "What is an LLP Agreement?",
-        answer: "NA",
-      },
-      {
-        question: "What is the applicable income tax rate for an LLP?",
-        answer: "NA",
-      },
-      {
-        question:
-          "What are the LLP compliance requirements under the Companies Act 2013?",
-        answer: "NA",
-      },
-      {
-        question: "How can a partner be removed from an LLP?",
-        answer: "NA",
-      },
-      {
-        question: "What are the fees for LLP registration?",
-        answer: "NA",
-      },
-      {
-        question: "What is the process for registering an LLP?",
-        answer: "NA",
-      },
-      {
-        question: "How is the taxability of an LLP determined?",
-        answer: "NA",
-      },
-      {
-        question: "How does LLP Differ from Private Limited?",
-        answer: "NA",
-      },
-      {
-        question: "Who can form an LLP?",
-        answer: "NA",
-      },
-    ],
+    // FAQs: [
+    //   {
+    //     question: "What is an LLP Agreement?",
+    //     answer: "NA",
+    //   },
+    //   {
+    //     question: "What is the applicable income tax rate for an LLP?",
+    //     answer: "NA",
+    //   },
+    //   {
+    //     question:
+    //       "What are the LLP compliance requirements under the Companies Act 2013?",
+    //     answer: "NA",
+    //   },
+    //   {
+    //     question: "How can a partner be removed from an LLP?",
+    //     answer: "NA",
+    //   },
+    //   {
+    //     question: "What are the fees for LLP registration?",
+    //     answer: "NA",
+    //   },
+    //   {
+    //     question: "What is the process for registering an LLP?",
+    //     answer: "NA",
+    //   },
+    //   {
+    //     question: "How is the taxability of an LLP determined?",
+    //     answer: "NA",
+    //   },
+    //   {
+    //     question: "How does LLP Differ from Private Limited?",
+    //     answer: "NA",
+    //   },
+    //   {
+    //     question: "Who can form an LLP?",
+    //     answer: "NA",
+    //   },
+    // ],
     imageUrl: "",
   };
   const WhyEnsurekar = {
@@ -1255,7 +1255,10 @@ const LimitedLiabilityPartnershipRegistration = () => {
       <RegisterSteps RegisterSteps={RegisterStepsData} />
       <ServiceOverview OverviewData={AnnualFillingData} />
 
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection
+        FAQsData={FAQsData}
+        routeName="/limited-liability-partnership-registration"
+      />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
     </div>

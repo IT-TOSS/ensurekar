@@ -538,7 +538,7 @@ const MSMERegistration = () => {
 
       </div>
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="services-msme-udyam-registration" />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
     </div>

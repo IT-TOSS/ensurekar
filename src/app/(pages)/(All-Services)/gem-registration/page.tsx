@@ -374,7 +374,7 @@ const UdyamRegistration = () => {
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-      <FAQsServicesSection FAQsData={FAQsData}  />
+      <FAQsServicesSection FAQsData={FAQsData}  routeName="gem-registration" />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSection />
     </div>

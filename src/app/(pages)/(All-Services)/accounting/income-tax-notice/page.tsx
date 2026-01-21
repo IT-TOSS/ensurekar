@@ -369,7 +369,7 @@ const page = () => {
       </section>
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="income-tax-notice" />
 
     </>
   );

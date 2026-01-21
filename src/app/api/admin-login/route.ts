@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { CreateConnection } from '../../../../config/database';
 import crypto from 'crypto';
+import { signSuperAdminToken } from '@/lib/superAdminAuth';
 
 // ===========================================================
 // 🔐 ADMIN LOGIN API
@@ -86,10 +87,48 @@ export async function POST(request: NextRequest) {
     const user = { ...rows[0] };
     delete user.password; // Remove password from response
 
+    // Enforce Super Admin role for this endpoint
+    const role = String(user?.role || '').toLowerCase();
+    if (role !== 'superadmin') {
+      return NextResponse.json(
+        { error: 'Forbidden: Super Admin access required.' },
+        {
+          status: 403,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          },
+        }
+      );
+    }
+
+    // Token is required for protected Super Admin APIs (e.g. FAQ CRUD).
+    // If the server is missing SUPER_ADMIN_JWT_SECRET, allow login to succeed
+    // (so panel works) but return token as null with a warning.
+    let token: string | null = null;
+    let tokenWarning: string | null = null;
+    try {
+      token = signSuperAdminToken({
+        id: user?.id ? Number(user.id) : undefined,
+        email: user.email,
+        name: user?.name,
+        role: user?.role || 'superadmin',
+      });
+    } catch (e: any) {
+      if (e?.code === "MISSING_SECRET") {
+        tokenWarning = "Server missing SUPER_ADMIN_JWT_SECRET. Protected modules may not work until configured.";
+      } else {
+        throw e;
+      }
+    }
+
     return NextResponse.json(
       {
         message: 'Login successful.',
         user: user,
+        token,
+        tokenWarning,
       },
       {
         status: 200,

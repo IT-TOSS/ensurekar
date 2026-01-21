@@ -667,7 +667,7 @@ const TrademarkSearch = () => {
       <CounterSection CounterSectionData={CounterSectionData} />
       {/* <BenefitSection BenefitData={BenefitData} /> */}
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData}  routeName="trademark-search"/>
     </>
   );
 };

@@ -927,7 +927,7 @@ const TrademarkRegistration = () => {
       <ServiceCovered ServiceCoveredData={ServiceCoveredData} />
       <RegistrationGuide RegistrationGuideData={RegistrationProcessData} />
 
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData}  routeName="trademark-registration" />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
     </>
   );

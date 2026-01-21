@@ -245,7 +245,7 @@ const accountingAndBookkeeping = () => {
       <Timeline TimeLineData={TimeLineData} />
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       {/* <WhatWeCharge WhatWeChargeData={WhatWeChargeData} /> */}
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="accounting-and-tax-bookkeeping" />
     </>
   );
 };

@@ -1068,7 +1068,12 @@ const Pvt_Ltd_Incorporation_Registration = () => {
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      {/* <FAQsServicesSection FAQsData={FAQsData} /> */}
+
+      <FAQsServicesSection
+        FAQsData={FAQsData}
+        routeName="private-limited-company-registration"
+      />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
     </div>

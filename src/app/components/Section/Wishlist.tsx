@@ -107,7 +107,7 @@ const Wishlist = () => {
       image: product_cart_img,
     },
     {
-      id: "msme-registration",
+      id: "services-msme-udyam-registration",
       name: "MSME/UDYAM Registration Certificate",
       price: 450,
       quantity: 1,

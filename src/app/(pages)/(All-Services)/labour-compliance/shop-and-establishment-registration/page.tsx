@@ -479,7 +479,7 @@ const ShopandEstablishmentRegistration = () => {
       <BenefitSection BenefitData={BenefitData} />
       <DocumentsRequired DocumentsRequiredData={DocumentsRequiredData} />
       <OnlineProcessforEmployers OnlineProcessData={OnlineProcessData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="shop-and-establishment-registration" />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
     </>

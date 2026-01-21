@@ -411,7 +411,7 @@ const ESIRegistration = () => {
       <BenefitSection BenefitData={BenefitData} />
       <DocumentsRequired DocumentsRequiredData={DocumentsRequiredData} />
       <OnlineProcessforEmployers OnlineProcessData={OnlineProcessData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="esi-registration"/>
 
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />

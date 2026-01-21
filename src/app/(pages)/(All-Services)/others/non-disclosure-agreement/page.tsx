@@ -381,7 +381,7 @@ const NonDisclosureAgreement = () => {
       <CopyrightEducation CopyrightEducationData={CopyrightEducationData} />
 
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="non-disclosure-agreement" />
     </>
   );
 };

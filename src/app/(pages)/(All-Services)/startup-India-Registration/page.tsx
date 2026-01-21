@@ -330,50 +330,50 @@ export default function StartupIndiaRegistrationPage() {
     title: "FAQs",
     heading: "",
     description: "",
-    FAQs : [
-      {
-        question: "How does Startup India differ from other startup schemes?",
-        answer:
-          "Startup India is focused on supporting innovative startups with a simplified registration process, tax exemptions, easier compliance, intellectual property support, and access to funding through initiatives like the Seed Fund and Fund of Funds. While other government schemes may target specific groups or sectors, Startup India is open to all innovative startups less than 10 years old, with annual turnover under ₹100 crore, and not formed by splitting an existing business.",
-      },
-      {
-        question: "Can a foreign-owned company register under Startup India?",
-        answer:
-          "Yes, a foreign-owned company can register under Startup India if it is incorporated in India as a Private Limited Company, LLP, or Partnership Firm, and recognized by the Department for Promotion of Industry and Internal Trade (DPIIT). The company must operate within India, and at least one director should be a resident Indian.",
-      },
-      {
-        question: "What is the role of incubators in the Startup India Scheme?",
-        answer:
-          "Incubators provide startups with resources, mentorship, co-working spaces, funding support, industry partnerships, and access to investors. They help startups refine business models, accelerate growth, validate ideas, and become investment-ready, playing a crucial part in the startup ecosystem and funding programs like the Startup India Seed Fund Scheme.",
-      },
-      {
-        question: "Is there a time limit for applying for Startup India registration?",
-        answer:
-          "A startup can apply for registration under Startup India if it is less than 10 years old from the date of incorporation. Most DPIIT recognition applications are processed within 7–15 working days, provided complete documentation and clear eligibility demonstration are submitted.",
-      },
-      {
-        question: "How does Startup India support startups in funding?",
-        answer:
-          "Startup India supports funding through schemes like the Seed Fund Scheme (for proof-of-concept and prototypes), the Fund of Funds (which invests in SEBI-registered funds financing startups), and by enabling connections to investors. Eligible startups also benefit from tax exemptions and easy access to government and private sector support via the Startup India portal.",
-      },
-      {
-        question: "What types of businesses are excluded from the Startup India Scheme?",
-        answer: "NA",
-      },
-      {
-        question: "How does DPIIT recognition help in international expansion?",
-        answer: "NA",
-      },
-      {
-        question:
-          "What are the benefits of the Startup India scheme for women entrepreneurs?",
-        answer: "NA",
-      },
-      {
-        question: "What are the tax exemptions under Startup India?",
-        answer: "NA",
-      },
-    ],
+    // FAQs : [
+    //   {
+    //     question: "How does Startup India differ from other startup schemes?",
+    //     answer:
+    //       "Startup India is focused on supporting innovative startups with a simplified registration process, tax exemptions, easier compliance, intellectual property support, and access to funding through initiatives like the Seed Fund and Fund of Funds. While other government schemes may target specific groups or sectors, Startup India is open to all innovative startups less than 10 years old, with annual turnover under ₹100 crore, and not formed by splitting an existing business.",
+    //   },
+    //   {
+    //     question: "Can a foreign-owned company register under Startup India?",
+    //     answer:
+    //       "Yes, a foreign-owned company can register under Startup India if it is incorporated in India as a Private Limited Company, LLP, or Partnership Firm, and recognized by the Department for Promotion of Industry and Internal Trade (DPIIT). The company must operate within India, and at least one director should be a resident Indian.",
+    //   },
+    //   {
+    //     question: "What is the role of incubators in the Startup India Scheme?",
+    //     answer:
+    //       "Incubators provide startups with resources, mentorship, co-working spaces, funding support, industry partnerships, and access to investors. They help startups refine business models, accelerate growth, validate ideas, and become investment-ready, playing a crucial part in the startup ecosystem and funding programs like the Startup India Seed Fund Scheme.",
+    //   },
+    //   {
+    //     question: "Is there a time limit for applying for Startup India registration?",
+    //     answer:
+    //       "A startup can apply for registration under Startup India if it is less than 10 years old from the date of incorporation. Most DPIIT recognition applications are processed within 7–15 working days, provided complete documentation and clear eligibility demonstration are submitted.",
+    //   },
+    //   {
+    //     question: "How does Startup India support startups in funding?",
+    //     answer:
+    //       "Startup India supports funding through schemes like the Seed Fund Scheme (for proof-of-concept and prototypes), the Fund of Funds (which invests in SEBI-registered funds financing startups), and by enabling connections to investors. Eligible startups also benefit from tax exemptions and easy access to government and private sector support via the Startup India portal.",
+    //   },
+    //   {
+    //     question: "What types of businesses are excluded from the Startup India Scheme?",
+    //     answer: "NA",
+    //   },
+    //   {
+    //     question: "How does DPIIT recognition help in international expansion?",
+    //     answer: "NA",
+    //   },
+    //   {
+    //     question:
+    //       "What are the benefits of the Startup India scheme for women entrepreneurs?",
+    //     answer: "NA",
+    //   },
+    //   {
+    //     question: "What are the tax exemptions under Startup India?",
+    //     answer: "NA",
+    //   },
+    // ],
     imageUrl: "",
   };
 
@@ -425,7 +425,7 @@ export default function StartupIndiaRegistrationPage() {
       <div ref={plansRef} id="plans" className="plans-section"></div>
       <ServiceAdvantages AdvantagesData={AdvantagesData} />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData}  routeName="startup-India-Registration" />
     </div>
   );
 }

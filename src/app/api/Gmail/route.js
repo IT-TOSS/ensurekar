@@ -13,12 +13,10 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false,
     auth: {
-        user: "geetanjali.tosscs@gmail.com",
-        pass: "uaglhwmctgetdljw"
+        user: "toss125training@gmail.com",
+        pass: "limzksqufgsenfls"
 
-        //uagl hwmc tget dljw
-
-        //limzksqufgsenfls  toss125training@gmail.com
+        
 
     }
 });
@@ -45,11 +43,11 @@ Regards,
 
 ${firstName} ${lastName}`;
 
-        const companyName = "krishna.toss.it@gmail.com";
+        const companyName = "Infoensurekar@gmail.com";
 
         const mailOptions = {
-          //rom: "krishna.toss.it@gmail.com",
-            from: "Infoensurekar@gmail.com",
+          //from: "krishna.toss.it@gmail.com",
+           from: "Infoensurekar@gmail.com",
             to: companyName,
             subject: subject,
             text: emailText,

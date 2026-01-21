@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Users,
   UserCheck,
@@ -19,6 +20,7 @@ import {
 } from 'lucide-react';
 
 const SuperAdminDashboard = () => {
+  const router = useRouter();
   const [loggedInEmail, setLoggedInEmail] = useState<string>("Super Admin");
 
   useEffect(() => {
@@ -38,7 +40,8 @@ const SuperAdminDashboard = () => {
       color: "bg-gradient-to-r from-blue-500 to-cyan-500",
       textColor: "text-white",
       change: "+12%",
-      changeType: "positive"
+      changeType: "positive",
+      link: "/super_admin/dashboard/users"
     },
     {
       title: "Active Admins",
@@ -47,7 +50,8 @@ const SuperAdminDashboard = () => {
       color: "bg-gradient-to-r from-green-500 to-emerald-500",
       textColor: "text-white",
       change: "+8%",
-      changeType: "positive"
+      changeType: "positive",
+      link: "/super_admin/dashboard/admins"
     },
     {
       title: "Total Packages",
@@ -56,21 +60,23 @@ const SuperAdminDashboard = () => {
       color: "bg-gradient-to-r from-purple-500 to-pink-500",
       textColor: "text-white",
       change: "+15%",
-      changeType: "positive"
+      changeType: "positive",
+      link: "/super_admin/dashboard/packages"
     },
     {
-      title: "Total Orders",
+      title: "Total Transactions",
       value: "",
       icon: ShoppingCart,
       color: "bg-gradient-to-r from-orange-500 to-red-500",
       textColor: "text-white",
       change: "+23%",
-      changeType: "positive"
+      changeType: "positive",
+      link: "/super_admin/dashboard/transactions"
     }
   ];
 
   const quickActions = [
-    { name: "Manage Users", icon: Users, color: "bg-blue-500", link: "/super_admin/users" },
+    { name: "Manage Users", icon: Users, color: "bg-blue-500", link: "/super_admin/dashboard/users" },
     { name: "Admin Management", icon: UserCheck, color: "bg-green-500", link: "/super_admin/dashboard/admins" },
     { name: "Package Settings", icon: Package, color: "bg-purple-500", link: "/super_admin/dashboard/packages" },
     { name: "Analytics", icon: BarChart3, color: "bg-orange-500", link: "/super_admin/dashboard/analytics" },
@@ -111,7 +117,11 @@ const SuperAdminDashboard = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statsCards.map((card, index) => (
-          <div key={index} className={`${card.color} ${card.textColor} rounded-xl p-6 shadow-lg`}>
+          <div 
+            key={index} 
+            onClick={() => card.link && router.push(card.link)}
+            className={`${card.color} ${card.textColor} rounded-xl p-6 shadow-lg cursor-pointer hover:scale-105 transition-transform`}
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm opacity-90">{card.title}</p>
@@ -140,7 +150,8 @@ const SuperAdminDashboard = () => {
               {quickActions.map((action, index) => (
                 <button
                   key={index}
-                  className="flex flex-col items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
+                  onClick={() => action.link && router.push(action.link)}
+                  className="flex flex-col items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group cursor-pointer"
                 >
                   <div className={`${action.color} p-3 rounded-lg group-hover:scale-110 transition-transform`}>
                     <action.icon className="w-6 h-6 text-white" />
@@ -172,37 +183,6 @@ const SuperAdminDashboard = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </div>
-
-      {/* System Status */}
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Database className="w-6 h-6 text-purple-600" />
-          System Status
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <div>
-              <p className="font-medium text-gray-900">Database</p>
-              <p className="text-sm text-gray-600">All systems operational</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <div>
-              <p className="font-medium text-gray-900">API Services</p>
-              <p className="text-sm text-gray-600">Running smoothly</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 p-4 bg-yellow-50 rounded-lg">
-            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-            <div>
-              <p className="font-medium text-gray-900">Backup</p>
-              <p className="text-sm text-gray-600">Scheduled in 2 hours</p>
-            </div>
           </div>
         </div>
       </div>

@@ -632,7 +632,7 @@ const isoCertification = () => {
       </div>
       <RegisterSteps RegisterSteps={RegisterStepsData} />
 
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="iso-certification" />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
     </div>

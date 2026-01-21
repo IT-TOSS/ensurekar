@@ -336,7 +336,7 @@ const TrademarkRenewal = () => {
         </div>
       </div>
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="trademark-renewal" />
     </>
   );
 };

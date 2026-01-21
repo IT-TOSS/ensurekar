@@ -478,7 +478,7 @@ const Patentregistration = () => {
         </div>
       </div>
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData}  routeName="patent-registration"/>
 
     </>
   );

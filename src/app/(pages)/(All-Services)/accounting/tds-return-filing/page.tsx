@@ -598,7 +598,7 @@ const TDSReturnFilings = () => {
           </div>
         </div>
       </section>
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="tds-return-filing" />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
     </>

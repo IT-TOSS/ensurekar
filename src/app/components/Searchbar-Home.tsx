@@ -26,7 +26,7 @@ const SearchbarHome = () => {
     },
     {
       title: "Udyam/ MSME Registration",
-      link: "/msme-registration",
+      link: "/services-msme-udyam-registration",
     },
     {
       title: "Trade Mark Registration",

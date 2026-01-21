@@ -1,11 +1,14 @@
-"use client"
+"use client";
 import Image from 'next/image';
 import React, { useState } from 'react';
 import sliceIcon from '../../images/sliceIcon.png';
 import faq_illus from '../../images/faq_illus.png';
 import { Minus, Plus } from 'phosphor-react';
+import { usePathname } from 'next/navigation';
+import { useFaqs } from '@/hooks/useFaqs';
 
 const FAQsSection = () => {
+  const pathname = usePathname();
   // State to track which FAQ is open
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
@@ -18,19 +21,25 @@ const FAQsSection = () => {
     }
   };
 
-  const faq = [
-    {
-      question: "What services does Ensurekar offer?",
-      answer: "Ensurekar offers a comprehensive suite of services, including accounting, payroll processing, tax preparation, financial advisory, and global payroll solutions."
-    },
-    {
-      question: "How does the accounting process work?",
-      answer: "Ensurekar’s accounting process starts with gathering financial data, processing it for accuracy, and generating detailed reports for decision-making."
-    }
-  
-  ];
+  // DB-driven FAQs (real-time, no redeploy). Fallback to static FAQs.
+  const { faqs: fetchedFaqs } = useFaqs(pathname || "global");
+  const faqs = fetchedFaqs?.length
+    ? fetchedFaqs
+    : [
+        {
+          question: "What services does Ensurekar offer?",
+          answer:
+            "Ensurekar offers a comprehensive suite of services, including accounting, payroll processing, tax preparation, financial advisory, and global payroll solutions.",
+        },
+        {
+          question: "How does the accounting process work?",
+          answer:
+            "Ensurekar’s accounting process starts with gathering financial data, processing it for accuracy, and generating detailed reports for decision-making.",
+        },
+      ];
 
-  const [faqs, setFaqs] = useState(faq);
+  const heroQuestion = faqs?.[0]?.question || "FAQs";
+  const heroAnswer = faqs?.[0]?.answer || "";
 
   return (
     <div>
@@ -53,13 +62,11 @@ const FAQsSection = () => {
                 <h1
                   className="display-4 pt-4 pb-4 lg:pb-6 wow animate__animated animate__fadeInDown"
                 >
-                  What services does Ensurekar offer?
+                  {heroQuestion}
                 </h1>
 
                 <p className="text-bodyText wow animate__animated animate__fadeInUp">
-                  Ensurekar offers a comprehensive suite of services, including
-                  accounting, payroll processing, tax preparation, financial
-                  advisory, and global payroll solutions.
+                  {heroAnswer}
                 </p>
               </div>
             </div>

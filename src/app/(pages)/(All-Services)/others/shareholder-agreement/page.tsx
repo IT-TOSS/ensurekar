@@ -261,26 +261,26 @@ const ShareholderAgreement = () => {
     heading: "What Ensurekar offer you?",
     description: "",
     FAQs: [
-      {
-        question: "What are the drawbacks of a shareholders' agreement?",
-        answer: "NA",
-      },
-      {
-        question: "Is a shareholder allowed to sell their shares to anyone?",
-        answer: "NA",
-      },
-      {
-        question: "Is it possible to amend a shareholders' agreement?",
-        answer: "NA",
-      },
-      {
-        question: "Can a shareholders' agreement be terminated?",
-        answer: "NA",
-      },
-      {
-        question: "Is a shareholders' agreement required?",
-        answer: "NA",
-      },
+      // {
+      //   question: "What are the drawbacks of a shareholders' agreement?",
+      //   answer: "NA",
+      // },
+      // {
+      //   question: "Is a shareholder allowed to sell their shares to anyone?",
+      //   answer: "NA",
+      // },
+      // {
+      //   question: "Is it possible to amend a shareholders' agreement?",
+      //   answer: "NA",
+      // },
+      // {
+      //   question: "Can a shareholders' agreement be terminated?",
+      //   answer: "NA",
+      // },
+      // {
+      //   question: "Is a shareholders' agreement required?",
+      //   answer: "NA",
+      // },
     ],
   };
   return (
@@ -292,7 +292,7 @@ const ShareholderAgreement = () => {
       <EnsurekarFeature FeatureData={FeatureData} />
       <WhoShouldBuy WhoShouldBuyData={WhoShouldBuyData} />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="shareholder-agreement"/>
     </>
   );
 };

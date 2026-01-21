@@ -466,7 +466,7 @@ const IncomeTaxAssessment = () => {
       <WhoShouldBuy WhoShouldBuyData={WhoShouldBuyData} />
       <ServiceOverview OverviewData={OverviewData} />
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="income-tax-assessment" />
     </>
   );
 };

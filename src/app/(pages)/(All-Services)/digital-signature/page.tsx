@@ -596,7 +596,7 @@ const DigitalSignature = () => {
       <All_In_One_ServiceSection AllInOneData={AllInOneData} />
       <ServiceOverview OverviewData={OverviewData} />
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData}  routeName="digital-signature"/>
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
     </div>

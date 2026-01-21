@@ -1090,7 +1090,10 @@ const OnePersonCompany = () => {
       <ServiceOverview OverviewData={OverviewData} />
       <RegistrationGuide RegistrationGuideData={RegistrationGuideData} />
       <RegisterSteps RegisterSteps={RegisterStepsData} />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection
+        FAQsData={FAQsData}
+        routeName="one-person-company"
+      />
       <WhyEnsurekarSection WhyEnsurekarData={WhyEnsurekar} />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
     </>

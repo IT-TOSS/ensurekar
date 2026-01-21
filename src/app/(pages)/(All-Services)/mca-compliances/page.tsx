@@ -962,7 +962,7 @@ const MCA_Compliances = () => {
       {/* <PlansSection planData={planData} /> */}
       <ServiceOverview OverviewData={OverviewData} />
       <WhyEnsurekarSection WhyEnsurekarData= {WhyEnsurekarData}  />
-      <FAQsServicesSection FAQsData={FAQsData} />
+      <FAQsServicesSection FAQsData={FAQsData} routeName="mca-compaliances" />
       <TestimonialSectionAllServices TestimonialData={TestimonialData} />
 
     </>
