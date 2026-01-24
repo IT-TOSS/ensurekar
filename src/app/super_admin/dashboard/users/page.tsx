@@ -36,6 +36,9 @@ interface UserData {
   created_at: string
 }
 
+// Columns to hide in All Orders (Full Details) modal and Excel export
+const ORDER_COLS_HIDDEN = ["image_src", "image_height", "image_width"]
+
 const SuperAdminUsersManagement = () => {
   const [showUserDetailsModal, setShowUserDetailsModal] = useState(false)
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null)
@@ -422,10 +425,12 @@ const SuperAdminUsersManagement = () => {
     }
 
     try {
-      // Get all unique keys from all orders
+      // Get all unique keys from all orders, excluding hidden columns
       const allKeys = new Set<string>()
       userOrders.forEach((order: any) => {
-        Object.keys(order).forEach((key) => allKeys.add(key))
+        Object.keys(order).forEach((key) => {
+          if (!ORDER_COLS_HIDDEN.includes(key)) allKeys.add(key)
+        })
       })
       const headers = Array.from(allKeys)
 
@@ -1425,7 +1430,9 @@ const SuperAdminUsersManagement = () => {
               <table className="min-w-full border border-gray-300 text-xs">
                 <thead className="bg-gray-100">
                   <tr>
-                    {Object.keys(userOrders[0] || {}).map((key) => (
+                    {Object.keys(userOrders[0] || {})
+                      .filter((key) => !ORDER_COLS_HIDDEN.includes(key))
+                      .map((key) => (
                       <th key={key} className="px-3 py-2 border-b border-gray-300 text-left font-semibold capitalize">
                         {key.replace(/_/g, " ")}
                       </th>
@@ -1435,7 +1442,9 @@ const SuperAdminUsersManagement = () => {
                 <tbody>
                   {userOrders.map((order: any) => (
                     <tr key={order.id} className="hover:bg-gray-50">
-                      {Object.keys(userOrders[0] || {}).map((key) => (
+                      {Object.keys(userOrders[0] || {})
+                        .filter((key) => !ORDER_COLS_HIDDEN.includes(key))
+                        .map((key) => (
                         <td key={key} className="px-3 py-2 border-b border-gray-200 whitespace-nowrap">
                           {String(order[key] ?? "N/A")}
                         </td>
