@@ -3,7 +3,7 @@
 import BreadcrumbSection from "@/app/components/Breadcrump-Sections/All-Services";
 import CopyrightEducation from "@/app/components/Section/Copyright-Education";
 import { ChatCircle, ChartLineUp, NotePencil } from "phosphor-react";
-import never_worry_img from "../../../../images/never_worry_img.png";
+//import never_worry_img from "../../../../images/never_worry_img.png";
 import taxation_services_img from "../../../../images/taxation_services_img.png";
 import Company_People_Group from "../../../../images/SGV-Types/Company-People-Group.svg";
 import we_help from "../../../../images/we_help.png";
@@ -117,7 +117,7 @@ const Patentregistration = () => {
         icon: <ChatCircle weight="fill" />,
       },
     ],
-    image: never_worry_img,
+    image: '', //never_worry_img,
   };
   const HelpSectionData = {
     heading: "Importance of Patent Registration",
